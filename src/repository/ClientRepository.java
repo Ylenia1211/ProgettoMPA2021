@@ -1,4 +1,5 @@
 package repository;
+import javafx.collections.ObservableList;
 import model.Client;
 import util.WriteCSV;
 
@@ -7,8 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class ClientRepository {
@@ -57,7 +58,7 @@ public class ClientRepository {
     public List<String> findAll() throws IOException {
          return Files.lines(Paths.get(pathWhereSave+CSV_FILE_NAME+formatToSave))
                 .skip(1) // ignore the first entry (scherma)
-                .collect(Collectors.toList());
+                 .collect(Collectors.toList());
     }
 
     public List<String> findByString(String input) throws IOException {  //ricerca ogni riga nella tabella che contiene la stringa
@@ -66,7 +67,14 @@ public class ClientRepository {
                 .filter(line -> line.contains(input))   //esempio
                 .collect(Collectors.toList());
     }
+    public void deleteItem(int index) throws IOException {
+        Stream<String> reader2 = Files.lines(Paths.get(pathWhereSave+CSV_FILE_NAME+formatToSave));
+        //List<String[]> allElements = reader2;
+        //allElements.remove(rowNumber);
 
+
+
+    }
     //solo per testare il corretto funzionamento del salvataggio di Client (poi si elimina)
     public static void main(String[] args) throws IOException {
         ClientRepository repo = new ClientRepository();
@@ -89,4 +97,6 @@ public class ClientRepository {
         repo.findByName(inputName).forEach(System.out::println);
         */
     }
+
+
 }
