@@ -3,8 +3,11 @@ import model.Client;
 import util.WriteCSV;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ClientRepository {
@@ -14,7 +17,17 @@ public class ClientRepository {
     List<String[]> schema;
     WriteCSV output = new WriteCSV();
 
-    public ClientRepository(){ }
+    public ClientRepository(){
+        try {
+            if(!(new File(pathWhereSave, CSV_FILE_NAME+formatToSave).exists())){
+                //boolean check = !(new File(pathWhereSave, CSV_FILE_NAME+formatToSave).exists());
+                //System.out.println(check);
+                this.createSchema();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public void createSchema() throws IOException {
@@ -40,18 +53,22 @@ public class ClientRepository {
         }
     }
 
+    public List<String> findAll() throws IOException {
+         return Files.lines(Paths.get(pathWhereSave+CSV_FILE_NAME+formatToSave))
+                .skip(1) // ignore the first entry (scherma)
+                .collect(Collectors.toList());
+    }
+
     //solo per testare il corretto funzionamento del salvataggio di Client (poi si elimina)
     public static void main(String[] args) throws IOException {
         ClientRepository repo = new ClientRepository();
-        repo.createSchema();
 
         Client clientTest = new Client("roma", "Rossi", "Via Roma", "Palermo", "3627721863", "alex.rossi@gmail.com");
         repo.add(clientTest);
         Client c2 = new Client("Mario", "Rossi", "Via Roma", "Palermo", "3627721863", "alex.rossi@gmail.com");
         repo.add(c2);
         Client c3 = new Client("Luigi", "Rossi", "Via Roma", "Palermo", "3627721863", "alex.rossi@gmail.com");
-
-
-
+        List<String> csvTableClient = repo.findAll();
+        csvTableClient.forEach(System.out::println);
     }
 }

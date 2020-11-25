@@ -11,9 +11,32 @@ import java.util.stream.Stream;
 public class WriteCSV {
 
 
-    String CSV_FILE_NAME = "TEST.csv";
-    String formatToSave =".csv";
-    String pathWhereSave = "src/DB/";
+    private String CSV_FILE_NAME = "TEST.csv";
+    private String formatToSave =".csv";
+    private String pathWhereSave = "src/DB/";
+
+    public WriteCSV(){  }   //empty costructor
+
+    public WriteCSV(String CSV_FILE_NAME, String formatToSave, String pathWhereSave) {
+        this.CSV_FILE_NAME = CSV_FILE_NAME;
+        this.formatToSave = formatToSave;
+        this.pathWhereSave = pathWhereSave;
+    }
+
+    public String getCSV_FILE_NAME() {
+        return CSV_FILE_NAME;
+    }
+
+    public String getFormatToSave() {
+        return formatToSave;
+    }
+
+    public String getPathWhereSave() {
+        return pathWhereSave;
+    }
+
+
+
 
     public String convertToCSV(String[] data) {
         return Stream.of(data)
@@ -29,15 +52,6 @@ public class WriteCSV {
         }
         return escapedData;
     }
-    public void convertToCSVOutput(List<String[]> dataLines, String pathWhereSave, String CSV_FILE_NAME, String formatToSave) throws IOException {
-        File csvOutputFile = new File(pathWhereSave + CSV_FILE_NAME + formatToSave);
-        try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
-            dataLines.stream()
-                    .map(this::convertToCSV)
-                    .forEach(pw::println);
-        }
-        csvOutputFile.exists();
-    }
 
     public void convertToCSVOutputDB(File csvOutputFile, List<String[]> dataLines) throws IOException {
         try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
@@ -48,6 +62,18 @@ public class WriteCSV {
         csvOutputFile.exists();
     }
 
+    /*
+    public void convertToCSVOutput(List<String[]> dataLines, String pathWhereSave, String CSV_FILE_NAME, String formatToSave) throws IOException {
+        File csvOutputFile = new File(pathWhereSave + CSV_FILE_NAME + formatToSave);
+        try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
+            dataLines.stream()
+                    .map(this::convertToCSV)
+                    .forEach(pw::println);
+        }
+        csvOutputFile.exists();
+    }
+
+
     public static void main(String[] args) throws IOException {
         WriteCSV test = new WriteCSV();
         List<String[]> dataLines = new ArrayList<>();
@@ -56,5 +82,5 @@ public class WriteCSV {
         dataLines.add(new String[]
                 {"Jane", "Doe, Jr.", "19", "She said \"I'm being quoted\""});
         test.convertToCSVOutput(dataLines, "src/DB/", "test", ".csv" );
-    }
+    }*/
 }
