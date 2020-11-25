@@ -26,7 +26,7 @@ public class Client extends Person {
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
@@ -34,7 +34,7 @@ public class Client extends Person {
     }
 
     public String getCity() {
-        return city;
+        return this.city;
     }
 
     public void setCity(String city) {
@@ -42,7 +42,7 @@ public class Client extends Person {
     }
 
     public String getTelephone() {
-        return telephone;
+        return this.telephone;
     }
 
 
@@ -52,7 +52,7 @@ public class Client extends Person {
 
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -71,6 +71,6 @@ public class Client extends Person {
     */
     @Override
     public String toString() {
-        return super.getId().toString() + ',' + super.getFirstName() + ',' +super.getLastName()  + ',' + address +',' + city + ',' + telephone+ ',' + email ;
+        return super.getId().toString() + ',' + super.getFirstName() + ',' +super.getLastName()  + ',' +  this.getAddress() +',' + this.getCity() + ',' + this.getTelephone() + ',' + this.getEmail() ;
     }
 }

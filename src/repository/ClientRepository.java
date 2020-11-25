@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 
@@ -59,6 +60,13 @@ public class ClientRepository {
                 .collect(Collectors.toList());
     }
 
+    public List<String> findByString(String input) throws IOException {  //ricerca ogni riga nella tabella che contiene la stringa
+        return Files.lines(Paths.get(pathWhereSave+CSV_FILE_NAME+formatToSave))
+                .skip(1) // ignore the first entry (scherma)
+                .filter(line -> line.contains(input))   //esempio
+                .collect(Collectors.toList());
+    }
+
     //solo per testare il corretto funzionamento del salvataggio di Client (poi si elimina)
     public static void main(String[] args) throws IOException {
         ClientRepository repo = new ClientRepository();
@@ -70,5 +78,15 @@ public class ClientRepository {
         Client c3 = new Client("Luigi", "Rossi", "Via Roma", "Palermo", "3627721863", "alex.rossi@gmail.com");
         List<String> csvTableClient = repo.findAll();
         csvTableClient.forEach(System.out::println);
+
+        //per usare le seguenti linee bisogna prima implementare un metodo findByName (deve prendere solo le righe nella tabella che siano corrispondenti al nome passato a parametro)
+        //bisogna filtrare per colonne
+        /*
+        System.out.println("Ricerca per nome es.\"mario\": ");
+        Scanner sc= new Scanner(System.in);
+        System.out.print("Inserisci un nome: ");
+        String inputName = sc.nextLine();
+        repo.findByName(inputName).forEach(System.out::println);
+        */
     }
 }
