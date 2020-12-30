@@ -5,10 +5,9 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShowTableController">
    <children>
-     <ListView fx:id="listView" layoutX="36.0" layoutY="46.0" prefHeight="341.0" prefWidth="545.0" />
-     <!-- <TableView fx:id="tableClient" layoutX="13.0" layoutY="74.0" prefHeight="310.0" prefWidth="572.0">
+     <!---<ListView fx:id="listView" layoutX="36.0" layoutY="46.0" prefHeight="341.0" prefWidth="545.0" />-->
+      <TableView fx:id="tableClient" layoutX="13.0" layoutY="74.0" prefHeight="310.0" prefWidth="572.0">
          <columns>
-            <TableColumn fx:id="col_id" prefWidth="50.0" text="Id." />
             <TableColumn fx:id="col_name" prefWidth="100.0" text="Nome" />
             <TableColumn fx:id="col_surname" prefWidth="100.0" text="Cognome" />
             <TableColumn fx:id="col_address" prefWidth="100.0" text="Indirizzo" />
@@ -18,7 +17,7 @@
 
          </columns>
       </TableView>
-      -->
+
 
    </children>
 </AnchorPane>

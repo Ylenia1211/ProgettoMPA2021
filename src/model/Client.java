@@ -12,9 +12,7 @@ public class Client extends Person {
     //private Set<Pet> pets;
 
     public Client(String name, String surname, String address, String city, String telephone, String email) {
-        super();
-        this.setFirstName(name);
-        this.setLastName(surname);
+        super(name, surname);
         this.address = address;
         this.city = city;
         this.telephone = telephone;
@@ -69,8 +67,14 @@ public class Client extends Person {
         this.pets = pets;
     }
     */
+
     @Override
     public String toString() {
-        return super.getId().toString() + ',' + super.getFirstName() + ',' +super.getLastName()  + ',' +  this.getAddress() +',' + this.getCity() + ',' + this.getTelephone() + ',' + this.getEmail() ;
+        return "Client{" +
+                "address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

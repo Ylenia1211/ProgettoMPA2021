@@ -1,12 +1,15 @@
 package controller;
 
 
+import dao.ConcreteClientDAO;
+import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import model.Client;
-import repository.ClientRepository;
 
+
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,11 +23,19 @@ public class ClientController implements Initializable {
     public TextField textTelephone;
     public TextField textEmail;
 
-    private ClientRepository clientRepo = new ClientRepository();
+    //private ClientRepository clientRepo = new ClientRepository();
+    private ConcreteClientDAO clientRepo;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        try{
+             ConnectionDBH2 connection = new ConnectionDBH2();
+             clientRepo = new ConcreteClientDAO(connection);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
     }
 
 
@@ -48,15 +59,13 @@ public class ClientController implements Initializable {
 
             try {
                 clientRepo.add(p);
-                System.out.println("Cliente aggiunto correttamente al DB!");
-
                 textName.clear();
                 textSurname.clear();
                 textAddress.clear();
                 textCity.clear();
                 textTelephone.clear();
                 textEmail.clear();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

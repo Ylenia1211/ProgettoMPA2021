@@ -3,20 +3,17 @@ package model;
 
 public class Person {
 
-    private final Integer id;
-    public static int counter = 0;
-
     private String firstName;
     private String lastName;
 
     public Person() {
-        this.id = ++counter;
+
     }
 
-    public Integer getId() {
-        return id;
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
-
 
     public String getFirstName() {
         return firstName;
