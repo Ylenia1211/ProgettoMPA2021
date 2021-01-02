@@ -26,7 +26,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
         PreparedStatement ps = null;
         try {
             ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
-            ps.setLong(1, owner.getId());
+            ps.setString(1, owner.getId());
             ps.setString(2, owner.getName());
             ps.setString(3, owner.getSurname());
             ps.setString(4, owner.getSex());
@@ -38,7 +38,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
             ps = null;
             ps = connection_db.dbConnection().prepareStatement("insert into person(id, address, city, telephone, email) values(?,?,?,?,?)");
-            ps.setLong(1, owner.getId());
+            ps.setString(1, owner.getId());
             ps.setString(2, owner.getAddress());
             ps.setString(3, owner.getCity());
             ps.setString(4, owner.getTelephone());
@@ -48,7 +48,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
             ps = null;
             ps = connection_db.dbConnection().prepareStatement("insert into owner(id, tot_visit) values(?,?)");
-            ps.setLong(1, owner.getId());
+            ps.setString(1, owner.getId());
             ps.setInt(2, owner.getTot_visit());
             ps.executeUpdate();
 

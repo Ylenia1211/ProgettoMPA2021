@@ -1,17 +1,17 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class MasterData {
-    private Long id;
-    private static long counter = 0;
+    private String id;
     private String name;
     private String surname;
     private Gender sex;
     private LocalDate datebirth;
 
     public MasterData() {
-        id = counter+1;
+        id = UUID.randomUUID().toString();
     }
 
     public MasterData(String name, String surname, Gender sex, LocalDate datebirth) {
@@ -21,7 +21,7 @@ public class MasterData {
         this.datebirth = datebirth;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
     public String getName() {
