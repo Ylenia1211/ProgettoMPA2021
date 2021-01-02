@@ -1,34 +1,32 @@
 package controller;
 
-import dao.ConcreteClientDAO;
+import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.Client;
+import model.Owner;
+
 
 import javax.swing.*;
-import java.io.IOException;
 import java.net.URL;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
 public class ShowTableController  implements Initializable {
 
-    public TableView<Client> tableClient;
-    public TableColumn<Client, String> col_name;
-    public TableColumn<Client, String> col_surname;
-    public TableColumn<Client, String> col_address;
-    public TableColumn<Client, String> col_city;
-    public TableColumn<Client, String> col_tel;
-    public TableColumn<Client, String> col_email;
-    private ConcreteClientDAO clientRepo;
-    public ObservableList<Client> listItems = FXCollections.observableArrayList();
+    public TableView<Owner> tableClient;
+    public TableColumn<Owner, String> col_name;
+    public TableColumn<Owner, String> col_surname;
+    public TableColumn<Owner, String> col_address;
+    public TableColumn<Owner, String> col_city;
+    public TableColumn<Owner, String> col_tel;
+    public TableColumn<Owner, String> col_email;
+    private ConcreteOwnerDAO clientRepo;
+    public ObservableList<Owner> listItems = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -40,16 +38,16 @@ public class ShowTableController  implements Initializable {
 
         try{
             ConnectionDBH2 connection = new ConnectionDBH2();
-            clientRepo = new ConcreteClientDAO(connection);
+            clientRepo = new ConcreteOwnerDAO(connection);
             ResultSet r =  clientRepo.findAll();
             while(r.next()){
-                listItems.add(new Client(
-                        r.getString("name"),
+                listItems.add(new Owner(
+                       /* r.getString("name"),
                         r.getString("surname"),
                         r.getString("address"),
                         r.getString("city"),
                         r.getString("telephone"),
-                        r.getString("email")
+                        r.getString("email")*/
                         ));
             }
             tableClient.setItems(listItems);

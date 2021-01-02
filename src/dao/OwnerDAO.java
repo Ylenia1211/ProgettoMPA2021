@@ -1,12 +1,13 @@
 package dao;
 
-import model.Client;
+
+import model.Owner;
 
 import java.sql.ResultSet;
 import java.util.List;
 
-public interface ClientDAO {
-    void add(Client item);
+public interface OwnerDAO {
+    void add(Owner item);
     //void update(Client item);
     //void delete(int id);
     //Client read(int id);

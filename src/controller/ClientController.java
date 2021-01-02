@@ -1,17 +1,23 @@
 package controller;
 
 
-import dao.ConcreteClientDAO;
+import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import model.Client;
+import model.Gender;
+import model.Owner;
 
 
 import javax.swing.*;
-import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable {
@@ -22,15 +28,18 @@ public class ClientController implements Initializable {
     public TextField textCity;
     public TextField textTelephone;
     public TextField textEmail;
+    public TextField textGender;
+    public DatePicker textdateBirth;
 
     //private ClientRepository clientRepo = new ClientRepository();
-    private ConcreteClientDAO clientRepo;
+    private ConcreteOwnerDAO clientRepo;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
              ConnectionDBH2 connection = new ConnectionDBH2();
-             clientRepo = new ConcreteClientDAO(connection);
+             clientRepo = new ConcreteOwnerDAO(connection);
+
         }
         catch (Exception e){
             e.printStackTrace();
@@ -49,18 +58,25 @@ public class ClientController implements Initializable {
 
         ){
 
-            Client p = new Client();
-            p.setFirstName(textName.getText());
-            p.setLastName(textSurname.getText());
+            Owner p = new Owner();
+            p.setName(textName.getText());
+            p.setSurname(textSurname.getText());
+            p.setSex(Gender.M);
+            //DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd/MM/uuuu" );
+            //LocalDate ld = LocalDate.parse(textdateBirth.getValue() , f);
+            //LocalDate ld = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(textdateBirth.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            p.setDatebirth(textdateBirth.getValue());
+            System.out.println(textdateBirth.getValue());
             p.setAddress(textAddress.getText());
             p.setCity(textCity.getText());
             p.setTelephone(textTelephone.getText());
             p.setEmail(textEmail.getText());
-
+            p.setTot_visit(0);
             try {
                 clientRepo.add(p);
                 textName.clear();
                 textSurname.clear();
+                textGender.clear();
                 textAddress.clear();
                 textCity.clear();
                 textTelephone.clear();
