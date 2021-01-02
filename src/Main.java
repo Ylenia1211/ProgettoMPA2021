@@ -13,8 +13,7 @@ public class Main extends Application {
         stage.setTitle("App Clinic");
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
-        System.out.println("Ciao Ylenia!");
-        stage.setResizable(false);
+        stage.setResizable(true);
     }
     public static void main(String[] args) throws ClassNotFoundException {
         launch(args);
