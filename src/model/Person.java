@@ -1,16 +1,69 @@
 package model;
 
-
-import java.sql.Date;
 import java.time.LocalDate;
 
-public class Person extends MasterData{
+public abstract class Person extends MasterData{
 
-    String address;
-    String city;
-    String telephone;
-    String email;
+    public static abstract class Builder<T extends Builder<T>>
+            extends MasterData.Builder<Builder<T>>{
 
+        protected String address;
+        protected String city;
+        protected String telephone;
+        protected String email;
+
+        public T addAddress(String address){
+            this.address = address;
+            return getThis();
+        }
+
+        public T addCity(String city){
+            this.city = city;
+            return getThis();
+        }
+        public T addTelephone(String telephone){
+            this.telephone = telephone;
+            return getThis();
+        }
+        public T addEmail(String email){
+            this.email = email;
+            return getThis();
+        }
+
+        @Override
+        public abstract T getThis();
+    }
+
+    final private String address;
+    final private String city;
+    final private String telephone;
+    final private String email;
+
+    protected <T extends Builder<T>> Person(Builder builder) {
+        super(builder);
+        this.address = builder.address;
+        this.city = builder.city;
+        this.telephone = builder.telephone;
+        this.email = builder.email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+/* Senza BUILDER
     public Person(String name,
                   String surname,
                   Gender sex,
@@ -30,11 +83,9 @@ public class Person extends MasterData{
         this.telephone = telephone;
         this.email = email;
     }
+  */
 
-    public Person() {
-
-    }
-
+    /*
     public String getAddress() {
         return address;
     }
@@ -66,37 +117,6 @@ public class Person extends MasterData{
     public void setEmail(String email) {
         this.email = email;
     }
-
-    /*
-    private String firstName;
-    private String lastName;
-
-    public Person() {
-
-    }
-
-    public Person(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    */
-
+   */
 }
 

@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import model.Gender;
 import model.Owner;
+import model.Person;
 
 
 import javax.swing.*;
@@ -28,14 +29,12 @@ public class ClientController implements Initializable {
     public TextField textCity;
     public TextField textTelephone;
     public TextField textEmail;
-    public TextField textGender;
     public DatePicker textdateBirth;
     public Button btn;
     public RadioButton rbM;
     public RadioButton rbF;
     public HBox gender;
     public ToggleGroup genderGroup;
-
     //private ClientRepository clientRepo = new ClientRepository();
     private ConcreteOwnerDAO clientRepo;
 
@@ -66,6 +65,18 @@ public class ClientController implements Initializable {
                 !textEmail.getText().trim().isEmpty() &&
                 (rbM.isSelected() || rbF.isSelected()))
         {
+            Owner p = new Owner.Builder<>()
+                    .addName(textName.getText())
+                    .addSurname(textSurname.getText())
+                    .addSex(String.valueOf(genderGroup.getSelectedToggle().equals("M") ? Gender.M : Gender.F))
+                    .addDateBirth(textdateBirth.getValue())
+                    .addAddress(textAddress.getText())
+                    .addCity(textCity.getText())
+                    .addTelephone(textTelephone.getText())
+                    .addEmail(textEmail.getText())
+                    .build();
+
+            /*
             Owner p = new Owner();
             p.setName(textName.getText());
             p.setSurname(textSurname.getText());
@@ -80,6 +91,7 @@ public class ClientController implements Initializable {
             p.setTelephone(textTelephone.getText());
             p.setEmail(textEmail.getText());
             p.setTot_visit(0);
+            */
             try {
                 clientRepo.add(p);
                 textName.clear();
@@ -91,6 +103,8 @@ public class ClientController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
 
         }
 

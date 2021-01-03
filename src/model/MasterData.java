@@ -3,13 +3,74 @@ package model;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class MasterData {
-    private String id;
-    private String name;
-    private String surname;
-    private Gender sex;
-    private LocalDate datebirth;
+public abstract class MasterData {
 
+    public static abstract class Builder<T extends Builder<T>>{
+        protected  String id;
+        protected  String name;
+        protected String surname;
+        protected String sex;
+        protected LocalDate datebirth;
+
+        public Builder(){
+            this.id = UUID.randomUUID().toString();
+        }
+
+        public T addName(String name){
+            this.name = name;
+            return getThis();
+        }
+        public T addSurname(String surname){
+            this.surname = surname;
+            return getThis();
+        }
+        public T addSex(String sex){
+            this.sex = sex;
+            return getThis();
+        }
+        public T addDateBirth(LocalDate datebirth){
+            this.datebirth = datebirth;
+            return getThis();
+        }
+        public abstract T getThis();
+    }
+
+    final private String id;
+    final private String name;
+    final private String surname;
+    final private String sex;
+    final private LocalDate datebirth;
+
+    protected <T extends Builder<T>> MasterData(Builder<T> builder){
+        this.id = builder.id;
+        this.name = builder.name;
+        this.surname = builder.surname;
+        this.sex = builder.sex;
+        this.datebirth = builder.datebirth;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getSex() {
+        return sex.toString();
+    }
+
+    public LocalDate getDatebirth() {
+        return datebirth;
+    }
+
+
+/* //senza Builder
     public MasterData() {
         id = UUID.randomUUID().toString();
     }
@@ -24,6 +85,7 @@ public class MasterData {
     public String getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }
@@ -55,4 +117,7 @@ public class MasterData {
     public void setDatebirth(LocalDate datebirth) {
         this.datebirth = datebirth;
     }
+
+    */
+
 }

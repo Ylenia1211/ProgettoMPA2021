@@ -41,14 +41,14 @@ public class ShowTableController  implements Initializable {
             clientRepo = new ConcreteOwnerDAO(connection);
             ResultSet r =  clientRepo.findAll();
             while(r.next()){
-                listItems.add(new Owner(
+               /* listItems.add(new Owner(
                        /* r.getString("name"),
                         r.getString("surname"),
                         r.getString("address"),
                         r.getString("city"),
                         r.getString("telephone"),
-                        r.getString("email")*/
-                        ));
+                        r.getString("email")
+                        ));*/
             }
             tableClient.setItems(listItems);
         }
