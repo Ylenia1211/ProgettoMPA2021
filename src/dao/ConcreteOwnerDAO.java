@@ -1,5 +1,6 @@
 package dao;
 
+import controller.ClientController;
 import datasource.ConnectionDBH2;
 import model.Owner;
 
@@ -90,5 +91,15 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public void update(String id) {
+
+    }
+
+    @Override
+    public void delete(String id) {
+
     }
 }

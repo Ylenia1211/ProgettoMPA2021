@@ -2,16 +2,61 @@
 <Diagram>
   <ID>JAVA</ID>
   <OriginalElement />
-  <nodes />
+  <nodes>
+    <node x="0.0" y="372.0">model.MasterData.Builder</node>
+    <node x="308.0" y="835.0">model.Owner</node>
+    <node x="195.0" y="1090.0">model.Owner.Builder</node>
+    <node x="243.0" y="398.0">model.Person</node>
+    <node x="60.5" y="744.0">model.Person.Builder</node>
+    <node x="119.25" y="0.0">model.MasterData</node>
+  </nodes>
   <notes />
-  <edges />
-  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="492.5" y="591.8333333333333" />
+  <edges>
+    <edge source="model.Owner" target="model.Person">
+      <point x="0.0" y="-57.0" />
+      <point x="48.5" y="135.0" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.MasterData.Builder">
+      <point x="-51.0" y="-148.0" />
+      <point x="0.0" y="161.0" />
+    </edge>
+    <edge source="model.Owner.Builder" target="model.Person.Builder">
+      <point x="-40.25" y="-70.0" />
+      <point x="235.25" y="1065.0" />
+      <point x="162.5" y="1065.0" />
+      <point x="0.0" y="148.0" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.Person">
+      <point x="51.0" y="-148.0" />
+      <point x="213.5" y="719.0" />
+      <point x="291.5" y="719.0" />
+      <point x="-48.5" y="135.0" />
+    </edge>
+    <edge source="model.Owner.Builder" target="model.Owner">
+      <point x="40.25" y="-70.0" />
+      <point x="315.75" y="1065.0" />
+      <point x="388.5" y="1065.0" />
+      <point x="0.0" y="57.0" />
+    </edge>
+    <edge source="model.MasterData.Builder" target="model.MasterData">
+      <point x="0.0" y="-161.0" />
+      <point x="111.5" y="347.0" />
+      <point x="172.5" y="347.0" />
+      <point x="-53.25" y="161.0" />
+    </edge>
+    <edge source="model.Person" target="model.MasterData">
+      <point x="0.0" y="-135.0" />
+      <point x="340.0" y="347.0" />
+      <point x="279.0" y="347.0" />
+      <point x="53.25" y="161.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="493.0" y="661.6666666666665" />
   <SelectedNodes />
   <Categories>
     <Category>Fields</Category>
-    <Category>Methods</Category>
-    <Category>Constructors</Category>
     <Category>Inner Classes</Category>
+    <Category>Methods</Category>
   </Categories>
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>

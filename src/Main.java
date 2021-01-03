@@ -10,7 +10,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = (Parent) FXMLLoader.load(Main.class.getResource("/view/registrationClient.fxml"));
-        stage.setTitle("App Clinic");
+        stage.setTitle("Vet Clinic Management");
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
         stage.setResizable(true);

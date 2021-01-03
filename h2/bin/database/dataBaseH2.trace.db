@@ -1194,3 +1194,65 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/393
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:390)
 	... 78 more
+2021-01-03 18:03:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "PERSON[*]"; expected "PREPARE"; SQL statement:
+PERSON [42001-199]
+2021-01-03 22:06:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE  ADMIN(ID UUID, ,[*]USERNAME VARCHAR(255), PASSWORD VARCHAR(255)) "; expected "identifier"; SQL statement:
+create table  admin(id UUID, ,username varchar(255), password varchar(255)) [42001-199]
+2021-01-03 22:07:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "USERNAME" not found; SQL statement:
+insert into masterdata(username, password) values( 'Ylenia', '1234pass',) [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:1113)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1436)
+	at org.h2.server.web.WebApp.query(WebApp.java:1111)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1073)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1060)
+	at org.h2.server.web.WebThread.process(WebThread.java:173)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+2021-01-03 22:12:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "PASADMIN" not found; SQL statement:
+insert into admin(username,  pasADMIN sword ) values( 'admin', 'admin') [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:1113)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1436)
+	at org.h2.server.web.WebApp.query(WebApp.java:1111)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1073)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1060)
+	at org.h2.server.web.WebThread.process(WebThread.java:173)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
