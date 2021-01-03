@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClientController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClientController">
     <children>
-        <Button fx:id="btn" alignment="CENTER" layoutX="342.0" layoutY="494.0" mnemonicParsing="false" onAction="#registerClient" prefHeight="44.0" prefWidth="179.0" text="Confirm" />
-        <Label fx:id="labelName" layoutX="66.0" layoutY="67.0" prefHeight="25.0" prefWidth="78.0" text="Name:" />
-        <TextField fx:id="textName" layoutX="239.0" layoutY="67.0" prefHeight="25.0" prefWidth="384.0" />
-        <Label layoutX="65.0" layoutY="117.0" prefHeight="25.0" prefWidth="100.0" text="Surname:" />
-        <TextField fx:id="textSurname" layoutX="239.0" layoutY="117.0" prefHeight="25.0" prefWidth="384.0" />
-        <Label layoutX="65.0" layoutY="153.0" prefHeight="25.0" prefWidth="100.0" text="Gender:" />
-        <TextField fx:id="textGender" layoutX="239.0" layoutY="153.0" prefHeight="25.0" prefWidth="384.0" />
-        <Label layoutX="66.0" layoutY="203.0" prefHeight="25.0" prefWidth="100.0" text="Date Birth:" />
-        <DatePicker fx:id="textdateBirth" layoutX="240.0" layoutY="203.0" prefHeight="25.0" prefWidth="384.0" showWeekNumbers="true" />
-        <Label layoutX="69.0" layoutY="266.0" text="Address:" />
-        <TextField fx:id="textAddress" layoutX="240.0" layoutY="262.0" prefHeight="25.0" prefWidth="384.0" />
-
-        <Label layoutX="66.0" layoutY="300.0" prefHeight="25.0" prefWidth="100.0" text="City:" />
-        <TextField fx:id="textCity" layoutX="239.0" layoutY="300.0" prefHeight="25.0" prefWidth="384.0" />
-        <Label layoutX="69.0" layoutY="351.0" text="Telephone:" />
-        <TextField fx:id="textTelephone" layoutX="242.0" layoutY="347.0" prefHeight="25.0" prefWidth="384.0" />
-        <Label layoutX="66.0" layoutY="383.0" prefHeight="25.0" prefWidth="100.0" text="Email:" />
-        <TextField fx:id="textEmail" layoutX="243.0" layoutY="383.0" prefHeight="25.0" prefWidth="384.0" />
+        <Button fx:id="btn" alignment="CENTER" layoutX="299.0" layoutY="469.0" mnemonicParsing="false" onAction="#registerClient" prefHeight="44.0" prefWidth="179.0" text="Confirm" />
+        <TextField fx:id="textName" layoutX="153.0" layoutY="67.0" prefHeight="25.0" prefWidth="470.0" promptText="Name" />
+        <TextField fx:id="textSurname" layoutX="153.0" layoutY="117.0" prefHeight="25.0" prefWidth="470.0" promptText="Surname" />
+        <Label layoutX="153.0" layoutY="153.0" prefHeight="25.0" prefWidth="59.0" text="Gender:" AnchorPane.leftAnchor="153.0" />
+        <DatePicker fx:id="textdateBirth" layoutX="154.0" layoutY="203.0" prefHeight="25.0" prefWidth="470.0" promptText="Birth Date" showWeekNumbers="true" />
+        <TextField fx:id="textAddress" layoutX="154.0" layoutY="262.0" prefHeight="25.0" prefWidth="470.0" promptText="Address" />
+        <TextField fx:id="textCity" layoutX="153.0" layoutY="300.0" prefHeight="25.0" prefWidth="470.0" promptText="City" />
+        <TextField fx:id="textTelephone" layoutX="156.0" layoutY="347.0" prefHeight="25.0" prefWidth="470.0" promptText="Telephone" />
+        <TextField fx:id="textEmail" layoutX="157.0" layoutY="383.0" prefHeight="25.0" prefWidth="470.0" promptText="Email" />
         <Label alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="-1.0" layoutY="25.0" prefHeight="35.0" prefWidth="800.0" text="Registration Owner " textAlignment="CENTER" textFill="#a6a6a6">
             <font>
                 <Font name="Calibri" size="29.0" />
             </font>
         </Label>
+      <HBox fx:id="gender" layoutX="227.0" layoutY="157.0" prefHeight="17.0" prefWidth="397.0">
+         <children>
+            <RadioButton fx:id="rbM" mnemonicParsing="false" text="Male">
+               <toggleGroup>
+                  <ToggleGroup fx:id="genderGroup" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="rbF" mnemonicParsing="false" text="Female" toggleGroup="$genderGroup">
+               <HBox.margin>
+                  <Insets left="80.0" />
+               </HBox.margin>
+            </RadioButton>
+         </children>
+      </HBox>
 
     </children>
 </AnchorPane>

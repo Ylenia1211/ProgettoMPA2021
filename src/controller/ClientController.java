@@ -5,8 +5,8 @@ import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import model.Gender;
 import model.Owner;
 
@@ -30,10 +30,19 @@ public class ClientController implements Initializable {
     public TextField textEmail;
     public TextField textGender;
     public DatePicker textdateBirth;
+    public Button btn;
+    public RadioButton rbM;
+    public RadioButton rbF;
+    public HBox gender;
+    public ToggleGroup genderGroup;
 
     //private ClientRepository clientRepo = new ClientRepository();
     private ConcreteOwnerDAO clientRepo;
 
+    public ClientController() {
+        rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
+        rbF = new RadioButton(Gender.F.getDeclaringClass().descriptorString());
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
@@ -54,14 +63,13 @@ public class ClientController implements Initializable {
                 !textAddress.getText().trim().isEmpty() &&
                 !textCity.getText().trim().isEmpty() &&
                 !textTelephone.getText().trim().isEmpty() &&
-                !textEmail.getText().trim().isEmpty()
-
-        ){
-
+                !textEmail.getText().trim().isEmpty() &&
+                (rbM.isSelected() || rbF.isSelected()))
+        {
             Owner p = new Owner();
             p.setName(textName.getText());
             p.setSurname(textSurname.getText());
-            p.setSex(Gender.M);
+            p.setSex(genderGroup.getSelectedToggle().equals("M") ? Gender.M : Gender.F);
             //DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd/MM/uuuu" );
             //LocalDate ld = LocalDate.parse(textdateBirth.getValue() , f);
             //LocalDate ld = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(textdateBirth.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -76,7 +84,6 @@ public class ClientController implements Initializable {
                 clientRepo.add(p);
                 textName.clear();
                 textSurname.clear();
-                textGender.clear();
                 textAddress.clear();
                 textCity.clear();
                 textTelephone.clear();
