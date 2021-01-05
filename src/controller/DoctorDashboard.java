@@ -18,8 +18,6 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static javafx.scene.input.KeyCode.R;
-
 public class DoctorDashboard implements Initializable{
     public VBox sidebar;
     public Button pazienti = new Button("Pazienti");
@@ -28,13 +26,18 @@ public class DoctorDashboard implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setButtons(sidebar, pazienti, agenda);
+        try {
+            this.setButtons(sidebar, pazienti, agenda);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setButtons (VBox vBox, Button... buttons) {
+    public void setButtons (VBox vBox, Button... buttons) throws IOException {
         for (Button button: buttons) {
             DropShadow shadow = new DropShadow();
-            Blend lighting = new Blend();
+            Lighting lighting = new Lighting();
+            TabPane tabPane = new TabPane();
 
             //Adding the shadow when the mouse cursor is on
             button.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -46,6 +49,9 @@ public class DoctorDashboard implements Initializable{
             button.addEventHandler(MouseEvent.MOUSE_CLICKED,
                     e -> button.setEffect(lighting));
 
+            button.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                    e -> button.setEffect(lighting));
+
             button.setStyle("-fx-background-color: #3DA4E3; -fx-background-radius: 30px, 30px, 30px, 30px;"); //ffffff00 transparent
             button.setFont(Font.font("Bauhaus 93", 20.0));
             button.setMnemonicParsing(false);
@@ -53,28 +59,26 @@ public class DoctorDashboard implements Initializable{
             button.setPrefHeight(25.0);
             button.setTextFill(Paint.valueOf("WHITE"));
 
-            // Qua voglio fare che se il bottone da creare è "pazienti" allora mi crea un tabpane con 2 tab,
-            // una con la lista dei clienti e una dove inserirne uno nuovo
 
-//            if (button.getText().equals("Pazienti")) {
-//                TabPane tabPane = new TabPane();
-//                Tab pazienti = new Tab("Pazienti");
-//                pazienti.
-//                Tab nuovoPaziente = new Tab("Nuovo Paziente");
-//                tabPane.getTabs().add(pazienti);
-//                tabPane.getTabs().add(nuovoPaziente);
-//                borderPane.setCenter();
-//            }
-            button.setOnMouseClicked(e -> {
-                Parent root = null;
-                try {
-                    root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                button.setOnMouseClicked(e -> {
+                    Parent root;
 
-                borderPane.setCenter(root);
-            });
+                    try {
+                        if (button.getText().equals("Pazienti")) {
+                            Tab pazienti = new Tab("Pazienti", FXMLLoader.load(getClass().getResource("/view/pazienti.fxml")));
+                            Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
+                            tabPane.getTabs().clear();
+                            tabPane.getTabs().add(pazienti);
+                            tabPane.getTabs().add(nuovoPaziente);
+                            borderPane.setCenter(tabPane);
+                        }else {
+                            root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
+                            borderPane.setCenter(root);
+                        }
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                });
 
             button.setId(button.getText().toLowerCase(Locale.ROOT));
             vBox.getChildren().add(button);
