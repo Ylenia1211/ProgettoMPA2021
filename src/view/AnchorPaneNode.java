@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -20,6 +21,7 @@ public class AnchorPaneNode extends AnchorPane {
 
     // Date associated with this pane
     private LocalDate date;
+    private Color color;
 
     /**
      * Create a anchor pane node. Date is not assigned in the constructor.
@@ -27,6 +29,8 @@ public class AnchorPaneNode extends AnchorPane {
      */
     public AnchorPaneNode(Node... children) {
         super(children);
+        this.setColor(Color.GREEN);
+
         // Add action handler for mouse clicked
         this.setOnMouseClicked(e -> {
             try {
@@ -54,5 +58,9 @@ public class AnchorPaneNode extends AnchorPane {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }
