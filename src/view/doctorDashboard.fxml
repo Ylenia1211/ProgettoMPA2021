@@ -1,49 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DoctorDashboard">
-   <Pane prefHeight="400.0" prefWidth="135.0" style="-fx-background-color: #51AFC8;">
-      <ImageView fitHeight="74.0" fitWidth="71.0" layoutX="32.0" layoutY="8.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../../resources/projectLogo.png"/>
-      </ImageView>
-      <Label layoutX="22.0" layoutY="79.0" text="Vet clinic" textFill="WHITE">
-         <font>
-            <Font name="Bauhaus 93" size="22.0"/>
-         </font>
-      </Label>
-      <Line endX="67.0" layoutX="68.0" layoutY="129.0" startX="-68.0" stroke="WHITE"/>
-      <VBox layoutY="131.0" prefHeight="269.0" prefWidth="135.0">
-         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0"
-                 style="-fx-background-color: #ffffff00;" text="Pazienti" textFill="WHITE">
-            <VBox.margin>
-               <Insets left="5.0" right="5.0" top="5.0"/>
-            </VBox.margin>
-            <font>
-               <Font name="Bauhaus 93" size="20.0"/>
-            </font>
-         </Button>
-         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0"
-                 style="-fx-background-color: #ffffff00;" text="Agenda" textFill="WHITE">
-            <VBox.margin>
-               <Insets bottom="10.0" left="5.0" right="5.0" top="5.0"/>
-            </VBox.margin>
-            <font>
-               <Font name="Bauhaus 93" size="20.0"/>
-            </font>
-         </Button>
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DoctorDashboard">
+      <left>
+         <Pane prefHeight="618.0" prefWidth="135.0" style="-fx-background-color: #51AFC8;" BorderPane.alignment="CENTER">
+            <ImageView fitHeight="74.0" fitWidth="71.0" layoutX="32.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../resources/projectLogo.png" />
+            </ImageView>
+            <Label layoutX="22.0" layoutY="79.0" text="Vet clinic" textFill="WHITE">
+               <font>
+                  <Font name="Bauhaus 93" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="98.0" text="Managment" textFill="WHITE">
+               <font>
+                  <Font name="Bauhaus 93" size="22.0" />
+               </font>
+            </Label>
+            <Line endX="67.0" layoutX="68.0" layoutY="129.0" startX="-68.0" stroke="WHITE" />
+            <VBox fx:id="sidebar" alignment="CENTER" layoutY="131.0">
       </VBox>
-      <Label layoutX="10.0" layoutY="98.0" text="Managment" textFill="WHITE">
-         <font>
-            <Font name="Bauhaus 93" size="22.0"/>
-         </font>
-      </Label>
-   </Pane>
-</AnchorPane>
+         </Pane>
+      </left>
+      <top>
+          <HBox alignment="CENTER_RIGHT" layoutY="-1.0" prefWidth="854.0" style="-fx-background-color: #3DA4E3;"
+                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+              <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#close" pickOnBounds="true"
+                         preserveRatio="true">
+                  <Image url="@../resources/closeIcon.png"/>
+              </ImageView>
+          </HBox>
+      </top>
+   </BorderPane>
