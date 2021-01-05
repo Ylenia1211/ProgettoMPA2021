@@ -1,21 +1,38 @@
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
+    private double x, y;
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = (Parent) FXMLLoader.load(Main.class.getResource("/view/registrationClient.fxml"));
-        stage.setTitle("Vet Clinic Management");
-        stage.setScene(new Scene(root, 800, 600));
+        Parent root = FXMLLoader.load(Main.class.getResource("/view/doctorDashboard.fxml"));
+
+        root.setOnMousePressed(mouseEvent -> {
+            x = mouseEvent.getSceneX();
+            y = mouseEvent.getSceneY();
+        });
+
+        root.setOnMouseDragged(mouseEvent -> {
+            stage.setX(mouseEvent.getScreenX() - x);
+            stage.setY(mouseEvent.getScreenY() - y);
+        });
+
+        stage.setScene(new Scene(root));
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
-        stage.setResizable(true);
+        stage.setResizable(false);
     }
-    public static void main(String[] args) throws ClassNotFoundException {
+
+    public static void main(String[] args) {
         launch(args);
     }
 }
