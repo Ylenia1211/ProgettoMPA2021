@@ -5,17 +5,24 @@ import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Callback;
+import model.Doctor;
 import model.Owner;
 
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.URL;
 
 import java.sql.ResultSet;
@@ -85,7 +92,24 @@ public class ShowTableController  implements Initializable {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Owner data = getTableView().getItems().get(getIndex());
+                           //#TODO: far apparire vista di update in tab
+                           ///FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
+                            /*
+                            try {
 
+                                Parent changeView = loader.load();
+                                ClientController controller = loader.getController();
+                                //UpdateClientController upd = (UpdateClientController) controller;
+                                controller.setParam(data);
+                                Scene sceneUpdate = new Scene(changeView);
+
+                                Stage stage1 = new  Stage();
+                                stage1.setScene(sceneUpdate);
+                                stage1.show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                              */
                             System.out.println("selectedData: " + data.getId() + " " + data.getName());
                         });
                     }
@@ -158,45 +182,3 @@ public class ShowTableController  implements Initializable {
     }
 }
 
-
-
-
-/*  //OLD
-public class ShowTableController  implements Initializable {
-    public ObservableList<String> items;
-    public ListView<String> listView;
-    Object[] options = {"Si, cancella",
-            "No",
-          };
-    private ClientRepository clientRepo = new ClientRepository();
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-
-            items = FXCollections.observableArrayList(clientRepo.findAll());
-            listView.setItems(items);
-            listView.setOnMouseClicked( e-> {
-                JPanel pan = new JPanel();
-
-                int ok = JOptionPane.showConfirmDialog(
-                        null,
-                        "Sei sicuro di voler cancellare?",
-                        "Cancellazione Utente",
-                        JOptionPane.YES_NO_OPTION);
-                //System.out.println(ok);
-                if(ok ==0){ //cancella
-                   int index = listView.getSelectionModel().getSelectedIndex();
-                   //clientRepo.deleteItem(index);
-                   listView.getItems().remove(index); //elimina graficamente
-                }
-            });
-
-            //tableClient.setItems(items);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-}*/

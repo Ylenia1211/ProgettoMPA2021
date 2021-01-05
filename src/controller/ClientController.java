@@ -86,4 +86,14 @@ public class ClientController implements Initializable {
         }
 
     }
+
+    public void setParam(Owner data) {
+        textName.setText(data.getName());
+        textSurname.setText(data.getSurname());
+        //#TODO selzione gender
+        textAddress.setText(data.getAddress());
+        textCity.setText(data.getCity());
+        textTelephone.setText(data.getTelephone());
+        textEmail.setText(data.getEmail());
+    }
 }

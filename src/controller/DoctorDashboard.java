@@ -33,6 +33,10 @@ public class DoctorDashboard implements Initializable{
         }
     }
 
+    public BorderPane getBorderPane() {
+        return borderPane;
+    }
+
     public void setButtons (VBox vBox, Button... buttons) throws IOException {
         for (Button button: buttons) {
             DropShadow shadow = new DropShadow();

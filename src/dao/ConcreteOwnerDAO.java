@@ -77,8 +77,25 @@ public class ConcreteOwnerDAO implements OwnerDAO{
     }
 
     @Override
-    public void update(String id) {
+    public void update(String id, Owner client) {
+        String sqlUpdateMasterdata = "UPDATE masterdata " +
+                     "SET name = ?, surname = ?, sex = ?, datebirth = ?" +
+                     "WHERE masterdata.id ="+"\'"+ id +"\'" ;
+        PreparedStatement ps = null;
+        try {
+            ps = connection_db.dbConnection().prepareStatement(sqlUpdateMasterdata);
+            ps.setString(1, client.getName());
+            ps.setString(2, client.getSurname());
+            ps.setString(3, client.getSurname());
+            ps.setString(4, client.getSurname());
+            ps.executeUpdate();
+            System.out.println("Aggiornati dati Anagrafica del Owner!");
 
+            //#TODO: Aggiornare le altre tabelle
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
     }
 
     @Override
@@ -125,8 +142,12 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             String id_searched ="";
             if(rs.next()){
                 id_searched  = rs.getString("id");
+                return id_searched;
+            }else{
+                JOptionPane.showMessageDialog(null, "Ricerca Vuota");
+                return id_searched;
             }
-            return id_searched;
+
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
