@@ -66,7 +66,7 @@ public class DoctorDashboard implements Initializable{
                     try {
                         if (button.getText().equals("Pazienti")) {
                             Tab pazienti = new Tab("Pazienti", FXMLLoader.load(getClass().getResource("/view/pazienti.fxml")));
-                            Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
+                            Tab nuovoPaziente = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
                             tabPane.getTabs().clear();
                             tabPane.getTabs().add(pazienti);
                             tabPane.getTabs().add(nuovoPaziente);

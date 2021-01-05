@@ -9,16 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import model.Gender;
 import model.Owner;
-import model.Person;
-
 
 import javax.swing.*;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable {
@@ -68,7 +61,7 @@ public class ClientController implements Initializable {
             Owner p = new Owner.Builder<>()
                     .addName(textName.getText())
                     .addSurname(textSurname.getText())
-                    .addSex(String.valueOf(genderGroup.getSelectedToggle().equals("M") ? Gender.M : Gender.F))
+                    .addSex(String.valueOf(genderGroup.getSelectedToggle().toString().equals("M") ? Gender.M : Gender.F))
                     .addDateBirth(textdateBirth.getValue())
                     .addAddress(textAddress.getText())
                     .addCity(textCity.getText())
@@ -76,22 +69,6 @@ public class ClientController implements Initializable {
                     .addEmail(textEmail.getText())
                     .build();
 
-            /*
-            Owner p = new Owner();
-            p.setName(textName.getText());
-            p.setSurname(textSurname.getText());
-            p.setSex(genderGroup.getSelectedToggle().equals("M") ? Gender.M : Gender.F);
-            //DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd/MM/uuuu" );
-            //LocalDate ld = LocalDate.parse(textdateBirth.getValue() , f);
-            //LocalDate ld = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(textdateBirth.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            p.setDatebirth(textdateBirth.getValue());
-            System.out.println(textdateBirth.getValue());
-            p.setAddress(textAddress.getText());
-            p.setCity(textCity.getText());
-            p.setTelephone(textTelephone.getText());
-            p.setEmail(textEmail.getText());
-            p.setTot_visit(0);
-            */
             try {
                 clientRepo.add(p);
                 textName.clear();

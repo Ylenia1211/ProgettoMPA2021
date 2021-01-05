@@ -1,8 +1,10 @@
 package view;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -24,7 +26,7 @@ public class FullCalendarView {
         currentYearMonth = yearMonth;
         // Create the calendar grid pane
         GridPane calendar = new GridPane();
-        calendar.setPrefSize(600, 400);
+        calendar.setPrefSize(800, 600);
         calendar.setGridLinesVisible(true);
         // Create rows and columns with anchor panes for the calendar
         for (int i = 0; i < 5; i++) {
@@ -85,7 +87,7 @@ public class FullCalendarView {
             setLeftAnchor(txt, 5.0);
             ap.getChildren().add(txt);
             // #TODO la riga sotto serve a cambiare il colore dei singoli quadratini
-            // ap.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+            //ap.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
             calendarDate = calendarDate.plusDays(1);
         }
         // Change the title of the calendar

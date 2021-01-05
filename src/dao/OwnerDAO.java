@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface OwnerDAO extends Crud<Owner>{
 
+    String search(Owner client);
     // QUA inserire solo ricerche specifiche per l'Owner
     //void add(Owner item);
     //void update(Client item);

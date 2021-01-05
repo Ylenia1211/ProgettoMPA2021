@@ -9,10 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class ConcreteOwnerDAO implements OwnerDAO{
     private ConnectionDBH2 connection_db;
@@ -52,25 +49,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             ps.setString(1, owner.getId());
             ps.setInt(2, owner.getTot_visit());
             ps.executeUpdate();
-
             JOptionPane.showMessageDialog(null, "Owner aggiunto correttamente!");
-           /*
-            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT * FROM masterdata" +
-                    "     INNER JOIN person\n" +
-                    "    ON person.id = masterdata.id" +
-                    "    INNER JOIN owner  " +
-                    "    ON  person.id = owner.id;");
-            ResultSet rs = statement.executeQuery();
-            List<String> db_client =  new ArrayList<String>();
-            while (rs.next()) {
-                String id = rs.getString("id");
-                String name =  rs.getString("name");
-                System.out.println(id + ' ' + name);
-                db_client.add(name);
-            }
-            JOptionPane.showMessageDialog(null, "Owner Registrati:\n" +  db_client);
-
-            */
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
@@ -83,7 +62,11 @@ public class ConcreteOwnerDAO implements OwnerDAO{
     public ResultSet findAll() {
         PreparedStatement ps = null;
         try {
-            PreparedStatement statement = connection_db.dbConnection().prepareStatement("select * from owner");
+            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT * FROM masterdata" +
+                    "    INNER JOIN person" +
+                    "    ON person.id = masterdata.id" +
+                    "    INNER JOIN owner  " +
+                    "    ON  person.id = owner.id");
             ResultSet rs = statement.executeQuery();
             return rs;
         } catch (SQLException e) {
@@ -100,6 +83,54 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
     @Override
     public void delete(String id) {
+        System.out.println("id da cancellare a cascata: " + id);
 
+        PreparedStatement ps = null;
+        try {
+            ps = connection_db.dbConnection().prepareStatement("delete from masterdata where masterdata.id = "+"\'"+ id +"\'" );
+            ps.executeUpdate();
+            System.out.println("Cancellati dati Anagrafica del Owner!");
+
+            ps = null;
+            ps = connection_db.dbConnection().prepareStatement("delete from person where person.id = "+"\'"+ id +"\'" );
+
+            ps.executeUpdate();
+            System.out.println("Cancellati dati civici del Owner!");
+
+            ps = null;
+            ps = connection_db.dbConnection().prepareStatement("delete from owner where owner.id = "+"\'"+ id +"\'" );
+
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Cancellato correttamente!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
+    }
+
+    @Override
+    public String search(Owner client) {
+        PreparedStatement ps = null;
+        try{
+            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT * FROM masterdata" +
+                    "    INNER JOIN person" +
+                    "    ON person.id = masterdata.id" +
+                    "    INNER JOIN owner  " +
+                    "    ON  person.id = owner.id WHERE masterdata.name =" +"\'"+ client.getName() +"\'"+
+                    "    AND masterdata.surname =" +"\'"+ client.getSurname() +"\'"+
+                    "    AND masterdata.sex =" +"\'"+ client.getSex() +"\'"+
+                    "    AND masterdata.datebirth =" +"\'"+ client.getDatebirth() +"\'");
+            //System.out.println(client.getName());
+            ResultSet rs = statement.executeQuery();
+            String id_searched ="";
+            if(rs.next()){
+                id_searched  = rs.getString("id");
+            }
+            return id_searched;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
     }
 }
