@@ -1,19 +1,14 @@
 package controller;
-
-import dao.ConcreteOwnerDAO;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import model.Gender;
 import model.Owner;
-
 import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UpdateClientController extends ClientController implements Initializable{
-    //private ConcreteOwnerDAO clientRepo;
+public class UpdateClientController extends ClientController{
     private String id;
     private Owner own;
 
@@ -22,21 +17,20 @@ public class UpdateClientController extends ClientController implements Initiali
         super();
         this.own = client;
         this.id = super.getClientRepo().search(client);
-        //System.out.println(super.textSurname.getText().isEmpty());
-        //this.setParam(client);
        }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+           addTextField();
            setParam(own);
-           System.out.println("Name " + own.getName());
+           //System.out.println("Name " + own.getName());
     }
 
     @Override
     public void registerClient(ActionEvent actionEvent){
-        JOptionPane.showMessageDialog(null, "HEY MODIFICAA");
-        JOptionPane.showMessageDialog(null, this.getTextName().getText());
+        JOptionPane.showMessageDialog(null, "Cliente Modificato!");
+        //JOptionPane.showMessageDialog(null, this.getTextName().getText());
         Owner p = createOwner();
         super.getClientRepo().update(id, p);
     }
@@ -45,8 +39,28 @@ public class UpdateClientController extends ClientController implements Initiali
 
         super.getTextName().setText(data.getName().trim());
         super.getTextSurname().setText(data.getSurname().trim());
-        //#TODO altri campi
-
-
+        super.getTextAddress().setText(data.getAddress().trim());
+        super.getTextCity().setText(data.getCity().trim());
+        super.getTextTelephone().setText(data.getCity().trim());
+        super.getTextEmail().setText(data.getEmail().trim());
+        super.getTextdateBirth().setValue(data.getDatebirth());
+        if(data.getSex().equals("M")){
+            super.rbM.setSelected(true);
+        }else{
+            super.rbF.setSelected(true);
+        }
     }
+
+    //aggingere campi gui dinamicamente
+    private void addTextField()  {
+        //super.pane_main_grid.getChildren().remove(btn); per rimuovere da pannello dinamicamente
+        TextField newField = new TextField("NUOVO CAMPO");
+        super.pane_main_grid.getChildren().add(newField);
+    }
+    /*
+    @FXML
+    @Override
+    protected void initialize() {
+        super.initialize();
+    }*/
 }

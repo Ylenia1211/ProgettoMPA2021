@@ -78,20 +78,23 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
     @Override
     public void update(String id, Owner client) {
-        String sqlUpdateMasterdata = "UPDATE masterdata " +
-                     "SET name = ?, surname = ?, sex = ?, datebirth = ?" +
-                     "WHERE masterdata.id ="+"\'"+ id +"\'" ;
+        String sql = "UPDATE masterdata SET name = ?, surname = ?, sex = ?, datebirth = ? where masterdata.id = ?";
+
         PreparedStatement ps = null;
         try {
-            ps = connection_db.dbConnection().prepareStatement(sqlUpdateMasterdata);
+            ps = connection_db.dbConnection().prepareStatement(sql);
             ps.setString(1, client.getName());
             ps.setString(2, client.getSurname());
-            ps.setString(3, client.getSurname());
-            ps.setString(4, client.getSurname());
+            ps.setString(3, client.getSex());
+            ps.setString(4, client.getDatebirth().toString());
+            ps.setString(5, id);
             ps.executeUpdate();
+
             System.out.println("Aggiornati dati Anagrafica del Owner!");
 
             //#TODO: Aggiornare le altre tabelle
+
+
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());

@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import model.Gender;
 import model.Owner;
 
@@ -16,7 +17,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable {
-
+    @FXML
+    public VBox pane_main_grid;
     @FXML
     private TextField textName;
     @FXML
@@ -29,46 +31,18 @@ public class ClientController implements Initializable {
     private TextField textTelephone;
     @FXML
     private TextField textEmail;
+    @FXML
     public DatePicker textdateBirth;
+    @FXML
     public Button btn;
     public RadioButton rbM;
     public RadioButton rbF;
     public HBox gender;
+
     public ToggleGroup genderGroup;
     //private ClientRepository clientRepo = new ClientRepository();
     private ConcreteOwnerDAO clientRepo;
 
-    public ConcreteOwnerDAO getClientRepo() {
-        return this.clientRepo;
-    }
-
-    public TextField getTextName() {
-        return this.textName;
-    }
-
-    public TextField getTextSurname() {
-        return textSurname;
-    }
-
-    public TextField getTextAddress() {
-        return textAddress;
-    }
-
-    public TextField getTextCity() {
-        return textCity;
-    }
-
-    public TextField getTextTelephone() {
-        return textTelephone;
-    }
-
-    public TextField getTextEmail() {
-        return textEmail;
-    }
-
-    public DatePicker getTextdateBirth() {
-        return textdateBirth;
-    }
 
     public ClientController() {
         this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
@@ -129,18 +103,57 @@ public class ClientController implements Initializable {
     }
 
     public Owner createOwner(){
+        RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
+        System.out.println(chk.getText());
+
         Owner p = new Owner.Builder<>()
                 .addName(this.textName.getText())
                 .addSurname(this.textSurname.getText())
-                .addSex(String.valueOf(this.genderGroup.getSelectedToggle().equals("M") ? Gender.M : Gender.F))
+                .addSex((chk.getText().equals("M") ? Gender.M : Gender.F).toString())
                 .addDateBirth(this.textdateBirth.getValue())
                 .addAddress(this.textAddress.getText())
                 .addCity(this.textCity.getText())
                 .addTelephone(this.textTelephone.getText())
                 .addEmail(this.textEmail.getText())
                 .build();
+
         return p;
     }
+
+
+    public ConcreteOwnerDAO getClientRepo() {
+        return this.clientRepo;
+    }
+
+    public TextField getTextName() {
+        return this.textName;
+    }
+
+    public TextField getTextSurname() {
+        return textSurname;
+    }
+
+    public TextField getTextAddress() {
+        return textAddress;
+    }
+
+    public TextField getTextCity() {
+        return textCity;
+    }
+
+    public TextField getTextTelephone() {
+        return textTelephone;
+    }
+
+    public TextField getTextEmail() {
+        return textEmail;
+    }
+
+    public DatePicker getTextdateBirth() {
+        return textdateBirth;
+    }
+
+
 
 
 

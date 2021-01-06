@@ -60,15 +60,15 @@ public class ShowTableController  implements Initializable {
             clientRepo = new ConcreteOwnerDAO(connection);
             ResultSet r =  clientRepo.findAll();
             while(r.next()){
-                listItems.add( new Owner.Builder<>()
+                     listItems.add( new Owner.Builder<>()
                     .addName(r.getString("name"))
                     .addSurname(r.getString("surname"))
-                        .addSex(r.getString("sex"))
-                        .addDateBirth( LocalDate.parse(r.getString("datebirth")))
-                         .addAddress(r.getString("address"))
-                         .addCity(r.getString("city"))
-                         .addTelephone(r.getString("telephone"))
-                          .addEmail(r.getString("email")).build()
+                     .addSex(r.getString("sex"))
+                     .addDateBirth( LocalDate.parse(r.getString("datebirth")))
+                     .addAddress(r.getString("address"))
+                     .addCity(r.getString("city"))
+                     .addTelephone(r.getString("telephone"))
+                     .addEmail(r.getString("email")).build()
                         );
             }
             tableClient.setItems(listItems);
@@ -94,7 +94,7 @@ public class ShowTableController  implements Initializable {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Owner data = getTableView().getItems().get(getIndex());
-                           //#TODO: far apparire vista di update in tab
+
                             Scene scene = this.getScene();
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
 
@@ -111,30 +111,6 @@ public class ShowTableController  implements Initializable {
                                 e.printStackTrace();
                             };
 
-
-
-
-
-                            //loader.setController(new UpdateClientController(data));
-                            //ClientController controller = loader.getController();
-                            //controller.setParam(data);
-
-                            //loader.load();
-                            /*
-                            try {
-
-                                Parent changeView = loader.load();
-                                //ClientController controller = loader.getController();
-                                //UpdateClientController upd = (UpdateClientController) controller;
-                                //controller.setParam(data);
-                                Scene sceneUpdate = new Scene(changeView);
-                                Stage stage1 = new  Stage();
-                                stage1.setScene(sceneUpdate);
-                                stage1.show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                           */
                             System.out.println("selectedData: " + data.getId() + " " + data.getName());
                         });
                     }
@@ -201,7 +177,6 @@ public class ShowTableController  implements Initializable {
         };
 
         colBtn.setCellFactory(cellFactory);
-
         tableClient.getColumns().add(colBtn);
 
     }
