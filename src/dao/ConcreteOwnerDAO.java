@@ -78,11 +78,11 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
     @Override
     public void update(String id, Owner client) {
-        String sql = "UPDATE masterdata SET name = ?, surname = ?, sex = ?, datebirth = ? where masterdata.id = ?";
+        String sqlMasterData = "UPDATE masterdata SET name = ?, surname = ?, sex = ?, datebirth = ? where masterdata.id = ?";
 
         PreparedStatement ps = null;
         try {
-            ps = connection_db.dbConnection().prepareStatement(sql);
+            ps = connection_db.dbConnection().prepareStatement(sqlMasterData);
             ps.setString(1, client.getName());
             ps.setString(2, client.getSurname());
             ps.setString(3, client.getSex());

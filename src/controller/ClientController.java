@@ -20,6 +20,8 @@ public class ClientController implements Initializable {
     @FXML
     public VBox pane_main_grid;
     @FXML
+    public Label labelTitle;
+    @FXML
     private TextField textName;
     @FXML
     private TextField textSurname;
@@ -59,8 +61,8 @@ public class ClientController implements Initializable {
         try{
             ConnectionDBH2 connection = new ConnectionDBH2();
             this.clientRepo = new ConcreteOwnerDAO(connection);
-
         }
+
         catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
@@ -152,9 +154,6 @@ public class ClientController implements Initializable {
     public DatePicker getTextdateBirth() {
         return textdateBirth;
     }
-
-
-
 
 
 }
