@@ -16,6 +16,7 @@ public class ConnectionDBH2 {
     public Connection dbConnection(){
         try {
             Class.forName("org.h2.Driver");
+
             connectData = DriverManager.getConnection(url, username, password);
             System.out.println("DB connected!");
             return  connectData;

@@ -24,7 +24,7 @@ public class UpdateClientController extends ClientController{
     public void initialize(URL url, ResourceBundle resourceBundle) {
            super.initialize(url, resourceBundle);
 
-           addTextField();
+           //addTextField();
            setParam(own);
            //System.out.println("Name " + own.getName());
     }

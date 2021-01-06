@@ -3,7 +3,9 @@ package dao;
 
 import model.Doctor;
 
+import java.util.List;
+
 public interface DoctorDAO extends Crud<Doctor>{
 
-    void searchAllSpecialization();
+    List<String> searchAllSpecialization();
 }

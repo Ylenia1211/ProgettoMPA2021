@@ -3,6 +3,7 @@ package controller;
 import dao.ConcreteDoctorDAO;
 import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
+import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import model.Doctor;
 import model.Gender;
@@ -10,11 +11,13 @@ import model.Owner;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class RegistrationDoctorController extends ClientController{
     private TextField username;
     private PasswordField password;
+    private ComboBox specialitation;
     private Button saveBtn;
     private ConcreteDoctorDAO doctorRepo;
 
@@ -24,7 +27,7 @@ public class RegistrationDoctorController extends ClientController{
 
             ConnectionDBH2 connection = new ConnectionDBH2();
             this.doctorRepo = new ConcreteDoctorDAO(connection);
-            System.out.println(this.doctorRepo);
+            //System.out.println(this.doctorRepo);
         }
 
         catch (Exception e){
@@ -42,7 +45,8 @@ public class RegistrationDoctorController extends ClientController{
         l.setText("Creazione Dottore");
         super.pane_main_grid.getChildren().remove(btn); //per rimuovere da pannello dinamicamente il bottone di salvataggio
 
-        //#TODO: aggiungere menu a tendina per specializzazione
+        // menu a tendina per specializzazione
+        addFieldSpecialitation();
         //username, password
         addFieldUsername();
         addFieldPassword();
@@ -50,6 +54,14 @@ public class RegistrationDoctorController extends ClientController{
         addActionButton();
 
 
+    }
+    public void addFieldSpecialitation()  {
+        List<String> listSpecialitation = this.getDoctorRepo().searchAllSpecialization();
+        this.specialitation = new ComboBox(FXCollections
+                .observableArrayList(listSpecialitation));
+        this.specialitation.setId("specialitation");
+        this.specialitation.setPromptText("Scegli specializzazione");
+        super.pane_main_grid.getChildren().add(this.specialitation);
     }
 
 
@@ -80,9 +92,9 @@ public class RegistrationDoctorController extends ClientController{
                         "Devi implementare la creazione del Dottore");
                 alert.show();
                 */
-             Doctor d = createDoctor();
-             // prova
-                 //#TODO: implementare add in DAO
+                Doctor d = createDoctor();
+               // prova
+                /*
                 System.out.println(d.getName());
                 System.out.println(d.getSurname());
                 System.out.println(d.getDatebirth());
@@ -93,10 +105,16 @@ public class RegistrationDoctorController extends ClientController{
                 System.out.println(d.getEmail());
                 System.out.println(d.getUsername());
                 System.out.println(d.getPassword());
+                System.out.println(d.getSpecialitation());
+                */
+
+
+                //inserire controlli
+                this.doctorRepo.add(d);
             });
 
 
-            this.getDoctorRepo().searchAllSpecialization();
+
     }
 
     public ConcreteDoctorDAO getDoctorRepo() {
@@ -107,7 +125,10 @@ public class RegistrationDoctorController extends ClientController{
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
         System.out.println(chk.getText());
 
-        Doctor p = new Doctor.Builder<>()
+        Doctor p = new Doctor.Builder<>(
+                (String) this.specialitation.getValue(),
+                this.username.getText(),
+                this.password.getText())
                 .addName(super.getTextName().getText())
                 .addSurname(super.getTextSurname().getText())
                 .addSex((chk.getText().equals("M") ? Gender.M : Gender.F).toString())

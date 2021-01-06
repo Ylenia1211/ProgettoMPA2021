@@ -47,6 +47,8 @@ public abstract class Person extends MasterData{
         this.email = builder.email;
     }
 
+
+    //All getter, and NO setter to provde immutability
     public String getAddress() {
         return address;
     }
