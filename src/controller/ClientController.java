@@ -4,6 +4,7 @@ package controller;
 import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -16,12 +17,18 @@ import java.util.ResourceBundle;
 
 public class ClientController implements Initializable {
 
-    public TextField textName;
-    public TextField textSurname;
-    public TextField textAddress;
-    public TextField textCity;
-    public TextField textTelephone;
-    public TextField textEmail;
+    @FXML
+    private TextField textName;
+    @FXML
+    private TextField textSurname;
+    @FXML
+    private TextField textAddress;
+    @FXML
+    private TextField textCity;
+    @FXML
+    private TextField textTelephone;
+    @FXML
+    private TextField textEmail;
     public DatePicker textdateBirth;
     public Button btn;
     public RadioButton rbM;
@@ -31,52 +38,86 @@ public class ClientController implements Initializable {
     //private ClientRepository clientRepo = new ClientRepository();
     private ConcreteOwnerDAO clientRepo;
 
-    public ClientController() {
-        rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
-        rbF = new RadioButton(Gender.F.getDeclaringClass().descriptorString());
+    public ConcreteOwnerDAO getClientRepo() {
+        return this.clientRepo;
     }
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    public TextField getTextName() {
+        return this.textName;
+    }
+
+    public TextField getTextSurname() {
+        return textSurname;
+    }
+
+    public TextField getTextAddress() {
+        return textAddress;
+    }
+
+    public TextField getTextCity() {
+        return textCity;
+    }
+
+    public TextField getTextTelephone() {
+        return textTelephone;
+    }
+
+    public TextField getTextEmail() {
+        return textEmail;
+    }
+
+    public DatePicker getTextdateBirth() {
+        return textdateBirth;
+    }
+
+    public ClientController() {
+        this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
+        this.rbF = new RadioButton(Gender.F.getDeclaringClass().descriptorString());
+
+        this.textName = new TextField();
+        this.textSurname = new TextField();
+        this.textAddress = new TextField();
+        this.textCity = new TextField();
+        this.textTelephone = new TextField();
+        this.textEmail = new TextField();
+        this.textdateBirth = new DatePicker();
+
         try{
             ConnectionDBH2 connection = new ConnectionDBH2();
-            clientRepo = new ConcreteOwnerDAO(connection);
+            this.clientRepo = new ConcreteOwnerDAO(connection);
 
         }
         catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
+
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 
-
+    //onAction="#registerClient"
     public void registerClient(ActionEvent actionEvent) {
-        if(!textName.getText().trim().isEmpty() &&
-                !textSurname.getText().trim().isEmpty() &&
-                !textAddress.getText().trim().isEmpty() &&
-                !textCity.getText().trim().isEmpty() &&
-                !textTelephone.getText().trim().isEmpty() &&
-                !textEmail.getText().trim().isEmpty() &&
-                (rbM.isSelected() || rbF.isSelected()))
+        if(!this.textName.getText().trim().isEmpty() &&
+                !this.textSurname.getText().trim().isEmpty() &&
+                !this.textAddress.getText().trim().isEmpty() &&
+                !this.textCity.getText().trim().isEmpty() &&
+                !this.textTelephone.getText().trim().isEmpty() &&
+                !this.textEmail.getText().trim().isEmpty() &&
+                (this.rbM.isSelected() || this.rbF.isSelected()))
         {
-            Owner p = new Owner.Builder<>()
-                    .addName(textName.getText())
-                    .addSurname(textSurname.getText())
-                    .addSex(String.valueOf(genderGroup.getSelectedToggle().toString().equals("M") ? Gender.M : Gender.F))
-                    .addDateBirth(textdateBirth.getValue())
-                    .addAddress(textAddress.getText())
-                    .addCity(textCity.getText())
-                    .addTelephone(textTelephone.getText())
-                    .addEmail(textEmail.getText())
-                    .build();
+            Owner p = createOwner();
 
             try {
                 clientRepo.add(p);
-                textName.clear();
-                textSurname.clear();
-                textAddress.clear();
-                textCity.clear();
-                textTelephone.clear();
-                textEmail.clear();
+                this. textName.clear();
+                this.textSurname.clear();
+                this.textAddress.clear();
+                this.textCity.clear();
+                this.textTelephone.clear();
+                this.textEmail.clear();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -87,13 +128,20 @@ public class ClientController implements Initializable {
 
     }
 
-    public void setParam(Owner data) {
-        textName.setText(data.getName());
-        textSurname.setText(data.getSurname());
-        //#TODO selzione gender
-        textAddress.setText(data.getAddress());
-        textCity.setText(data.getCity());
-        textTelephone.setText(data.getTelephone());
-        textEmail.setText(data.getEmail());
+    public Owner createOwner(){
+        Owner p = new Owner.Builder<>()
+                .addName(this.textName.getText())
+                .addSurname(this.textSurname.getText())
+                .addSex(String.valueOf(this.genderGroup.getSelectedToggle().equals("M") ? Gender.M : Gender.F))
+                .addDateBirth(this.textdateBirth.getValue())
+                .addAddress(this.textAddress.getText())
+                .addCity(this.textCity.getText())
+                .addTelephone(this.textTelephone.getText())
+                .addEmail(this.textEmail.getText())
+                .build();
+        return p;
     }
+
+
+
 }

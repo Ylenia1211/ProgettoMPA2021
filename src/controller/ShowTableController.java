@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Callback;
@@ -93,23 +95,46 @@ public class ShowTableController  implements Initializable {
                         btn.setOnAction((ActionEvent event) -> {
                             Owner data = getTableView().getItems().get(getIndex());
                            //#TODO: far apparire vista di update in tab
-                           ///FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
+                            Scene scene = this.getScene();
+                            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
+
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
+                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
+                                    public Object call(Class<?> p) {
+                                        return  new UpdateClientController(data);
+                                    }
+                                });
+                                borderPane.setCenter(loader.load());
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            };
+
+
+
+
+
+                            //loader.setController(new UpdateClientController(data));
+                            //ClientController controller = loader.getController();
+                            //controller.setParam(data);
+
+                            //loader.load();
                             /*
                             try {
 
                                 Parent changeView = loader.load();
-                                ClientController controller = loader.getController();
+                                //ClientController controller = loader.getController();
                                 //UpdateClientController upd = (UpdateClientController) controller;
-                                controller.setParam(data);
+                                //controller.setParam(data);
                                 Scene sceneUpdate = new Scene(changeView);
-
                                 Stage stage1 = new  Stage();
                                 stage1.setScene(sceneUpdate);
                                 stage1.show();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                              */
+                           */
                             System.out.println("selectedData: " + data.getId() + " " + data.getName());
                         });
                     }
