@@ -9,8 +9,11 @@ public class Pet extends MasterData{
         protected String particularSign;
 
 
-        public Builder(){
+        public Builder(String id_petRace, String id_owner, String particularSign){
             super();
+            this.id_petRace = id_petRace;
+            this.id_owner = id_owner;
+            this.particularSign = particularSign;
         }
 
         @Override
