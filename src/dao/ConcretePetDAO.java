@@ -26,7 +26,7 @@ public class ConcretePetDAO implements PetDAO {
             ps.setString(1, pet.getId());
             ps.setString(2, pet.getName());
             ps.setString(3, pet.getSurname());
-            ps.setString(4, pet.getSex());
+            ps.setString(4, pet.getSex().toString());
             //LocalDate ld = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(owner.getDatebirth()));
             ps.setString(5, pet.getDatebirth().toString());
             ps.executeUpdate();

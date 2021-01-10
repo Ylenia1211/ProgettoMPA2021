@@ -93,21 +93,6 @@ public class RegistrationDoctorController extends ClientController{
                 alert.show();
                 */
                 Doctor d = createDoctor();
-               // prova
-                /*
-                System.out.println(d.getName());
-                System.out.println(d.getSurname());
-                System.out.println(d.getDatebirth());
-                System.out.println(d.getSex());
-                System.out.println(d.getAddress());
-                System.out.println(d.getCity());
-                System.out.println(d.getTelephone());
-                System.out.println(d.getEmail());
-                System.out.println(d.getUsername());
-                System.out.println(d.getPassword());
-                System.out.println(d.getSpecialitation());
-                */
-
 
                 //inserire controlli
                 this.doctorRepo.add(d);

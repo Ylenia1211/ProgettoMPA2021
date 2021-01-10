@@ -158,7 +158,8 @@ public class DoctorDashboard implements Initializable{
         contentStream.close();
         document.addPage(my_page);
         //Saving the document
-        document.save("D:/DatiPersonali/Matia/Unipa specialistica/Materie/Metodi avanzati per la programmazione/Progetto finale/ProgettoMPA2021/report/report_" + ID + ".pdf");
+        String currentPath = System.getProperty("user.dir");
+        document.save(currentPath + "/report/report_" + ID + ".pdf");
 
         System.out.println("PDF created");
 

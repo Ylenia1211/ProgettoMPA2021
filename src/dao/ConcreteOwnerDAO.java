@@ -63,13 +63,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
     public ResultSet findAll() {
         try {
             PreparedStatement statement = connection_db.dbConnection()
-                                                        .prepareStatement("""
-                                                        SELECT * FROM masterdata
-                                                        INNER JOIN person
-                                                        ON person.id = masterdata.id
-                                                        INNER JOIN owner
-                                                        ON  person.id = owner.id
-                                                        """);
+                    .prepareStatement(" SELECT * FROM masterdata INNER JOIN person ON person.id = masterdata.id INNER JOIN owner ON  person.id = owner.id ");
             return statement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();

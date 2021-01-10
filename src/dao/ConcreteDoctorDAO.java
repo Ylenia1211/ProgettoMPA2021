@@ -21,11 +21,11 @@ public class ConcreteDoctorDAO implements DoctorDAO {
     public void add(Doctor doctor) {
         PreparedStatement ps = null;
         try {
-            //ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getName());
             ps.setString(3, doctor.getSurname());
-            ps.setString(4, doctor.getSex());
+            ps.setString(4, doctor.getSex().toString());
             //LocalDate ld = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(owner.getDatebirth()));
             ps.setString(5, doctor.getDatebirth().toString());
             ps.executeUpdate();
@@ -33,7 +33,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
 
 
             ps = null;
-           // ps = connection_db.dbConnection().prepareStatement("insert into person(id, address, city, telephone, email) values(?,?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into person(id, address, city, telephone, email) values(?,?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getAddress());
             ps.setString(3, doctor.getCity());
@@ -43,7 +43,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             System.out.println("Dati civici Doctor aggiunti al DB!");
 
             ps = null;
-           // ps = connection_db.dbConnection().prepareStatement("insert into doctor(id, specialitation, username, password) values(?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into doctor(id, specialitation, username, password) values(?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getSpecialitation());
             ps.setString(3, doctor.getUsername());
@@ -54,7 +54,6 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
-
 
     }
 
@@ -81,6 +80,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             ps.setString(1, item.getSpecialitation());
             ps.setString(2, item.getUsername());
             ps.setString(3, item.getPassword());
+            //#todo:manca l'id in posizione 4
             ps.executeUpdate();
 
             System.out.println("Aggiornati dati Anagrafica del Doctor!");
@@ -111,8 +111,8 @@ public class ConcreteDoctorDAO implements DoctorDAO {
         List<String> listSpecialitation = new ArrayList<String>();
         PreparedStatement ps = null;
 
-        //String sqlSearchSpecialization = "SELECT * FROM specialitation";
-        String sqlSearchSpecialization="";
+        String sqlSearchSpecialization = "SELECT * FROM specialitation";
+
         try {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchSpecialization);
             ResultSet rs = statement.executeQuery();

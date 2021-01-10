@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DoctorDashboard">
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DoctorDashboard">
       <left>
          <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="618.0" style="-fx-background-color: #51AFC8;" BorderPane.alignment="CENTER">
          <VBox alignment="TOP_CENTER" layoutY="-2.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
@@ -24,10 +24,10 @@
                         <Font name="Bauhaus 93" size="22.0" />
                      </font>
                   </Label>
-                  <Line endX="80.0" startX="-68.0" stroke="WHITE" />
+                  <Line endX="80.0" startX="-78.0" stroke="WHITE" />
             </children>
          </VBox>
-            <VBox fx:id="sidebar" alignment="CENTER" layoutY="131.0">
+            <VBox fx:id="sidebar" alignment="CENTER" layoutY="165.0">
       </VBox>
          <Button fx:id="reportButton" alignment="CENTER" contentDisplay="CENTER" layoutX="49.0" layoutY="585.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createReport" text="Report" />
          </Pane>
