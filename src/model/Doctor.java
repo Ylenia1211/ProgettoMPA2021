@@ -1,7 +1,5 @@
 package model;
 
-import javax.print.Doc;
-
 public class Doctor extends Person{
 
     public static class Builder<T extends Doctor.Builder<T>>  extends Person.Builder<Doctor.Builder<T>>{

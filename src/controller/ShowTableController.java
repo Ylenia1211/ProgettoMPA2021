@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import model.Doctor;
+import model.Gender;
 import model.Owner;
 
 
@@ -61,9 +62,9 @@ public class ShowTableController  implements Initializable {
             ResultSet r =  clientRepo.findAll();
             while(r.next()){
                      listItems.add( new Owner.Builder<>()
-                    .addName(r.getString("name"))
-                    .addSurname(r.getString("surname"))
-//                     .addSex(r.getString("sex"))
+                     .addName(r.getString("name"))
+                     .addSurname(r.getString("surname"))
+                     .addSex(Gender.valueOf(r.getString("sex")))
                      .addDateBirth( LocalDate.parse(r.getString("datebirth")))
                      .addAddress(r.getString("address"))
                      .addCity(r.getString("city"))
@@ -133,8 +134,6 @@ public class ShowTableController  implements Initializable {
 
         tableClient.getColumns().add(colBtn);
     }
-
-
 
     private void addButtonDeleteToTable() {
         TableColumn<Owner, Void> colBtn = new TableColumn("");

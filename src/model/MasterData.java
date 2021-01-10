@@ -50,23 +50,23 @@ public abstract class MasterData {
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getSurname() {
-        return surname;
+        return this.surname;
     }
 
-    public String getSex() {
-        return sex.toString();
+    public Gender getSex() {
+        return this.sex;
     }
 
     public LocalDate getDatebirth() {
-        return datebirth;
+        return this.datebirth;
     }
 
 

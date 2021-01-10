@@ -1,6 +1,5 @@
 package controller;
 
-import dao.ConcreteOwnerDAO;
 import dao.ConcretePetDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
@@ -10,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Gender;
-import model.Owner;
 import model.Pet;
 
 import javax.swing.*;
@@ -28,8 +26,8 @@ public class RegistrationPetController implements Initializable {
     public ToggleGroup genderGroup;
     public RadioButton rbF;
     public DatePicker textdateBirth;
-    public ComboBox textPetRace;
-    public ComboBox textOwner;
+    public ComboBox<String> textPetRace;
+    public ComboBox<String> textOwner;
     public TextField textParticularSign;
     public Button btn;
     private ConcretePetDAO petRepo;
@@ -88,32 +86,27 @@ public class RegistrationPetController implements Initializable {
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
         System.out.println(chk.getText());
 
-        Pet p = new Pet.Builder<>((String) this.textPetRace.getValue(),
-                (String) this.textOwner.getValue(),
+        return new Pet.Builder<>(this.textPetRace.getValue(),
+                this.textOwner.getValue(),
                 this.textParticularSign.getText())
                 .addName(this.textName.getText())
                 .addSurname(this.textSurname.getText())
 //                .addSex((chk.getText().equals("M") ? Gender.M : Gender.F).toString())
                 .addDateBirth(this.textdateBirth.getValue())
                 .build();
-
-        return p;
     }
 
     public void addFieldOwner()  {
         List<String> listClient = this.petRepo.searchAllSurnameClient();
 
-        this.textOwner = new ComboBox(FXCollections
-                .observableArrayList(listClient));
-
+        this.textOwner = new ComboBox<>(FXCollections.observableArrayList(listClient));
         this.textOwner.setId("owner");
         this.textOwner.setPromptText("Cliente");
         this.pane_main_grid.getChildren().add(this.textOwner);
     }
     public void addFieldRace()  {
         List<String> listRace =this.petRepo.searchAllRace();
-        this.textPetRace = new ComboBox(FXCollections
-                .observableArrayList(listRace));
+        this.textPetRace = new ComboBox<>(FXCollections.observableArrayList(listRace));
         this.textPetRace.setId("petRace");
         this.textPetRace.setPromptText("Razza");
         this.pane_main_grid.getChildren().add(this.textPetRace);

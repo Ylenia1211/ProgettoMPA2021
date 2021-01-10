@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConcreteDoctorDAO implements DoctorDAO {
-    private ConnectionDBH2 connection_db;
+    private final ConnectionDBH2 connection_db;
 
     public ConcreteDoctorDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
@@ -25,7 +25,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getName());
             ps.setString(3, doctor.getSurname());
-            ps.setString(4, doctor.getSex());
+            ps.setString(4, doctor.getSex().toString());
             //LocalDate ld = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(owner.getDatebirth()));
             ps.setString(5, doctor.getDatebirth().toString());
             ps.executeUpdate();
@@ -58,29 +58,60 @@ public class ConcreteDoctorDAO implements DoctorDAO {
 
     }
 
-
+    //#TODO Creare vista per mostrare i dottori e provare a modificarli
     @Override
     public ResultSet findAll() {
-        return null;
+        try {
+            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT * FROM DOCTOR");
+            return statement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
     }
 
     @Override
     public void update(String id, Doctor item) {
+        String sqlMasterData = "UPDATE DOCTOR SET SPECIALITATION = ?, USERNAME = ?, PASSWORD = ? where DOCTOR.ID = ?";
 
+        PreparedStatement ps;
+        try {
+            ps = connection_db.dbConnection().prepareStatement(sqlMasterData);
+            ps.setString(1, item.getSpecialitation());
+            ps.setString(2, item.getUsername());
+            ps.setString(3, item.getPassword());
+            ps.executeUpdate();
+
+            System.out.println("Aggiornati dati Anagrafica del Doctor!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
     }
 
     @Override
     public void delete(String id) {
+        System.out.println("id da cancellare a cascata: " + id);
 
+        PreparedStatement ps;
+        try {
+            ps = connection_db.dbConnection().prepareStatement("DELETE FROM DOCTOR WHERE DOCTOR.ID = "+ "'" + id + "'");
+            ps.executeUpdate();
+            System.out.println("Cancellati dati del Doctor!");
+            JOptionPane.showMessageDialog(null, "Cancellato correttamente!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
     }
 
     @Override
     public List<String> searchAllSpecialization() {
-        List<String> listSpecialitation = new ArrayList<String>();
-        PreparedStatement ps = null;
+        List<String> listSpecialitation = new ArrayList<>();
 
-        //String sqlSearchSpecialization = "SELECT * FROM specialitation";
-        String sqlSearchSpecialization="";
+        String sqlSearchSpecialization = "SELECT * FROM specialitation";
+//        String sqlSearchSpecialization="";
         try {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchSpecialization);
             ResultSet rs = statement.executeQuery();

@@ -1,13 +1,10 @@
 package controller;
 
 import dao.ConcreteDoctorDAO;
-import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import model.Doctor;
-import model.Gender;
-import model.Owner;
 
 import javax.swing.*;
 import java.net.URL;
@@ -17,7 +14,7 @@ import java.util.ResourceBundle;
 public class RegistrationDoctorController extends ClientController{
     private TextField username;
     private PasswordField password;
-    private ComboBox specialitation;
+    private ComboBox<String> specialitation;
     private Button saveBtn;
     private ConcreteDoctorDAO doctorRepo;
 
@@ -57,8 +54,7 @@ public class RegistrationDoctorController extends ClientController{
     }
     public void addFieldSpecialitation()  {
         List<String> listSpecialitation = this.getDoctorRepo().searchAllSpecialization();
-        this.specialitation = new ComboBox(FXCollections
-                .observableArrayList(listSpecialitation));
+        this.specialitation = new ComboBox<>(FXCollections.observableArrayList(listSpecialitation));
         this.specialitation.setId("specialitation");
         this.specialitation.setPromptText("Scegli specializzazione");
         super.pane_main_grid.getChildren().add(this.specialitation);
@@ -126,7 +122,7 @@ public class RegistrationDoctorController extends ClientController{
         System.out.println(chk.getText());
 
         Doctor p = new Doctor.Builder<>(
-                (String) this.specialitation.getValue(),
+                this.specialitation.getValue(),
                 this.username.getText(),
                 this.password.getText())
                 .addName(super.getTextName().getText())

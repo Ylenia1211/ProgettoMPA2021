@@ -25,7 +25,7 @@ public class ConcretePetDAO implements PetDAO {
             ps.setString(1, pet.getId());
             ps.setString(2, pet.getName());
             ps.setString(3, pet.getSurname());
-            ps.setString(4, pet.getSex());
+            ps.setString(4, pet.getSex().toString());
             //LocalDate ld = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(owner.getDatebirth()));
             ps.setString(5, pet.getDatebirth().toString());
             ps.executeUpdate();
@@ -67,10 +67,10 @@ public class ConcretePetDAO implements PetDAO {
 
     @Override
     public List<String> searchAllRace() {
-        List<String> listRace = new ArrayList<String>();
+        List<String> listRace = new ArrayList<>();
         PreparedStatement ps = null;
-        String sqlSearchRace = "";
-        //String sqlSearchRace = "SELECT * FROM typepet";
+//        String sqlSearchRace = "";
+        String sqlSearchRace = "SELECT * FROM typepet";
 
         try {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchRace);
@@ -92,8 +92,8 @@ public class ConcretePetDAO implements PetDAO {
         List<String> list = new ArrayList<String>();
         PreparedStatement ps = null;
 
-        //String sqlSearch = "SELECT * FROM masterdata";
-        String sqlSearch = "";
+        String sqlSearch = "SELECT * FROM masterdata";
+//        String sqlSearch = "";
         try {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
             ResultSet rs = statement.executeQuery();

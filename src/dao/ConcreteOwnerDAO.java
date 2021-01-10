@@ -27,7 +27,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             ps.setString(1, owner.getId());
             ps.setString(2, owner.getName());
             ps.setString(3, owner.getSurname());
-            ps.setString(4, owner.getSex());
+            ps.setString(4, owner.getSex().toString());
             //LocalDate ld = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(owner.getDatebirth()));
             ps.setString(5, owner.getDatebirth().toString());
             ps.executeUpdate();
@@ -60,15 +60,16 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
     @Override
     public ResultSet findAll() {
-        PreparedStatement ps = null;
         try {
-            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT * FROM masterdata" +
-                    "    INNER JOIN person" +
-                    "    ON person.id = masterdata.id" +
-                    "    INNER JOIN owner  " +
-                    "    ON  person.id = owner.id");
-            ResultSet rs = statement.executeQuery();
-            return rs;
+            PreparedStatement statement = connection_db.dbConnection()
+                                                        .prepareStatement("""
+                                                        SELECT * FROM masterdata
+                                                        INNER JOIN person
+                                                        ON person.id = masterdata.id
+                                                        INNER JOIN owner
+                                                        ON  person.id = owner.id
+                                                        """);
+            return statement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
@@ -85,7 +86,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             ps = connection_db.dbConnection().prepareStatement(sqlMasterData);
             ps.setString(1, client.getName());
             ps.setString(2, client.getSurname());
-            ps.setString(3, client.getSex());
+            ps.setString(3, client.getSex().toString());
             ps.setString(4, client.getDatebirth().toString());
             ps.setString(5, id);
             ps.executeUpdate();
