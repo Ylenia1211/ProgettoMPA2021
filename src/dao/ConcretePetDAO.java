@@ -41,11 +41,47 @@ public class ConcretePetDAO implements PetDAO {
             ps.executeUpdate();
             System.out.println("Dati personali Pet aggiunti al DB!");
             JOptionPane.showMessageDialog(null, "Pet aggiunto correttamente!");
+
+
+            /**
+             * Dobbiamo cercare il numero di pazienti (pet) associati al cliente (owner) e incrementare il numero di pazienti associati
+             **/
+            String sqlSearchNumAnimalOwner = "SELECT tot_animal FROM owner WHERE owner.id = ?";
+            ps = null;
+            int number_pet=0;
+            try {
+                ps = connection_db.dbConnection().prepareStatement(sqlSearchNumAnimalOwner);
+                ps.setString(1, pet.getId_owner());
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()){
+                   number_pet = rs.getInt("tot_animal");
+                   System.out.println("numero pazienti associati adesso: " + number_pet);
+                }
+                number_pet +=1; //incrementa di 1 i pazienti associati al quel proprietario
+
+                String sqlupdateNumberPet = "UPDATE owner SET tot_animal = ? where owner.id = ?";
+                try {
+                    ps = connection_db.dbConnection().prepareStatement(sqlupdateNumberPet);
+                    ps.setInt(1, number_pet);
+                    ps.setString(2, pet.getId_owner());
+                    ps.executeUpdate();
+                    System.out.println(" Pet associato a Owner correttamente nel DB!");
+                    JOptionPane.showMessageDialog(null, "Pet associato a Owner correttamente nel DB");
+
+                }catch (SQLException e){
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+                }
+
+            }catch (SQLException e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
-
 
     }
 

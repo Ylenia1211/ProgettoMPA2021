@@ -7,8 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -16,10 +15,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.util.Callback;
-import model.Doctor;
+
 import model.Gender;
 import model.Owner;
 
@@ -43,6 +40,7 @@ public class ShowTableController  implements Initializable {
     public TableColumn<Owner, String> col_city;
     public TableColumn<Owner, String> col_tel;
     public TableColumn<Owner, String> col_email;
+    public TableColumn<Owner, String> col_animal;
     private ConcreteOwnerDAO clientRepo;
     public ObservableList<Owner> listItems = FXCollections.observableArrayList();
     @Override
@@ -57,13 +55,15 @@ public class ShowTableController  implements Initializable {
         col_city.setCellValueFactory(new PropertyValueFactory<>("city"));
         col_tel.setCellValueFactory(new PropertyValueFactory<>("telephone"));
         col_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        col_animal.setCellValueFactory(new PropertyValueFactory<>("tot_animal"));
+        //#TODO aggiungere listerer onClick Long press quando si clicca su Cliente --> deve spuntare la lista degli animali associati
 
         try{
             ConnectionDBH2 connection = new ConnectionDBH2();
             clientRepo = new ConcreteOwnerDAO(connection);
             ResultSet r =  clientRepo.findAll();
             while(r.next()){
-                     listItems.add( new Owner.Builder<>()
+                     listItems.add( new Owner.Builder<>(r.getInt("tot_animal"))
                      .addName(r.getString("name"))
                      .addSurname(r.getString("surname"))
                      .addSex(Gender.valueOf(r.getString("sex")))

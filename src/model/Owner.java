@@ -8,9 +8,9 @@ public class Owner extends Person {
     public static class Builder<T extends Builder<T>>  extends Person.Builder<Builder<T>>{
         protected int tot_animal;
 
-        public Builder(){
+        public Builder(int tot_animal){
             super();
-            this.tot_animal = 0;
+            this.tot_animal = tot_animal;
         }
 
         @Override
@@ -31,7 +31,7 @@ public class Owner extends Person {
         this.tot_animal = builder.tot_animal;
     }
 
-    public int getTot_visit() {
+    public int getTot_animal() {
         return tot_animal;
     }
     /*

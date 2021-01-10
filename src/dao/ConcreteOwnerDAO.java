@@ -46,9 +46,9 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             System.out.println("Dati civici Owner aggiunti al DB!");
 
             ps = null;
-            ps = connection_db.dbConnection().prepareStatement("insert into owner(id, tot_visit) values(?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into owner(id, tot_animal) values(?,?)");
             ps.setString(1, owner.getId());
-            ps.setInt(2, owner.getTot_visit());
+            ps.setInt(2, owner.getTot_animal());
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Owner aggiunto correttamente!");
         } catch (SQLException e) {
