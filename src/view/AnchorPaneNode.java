@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -33,23 +34,14 @@ public class AnchorPaneNode extends AnchorPane {
 
         // Add action handler for mouse clicked
         this.setOnMouseClicked(e -> {
+            Scene scene = this.getScene();
+            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
             try {
-//                root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("dayView.fxml")));
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("dayView.fxml"));
-                Parent root = loader.load();
-                DayView dayView = loader.getController();
-                ZoneId defaultZoneId = ZoneId.systemDefault();
-                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                dayView.getDay(formatter.format(Date.from(date.atStartOfDay(defaultZoneId).toInstant())));
-                Stage stage = new Stage();
-                stage.setTitle("Appuntamenti di oggi");
-                stage.setScene(new Scene(root, 450, 450));
-                stage.setResizable(true);
-                stage.show();
+                borderPane.setCenter(FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
             }
-            catch (IOException ex) {
-                ex.printStackTrace();
-            }});
+        });
     }
 
     public LocalDate getDate() {
