@@ -6,11 +6,11 @@ import java.time.LocalDate;
 public class Owner extends Person {
 
     public static class Builder<T extends Builder<T>>  extends Person.Builder<Builder<T>>{
-        protected int tot_visit;
+        protected int tot_animal;
 
         public Builder(){
             super();
-            this.tot_visit = 0;
+            this.tot_animal = 0;
         }
 
         @Override
@@ -24,15 +24,15 @@ public class Owner extends Person {
     }
 
 
-    final private int tot_visit;
+    final private int tot_animal;
 
     protected Owner(Builder builder){
         super (builder);
-        this.tot_visit = builder.tot_visit;
+        this.tot_animal = builder.tot_animal;
     }
 
     public int getTot_visit() {
-        return tot_visit;
+        return tot_animal;
     }
     /*
     public Owner(String name, String surname, Gender sex, LocalDate datebirth, String address, String city, String telephone, String email) {
