@@ -1,12 +1,14 @@
 package dao;
 
 import datasource.ConnectionDBH2;
+import model.Gender;
 import model.Pet;
 
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class ConcretePetDAO implements PetDAO {
@@ -156,5 +158,35 @@ public class ConcretePetDAO implements PetDAO {
         }
     }
 
+    @Override
+    public List<Pet> searchByOwner(String id) {
+        List<Pet> listPets = new ArrayList<>();
+       String sqlSearchById = " SELECT * FROM masterdata\n" +
+               "        INNER JOIN pet ON pet.id = masterdata.id\n" +
+               "        WHERE pet.OWNER = ?";
+        try {
+            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchById);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                 listPets.add(new Pet.Builder<>(rs.getString("typepet"),
+                          rs.getString("owner"),
+                          rs.getString("particularsign"))
+                         .addName(rs.getString("name"))
+                         .addSurname(rs.getString("surname"))
+                         .addSex(Gender.valueOf(rs.getString("sex")))
+                         .addDateBirth( LocalDate.parse(rs.getString("datebirth")))
+                         .build()
+                 );
+            }
+            //listPets.stream().map(Pet::getId_owner).forEach(System.out::println);
+           return listPets;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
 }

@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
@@ -80,11 +77,47 @@ public class ShowTableController  implements Initializable {
             tableClient.setItems(listItems);
             addButtonUpdateToTable();
             addButtonDeleteToTable();
+
+            //listener sulla riga della tabella
+            addListenerToTable();
+
+
         }
         catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
+    }
+
+
+    private void addListenerToTable() {
+        this.tableClient.setRowFactory( tv -> {
+            TableRow<Owner> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 1 && (!row.isEmpty()) ) {
+                    Owner rowData = row.getItem(); // i valori su la row
+                    String idOwnerSearched = clientRepo.search(rowData);
+                    //System.out.println(rowData.getName());
+                    //System.out.println("id: prima " + idOwnerSearched);
+                    BorderPane borderPane = (BorderPane) this.tableClient.getScene().lookup("#borderPane");
+
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showTablePet.fxml"));
+                        loader.setControllerFactory(new Callback<Class<?>, Object>() {
+                            public Object call(Class<?> p) {
+                                return new ShowTablePetController(idOwnerSearched);
+                            }
+                        });
+                        borderPane.setCenter(loader.load());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            return row ;
+        });
     }
 
     private void addButtonUpdateToTable() {
@@ -186,5 +219,7 @@ public class ShowTableController  implements Initializable {
         tableClient.getColumns().add(colBtn);
 
     }
+
+
 }
 
