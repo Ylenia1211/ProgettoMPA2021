@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -14,6 +15,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +32,8 @@ public class DoctorDashboard implements Initializable{
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
     public BorderPane borderPane;
+    public Button reportButton;
+    private static int reportID = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,7 +70,7 @@ public class DoctorDashboard implements Initializable{
             button.setStyle("-fx-background-color: #3DA4E3; -fx-background-radius: 30px, 30px, 30px, 30px;"); //ffffff00 transparent
             button.setFont(Font.font("Bauhaus 93", 20.0));
             button.setMnemonicParsing(false);
-            button.setPrefWidth(134.0);
+            button.setPrefWidth(150.0);
             button.setPrefHeight(25.0);
             button.setTextFill(Paint.valueOf("WHITE"));
 
@@ -120,5 +127,42 @@ public class DoctorDashboard implements Initializable{
     public void close() {
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
+    }
+
+    public void createReport() throws IOException {
+        int ID = ++DoctorDashboard.reportID;
+        //Creating PDF document object
+        PDDocument document = new PDDocument();
+        PDPage my_page = new PDPage();
+        PDPageContentStream contentStream = new PDPageContentStream(document, my_page);
+        //Begin the Content stream
+        contentStream.beginText();
+
+        //Setting the font to the Content stream
+        contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+        contentStream.setLeading(14.5f);
+        //Setting the position for the line
+        contentStream.newLineAtOffset(25, 700);
+
+        String text = "Report numero " + ID;
+
+        //Adding text in the form of string
+        contentStream.showText(text);
+
+        //Ending the content stream
+        contentStream.endText();
+
+        System.out.println("Content added");
+
+        //Closing the content stream
+        contentStream.close();
+        document.addPage(my_page);
+        //Saving the document
+        document.save("D:/DatiPersonali/Matia/Unipa specialistica/Materie/Metodi avanzati per la programmazione/Progetto finale/ProgettoMPA2021/report/report_" + ID + ".pdf");
+
+        System.out.println("PDF created");
+
+        //Closing the document
+        document.close();
     }
 }
