@@ -27,6 +27,7 @@
         </RadioButton>
     </HBox>
     <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Birth Date" showWeekNumbers="true" />
+   <TextField  fx:id="textFiscalCode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Codice Fiscale" />
     <TextField fx:id="textEmail" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Email" />
     <TextField fx:id="textTelephone" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Telephone" />
     <TextField fx:id="textCity" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="City" />

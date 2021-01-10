@@ -6,10 +6,10 @@ import java.util.UUID;
 public abstract class MasterData {
 
     public static abstract class Builder<T extends Builder<T>>{
-        protected  String id;
-        protected  String name;
+        protected String id;
+        protected String name;
         protected String surname;
-        protected String sex;
+        protected Gender sex;
         protected LocalDate datebirth;
 
         public Builder(){
@@ -24,7 +24,7 @@ public abstract class MasterData {
             this.surname = surname;
             return getThis();
         }
-        public T addSex(String sex){
+        public T addSex(Gender sex){
             this.sex = sex;
             return getThis();
         }
@@ -38,7 +38,7 @@ public abstract class MasterData {
     final private String id;
     final private String name;
     final private String surname;
-    final private String sex;
+    final private Gender sex;
     final private LocalDate datebirth;
 
     protected <T extends Builder<T>> MasterData(Builder<T> builder){
@@ -69,55 +69,5 @@ public abstract class MasterData {
         return datebirth;
     }
 
-
-/* //senza Builder
-    public MasterData() {
-        id = UUID.randomUUID().toString();
-    }
-
-    public MasterData(String name, String surname, Gender sex, LocalDate datebirth) {
-        this.name = name;
-        this.surname = surname;
-        this.sex = sex;
-        this.datebirth = datebirth;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getSex() {
-        return sex.toString();
-    }
-
-    public void setSex(Gender sex) {
-        this.sex = sex;
-    }
-
-    public LocalDate getDatebirth() {
-        return datebirth;
-    }
-
-    public void setDatebirth(LocalDate datebirth) {
-        this.datebirth = datebirth;
-    }
-
-    */
 
 }

@@ -2,9 +2,11 @@ package dao;
 
 import model.Pet;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface PetDAO extends Crud<Pet> {
     List<String> searchAllRace();
-    List<String> searchAllSurnameClient();  //da cambiare
+    Map<String, String> searchAllClientBySurnameAndFiscalCod();
 }

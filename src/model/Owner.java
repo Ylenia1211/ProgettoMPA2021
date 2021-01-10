@@ -39,19 +39,5 @@ public class Owner extends Person {
         super(name, surname, sex, datebirth, address, city, telephone, email);
         tot_visit = 0;
     }
-
-
-    public Owner() {
-        super();
-    }
-
-    public int getTot_visit() {
-        return tot_visit;
-    }
-
-    public void setTot_visit(int tot_visit) {
-        this.tot_visit = tot_visit;
-    }
-
      */
 }

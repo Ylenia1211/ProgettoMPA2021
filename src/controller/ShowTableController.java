@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import model.Doctor;
+import model.Gender;
 import model.Owner;
 
 
@@ -37,6 +38,7 @@ public class ShowTableController  implements Initializable {
     public TableColumn<Owner, String> col_surname;
     public TableColumn<Owner, String> col_sex;
     public TableColumn<Owner, String> col_datebirth;
+    public TableColumn<Owner, String> col_fiscalCode;
     public TableColumn<Owner, String> col_address;
     public TableColumn<Owner, String> col_city;
     public TableColumn<Owner, String> col_tel;
@@ -50,6 +52,7 @@ public class ShowTableController  implements Initializable {
         col_surname.setCellValueFactory(new PropertyValueFactory<>("surname"));
         col_sex.setCellValueFactory(new PropertyValueFactory<>("sex"));
         col_datebirth.setCellValueFactory(new PropertyValueFactory<>("datebirth"));
+        col_fiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));  //nome dell'attributo nella classe
         col_address.setCellValueFactory(new PropertyValueFactory<>("address"));
         col_city.setCellValueFactory(new PropertyValueFactory<>("city"));
         col_tel.setCellValueFactory(new PropertyValueFactory<>("telephone"));
@@ -61,15 +64,18 @@ public class ShowTableController  implements Initializable {
             ResultSet r =  clientRepo.findAll();
             while(r.next()){
                      listItems.add( new Owner.Builder<>()
-                    .addName(r.getString("name"))
-                    .addSurname(r.getString("surname"))
-                     .addSex(r.getString("sex"))
+                     .addName(r.getString("name"))
+                     .addSurname(r.getString("surname"))
+                     .addSex(Gender.valueOf(r.getString("sex")))
                      .addDateBirth( LocalDate.parse(r.getString("datebirth")))
+                     .addFiscalCode(r.getString("fiscalcode"))
                      .addAddress(r.getString("address"))
                      .addCity(r.getString("city"))
                      .addTelephone(r.getString("telephone"))
                      .addEmail(r.getString("email")).build()
-                        );
+             );
+
+                //System.out.println("codice fiscale: " + r.getString("fiscalcode"));
             }
             tableClient.setItems(listItems);
             addButtonUpdateToTable();

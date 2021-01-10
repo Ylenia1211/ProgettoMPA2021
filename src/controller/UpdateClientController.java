@@ -45,6 +45,7 @@ public class UpdateClientController extends ClientController{
         super.getTextCity().setText(data.getCity().trim());
         super.getTextTelephone().setText(data.getCity().trim());
         super.getTextEmail().setText(data.getEmail().trim());
+        super.getTextFiscalCode().setText(data.getFiscalCode().trim());
         super.getTextdateBirth().setValue(data.getDatebirth());
         if(data.getSex().equals("M")){
             super.rbM.setSelected(true);

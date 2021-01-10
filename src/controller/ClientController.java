@@ -22,6 +22,8 @@ public class ClientController implements Initializable {
     @FXML
     public Label labelTitle;
     @FXML
+    public TextField textFiscalCode;
+    @FXML
     private TextField textName;
     @FXML
     private TextField textSurname;
@@ -57,6 +59,7 @@ public class ClientController implements Initializable {
         this.textTelephone = new TextField();
         this.textEmail = new TextField();
         this.textdateBirth = new DatePicker();
+        this.textFiscalCode = new TextField();
 
         try{
             ConnectionDBH2 connection = new ConnectionDBH2();
@@ -80,6 +83,7 @@ public class ClientController implements Initializable {
                 !this.textSurname.getText().trim().isEmpty() &&
                 !this.textAddress.getText().trim().isEmpty() &&
                 !this.textCity.getText().trim().isEmpty() &&
+                !this.textFiscalCode.getText().trim().isEmpty() &&
                 !this.textTelephone.getText().trim().isEmpty() &&
                 !this.textEmail.getText().trim().isEmpty() &&
                 (this.rbM.isSelected() || this.rbF.isSelected()))
@@ -92,6 +96,7 @@ public class ClientController implements Initializable {
                 this.textSurname.clear();
                 this.textAddress.clear();
                 this.textCity.clear();
+                this.textFiscalCode.clear();
                 this.textTelephone.clear();
                 this.textEmail.clear();
             } catch (Exception e) {
@@ -111,8 +116,9 @@ public class ClientController implements Initializable {
         Owner p = new Owner.Builder<>()
                 .addName(this.textName.getText())
                 .addSurname(this.textSurname.getText())
-                .addSex((chk.getText().equals("M") ? Gender.M : Gender.F).toString())
+                .addSex((chk.getText().equals("M") ? Gender.M : Gender.F))
                 .addDateBirth(this.textdateBirth.getValue())
+                .addFiscalCode(this.textFiscalCode.getText())
                 .addAddress(this.textAddress.getText())
                 .addCity(this.textCity.getText())
                 .addTelephone(this.textTelephone.getText())
@@ -155,5 +161,7 @@ public class ClientController implements Initializable {
         return textdateBirth;
     }
 
-
+    public TextField getTextFiscalCode() {
+        return textFiscalCode;
+    }
 }

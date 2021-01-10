@@ -7,8 +7,7 @@ import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ConcretePetDAO implements PetDAO {
     private ConnectionDBH2 connection_db;
@@ -21,7 +20,7 @@ public class ConcretePetDAO implements PetDAO {
     public void add(Pet pet) {
         PreparedStatement ps = null;
         try {
-            //ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
             ps.setString(1, pet.getId());
             ps.setString(2, pet.getName());
             ps.setString(3, pet.getSurname());
@@ -33,7 +32,7 @@ public class ConcretePetDAO implements PetDAO {
 
 
             ps = null;
-            //ps = connection_db.dbConnection().prepareStatement("insert into pet(id, typepet, owner, particularsign) values(?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into pet(id, typepet, owner, particularsign) values(?,?,?,?)");
             ps.setString(1, pet.getId());
             ps.setString(2, pet.getId_petRace());
             ps.setString(3, pet.getId_owner());
@@ -69,8 +68,8 @@ public class ConcretePetDAO implements PetDAO {
     public List<String> searchAllRace() {
         List<String> listRace = new ArrayList<String>();
         PreparedStatement ps = null;
-        String sqlSearchRace = "";
-        //String sqlSearchRace = "SELECT * FROM typepet";
+        //String sqlSearchRace = "";
+        String sqlSearchRace = "SELECT * FROM typepet";
 
         try {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchRace);
@@ -87,25 +86,39 @@ public class ConcretePetDAO implements PetDAO {
         }
     }
 
-    @Override
-    public List<String> searchAllSurnameClient() {
-        List<String> list = new ArrayList<String>();
-        PreparedStatement ps = null;
 
-        //String sqlSearch = "SELECT * FROM masterdata";
-        String sqlSearch = "";
+    //#Todo: da modificare ricerca per cognome e cod.fiscale
+    @Override
+    public Map<String, String> searchAllClientBySurnameAndFiscalCod() {
+        //List<String> list = new ArrayList<String>();
+        HashMap<String,Map<String, String>> linkedMap = new HashMap<>();
+        Map<String, String> dictionary = new HashMap<>();  //<key,value>  both key and value are Strings
+        PreparedStatement ps = null;
+        String sqlSearch = "SELECT * FROM masterdata\n" +
+                "                  INNER JOIN person\n" +
+                "                             ON person.id = masterdata.id\n" +
+                "                  INNER JOIN owner\n" +
+                "                             ON  person.id = owner.id";
+
         try {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 //System.out.println(rs.getString("surname"));
-                list.add(rs.getString("surname"));
+                //list.add(rs.getString("surname"));
+                dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
+                //linkedMap.put(rs.getString("id") , dictionary);
             }
-            return list;
+            //return list;
+            dictionary.entrySet().forEach(System.out::println);
+
+            return dictionary;
 
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
+
+
 }

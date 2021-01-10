@@ -35,12 +35,13 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
 
             ps = null;
-            ps = connection_db.dbConnection().prepareStatement("insert into person(id, address, city, telephone, email) values(?,?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into person(id, address, city, telephone, email, fiscalcode) values(?,?,?,?,?,?)");
             ps.setString(1, owner.getId());
             ps.setString(2, owner.getAddress());
             ps.setString(3, owner.getCity());
             ps.setString(4, owner.getTelephone());
             ps.setString(5, owner.getEmail());
+            ps.setString(6, owner.getFiscalCode());
             ps.executeUpdate();
             System.out.println("Dati civici Owner aggiunti al DB!");
 

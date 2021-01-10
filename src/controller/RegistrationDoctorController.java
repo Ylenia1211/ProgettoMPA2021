@@ -131,7 +131,7 @@ public class RegistrationDoctorController extends ClientController{
                 this.password.getText())
                 .addName(super.getTextName().getText())
                 .addSurname(super.getTextSurname().getText())
-                .addSex((chk.getText().equals("M") ? Gender.M : Gender.F).toString())
+                .addSex((chk.getText().equals("M") ? Gender.M : Gender.F)) //toString()
                 .addDateBirth(super.getTextdateBirth().getValue())
                 .addAddress(super.getTextAddress().getText())
                 .addCity(super.getTextCity().getText())

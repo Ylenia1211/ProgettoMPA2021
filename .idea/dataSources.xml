@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="dataBaseH2" uuid="994c89b2-0f9f-4ee4-8a62-b8b44cf4bdf7">
+      <driver-ref>h2.unified</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.h2.Driver</jdbc-driver>
+      <jdbc-url>jdbc:h2:$PROJECT_DIR$/h2/bin/database/dataBaseH2</jdbc-url>
+    </data-source>
+  </component>
+</project>

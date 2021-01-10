@@ -21,7 +21,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
     public void add(Doctor doctor) {
         PreparedStatement ps = null;
         try {
-            //ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getName());
             ps.setString(3, doctor.getSurname());
@@ -33,17 +33,18 @@ public class ConcreteDoctorDAO implements DoctorDAO {
 
 
             ps = null;
-           // ps = connection_db.dbConnection().prepareStatement("insert into person(id, address, city, telephone, email) values(?,?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into person(id, address, city, telephone, email, fiscalcode) values(?,?,?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getAddress());
             ps.setString(3, doctor.getCity());
             ps.setString(4, doctor.getTelephone());
             ps.setString(5, doctor.getEmail());
+            ps.setString(6, doctor.getFiscalCode());
             ps.executeUpdate();
             System.out.println("Dati civici Doctor aggiunti al DB!");
 
             ps = null;
-           // ps = connection_db.dbConnection().prepareStatement("insert into doctor(id, specialitation, username, password) values(?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into doctor(id, specialitation, username, password) values(?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getSpecialitation());
             ps.setString(3, doctor.getUsername());
@@ -79,8 +80,8 @@ public class ConcreteDoctorDAO implements DoctorDAO {
         List<String> listSpecialitation = new ArrayList<String>();
         PreparedStatement ps = null;
 
-        //String sqlSearchSpecialization = "SELECT * FROM specialitation";
-        String sqlSearchSpecialization="";
+        String sqlSearchSpecialization = "SELECT * FROM specialitation";
+        //String sqlSearchSpecialization="";
         try {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchSpecialization);
             ResultSet rs = statement.executeQuery();
