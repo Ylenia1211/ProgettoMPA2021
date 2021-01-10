@@ -93,7 +93,7 @@ public class RegistrationPetController implements Initializable {
                 this.textParticularSign.getText())
                 .addName(this.textName.getText())
                 .addSurname(this.textSurname.getText())
-                .addSex((chk.getText().equals("M") ? Gender.M : Gender.F).toString())
+//                .addSex((chk.getText().equals("M") ? Gender.M : Gender.F).toString())
                 .addDateBirth(this.textdateBirth.getValue())
                 .build();
 

@@ -111,7 +111,7 @@ public class ClientController implements Initializable {
         Owner p = new Owner.Builder<>()
                 .addName(this.textName.getText())
                 .addSurname(this.textSurname.getText())
-                .addSex((chk.getText().equals("M") ? Gender.M : Gender.F).toString())
+//                .addSex((chk.getText().equals("M") ? Gender.M : Gender.F).toString())
                 .addDateBirth(this.textdateBirth.getValue())
                 .addAddress(this.textAddress.getText())
                 .addCity(this.textCity.getText())

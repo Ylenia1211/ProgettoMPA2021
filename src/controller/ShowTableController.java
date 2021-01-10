@@ -63,7 +63,7 @@ public class ShowTableController  implements Initializable {
                      listItems.add( new Owner.Builder<>()
                     .addName(r.getString("name"))
                     .addSurname(r.getString("surname"))
-                     .addSex(r.getString("sex"))
+//                     .addSex(r.getString("sex"))
                      .addDateBirth( LocalDate.parse(r.getString("datebirth")))
                      .addAddress(r.getString("address"))
                      .addCity(r.getString("city"))
