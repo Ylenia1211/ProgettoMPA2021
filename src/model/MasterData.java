@@ -9,7 +9,7 @@ public abstract class MasterData {
         protected  String id;
         protected  String name;
         protected String surname;
-        protected String sex;
+        protected Gender sex;
         protected LocalDate datebirth;
 
         public Builder(){
@@ -24,7 +24,7 @@ public abstract class MasterData {
             this.surname = surname;
             return getThis();
         }
-        public T addSex(String sex){
+        public T addSex(Gender sex){
             this.sex = sex;
             return getThis();
         }
@@ -38,7 +38,7 @@ public abstract class MasterData {
     final private String id;
     final private String name;
     final private String surname;
-    final private String sex;
+    final private Gender sex;
     final private LocalDate datebirth;
 
     protected <T extends Builder<T>> MasterData(Builder<T> builder){
