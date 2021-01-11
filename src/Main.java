@@ -28,6 +28,8 @@ public class Main extends Application {
 
         stage.setScene(new Scene(root));
         stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setMaximized(true);
+        //stage.setFullScreen(true);
         stage.show();
         stage.setResizable(false);
     }
