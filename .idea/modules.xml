@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ProgettoMPA2021.iml" filepath="$PROJECT_DIR$/ProgettoMPA2021.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/ZeppelinRemoteNotebooks/ZeppelinInstance_Zeppelin_connection@ZeppelinConnections@5973374574555861556.iml" filepath="$PROJECT_DIR$/.idea/ZeppelinRemoteNotebooks/ZeppelinInstance_Zeppelin_connection@ZeppelinConnections@5973374574555861556.iml" />
       <module fileurl="file://$PROJECT_DIR$/../pdfBox/pdfbox_dependences/pdfbox_dependences.iml" filepath="$PROJECT_DIR$/../pdfBox/pdfbox_dependences/pdfbox_dependences.iml" />
     </modules>
   </component>

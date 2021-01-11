@@ -33,7 +33,6 @@ public class DoctorDashboard implements Initializable{
     public Button prenotazioni = new Button("Prenotazioni");
     public Button reportButton = new Button("Report");
     public BorderPane borderPane;
-    public Button reportButton;
     private static int reportID = 0;
 
     @Override
@@ -107,7 +106,19 @@ public class DoctorDashboard implements Initializable{
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
-                            ;
+
+                        }
+                        case "Prenotazioni" -> {
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
+                                loader.setControllerFactory(p -> new BookingAppointmentController());
+                                Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
+                                tabPane.getTabs().clear();
+                                tabPane.getTabs().add(bookingVisits);
+                                borderPane.setCenter(tabPane);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                         case "Report" -> this.createReport();
                         default -> {

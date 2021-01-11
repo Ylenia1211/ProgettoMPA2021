@@ -41,7 +41,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             ps.executeUpdate();
             System.out.println("Dati civici Doctor aggiunti al DB!");
 
-            ps = connection_db.dbConnection().prepareStatement("insert into doctor(id, SPECIALIZATION, username, password) values(?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into doctor(id, specialitation, username, password) values(?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getSpecialization());
             ps.setString(3, doctor.getUsername());
@@ -70,7 +70,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
 
     @Override
     public void update(String id, Doctor item) {
-        String sqlMasterData = "UPDATE DOCTOR SET SPECIALIZATION = ?, USERNAME = ?, PASSWORD = ? where DOCTOR.ID = ?";
+        String sqlMasterData = "UPDATE DOCTOR SET specialitation = ?, USERNAME = ?, PASSWORD = ? where DOCTOR.ID = ?";
 
         PreparedStatement ps;
         try {
@@ -109,7 +109,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
         List<String> listSpecialization = new ArrayList<>();
         PreparedStatement ps = null;
 
-        String sqlSearchSpecialization = "SELECT * FROM SPECIALIZATION";
+        String sqlSearchSpecialization = "SELECT * FROM SPECIALITATION";
 
         try {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchSpecialization);
