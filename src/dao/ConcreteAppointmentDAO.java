@@ -46,10 +46,10 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         HashMap<String,Map<String, String>> linkedMap = new HashMap<>();
         Map<String, String> dictionary = new HashMap<>();  //<key,value>  both key and value are Strings
         PreparedStatement ps = null;
-        String sqlSearch = "SELECT * FROM masterdata\n" +
-                "                  INNER JOIN person\n" +
-                "                             ON person.id = masterdata.id\n" +
-                "                  INNER JOIN owner\n" +
+        String sqlSearch = "SELECT * FROM masterdata" +
+                "                  INNER JOIN person" +
+                "                             ON person.id = masterdata.id" +
+                "                  INNER JOIN owner" +
                 "                             ON  person.id = owner.id";
 
         try {
@@ -70,8 +70,8 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     @Override
     public List<Pet> searchPetsByOwner(String id) {
         List<Pet> listPets = new ArrayList<>();
-        String sqlSearchById = " SELECT * FROM masterdata\n" +
-                "        INNER JOIN pet ON pet.id = masterdata.id\n" +
+        String sqlSearchById = " SELECT * FROM masterdata" +
+                "        INNER JOIN pet ON pet.id = masterdata.id" +
                 "        WHERE pet.OWNER = ?";
         try {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchById);
@@ -95,5 +95,60 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return null;
         }
 
+    }
+
+
+    //#Todo: bisogna cambiare il surname con il codice fiscale
+    @Override
+    public Map<String, String> searchAllDoctorByFiscalCod() {
+        HashMap<String,Map<String, String>> linkedMap = new HashMap<>();
+        Map<String, String> dictionary = new HashMap<>();  //<key,value>  both key and value are Strings
+        PreparedStatement ps = null;
+        String sqlSearch = "SELECT * FROM masterdata" +
+                "                  INNER JOIN person" +
+                "                             ON person.id = masterdata.id" +
+                "                  INNER JOIN DOCTOR" +
+                "                             ON  person.id = DOCTOR.ID";
+
+        try {
+            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                //dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
+                dictionary.put( rs.getString("id"), rs.getString("surname"));
+            }
+            dictionary.entrySet().forEach(System.out::println);
+            return dictionary;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String searchSpecializationByDoctor(String idDoctorSearched) {
+        String specializationSearched ="";
+        //System.out.println(idDoctorSearched);
+        String sqlSearch = "SELECT * FROM masterdata" +
+                "                  INNER JOIN person" +
+                "                             ON person.id = masterdata.id" +
+                "                  INNER JOIN DOCTOR" +
+                "                             ON  person.id = DOCTOR.ID WHERE DOCTOR.ID = ? ";
+        try {
+            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            statement.setString(1, idDoctorSearched);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                specializationSearched = rs.getString("specialitation");
+                //System.out.println(specializationSearched);
+            }
+            //System.out.println("last: " + specializationSearched);
+            return specializationSearched;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

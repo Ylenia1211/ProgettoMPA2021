@@ -20,7 +20,21 @@ public class Appointment {
          id_doctor = builder.id_doctor;
          specialitation = builder.specialitation;
          id_owner = builder.id_owner;
-         id_pet  = builder.specialitation;
+         id_pet  = builder.id_pet;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id='" + id + '\'' +
+                ", localDate=" + localDate +
+                ", localTimeStart=" + localTimeStart +
+                ", localTimeEnd=" + localTimeEnd +
+                ", id_doctor='" + id_doctor + '\'' +
+                ", specialitation='" + specialitation + '\'' +
+                ", id_owner='" + id_owner + '\'' +
+                ", id_pet='" + id_pet + '\'' +
+                '}';
     }
 
     public String getId() {
