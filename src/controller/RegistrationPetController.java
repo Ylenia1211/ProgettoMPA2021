@@ -35,17 +35,17 @@ public class RegistrationPetController implements Initializable {
     public TextField textParticularSign;
     public Button btn;
     private ConcretePetDAO petRepo;
-    private Map<String, String> listClient = new HashMap<>();
+    private Map<String, String> listClient;
+
 
     //servono per il campo ricerca
-    private StackPane root ;
     private GridPane container;
     private  HBox searchBox;
     private TextField searchText;
     private VBox dropDownMenu;
 
     public RegistrationPetController() {
-
+        this.listClient  = new HashMap<>();
         this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
         this.rbF = new RadioButton(Gender.F.getDeclaringClass().descriptorString());
 
@@ -127,7 +127,7 @@ public class RegistrationPetController implements Initializable {
 
 
     public void addFieldOwner()  {
-        this.listClient = this.petRepo.searchAllClientBySurnameAndFiscalCod(); //ricerca per codice fiscale
+        this.listClient = this.petRepo.searchAllClientByFiscalCod(); //ricerca per codice fiscale
 
 
         this.container = new GridPane();
@@ -183,7 +183,6 @@ public class RegistrationPetController implements Initializable {
                 });
             }
         }
-
         return dropDownMenu; // alla fine restituire il VBox (cioè il menu a tendina)
     }
 

@@ -5,7 +5,11 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -80,13 +84,38 @@ public class FullCalendarView {
         for (AnchorPaneNode ap : allCalendarDays) {
             if (ap.getChildren().size() != 0) {
                 ap.getChildren().remove(0);
+                ap.getChildren().clear();  //serve per il refresh
             }
+
+            // #TODO le righe sotto servono a far spuntare i cerchi nelle celle del calendario:
+            // si deve colorare il cerchio in base al numero di visite in un giorno e settare il testo all'interno
             Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
+            Circle circle = new Circle(); //inserimento eventi
+            circle.setRadius(30.0);
+            circle.setStroke(Color.BLACK);
+            circle.setStrokeWidth(2);
+            circle.setStrokeType(StrokeType.INSIDE);
+            circle.setFill(Color.WHITE);
+
+
+            Text text = new Text("#visite");
+
+            text.setBoundsType(TextBoundsType.VISUAL);
+            StackPane stack = new StackPane();
+            stack.getChildren().add(circle);
+            stack.getChildren().add(text);
+            setTopAnchor(stack, 30.0);
+            setLeftAnchor(stack, 30.0);
+            ap.getChildren().add(stack);
+
             ap.setDate(calendarDate);
+
             setTopAnchor(txt, 5.0);
             setLeftAnchor(txt, 5.0);
             ap.getChildren().add(txt);
-            // #TODO la riga sotto serve a cambiare il colore dei singoli quadratini
+
+
+
             //ap.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
             calendarDate = calendarDate.plusDays(1);
         }

@@ -125,9 +125,9 @@ public class ConcretePetDAO implements PetDAO {
     }
 
 
-    //#Todo: da modificare ricerca per cognome e cod.fiscale
+
     @Override
-    public Map<String, String> searchAllClientBySurnameAndFiscalCod() {
+    public Map<String, String> searchAllClientByFiscalCod() {
         //List<String> list = new ArrayList<String>();
         HashMap<String,Map<String, String>> linkedMap = new HashMap<>();
         Map<String, String> dictionary = new HashMap<>();  //<key,value>  both key and value are Strings
@@ -142,14 +142,10 @@ public class ConcretePetDAO implements PetDAO {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
-                //System.out.println(rs.getString("surname"));
-                //list.add(rs.getString("surname"));
                 dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
-                //linkedMap.put(rs.getString("id") , dictionary);
             }
-            //return list;
-            dictionary.entrySet().forEach(System.out::println);
 
+            //dictionary.entrySet().forEach(System.out::println);
             return dictionary;
 
         } catch (SQLException e) {
