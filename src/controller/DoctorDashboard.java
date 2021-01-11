@@ -31,6 +31,7 @@ public class DoctorDashboard implements Initializable{
     public Button agenda = new Button("Agenda");
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
+    public Button reportButton = new Button("Report");
     public BorderPane borderPane;
     public Button reportButton;
     private static int reportID = 0;
@@ -38,10 +39,11 @@ public class DoctorDashboard implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni);
+            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni, reportButton);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public BorderPane getBorderPane() {
@@ -49,10 +51,12 @@ public class DoctorDashboard implements Initializable{
     }
 
     public void setButtons (VBox vBox, Button... buttons) throws IOException {
+        DropShadow shadow = new DropShadow();
+        Lighting lighting = new Lighting();
+        TabPane tabPane = new TabPane();
+
+
         for (Button button: buttons) {
-            DropShadow shadow = new DropShadow();
-            Lighting lighting = new Lighting();
-            TabPane tabPane = new TabPane();
 
             //Adding the shadow when the mouse cursor is on
             button.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -68,35 +72,31 @@ public class DoctorDashboard implements Initializable{
                     e -> button.setEffect(lighting));
 
             button.setStyle("-fx-background-color: #3DA4E3; -fx-background-radius: 30px, 30px, 30px, 30px;"); //ffffff00 transparent
-            button.setFont(Font.font("Bauhaus 93", 20.0));
+            button.setFont(Font.font("Arial", 20.0));
             button.setMnemonicParsing(false);
             button.setPrefWidth(150.0);
             button.setPrefHeight(25.0);
             button.setTextFill(Paint.valueOf("WHITE"));
 
-
-                button.setOnMouseClicked(e -> {
-                    Parent root;
-
-                    try {
-                        if (button.getText().equals("Pazienti")) {
+            button.setOnMouseClicked(e -> {
+                Parent root;
+                try {
+                    switch (button.getText()) {
+                        case "Pazienti" -> {
                             Tab pazienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showOwner.fxml")));
-                            Tab nuovoClient= new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
-                            Tab nuovoPaziente= new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
+                            Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
+                            Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
                             tabPane.getTabs().clear();
                             tabPane.getTabs().add(pazienti);
                             tabPane.getTabs().add(nuovoClient);
                             tabPane.getTabs().add(nuovoPaziente);
+                            tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                             borderPane.setCenter(tabPane);
-                        }else
-                            if (button.getText().equals("Utenti")) {
+                        }
+                        case "Utenti" -> {
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return  new RegistrationDoctorController();
-                                    }
-                                });
+                                loader.setControllerFactory(p -> new RegistrationDoctorController());
                                 Tab dottore = new Tab("Nuovo Dottore", loader.load());
                                 tabPane.getTabs().clear();
                                 tabPane.getTabs().add(dottore);
@@ -106,28 +106,19 @@ public class DoctorDashboard implements Initializable{
                                 borderPane.setCenter(tabPane);
                             } catch (IOException ex) {
                                 ex.printStackTrace();
-                            };
-                        } else
-                            if (button.getText().equals("Prenotazioni")) {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return  new BookingAppointmentController();
-                                    }
-                                });
-                                Tab prenotazioneVisita = new Tab("Inserisci Prenotazione Visita", loader.load());
-                                tabPane.getTabs().clear();
-                                tabPane.getTabs().add(prenotazioneVisita);
-                                borderPane.setCenter(tabPane);
                             }
-                            else {
+                            ;
+                        }
+                        case "Report" -> this.createReport();
+                        default -> {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
                             borderPane.setCenter(root);
                         }
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
                     }
-                });
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            });
 
             button.setId(button.getText().toLowerCase(Locale.ROOT));
             vBox.getChildren().add(button);

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConcreteDoctorDAO implements DoctorDAO {
-    private ConnectionDBH2 connection_db;
+    private final ConnectionDBH2 connection_db;
 
     public ConcreteDoctorDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
@@ -19,7 +19,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
 
     @Override
     public void add(Doctor doctor) {
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
             ps.setString(1, doctor.getId());
@@ -32,7 +32,6 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             System.out.println("Anagrafica Doctor aggiunta al DB!");
 
 
-            ps = null;
             ps = connection_db.dbConnection().prepareStatement("insert into person(id, address, city, telephone, email) values(?,?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getAddress());
@@ -42,10 +41,9 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             ps.executeUpdate();
             System.out.println("Dati civici Doctor aggiunti al DB!");
 
-            ps = null;
-            ps = connection_db.dbConnection().prepareStatement("insert into doctor(id, specialitation, username, password) values(?,?,?,?)");
+            ps = connection_db.dbConnection().prepareStatement("insert into doctor(id, SPECIALIZATION, username, password) values(?,?,?,?)");
             ps.setString(1, doctor.getId());
-            ps.setString(2, doctor.getSpecialitation());
+            ps.setString(2, doctor.getSpecialization());
             ps.setString(3, doctor.getUsername());
             ps.setString(4, doctor.getPassword());
             ps.executeUpdate();
@@ -72,12 +70,12 @@ public class ConcreteDoctorDAO implements DoctorDAO {
 
     @Override
     public void update(String id, Doctor item) {
-        String sqlMasterData = "UPDATE DOCTOR SET SPECIALITATION = ?, USERNAME = ?, PASSWORD = ? where DOCTOR.ID = ?";
+        String sqlMasterData = "UPDATE DOCTOR SET SPECIALIZATION = ?, USERNAME = ?, PASSWORD = ? where DOCTOR.ID = ?";
 
         PreparedStatement ps;
         try {
             ps = connection_db.dbConnection().prepareStatement(sqlMasterData);
-            ps.setString(1, item.getSpecialitation());
+            ps.setString(1, item.getSpecialization());
             ps.setString(2, item.getUsername());
             ps.setString(3, item.getPassword());
             //#todo:manca l'id in posizione 4
@@ -108,23 +106,28 @@ public class ConcreteDoctorDAO implements DoctorDAO {
 
     @Override
     public List<String> searchAllSpecialization() {
-        List<String> listSpecialitation = new ArrayList<String>();
+        List<String> listSpecialization = new ArrayList<>();
         PreparedStatement ps = null;
 
-        String sqlSearchSpecialization = "SELECT * FROM specialitation";
+        String sqlSearchSpecialization = "SELECT * FROM SPECIALIZATION";
 
         try {
             PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchSpecialization);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 System.out.println(rs.getString("name"));
-                listSpecialitation.add(rs.getString("name"));
+                listSpecialization.add(rs.getString("name"));
             }
-            return listSpecialitation;
+            return listSpecialization;
 
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public String search(Doctor data) {
+        return null;
     }
 }

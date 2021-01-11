@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDate;
+
 
 public abstract class Person extends MasterData{
 

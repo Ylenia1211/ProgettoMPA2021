@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 public class RegistrationDoctorController extends ClientController{
     private TextField username;
     private PasswordField password;
-    private ComboBox specialitation;
+    private ComboBox specialization;
     private Button saveBtn;
     private ConcreteDoctorDAO doctorRepo;
 
@@ -46,7 +46,7 @@ public class RegistrationDoctorController extends ClientController{
         super.pane_main_grid.getChildren().remove(btn); //per rimuovere da pannello dinamicamente il bottone di salvataggio
 
         // menu a tendina per specializzazione
-        addFieldSpecialitation();
+        addFieldSpecialization();
         //username, password
         addFieldUsername();
         addFieldPassword();
@@ -55,13 +55,13 @@ public class RegistrationDoctorController extends ClientController{
 
 
     }
-    public void addFieldSpecialitation()  {
-        List<String> listSpecialitation = this.getDoctorRepo().searchAllSpecialization();
-        this.specialitation = new ComboBox(FXCollections
-                .observableArrayList(listSpecialitation));
-        this.specialitation.setId("specialitation");
-        this.specialitation.setPromptText("Scegli specializzazione");
-        super.pane_main_grid.getChildren().add(this.specialitation);
+    public void addFieldSpecialization()  {
+        List<String> listSpecialization = this.getDoctorRepo().searchAllSpecialization();
+        this.specialization = new ComboBox(FXCollections
+                .observableArrayList(listSpecialization));
+        this.specialization.setId("specialization");
+        this.specialization.setPromptText("Scegli specializzazione");
+        super.pane_main_grid.getChildren().add(this.specialization);
     }
 
 
@@ -111,7 +111,7 @@ public class RegistrationDoctorController extends ClientController{
         System.out.println(chk.getText());
 
         Doctor p = new Doctor.Builder<>(
-                (String) this.specialitation.getValue(),
+                (String) this.specialization.getValue(),
                 this.username.getText(),
                 this.password.getText())
                 .addName(super.getTextName().getText())

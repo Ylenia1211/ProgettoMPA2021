@@ -3,6 +3,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import model.Gender;
 import model.Owner;
 import javax.swing.*;
 import java.net.URL;
@@ -47,7 +48,7 @@ public class UpdateClientController extends ClientController{
         super.getTextEmail().setText(data.getEmail().trim());
         super.getTextFiscalCode().setText(data.getFiscalCode().trim());
         super.getTextdateBirth().setValue(data.getDatebirth());
-        if(data.getSex().equals("M")){
+        if(data.getSex().compareTo(Gender.M) == 0){
             super.rbM.setSelected(true);
         }else{
             super.rbF.setSelected(true);

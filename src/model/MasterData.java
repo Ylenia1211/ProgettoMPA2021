@@ -32,6 +32,7 @@ public abstract class MasterData {
             this.datebirth = datebirth;
             return getThis();
         }
+
         public abstract T getThis();
     }
 

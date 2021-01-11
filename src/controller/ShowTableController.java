@@ -25,7 +25,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-public class ShowTableController  implements Initializable {
+public class ShowTableController implements Initializable {
 
     public TableView<Owner> tableClient;
     public TableColumn<Owner, String> col_name;
@@ -40,6 +40,7 @@ public class ShowTableController  implements Initializable {
     public TableColumn<Owner, String> col_animal;
     private ConcreteOwnerDAO clientRepo;
     public ObservableList<Owner> listItems = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableClient.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -172,8 +173,6 @@ public class ShowTableController  implements Initializable {
 
         tableClient.getColumns().add(colBtn);
     }
-
-
 
     private void addButtonDeleteToTable() {
         TableColumn<Owner, Void> colBtn = new TableColumn("");
