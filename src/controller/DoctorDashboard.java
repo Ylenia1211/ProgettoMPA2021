@@ -107,8 +107,19 @@ public class DoctorDashboard implements Initializable{
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             };
-
-                        }
+                        } else
+                            if (button.getText().equals("Prenotazioni")) {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
+                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
+                                    public Object call(Class<?> p) {
+                                        return  new BookingAppointmentController();
+                                    }
+                                });
+                                Tab prenotazioneVisita = new Tab("Inserisci Prenotazione Visita", loader.load());
+                                tabPane.getTabs().clear();
+                                tabPane.getTabs().add(prenotazioneVisita);
+                                borderPane.setCenter(tabPane);
+                            }
                             else {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
                             borderPane.setCenter(root);

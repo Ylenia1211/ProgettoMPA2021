@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="pane_main_grid" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingAppointmentController">
+    <Label fx:id="labelTitle" alignment="CENTER" contentDisplay="TEXT_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Prenotazione Visita " textAlignment="CENTER" textFill="#a6a6a6">
+        <font>
+            <Font name="Calibri" size="29.0" />
+        </font>
+    </Label>
+
+    <DatePicker fx:id="textdateVisit" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Seleziona Data Visita" showWeekNumbers="true" />
+    <!--<ComboBox fx:id="textTimeStart" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Seleziona Orario Inizio" />-->
+    <!--<ComboBox fx:id="textTimeDuration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Seleziona Durata"/>
+        <ComboBox fx:id="textDoctor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Dottore" /> -->
+    <!--<TextField fx:id="textSpecialitation" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Tipo di Visita" />-->
+   <!-- <ComboBox fx:id="textOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Cliente" /> -->
+   <!-- <ComboBox fx:id="textPet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Paziente" /> -->
+   <!-- <Button fx:id="btn" alignment="CENTER" contentDisplay="BOTTOM" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#registerAppointment" prefHeight="37.0" prefWidth="246.0" text="Salva" />
+    <padding>
+        <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
+    </padding> -->
+</VBox>
