@@ -140,7 +140,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             statement.setString(1, idDoctorSearched);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
-                specializationSearched = rs.getString("specialitation");
+                specializationSearched = rs.getString("specialization");
                 //System.out.println(specializationSearched);
             }
             //System.out.println("last: " + specializationSearched);

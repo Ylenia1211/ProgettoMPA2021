@@ -277,6 +277,7 @@ public class BookingAppointmentController implements Initializable {
 
     public void addActionButton() {
         this.btn.setOnAction(this::registrationVisit);
+        JOptionPane.showMessageDialog(null, "Visita registrata correttamente");
     }
 
 
