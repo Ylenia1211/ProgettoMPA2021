@@ -45,8 +45,9 @@ public class BookingAppointmentController implements Initializable {
     private TextField searchText;
     private VBox dropDownMenu;
     private Map<String, String> listClient;
-    private List<Pet> listPets;
+    private Map<String, String> listPets;
     private String idOwnerSearched;
+    private String idPetSearched;
 
 
     //servono per il campo ricerca doctor --> specialization
@@ -61,6 +62,7 @@ public class BookingAppointmentController implements Initializable {
     public BookingAppointmentController() {
         this.listClient  = new HashMap<>();
         this.listDoctor  = new HashMap<>();
+        this.listPets  = new HashMap<>();
         try{
             ConnectionDBH2 connection = new ConnectionDBH2();
             this.appointmentRepo = new ConcreteAppointmentDAO(connection);
@@ -81,6 +83,7 @@ public class BookingAppointmentController implements Initializable {
                 setDisable(empty || date.compareTo(today) < 0 );
             }
         });
+
         addFieldTimeStart();
         addFieldTimeDuration();
         addFieldDoctor();
@@ -96,13 +99,15 @@ public class BookingAppointmentController implements Initializable {
         LocalDate localDate = this.textdateVisit.getValue();
         LocalTime localTime = ((LocalTime) this.textTimeStart.getValue()).plusMinutes((Integer)this.textTimeDuration.getValue());
         Appointment p = createAppointment();
-        System.out.println(p.toString());
+        System.out.println(p.toString()); //test ok
+        //JOptionPane.showMessageDialog(null, "Visita registrata correttamente");
         //inserire controlli
-        //this.apponintment.add(p);
+        this.appointmentRepo.add(p);
     }
 
     public Appointment createAppointment(){
-        //System.out.println(this.textPet.getValue().toString()); test ok
+        this.idPetSearched = getKeyByValue(this.listPets,this.textPet.getValue().toString());
+        //System.out.println(this.idPetSearched); ok
         Appointment p = new Appointment.Builder()
                 .setLocalDate(this.textdateVisit.getValue())
                 .setLocalTimeStart((LocalTime)this.textTimeStart.getValue())
@@ -110,7 +115,7 @@ public class BookingAppointmentController implements Initializable {
                 .setId_doctor(this.idDoctorSearched)
                 .setSpecialitation(this.specializationDoctor)
                 .setId_owner(this.idOwnerSearched)
-                .setId_pet(this.textPet.getValue().toString())  //#Todo:da cambiare con id  idPetSearched
+                .setId_pet(this.idPetSearched)
                 .build();
         return p;
     }
@@ -200,7 +205,6 @@ public class BookingAppointmentController implements Initializable {
 
     public void addFieldPet()  {
         //List<String> empty = new ArrayList<>();
-
         this.textPet  = new ComboBox(FXCollections.observableArrayList(new ArrayList<>()));
         this.textPet.setPromptText("Aggiungi animale");
         this.pane_main_grid.getChildren().add(this.textPet);
@@ -209,11 +213,9 @@ public class BookingAppointmentController implements Initializable {
 
     public void addFieldOwner()  {
         this.listClient = this.appointmentRepo.searchAllClientByFiscalCod(); //ricerca per codice fiscale
-
         this.container = new GridPane();
         this.searchBox = new HBox();
         this.searchText = new TextField();
-
         //this.container.setGridLinesVisible(true);
         this.container.setAlignment(Pos.CENTER);
         this.searchText.setPromptText("Inserisci Codice Fiscale Cliente");
@@ -260,8 +262,10 @@ public class BookingAppointmentController implements Initializable {
                     this.searchText.setText(label.getText());
                     this.idOwnerSearched = getKeyByValue(listClient,this.searchText.getText());
                     this.dropDownMenu.getChildren().clear();  //pulisce il drop-menu generale
-                    this.listPets = this.appointmentRepo.searchPetsByOwner(this.idOwnerSearched);
-                    this.textPet.setItems(FXCollections.observableArrayList(this.listPets.stream().map(MasterData::getName).collect(Collectors.toList())));
+                    this.listPets = this.appointmentRepo.searchPetsByOwner(this.idOwnerSearched); //trovo gli animali associati all'owner
+                    this.textPet.setItems(FXCollections.observableArrayList(this.listPets.values()));
+
+                    //this.textPet.setItems(FXCollections.observableArrayList(this.listPets.stream().map(MasterData::getName).collect(Collectors.toList())));
 
                 });
             }
@@ -277,8 +281,9 @@ public class BookingAppointmentController implements Initializable {
 
     public void addActionButton() {
         this.btn.setOnAction(this::registrationVisit);
-        JOptionPane.showMessageDialog(null, "Visita registrata correttamente");
+
     }
+
 
 
 }

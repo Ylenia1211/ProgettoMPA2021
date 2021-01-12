@@ -54,7 +54,6 @@ public class ShowTableController implements Initializable {
         col_tel.setCellValueFactory(new PropertyValueFactory<>("telephone"));
         col_email.setCellValueFactory(new PropertyValueFactory<>("email"));
         col_animal.setCellValueFactory(new PropertyValueFactory<>("tot_animal"));
-        //#TODO aggiungere listerer onClick Long press quando si clicca su Cliente --> deve spuntare la lista degli animali associati
 
         try{
             ConnectionDBH2 connection = new ConnectionDBH2();

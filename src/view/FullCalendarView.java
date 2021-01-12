@@ -1,5 +1,7 @@
 package view;
 
+import dao.ConcreteAppointmentDAO;
+import datasource.ConnectionDBH2;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,10 +11,14 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
+import model.Appointment;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.List;
+
 import static javafx.scene.layout.AnchorPane.*;
 
 public class FullCalendarView {
@@ -21,12 +27,24 @@ public class FullCalendarView {
     private final VBox view;
     private final Text calendarTitle;
     private YearMonth currentYearMonth;
-
+    private ConcreteAppointmentDAO appointmentRepo;
+    private List<Appointment> listAppointmentDay;
     /**
      * Create a calendar view
      * @param yearMonth year month to create the calendar of
      */
     public FullCalendarView(YearMonth yearMonth) {
+
+        try{
+            ConnectionDBH2 connection = new ConnectionDBH2();
+            this.appointmentRepo = new ConcreteAppointmentDAO(connection);
+            this.listAppointmentDay = new ArrayList<>();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
+
         currentYearMonth = yearMonth;
         // Create the calendar grid pane
         GridPane calendar = new GridPane();
@@ -88,33 +106,43 @@ public class FullCalendarView {
             }
 
             // #TODO le righe sotto servono a far spuntare i cerchi nelle celle del calendario:
-            // si deve colorare il cerchio in base al numero di visite in un giorno e settare il testo all'interno
+
             Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
+            LocalDate dayCalendar = LocalDate.of(yearMonth.getYear(), yearMonth.getMonthValue(), calendarDate.getDayOfMonth());
+            //this.appointmentRepo.searchAppointmentsByDate(String.valueOf(calendarDate.getDayOfMonth()));
+
+
             Circle circle = new Circle(); //inserimento eventi
             circle.setRadius(30.0);
             circle.setStroke(Color.BLACK);
-            circle.setStrokeWidth(2);
+            circle.setStrokeWidth(1);
             circle.setStrokeType(StrokeType.INSIDE);
-            circle.setFill(Color.WHITE);
 
 
-            Text text = new Text("#visite");
-
+            // si deve colorare il cerchio in base al numero di visite in un giorno e settare il testo all'interno
+            Integer countVisitDay = this.appointmentRepo.countAppointmentsByDate(String.valueOf(dayCalendar));
+            if(countVisitDay == 0)
+                circle.setFill(Color.WHITE);
+            else  if(countVisitDay < 3)
+                circle.setFill(Color.YELLOW);
+            else
+                circle.setFill(Color.RED);
+            Text text = new Text(countVisitDay.toString());
             text.setBoundsType(TextBoundsType.VISUAL);
             StackPane stack = new StackPane();
             stack.getChildren().add(circle);
             stack.getChildren().add(text);
+            stack.setId("stack");
+
+
             setTopAnchor(stack, 30.0);
             setLeftAnchor(stack, 30.0);
             ap.getChildren().add(stack);
-
             ap.setDate(calendarDate);
 
             setTopAnchor(txt, 5.0);
             setLeftAnchor(txt, 5.0);
             ap.getChildren().add(txt);
-
-
 
             //ap.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
             calendarDate = calendarDate.plusDays(1);
