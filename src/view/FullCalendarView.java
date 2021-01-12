@@ -5,10 +5,14 @@ import datasource.ConnectionDBH2;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 import model.Appointment;
@@ -46,9 +50,10 @@ public class FullCalendarView {
         }
 
         currentYearMonth = yearMonth;
+        System.out.println(currentYearMonth);
         // Create the calendar grid pane
         GridPane calendar = new GridPane();
-        calendar.setPrefSize(800, 600);
+        calendar.setPrefSize(1000, 600); //dimensione agenda
         calendar.setGridLinesVisible(true);
         // Create rows and columns with anchor panes for the calendar
         for (int i = 0; i < 5; i++) {
@@ -60,31 +65,39 @@ public class FullCalendarView {
             }
         }
         // Days of the week labels
-        Text[] dayNames = new Text[]{new Text("Monday"), new Text("Tuesday"),
-                                        new Text("Wednesday"), new Text("Thursday"), new Text("Friday"),
-                                        new Text("Saturday"),  new Text("Sunday") };
+        Text[] dayNames = new Text[]{new Text("Lunedi"), new Text("Martedi"),
+                                        new Text("Mercoledi"), new Text("Giovedi"), new Text("Venerdi"),
+                                        new Text("Sabato"),  new Text("Domenica") };
         GridPane dayLabels = new GridPane();
         dayLabels.setPrefWidth(600);
         int col = 0;
         for (Text txt : dayNames) {
             AnchorPane ap = new AnchorPane();
             ap.setPrefSize(200, 10);
+            txt.setFont(Font.font("Calibri", 20));
             setBottomAnchor(txt, 5.0);
             ap.getChildren().add(txt);
             dayLabels.add(ap, col++, 0);
         }
         // Create calendarTitle and buttons to change current month
         calendarTitle = new Text();
+        calendarTitle.setFont(Font.font("Calibre",15));
         Button previousMonth = new Button("<<");
         previousMonth.setOnAction(e -> previousMonth());
         Button nextMonth = new Button(">>");
         nextMonth.setOnAction(e -> nextMonth());
         HBox titleBar = new HBox(previousMonth, calendarTitle, nextMonth);
         titleBar.setAlignment(Pos.BASELINE_CENTER);
+
+        Label titleView = new Label("AGENDA");
+        titleView.setAlignment(Pos.BASELINE_CENTER);
+        titleView.setTextFill(Paint.valueOf("#a6a6a6"));
+        titleView.setFont(Font.font("Calibri", 30));
+        HBox containertitle = new HBox(titleView);
         // Populate calendar with the appropriate day numbers
         populateCalendar(yearMonth);
         // Create the calendar view
-        view = new VBox(titleBar, dayLabels, calendar);
+        view = new VBox( containertitle,titleBar, dayLabels, calendar);
     }
 
     /**
@@ -113,7 +126,7 @@ public class FullCalendarView {
 
 
             Circle circle = new Circle(); //inserimento eventi
-            circle.setRadius(30.0);
+            circle.setRadius(35.0);
             circle.setStroke(Color.BLACK);
             circle.setStrokeWidth(1);
             circle.setStrokeType(StrokeType.INSIDE);
@@ -127,7 +140,9 @@ public class FullCalendarView {
                 circle.setFill(Color.YELLOW);
             else
                 circle.setFill(Color.RED);
+
             Text text = new Text(countVisitDay.toString());
+            text.setFont(Font.font("Calibre", 15));
             text.setBoundsType(TextBoundsType.VISUAL);
             StackPane stack = new StackPane();
             stack.getChildren().add(circle);
@@ -135,10 +150,13 @@ public class FullCalendarView {
             stack.setId("stack");
 
 
-            setTopAnchor(stack, 30.0);
-            setLeftAnchor(stack, 30.0);
+            setTopAnchor(stack, 40.0);
+            setLeftAnchor(stack, 40.0);
             ap.getChildren().add(stack);
             ap.setDate(calendarDate);
+
+
+            txt.setFont(Font.font("Calibre", 15));
 
             setTopAnchor(txt, 5.0);
             setLeftAnchor(txt, 5.0);
@@ -148,7 +166,7 @@ public class FullCalendarView {
             calendarDate = calendarDate.plusDays(1);
         }
         // Change the title of the calendar
-        calendarTitle.setText(yearMonth.getMonth().toString() + " " + yearMonth.getYear());
+        calendarTitle.setText(yearMonth.getMonth().toString() + " " + yearMonth.getYear()); //#TODO: qua cambiare la stampa del mese in italiano
     }
 
     /**

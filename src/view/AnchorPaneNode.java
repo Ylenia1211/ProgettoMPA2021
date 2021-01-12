@@ -58,7 +58,7 @@ public class AnchorPaneNode extends AnchorPane {
         this.setOnMouseClicked(e -> {
             System.out.println("Data cliccata: " + date);
             this.listAppointmentDay =this.appointmentRepo.searchAppointmentsByDate(date.toString());
-            this.listAppointmentDay.stream().map(Appointment::toString).forEach(System.out::println);
+            //this.listAppointmentDay.stream().map(Appointment::toString).forEach(System.out::println);
             //funziona fino a qui
             //#TODO:deve spuntare la lista delle prenotazioni di quel giorno
 
