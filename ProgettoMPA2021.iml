@@ -12,5 +12,6 @@
     <orderEntry type="library" name="h2-1.4.199" level="project" />
     <orderEntry type="library" name="pdfbox_dependences" level="project" />
     <orderEntry type="library" name="javax.mail" level="project" />
+    <orderEntry type="library" name="j2ee" level="project" />
   </component>
 </module>

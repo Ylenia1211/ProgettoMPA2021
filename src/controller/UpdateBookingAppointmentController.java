@@ -8,20 +8,28 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import model.Appointment;
+import model.ConcreteObserver;
+import model.Observer;
+import model.Subject;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class UpdateBookingAppointmentController extends BookingAppointmentController{
+public class UpdateBookingAppointmentController extends BookingAppointmentController implements Subject {
     private Appointment appointment;
     private Label labelView;
     private DatePicker dataVisit;
     private String id;  //mi serve per l'update nel dao
 
+    private List<Observer> observers;
+
     public UpdateBookingAppointmentController(Appointment appointment) {
         super();
+        this.observers  = new ArrayList<>();
         this.appointment = appointment;
         this.id = super.getAppointmentRepo().search(appointment);
 
@@ -71,6 +79,23 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
         this.btn.setOnAction(this::updateVisit);
     }
 
+    @Override
+    public void register(Observer o) {
+         observers.add(o);
+    }
+
+    @Override
+    public void unregister(Observer o) {
+         observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(Observer obs: observers){
+            obs.update();
+        }
+    }
+
     private void updateVisit(ActionEvent actionEvent) {
         Appointment p = createAppointmentForUpdate();
 
@@ -80,12 +105,14 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
                 ((p.getLocalTimeEnd().compareTo(this.appointment.getLocalTimeEnd()))!=0)
         ){
             //se uno tra data/ora inizio/ora fine è cambiata allora effettuo l'update
-            this.getAppointmentRepo().update(this.id, p); //#todo: aggiungere l'observer se la data e/o l'ora è cambiata
+            this.getAppointmentRepo().update(this.id, p);
             //System.out.println("id owner: " + this.appointment.getId_owner());
             //passare a concrete observer:
             // l'indirizzo email del owner associato
             // data, ora inizio, ora fine (prevista) della visita
-
+            ConcreteObserver observerChanges = new ConcreteObserver();//#todo: passare come parametri l'email del cliente e la nuova data /ora
+            this.register(observerChanges);
+            this.notifyObservers();
         }
         else
         {

@@ -1,4 +1,6 @@
 package util;
+import javafx.scene.control.Alert;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -12,6 +14,11 @@ public class ServiceMail {
     public static void sendMail(String receiver) {
 
         System.out.println("Prepazione invio email in corso... ");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "Prepazione invio email in corso...");
+        alert.setTitle("Prepazione invio email in corso...!");
+        alert.showAndWait();
+
         Properties proprieties = new Properties();
 
         //necessari per mandare l'email
@@ -37,7 +44,7 @@ public class ServiceMail {
 
         Message message = prepareMessage(session, myAccountEmail, receiver);
         try{
-            assert message != null;
+
             Transport.send(message);
             JOptionPane.showMessageDialog(null ,"L'email è stata inviata correttamente!");
             System.out.println("Inviata!");
@@ -53,7 +60,7 @@ public class ServiceMail {
             message.setFrom(new InternetAddress(myAccountEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
             message.setSubject("IMPORTANTE: Notifica Variazione");
-            message.setText("Volevamo avvisarti che ci sono stati cambiamenti \n Cordiali saluti, \n Staff VetClinicManagement");
+            message.setText("Volevamo avvisarti che ci sono stati cambiamenti \nCordiali saluti, \nStaff VetClinicManagement");
             return  message;
         } catch (MessagingException ex){
             Logger.getLogger(ServiceMail.class.getName()).log(Level.SEVERE, null, ex);
