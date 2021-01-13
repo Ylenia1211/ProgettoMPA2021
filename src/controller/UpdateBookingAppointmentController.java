@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -62,7 +63,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
     private void setParam(Appointment appointment) {
         this.dataVisit.setValue(appointment.getLocalDate());
         super.getTextTimeStart().setValue(appointment.getLocalTimeStart());
-        super.getTextTimeDuration().setValue(appointment.getLocalTimeEnd()); //#todo:devo settare i minuti non il totale
+        super.getTextTimeDuration().setValue(appointment.getLocalTimeEnd().getMinute());
     }
 
     @Override
@@ -72,10 +73,28 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
 
     private void updateVisit(ActionEvent actionEvent) {
         Appointment p = createAppointmentForUpdate();
-        this.getAppointmentRepo().update(this.id, p); //#todo: aggiungere l'observer se la data e/o l'ora è cambiata
-        //System.out.println(p.toString());  //new
-        //System.out.println("Modifica visita"); //test
-        //System.out.println(this.appointment.toString()); //old
+
+        //controllo che almeno uno tra la data o la data di inizio o la data di fine SIANO CAMBIATI
+        if( !(p.getLocalDate().isEqual(this.appointment.getLocalDate()))  ||
+             ((p.getLocalTimeStart().compareTo(this.appointment.getLocalTimeStart()))!=0) ||
+                ((p.getLocalTimeEnd().compareTo(this.appointment.getLocalTimeEnd()))!=0)
+        ){
+            //se uno tra data/ora inizio/ora fine è cambiata allora effettuo l'update
+            this.getAppointmentRepo().update(this.id, p); //#todo: aggiungere l'observer se la data e/o l'ora è cambiata
+            //System.out.println("id owner: " + this.appointment.getId_owner());
+            //passare a concrete observer:
+            // l'indirizzo email del owner associato
+            // data, ora inizio, ora fine (prevista) della visita
+
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "Nessuna modifica effettuata! La data e l'ora sono uguali a quelle già registrate!");
+            alert.setTitle("Nessuna modifica effettuata!");
+            alert.showAndWait();
+        }
+
     }
 
     private Appointment createAppointmentForUpdate(){

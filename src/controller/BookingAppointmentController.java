@@ -131,6 +131,7 @@ public class BookingAppointmentController implements Initializable {
     }
 
     public void addFieldTimeStart()  {
+        //settiamo le possibili ore lavorative
         this.heuresWorkDay = List.of(
                 LocalTime.of( 8 , 0 ) ,
                 LocalTime.of( 9 , 0 ) ,
