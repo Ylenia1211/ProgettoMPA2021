@@ -26,13 +26,13 @@
       </font>
    </Label>
    <TextArea fx:id="textTerapia" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" />
-   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
-      <TextField fx:id="textPath" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="25.0">
+      <TextField fx:id="textPath" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="256.0" />
       <ImageView fx:id="attachmentImage" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#findAttachment" style="-fx-background-image: url('/resources/attachment.png');">
          <Image url="@../resources/attachment.png" />
       </ImageView>
-      <VBox fx:id="allegati" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-         <Label alignment="CENTER" contentDisplay="CENTER" text="Allegati:">
+      <VBox fx:id="allegati" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Allegati:">
             <font>
                <Font name="Arial" size="13.0" />
             </font>
@@ -40,4 +40,9 @@
          <Label fx:id="firstAttachment" text="Nessuno" />
       </VBox>
    </HBox>
+   <Button fx:id="creaReportButton" mnemonicParsing="false" text="Crea report">
+      <font>
+         <Font name="Arial" size="13.0" />
+      </font>
+   </Button>
 </VBox>

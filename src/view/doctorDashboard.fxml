@@ -8,7 +8,7 @@
 
 <BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DoctorDashboard">
       <left>
-         <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #51AFC8;" BorderPane.alignment="CENTER">
+         <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="654.0" prefWidth="159.0" style="-fx-background-color: #51AFC8;" BorderPane.alignment="CENTER">
          <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
             <children>
                <VBox fx:id="logoAndName" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
@@ -42,4 +42,7 @@
               </ImageView>
           </HBox>
       </top>
+   <center>
+      <Pane prefHeight="654.0" prefWidth="897.0" BorderPane.alignment="CENTER" />
+   </center>
    </BorderPane>
