@@ -109,7 +109,10 @@ public class DoctorDashboard implements Initializable{
                             }
                             ;
                         }
-                        case "Report" -> this.createReport();
+                        case "Report" -> {
+                            root = FXMLLoader.load(getClass().getResource("/view/reportView.fxml"));
+                            borderPane.setCenter(root);
+                        }//this.createReport();
                         default -> {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
                             borderPane.setCenter(root);
