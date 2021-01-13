@@ -16,9 +16,8 @@ public class ConnectionDBH2 {
     public Connection dbConnection(){
         try {
             Class.forName("org.h2.Driver");
-
             connectData = DriverManager.getConnection(url, username, password);
-            System.out.println("DB connected!");
+            //System.out.println("DB connected!");
             return  connectData;
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -27,7 +26,6 @@ public class ConnectionDBH2 {
         }
     }
     public static void quitConnectionDB(){
-
         try {
             connectData.close();
         } catch (SQLException e) {

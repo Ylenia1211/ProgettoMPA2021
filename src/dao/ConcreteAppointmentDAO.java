@@ -71,7 +71,15 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
     @Override
     public void delete(String id) {
-
+        PreparedStatement ps = null;
+        try {
+            ps = connection_db.dbConnection().prepareStatement("delete from BOOKING where BOOKING.ID = "+"\'"+ id +"\'" );
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Prenotazione cancellata correttamente!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
     }
 
     @Override
@@ -229,7 +237,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             while (rs.next()) {
                      countDayVisits = rs.getInt("count_visit");
             }
-            System.out.println(countDayVisits);
+            //System.out.println(countDayVisits);
             return countDayVisits;
         }
         catch (SQLException e) {

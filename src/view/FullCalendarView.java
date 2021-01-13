@@ -50,7 +50,7 @@ public class FullCalendarView {
         }
 
         currentYearMonth = yearMonth;
-        System.out.println(currentYearMonth);
+        //System.out.println(currentYearMonth);
         // Create the calendar grid pane
         GridPane calendar = new GridPane();
         calendar.setPrefSize(1000, 600); //dimensione agenda

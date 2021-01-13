@@ -61,7 +61,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
             appointmentRepo = new ConcreteAppointmentDAO(connection);
             tableBookingVisit.setItems(listItems);
             addButtonUpdateToTable();
-            //addButtonDeleteToTable();
+            addButtonDeleteToTable();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -101,6 +101,49 @@ public class ShowSpecificBookingVisitController implements Initializable {
                             };
 
                             System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        colBtn.setCellFactory(cellFactory);
+        tableBookingVisit.getColumns().add(colBtn);
+    }
+
+    private void addButtonDeleteToTable() {
+        TableColumn<Appointment, Void> colBtn = new TableColumn("");
+
+        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>>() {
+            @Override
+            public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
+                final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
+                    private final Button btn = new Button("Cancella");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            Appointment data = getTableView().getItems().get(getIndex());
+                            JPanel pan = new JPanel();
+                            int ok = JOptionPane.showConfirmDialog(
+                                    null,
+                                    "Sei sicuro di voler cancellare?",
+                                    "Cancellazione Prenotazione",
+                                    JOptionPane.YES_NO_OPTION);
+                            if(ok ==0) { //cancella
+                                String id = appointmentRepo.search(data);
+                                appointmentRepo.delete(id);
+                                tableBookingVisit.getItems().remove(data); //elimina graficamente
+                            }
                         });
                     }
 
