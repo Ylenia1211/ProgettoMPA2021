@@ -269,4 +269,31 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return null;
         }
     }
+
+    @Override
+    public String searchEmailOwnerbyIdAppointment(String id) {
+        PreparedStatement ps = null;
+        try{
+            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT EMAIL FROM PERSON\n" +
+                    "                  INNER JOIN OWNER\n" +
+                    "                             ON PERSON.id = OWNER.id\n" +
+                    "                  INNER JOIN BOOKING\n" +
+                    "                             ON  OWNER.ID = BOOKING.ID_OWNER\n" +
+                    " WHERE BOOKING.ID = ?" );
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            String emailOwner = "";
+            if(rs.next()){
+                emailOwner  = rs.getString("email");
+                return emailOwner;
+            }else{
+                JOptionPane.showMessageDialog(null, "Errore impossibile trovare l'email associata!");
+                return emailOwner;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
+    }
 }

@@ -110,7 +110,17 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
             //passare a concrete observer:
             // l'indirizzo email del owner associato
             // data, ora inizio, ora fine (prevista) della visita
-            ConcreteObserver observerChanges = new ConcreteObserver();//#todo: passare come parametri l'email del cliente e la nuova data /ora
+            //String trialEmail = "provampa3@gmail.com";
+            String emailOwner = this.getAppointmentRepo().searchEmailOwnerbyIdAppointment(this.id);
+            //System.out.println("email owner: " + emailOwner); //test ok
+
+            ConcreteObserver observerChanges = new ConcreteObserver.Builder()
+                    .setEmailOwner(emailOwner) //passare email owner associatato alla prenotazione
+                    .setDataVisit(p.getLocalDate())
+                    .setTimeStartVisit(p.getLocalTimeStart())
+                    .setTimeEndVisit(p.getLocalTimeEnd())
+                    .build();
+
             this.register(observerChanges);
             this.notifyObservers();
         }

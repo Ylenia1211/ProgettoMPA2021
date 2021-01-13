@@ -5,13 +5,15 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class ServiceMail {
-    public static void sendMail(String receiver) {
+    public static void sendMail(String receiver, LocalDate dataVisit, LocalTime timeStartVisit, LocalTime timeEndVisit) {
 
         System.out.println("Prepazione invio email in corso... ");
         Alert alert = new Alert(Alert.AlertType.INFORMATION,
@@ -42,7 +44,7 @@ public class ServiceMail {
         });
 
 
-        Message message = prepareMessage(session, myAccountEmail, receiver);
+        Message message = prepareMessage(session, myAccountEmail, receiver, dataVisit, timeStartVisit, timeEndVisit);
         try{
 
             Transport.send(message);
@@ -54,13 +56,16 @@ public class ServiceMail {
         }
     }
 
-    private static Message prepareMessage(Session session, String myAccountEmail,  String receiver){
+    private static Message prepareMessage(Session session, String myAccountEmail, String receiver, LocalDate dataVisit, LocalTime timeStartVisit, LocalTime timeEndVisit){
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(myAccountEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
             message.setSubject("IMPORTANTE: Notifica Variazione");
-            message.setText("Volevamo avvisarti che ci sono stati cambiamenti \nCordiali saluti, \nStaff VetClinicManagement");
+            message.setText("Volevamo avvisarti che ci sono stati cambiamenti: " +
+                     "\n La visita programmata sarà giorno: " + dataVisit.toString() +
+                     "\n dalle " + timeStartVisit.toString() + " alle " + timeEndVisit.toString() +" (ora fine prevista)"+
+                    " \nCordiali saluti, \nStaff VetClinicManagement");
             return  message;
         } catch (MessagingException ex){
             Logger.getLogger(ServiceMail.class.getName()).log(Level.SEVERE, null, ex);
