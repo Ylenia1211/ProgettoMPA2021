@@ -1,6 +1,7 @@
 package dao;
 
 import model.Appointment;
+import model.Owner;
 import model.Pet;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface AppointmentDAO extends Crud<Appointment> {
     String searchSpecializationByDoctor(String idDoctorSearched);
     List<Appointment> searchAppointmentsByDate(String date);
     Integer countAppointmentsByDate(String date);
+    String search(Appointment appointment);
+
 }

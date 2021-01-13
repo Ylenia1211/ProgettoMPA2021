@@ -92,7 +92,7 @@ public class FullCalendarView {
         Label titleView = new Label("AGENDA");
         titleView.setAlignment(Pos.BASELINE_CENTER);
         titleView.setTextFill(Paint.valueOf("#a6a6a6"));
-        titleView.setFont(Font.font("Calibri", 30));
+        titleView.setFont(Font.font("Calibre", 30));
         HBox containertitle = new HBox(titleView);
         // Populate calendar with the appropriate day numbers
         populateCalendar(yearMonth);

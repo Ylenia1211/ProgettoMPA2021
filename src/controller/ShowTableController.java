@@ -169,7 +169,6 @@ public class ShowTableController implements Initializable {
         };
 
         colBtn.setCellFactory(cellFactory);
-
         tableClient.getColumns().add(colBtn);
     }
 

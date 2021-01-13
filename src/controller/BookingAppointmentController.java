@@ -29,11 +29,11 @@ public class BookingAppointmentController implements Initializable {
     public VBox pane_main_grid;
     public Label labelTitle;
     public DatePicker textdateVisit;
-    public ComboBox textTimeStart;
-    public ComboBox textTimeDuration;
+    private ComboBox<Object> textTimeStart;
+    private ComboBox<Object> textTimeDuration;
 
     public TextField textSpecialitation;
-    public ComboBox textPet;
+    public ComboBox<String> textPet;
     private ConcreteAppointmentDAO appointmentRepo;
     public Button btn;
     public List<LocalTime> heuresWorkDay;
@@ -95,12 +95,22 @@ public class BookingAppointmentController implements Initializable {
 
     }
 
+
+    public ConcreteAppointmentDAO getAppointmentRepo() {
+        return appointmentRepo;
+    }
+
+    public ComboBox<Object> getTextTimeStart() {
+        return textTimeStart;
+    }
+
+    public ComboBox<Object> getTextTimeDuration() {
+        return textTimeDuration;
+    }
+
     public void registrationVisit(ActionEvent actionEvent) {
-        LocalDate localDate = this.textdateVisit.getValue();
-        LocalTime localTime = ((LocalTime) this.textTimeStart.getValue()).plusMinutes((Integer)this.textTimeDuration.getValue());
         Appointment p = createAppointment();
-        System.out.println(p.toString()); //test ok
-        //JOptionPane.showMessageDialog(null, "Visita registrata correttamente");
+        //System.out.println(p.toString()); //test ok
         //inserire controlli
         this.appointmentRepo.add(p);
     }
@@ -238,9 +248,10 @@ public class BookingAppointmentController implements Initializable {
         this.searchBox.getChildren().addAll(this.searchText, clean); //, search);
         // add the search box to first row
         this.container.add(this.searchBox, 0, 0);
+
         //this.root.getChildren().add(this.container);
         this.pane_main_grid.getChildren().add(this.container); //aggiunge drop-menu a view
-
+        this.container.setId("searchtextOwner");
     }
 
     // questo metodo cerca un dato testo in una collection di stringhe (cioè le opzioni del menu)
@@ -281,9 +292,7 @@ public class BookingAppointmentController implements Initializable {
 
     public void addActionButton() {
         this.btn.setOnAction(this::registrationVisit);
-
     }
-
 
 
 }

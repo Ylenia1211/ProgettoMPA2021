@@ -30,7 +30,6 @@ public class Main extends Application {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setMaximized(true);
 
-        //stage.setFullScreen(true);
         stage.show();
         stage.setResizable(false);
     }

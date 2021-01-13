@@ -50,8 +50,23 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     }
 
     @Override
-    public void update(String id, Appointment item) {
+    public void update(String id, Appointment appointment) {
+        String sqlUpdateAppointment =  "UPDATE BOOKING SET DATE_VISIT = ?, TIME_START = ?, TIME_END = ? WHERE ID = ?";
+        PreparedStatement ps = null;
+        try {
+            ps = connection_db.dbConnection().prepareStatement(sqlUpdateAppointment);
+            ps.setString(1, appointment.getLocalDate().toString());
+            ps.setString(2, appointment.getLocalTimeStart().toString() );
+            ps.setString(3, appointment.getLocalTimeEnd().toString());
+            ps.setString(4, id );
+            ps.executeUpdate();
+            System.out.println("Aggiornati Data/ora Prenotazione!");
+            JOptionPane.showMessageDialog(null, "Aggiornati Data/ora Prenotazione!");
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
     }
 
     @Override
@@ -220,6 +235,38 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         catch (SQLException e) {
             e.printStackTrace();
             return countDayVisits;
+        }
+    }
+
+    /**
+     *  Prende come argomento un appuntamento
+     *  e deve ritornare l'id memorizzato nel db dell'appuntamento
+     */
+
+    @Override
+    public String search(Appointment appointment) {
+        PreparedStatement ps = null;
+        try{
+            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT * FROM BOOKING" +
+                     "   WHERE BOOKING.DATE_VISIT =" +"\'"+ appointment.getLocalDate() +"\'"+
+                     "    AND BOOKING.TIME_START =" +"\'"+ appointment.getLocalTimeStart() +"\'"+
+                     "    AND BOOKING.TIME_END =" +"\'"+ appointment.getLocalTimeEnd() +"\'"+
+                     "    AND BOOKING.ID_PET =" +"\'"+ appointment.getId_pet() +"\'");
+
+            ResultSet rs = statement.executeQuery();
+            String id_searched ="";
+            if(rs.next()){
+                id_searched  = rs.getString("id");
+                return id_searched;
+            }else{
+                JOptionPane.showMessageDialog(null, "Ricerca Vuota");
+                return id_searched;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
         }
     }
 }
