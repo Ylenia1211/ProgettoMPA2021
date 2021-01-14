@@ -14,6 +14,6 @@ public class ConcreteLoginDAO{
     * Metodo che mi ricerca in base all'utente loggato se la password e l'username sono esistenti e corretti
     */
     public boolean searchUser(User userLogged) {
-        return false;
+        return true;
     }
 }

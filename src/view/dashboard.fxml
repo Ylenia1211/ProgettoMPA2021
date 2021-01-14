@@ -37,22 +37,21 @@
     </left>
     <top>
         <HBox alignment="CENTER_RIGHT" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3DA4E3;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+            <Label fx:id="labelWelcome" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="1024.0" text="Nome Cognome Utente " textFill="#ffffff">
+                <font>
+                    <Font name="Calibri" size="20.0" />
+                </font>
+            </Label>
             <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../resources/closeIcon.png" />
             </ImageView>
+            
         </HBox>
+
+
     </top>
     <center>
-        <Pane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #d9f3fc;" BorderPane.alignment="CENTER">
-            <ToolBar prefHeight="48.0" prefWidth="1000.0" style="-fx-background-color: #04517b;">
-                <items>
-                    <Label fx:id="labelTitle" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="980.0" text="Nome Cognome Utente " textFill="#ffffff">
-                        <font>
-                            <Font name="Calibri" size="24.0" />
-                        </font>
-                    </Label>
-                </items>
-            </ToolBar>
-        </Pane>
+        <Pane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #d9f3fc;" BorderPane.alignment="CENTER"> </Pane>
+
     </center>
 </BorderPane>

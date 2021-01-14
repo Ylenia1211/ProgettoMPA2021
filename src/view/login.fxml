@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane  fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #04517b;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #64adcb;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
 
       <top>
          <HBox alignment="CENTER_RIGHT" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3DA4E3;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
@@ -26,7 +26,7 @@
             <Font name="Calibri" size="14.0" />
          </font>
       </PasswordField>
-      <Button fx:id="btnLogin" onAction="#loginAction" layoutX="220.0" layoutY="304.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="175.0" style="-fx-background-color: #51AFC8;" text="Login" textFill="WHITE">
+      <Button fx:id="btnLogin" onAction="#loginAction" layoutX="220.0" layoutY="304.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="175.0" style="-fx-background-color: #0b778f;" text="Login" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>

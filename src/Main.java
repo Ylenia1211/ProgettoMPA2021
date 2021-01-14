@@ -14,8 +14,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        //Parent root = FXMLLoader.load(Main.class.getResource("/view/doctorDashboard.fxml"));
-          Parent root = FXMLLoader.load(Main.class.getResource("/view/login.fxml"));
+        Parent root = FXMLLoader.load(Main.class.getResource("/view/doctorDashboard.fxml"));
+        //Parent root = FXMLLoader.load(Main.class.getResource("/view/login.fxml"));
 
         root.setOnMousePressed(mouseEvent -> {
             x = mouseEvent.getSceneX();
