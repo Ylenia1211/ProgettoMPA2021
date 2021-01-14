@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import model.Gender;
@@ -161,6 +162,7 @@ public class ShowTableController implements Initializable {
                             setGraphic(null);
                         } else {
                             setGraphic(btn);
+
                         }
                     }
                 };
