@@ -128,12 +128,9 @@ public class RegistrationPetController implements Initializable {
 
     public void addFieldOwner()  {
         this.listClient = this.petRepo.searchAllClientByFiscalCod(); //ricerca per codice fiscale
-
-
         this.container = new GridPane();
         this.searchBox = new HBox();
         this.searchText = new TextField();
-
         //this.container.setGridLinesVisible(true);
         this.container.setAlignment(Pos.CENTER);
         this.searchText.setPromptText("Inserisci Codice Fiscale Cliente");

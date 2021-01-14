@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane  fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #04517b;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+
+      <top>
+         <HBox alignment="CENTER_RIGHT" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3DA4E3;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+            <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../resources/closeIcon.png" />
+            </ImageView>
+         </HBox>
+      </top>
+   <center>
+   <Pane  fx:id="pane">
+      <TextField fx:id="textUsername" alignment="CENTER" layoutX="191.0" layoutY="149.0" prefHeight="35.0" prefWidth="234.0" promptText="Inserisci Username">
+         <font>
+            <Font name="Calibri" size="14.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="textPassword" alignment="CENTER" layoutX="191.0" layoutY="194.0" prefHeight="35.0" prefWidth="234.0" promptText="Inserisci Password">
+         <font>
+            <Font name="Calibri" size="14.0" />
+         </font>
+      </PasswordField>
+      <Button fx:id="btnLogin" onAction="#loginAction" layoutX="220.0" layoutY="304.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="175.0" style="-fx-background-color: #51AFC8;" text="Login" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+     <!-- <ComboBox fx:id="textRoleUser" layoutX="194.0" layoutY="248.0" prefHeight="25.0" prefWidth="228.0" promptText="Scegli Ruolo" />-->
+      <ImageView fitHeight="60.0" fitWidth="74.0" layoutX="275.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/projectLogo.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="96.0" prefHeight="35.0" prefWidth="600.0" text="Vet Clinic Management" textFill="WHITE">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+         <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="141.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../resources/user.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="144.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../resources/password.png" />
+            </image>
+         </ImageView>
+   </Pane>
+   </center>
+</BorderPane>

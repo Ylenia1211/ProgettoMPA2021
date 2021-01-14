@@ -14,7 +14,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(Main.class.getResource("/view/doctorDashboard.fxml"));
+        //Parent root = FXMLLoader.load(Main.class.getResource("/view/doctorDashboard.fxml"));
+          Parent root = FXMLLoader.load(Main.class.getResource("/view/login.fxml"));
 
         root.setOnMousePressed(mouseEvent -> {
             x = mouseEvent.getSceneX();
@@ -29,7 +30,6 @@ public class Main extends Application {
         stage.setScene(new Scene(root));
         stage.initStyle(StageStyle.TRANSPARENT);
         //stage.setMaximized(true);
-
         stage.show();
         stage.setResizable(false);
     }

@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DoctorDashboard">
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Dashboard">
     <left>
         <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="159.0" style="-fx-background-color: #51AFC8;" BorderPane.alignment="CENTER">
             <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
@@ -43,7 +43,16 @@
         </HBox>
     </top>
     <center>
-        <Pane prefHeight="700.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+        <Pane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #d9f3fc;" BorderPane.alignment="CENTER">
+            <ToolBar prefHeight="48.0" prefWidth="1000.0" style="-fx-background-color: #04517b;">
+                <items>
+                    <Label fx:id="labelTitle" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="980.0" text="Nome Cognome Utente " textFill="#ffffff">
+                        <font>
+                            <Font name="Calibri" size="24.0" />
+                        </font>
+                    </Label>
+                </items>
+            </ToolBar>
         </Pane>
     </center>
 </BorderPane>
