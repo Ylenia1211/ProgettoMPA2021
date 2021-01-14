@@ -6,40 +6,44 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
+
 <BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DoctorDashboard">
-      <left>
-         <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #51AFC8;" BorderPane.alignment="CENTER">
-         <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-            <children>
-               <VBox fx:id="logoAndName" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                  <children>
-                        <ImageView fitHeight="74.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
-                           <Image url="@../resources/projectLogo.png" />
-                        </ImageView>
-                        <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Vet clinic" textFill="WHITE">
-                           <font>
-                              <Font name="Arial" size="22.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Managment" textFill="WHITE">
-                           <font>
-                              <Font name="Arial" size="22.0" />
-                           </font>
-                        </Label>
-                        <Line endX="80.0" startX="-78.0" stroke="WHITE" />
-                  </children>
-               </VBox>
-                  <VBox fx:id="sidebar" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-      </VBox>
-            </children>
-         </VBox>
-         </Pane>
-      </left>
-      <top>
-          <HBox alignment="CENTER_RIGHT" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3DA4E3;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
-              <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@../resources/closeIcon.png" />
-              </ImageView>
-          </HBox>
-      </top>
-   </BorderPane>
+    <left>
+        <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="159.0" style="-fx-background-color: #51AFC8;" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                <children>
+                    <VBox fx:id="logoAndName" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                        <children>
+                            <ImageView fitHeight="74.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../resources/projectLogo.png" />
+                            </ImageView>
+                            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Vet clinic" textFill="WHITE">
+                                <font>
+                                    <Font name="Arial" size="22.0" />
+                                </font>
+                            </Label>
+                            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Managment" textFill="WHITE">
+                                <font>
+                                    <Font name="Arial" size="22.0" />
+                                </font>
+                            </Label>
+                            <Line endX="80.0" startX="-78.0" stroke="WHITE" />
+                        </children>
+                    </VBox>
+                    <VBox fx:id="sidebar" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                    </VBox>
+                </children>
+            </VBox>
+        </Pane>
+    </left>
+    <top>
+        <HBox alignment="CENTER_RIGHT" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3DA4E3;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+            <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../resources/closeIcon.png" />
+            </ImageView>
+        </HBox>
+    </top>
+    <center>
+        <Pane prefHeight="700.0" prefWidth="1000.0" BorderPane.alignment="CENTER" />
+    </center>
+</BorderPane>
