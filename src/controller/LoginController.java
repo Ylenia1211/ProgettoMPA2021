@@ -37,7 +37,6 @@ public class LoginController implements Initializable {
     private ComboBox<String> textRoleUser;
     private ConcreteLoginDAO loginRepo;
 
-
     private static LoginController instance; // mi serve per prendere l'utente loggato
     private User userLogged;
 
@@ -60,6 +59,8 @@ public class LoginController implements Initializable {
     public User getUserLogged() {
         return userLogged;
     }
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

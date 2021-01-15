@@ -1,5 +1,6 @@
 package controller;
-
+import controller.factorySidebar.SideBarAction;
+import controller.factorySidebar.SideBarFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -16,9 +17,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.User;
-
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -33,15 +34,18 @@ public class Dashboard implements Initializable {
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
     public Button reportButton = new Button("Report");
-
+    private String roleUserLogged;
     private static int reportID = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
          setUserLogged(LoginController.getInstance().getUserLogged());
 
+        //costruzione delle azioni della sideBar in base al Ruolo dell'utente loggato,  utilizzando il Pattern Factory
+        SideBarAction sideBarByRole = SideBarFactory.createSideBar(this.roleUserLogged);  //mi serve il ruolo dell'utente loggato
         try {
-            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni, reportButton);
+            this.setButtons(sidebar, sideBarByRole.getSpecificAction()); //costruzione specifica delle azioni dell'user loggato
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,21 +57,20 @@ public class Dashboard implements Initializable {
     }
 
     public void setUserLogged(User user){
-        this.labelWelcome.setText("Benvenuto: " + user.getUsername());
+        this.roleUserLogged = user.getRole();
+        this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + user.getUsername());
     }
 
     public BorderPane getBorderPane() {
         return borderPane;
     }
 
-    public void setButtons (VBox vBox, Button... buttons) throws IOException {
+    public void setButtons (VBox vBox, List<Button> buttons) throws IOException {
         DropShadow shadow = new DropShadow();
         Lighting lighting = new Lighting();
         TabPane tabPane = new TabPane();
 
-
         for (Button button: buttons) {
-
             //Adding the shadow when the mouse cursor is on
             button.addEventHandler(MouseEvent.MOUSE_ENTERED,
                     e -> button.setEffect(shadow));
@@ -92,7 +95,7 @@ public class Dashboard implements Initializable {
                 Parent root;
                 try {
                     switch (button.getText()) {
-                        case "Pazienti" -> {
+                        case "Pazienti" -> {  //segretaria
                             Tab pazienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showOwner.fxml")));
                             Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
                             Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
@@ -103,7 +106,7 @@ public class Dashboard implements Initializable {
                             tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                             borderPane.setCenter(tabPane);
                         }
-                        case "Utenti" -> {
+                        case "Utenti" -> { //admin
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
                                 loader.setControllerFactory(p -> new RegistrationDoctorController());
@@ -119,7 +122,7 @@ public class Dashboard implements Initializable {
                             }
 
                         }
-                        case "Prenotazioni" -> {
+                        case "Prenotazioni" -> { //segretaria
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
                                 loader.setControllerFactory(p -> new BookingAppointmentController());
@@ -146,6 +149,5 @@ public class Dashboard implements Initializable {
         }
         vBox.setSpacing(3.0);
     }
-
 
 }
