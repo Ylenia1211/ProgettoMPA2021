@@ -75,5 +75,16 @@ public abstract class Person extends MasterData{
     public String getFiscalCode() {
         return fiscalCode;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                ", fiscalCode='" + fiscalCode + '\'' +
+                '}';
+    }
 }
 

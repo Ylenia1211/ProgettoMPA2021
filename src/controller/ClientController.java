@@ -113,7 +113,7 @@ public class ClientController implements Initializable {
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
         System.out.println(chk.getText());
 
-        Owner p = new Owner.Builder<>(0)
+        Owner p = new Owner.Builder<>()
                 .addName(this.textName.getText())
                 .addSurname(this.textSurname.getText())
                 .addSex((chk.getText().equals("M") ? Gender.M : Gender.F))
@@ -123,6 +123,7 @@ public class ClientController implements Initializable {
                 .addCity(this.textCity.getText())
                 .addTelephone(this.textTelephone.getText())
                 .addEmail(this.textEmail.getText())
+                .setTotAnimal(0)
                 .build();
 
         return p;

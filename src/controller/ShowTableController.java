@@ -61,7 +61,7 @@ public class ShowTableController implements Initializable {
             clientRepo = new ConcreteOwnerDAO(connection);
             ResultSet r =  clientRepo.findAll();
             while(r.next()){
-                     listItems.add( new Owner.Builder<>(r.getInt("tot_animal"))
+                     listItems.add( new Owner.Builder<>()
                      .addName(r.getString("name"))
                      .addSurname(r.getString("surname"))
                      .addSex(Gender.valueOf(r.getString("sex")))
@@ -70,7 +70,7 @@ public class ShowTableController implements Initializable {
                      .addAddress(r.getString("address"))
                      .addCity(r.getString("city"))
                      .addTelephone(r.getString("telephone"))
-                     .addEmail(r.getString("email")).build()
+                     .addEmail(r.getString("email")).setTotAnimal(r.getInt("tot_animal")).build()
              );
 
                 //System.out.println("codice fiscale: " + r.getString("fiscalcode"));

@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class Pet extends MasterData{
     public static class Builder<T extends Pet.Builder<T>>  extends MasterData.Builder<Pet.Builder<T>>{
-        protected String id_petRace;
-        protected String id_owner;
-        protected String particularSign;
+        private String id_petRace;
+        private String id_owner;
+        private String particularSign;
 
 
         public Builder(String id_petRace, String id_owner, String particularSign){
@@ -14,6 +14,25 @@ public class Pet extends MasterData{
             this.id_petRace = id_petRace;
             this.id_owner = id_owner;
             this.particularSign = particularSign;
+        }
+
+        public Builder() {
+            super();
+        }
+
+        public Builder setId_petRace(String id_petRace) {
+            this.id_petRace = id_petRace;
+            return this;
+        }
+
+        public Builder setId_owner(String id_owner) {
+            this.id_owner = id_owner;
+            return this;
+        }
+
+        public Builder setParticularSign(String particularSign) {
+            this.particularSign = particularSign;
+            return this;
         }
 
         @Override

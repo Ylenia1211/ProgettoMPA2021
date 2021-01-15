@@ -11,8 +11,8 @@
             <TableColumn fx:id="col_timeend" text="Ora fine (prevista)" />
             <TableColumn fx:id="col_doctor" text="Id_doctor" />
             <TableColumn fx:id="col_type" text="Tipo Visita" />
-            <TableColumn fx:id="col_owner" text="Id_owner" />
-            <TableColumn fx:id="col_pet" text="Id_pet" />
+            <!--<TableColumn fx:id="col_owner" text="Id_owner" />
+            <TableColumn fx:id="col_pet" text="Id_pet" />-->
         </columns>
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -35,8 +35,8 @@ public class ShowSpecificBookingVisitController implements Initializable {
     public TableColumn<Appointment, String>  col_timeend;
     public TableColumn<Appointment, String>  col_doctor;
     public TableColumn<Appointment, String>  col_type;
-    public TableColumn<Appointment, String>  col_owner;
-    public TableColumn<Appointment, String>  col_pet;
+    //public TableColumn<Appointment, String>  col_owner;
+    //public TableColumn<Appointment, String>  col_pet;
     private ConcreteAppointmentDAO appointmentRepo;
     public ObservableList<Appointment> listItems;
 
@@ -54,19 +54,66 @@ public class ShowSpecificBookingVisitController implements Initializable {
         col_doctor.setCellValueFactory(new PropertyValueFactory<>("id_doctor"));  //questo si toglie visto che la vista deve essere specifica
                                                                                      //in base al doctor che visualizza
         col_type.setCellValueFactory(new PropertyValueFactory<>("specialitation"));  //nome dell'attributo nella classe
-        col_owner.setCellValueFactory(new PropertyValueFactory<>("id_owner")); // #TODO: qui si dovrebbero mettere  dei bottoni: client, pet
-        col_pet.setCellValueFactory(new PropertyValueFactory<>("id_pet"));
+        //col_owner.setCellValueFactory(new PropertyValueFactory<>("id_owner"));
+        //col_pet.setCellValueFactory(new PropertyValueFactory<>("id_pet"));
         try{
             ConnectionDBH2 connection = new ConnectionDBH2();
             appointmentRepo = new ConcreteAppointmentDAO(connection);
             tableBookingVisit.setItems(listItems);
             addButtonUpdateToTable();
             addButtonDeleteToTable();
+            addButtonViewInfoOwnerPet();
         }
         catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
+    }
+
+    private void addButtonViewInfoOwnerPet() {
+        TableColumn<Appointment, Void> colBtn = new TableColumn("");
+        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>>() {
+            @Override
+            public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
+                final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
+                    private final Button btn = new Button("Dettagli");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            Appointment data = getTableView().getItems().get(getIndex());
+                            //System.out.println("Print idOwner prenotazione" + data.getId_owner());
+                            Scene scene = this.getScene();
+                            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showInfoOwnerPet.fxml"));
+                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
+                                    public Object call(Class<?> p) {
+                                        return  new ShowInfoOwnerPetController(data);
+                                    }
+                                });
+                                borderPane.setCenter(loader.load());
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            };
+                            System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        tableBookingVisit.getColumns().add(colBtn);
     }
 
 
@@ -83,7 +130,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
-
+                            //System.out.println("Print idOwner prenotazione" + data.getId_owner());
                             Scene scene = this.getScene();
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
 

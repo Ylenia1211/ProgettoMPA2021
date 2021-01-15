@@ -70,5 +70,14 @@ public abstract class MasterData {
         return this.datebirth;
     }
 
-
+    @Override
+    public String toString() {
+        return "MasterData{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", sex=" + sex +
+                ", datebirth=" + datebirth +
+                '}';
+    }
 }

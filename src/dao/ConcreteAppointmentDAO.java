@@ -3,6 +3,7 @@ package dao;
 import datasource.ConnectionDBH2;
 import model.Appointment;
 import model.Gender;
+import model.Owner;
 import model.Pet;
 
 import javax.swing.*;
@@ -301,6 +302,72 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public Pet searchPetById(String id) {
+        Pet pet = null;
+        String sqlSearch = "SELECT * FROM masterdata" +
+                "                  INNER JOIN PET" +
+                "                             ON MASTERDATA.ID = ?";
+
+        try {
+            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                pet = new Pet.Builder<>()
+                        .addName(rs.getString("name"))
+                        .addSurname(rs.getString("surname"))
+                        .addSex(Gender.valueOf(rs.getString("sex")))
+                        .addDateBirth(LocalDate.parse(rs.getString("datebirth")))
+                        .setId_petRace(rs.getString("typepet"))
+                        .setId_owner(rs.getString("owner"))
+                        .setParticularSign(rs.getString("particularsign"))
+                        .build();
+
+            }
+            assert pet != null;
+            return pet;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Owner searchOwnerById(String id) {
+        Owner owner = null;
+        String sqlSearch = "SELECT * FROM masterdata" +
+                "                  INNER JOIN person" +
+                "                             ON person.id = masterdata.id" +
+                "                  INNER JOIN OWNER" +
+                "                             ON  OWNER.id = ? ";
+        try {
+            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                owner = new Owner.Builder<>()
+                        .addName(rs.getString("name"))
+                        .addSurname(rs.getString("surname"))
+                        .addSex(Gender.valueOf(rs.getString("sex")))
+                        .addDateBirth(LocalDate.parse(rs.getString("datebirth")))
+                        .addAddress(rs.getString("address"))
+                        .addCity(rs.getString("city"))
+                        .addTelephone(rs.getString("telephone"))
+                        .addFiscalCode(rs.getString("fiscalcode"))
+                        .addEmail(rs.getString("email"))
+                        .build();
+
+            }
+            assert owner != null;
+            //System.out.println(owner.toString());
+            return owner;
+        } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
     }

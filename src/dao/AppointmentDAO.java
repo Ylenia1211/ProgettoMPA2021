@@ -17,4 +17,7 @@ public interface AppointmentDAO extends Crud<Appointment> {
     String search(Appointment appointment);
     String searchEmailOwnerbyIdAppointment(String id);
 
+    Pet searchPetById(String id);
+
+    Owner searchOwnerById(String id);
 }
