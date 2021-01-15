@@ -2,13 +2,22 @@ package controller;
 
 import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import model.Appointment;
 import model.Owner;
 import model.Pet;
-
+import javafx.scene.paint.Color;
 import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -30,11 +39,14 @@ public class ShowInfoOwnerPetController implements Initializable {
     public Label particularSignPet;
     private final String idOwner;
     private final String idPet;
+    public VBox vbox_main;
     private ConcreteAppointmentDAO appointmentRepo;
+    private Appointment appointment;
 
     public ShowInfoOwnerPetController(Appointment appointment) {
         this.idOwner = appointment.getId_owner();
         this.idPet = appointment.getId_pet();
+        this.appointment = appointment;
     }
 
     @Override
@@ -61,6 +73,10 @@ public class ShowInfoOwnerPetController implements Initializable {
                 JOptionPane.showMessageDialog(null,"Errore nel caricamento dei dati del Paziente");
             }
 
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showInfoBooking.fxml"));
+            loader.setController(new ShowInfoBooking(this.appointment));
+            VBox mainPane = loader.load();
+            vbox_main.getChildren().add(mainPane);
 
         }
         catch (Exception e){
