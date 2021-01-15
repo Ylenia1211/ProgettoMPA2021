@@ -104,14 +104,14 @@ public class LoginController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setTitle("Login errato");
                 alert.setContentText("Username e/o password sono errate! Riprova.");
-                alert.show();
+                alert.showAndWait();
             }
         }else{
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText(null);
             alert.setTitle("Attenzione! Nessun ruolo assegnato.");
             alert.setContentText("Nessun ruolo assegnato. Inserisci il tuo ruolo!");
-            alert.show();
+            alert.showAndWait();
         }
     }
 
