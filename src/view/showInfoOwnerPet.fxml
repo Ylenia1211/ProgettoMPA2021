@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShowInfoOwnerPetController">
+         <children>
+            <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <children>
+                  <VBox fx:id="vboxLabel" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="155.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="17.0" prefWidth="153.0" text="Nome">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <Label text="Cognome">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <Label text="Sesso">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <Label text="Data di Nascita">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <Line endX="100.0" stroke="WHITE" />
+                        <Label text="Indirizzo">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <Label text="Città">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <Label text="Codice Fiscale">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <Label text="Email">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="200.0" style="-fx-background-color: white;">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="300.0" style="-fx-background-color: #3DA4E3;" text="CLIENTE" textFill="WHITE">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="nameOwner" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Nome Cliente">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="surnameOwner" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Cognome Cliente">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="sexOwner" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Sesso Cliente">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="datebirthOwner" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Data Nascita Cliente">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="addressOwner" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Indirizzo Cliente">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="cityOwner" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Città Cliente">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="codFiscalOwner" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Cod. Cliente">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="emailOwner" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Email Cliente">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="105.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="17.0" prefWidth="153.0" text="" />
+                        <Label text="" />
+                        <Label text="" />
+                        <Label text="" />
+                        <Line endX="100.0" stroke="White" />
+                        <Label text="Razza">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <Label text="Segni Particolari">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="200.0" style="-fx-background-color: white;">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="400.0" style="-fx-background-color: #3DA4E3;" text="PAZIENTE" textFill="WHITE">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="namePet" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Nome pet">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="surnamePet" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Cognome Pet">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="sexPet" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Sesso Pet">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="datebirthPet" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Data Nascita Pet">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="racePet" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Razza Pet">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="particularSignPet" alignment="CENTER" prefHeight="17.0" prefWidth="206.0" text="Segni Pet">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+         <padding>
+            <Insets bottom="50.0" left="20.0" right="20.0" top="50.0" />
+         </padding>
+            </HBox>
+         </children>
+      </VBox>
