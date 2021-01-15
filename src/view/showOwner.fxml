@@ -6,7 +6,7 @@
 <!--<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShowTableController">-->
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShowTableController">
-   <TableView fx:id="tableClient" cache="true" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false" prefHeight="400.0" prefWidth="718.0">
+   <TableView fx:id="tableClient" cache="true" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false" prefHeight="400.0" prefWidth="718.0" stylesheets="@../resources/table-view.css">
       <columns>
          <TableColumn fx:id="col_name" text="Nome" />
          <TableColumn fx:id="col_surname" text="Cognome" />
