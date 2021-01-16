@@ -82,7 +82,6 @@ public class CreateReportController  implements Initializable {
             }
 
             //view estesa con un'altra
-            //ReportViewController reportViewController = new ReportViewController();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml"));
             loader.setControllerFactory(new Callback<Class<?>, Object>() {
                 public Object call(Class<?> p) {

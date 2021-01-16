@@ -50,6 +50,7 @@ public class ReportViewController  implements Initializable {
     private Appointment appointment;
     private final String idOwner;
     private final String idPet;
+    private String idBooking;
 
 
     public ReportViewController(Appointment appointment) {
@@ -65,6 +66,8 @@ public class ReportViewController  implements Initializable {
         try {
             ConnectionDBH2 connection = new ConnectionDBH2();
             this.reportDAO = new ConcreteReportDAO(connection);
+            this.idBooking = this.reportDAO.searchIdBookingByAppointment(this.appointment);
+            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,7 +87,7 @@ public class ReportViewController  implements Initializable {
     public void registrationReport(ActionEvent actionEvent) {
 
         Report newReport = new Report.Builder()
-                .setId_booking(this.appointment.getId())
+                .setId_booking(this.idBooking)
                 .setId_owner(this.idOwner)
                 .setId_pet(this.idPet)
                 .setDiagnosis(this.textDiagnosi.getText())

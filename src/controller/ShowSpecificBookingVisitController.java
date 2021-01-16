@@ -20,6 +20,8 @@ import model.Appointment;
 import model.Gender;
 import model.Owner;
 
+import javax.naming.Binding;
+import javax.script.Bindings;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
@@ -80,8 +82,11 @@ public class ShowSpecificBookingVisitController implements Initializable {
                 final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
                     private final Button btn = new Button("Crea Report");
                     {
+
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
+
+
                             //System.out.println("Print idOwner prenotazione" + data.getId_owner());
                             Scene scene = this.getScene();
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
@@ -97,6 +102,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             };
+
                             //System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
                         });
                     }
@@ -106,9 +112,12 @@ public class ShowSpecificBookingVisitController implements Initializable {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
+                        } else if(getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now())) {
+                                //btn.disabledProperty();
+                                  setGraphic(null);
+                            }else {
+                                setGraphic(btn);
+                            }
                     }
                 };
                 return cell;
