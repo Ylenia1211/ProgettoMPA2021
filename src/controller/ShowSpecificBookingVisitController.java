@@ -41,7 +41,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
     //public TableColumn<Appointment, String>  col_pet;
     private ConcreteAppointmentDAO appointmentRepo;
     public ObservableList<Appointment> listItems;
-
+    public TableColumn<Appointment, Void> colBtnCreateReport= new TableColumn("");
 
     public ShowSpecificBookingVisitController(List<Appointment> listAppointment) {
         this.listItems = FXCollections.observableArrayList(listAppointment);
@@ -65,8 +65,8 @@ public class ShowSpecificBookingVisitController implements Initializable {
             addButtonUpdateToTable();
             addButtonDeleteToTable();
             addButtonViewInfoOwnerPet();
-            //#Todo:aggiungere bottone creazione del report nel caso la data della sia passata
             addButtonCreateReport();
+            addButtonViewReport();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -74,8 +74,69 @@ public class ShowSpecificBookingVisitController implements Initializable {
         }
     }
 
-    private void addButtonCreateReport() {
+    private void addButtonViewReport() {
         TableColumn<Appointment, Void> colBtn = new TableColumn("");
+        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>>() {
+            @Override
+            public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
+                final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
+                    private final Button btn = new Button("Visualizza Report");
+                    {
+
+                        btn.setOnAction((ActionEvent event) -> {
+                            Appointment data = getTableView().getItems().get(getIndex());
+
+
+                            //System.out.println("Print idOwner prenotazione" + data.getId_owner());
+                            Scene scene = this.getScene();
+                            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
+                            try {
+                                //#TODo: cambiare con vista di visualizzazione report
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
+                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
+                                    public Object call(Class<?> p) {
+                                        return  new CreateReportController(data);
+                                    }
+                                });
+                                borderPane.setCenter(loader.load());
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            };
+
+                            //System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (empty) {
+                            setGraphic(null);
+                        } else{
+                            Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
+                            String id_appointment = appointmentRepo.search(ap);
+                            if(appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
+                                //btn.disabledProperty();
+                                //this.getTableColumn().getTableView().getItems().remove(getIndex());
+                                setGraphic(btn);
+
+                            }else {
+                                setGraphic(null);
+                            }
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        tableBookingVisit.getColumns().add(colBtn);
+    }
+
+    private void addButtonCreateReport() {
+
         Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
@@ -112,19 +173,30 @@ public class ShowSpecificBookingVisitController implements Initializable {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
-                        } else if(getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now())) {
-                                //btn.disabledProperty();
+
+
+                          } else {
+                            Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
+                            String id_appointment = appointmentRepo.search(ap);
+                            if(appointmentRepo.searchIfExistAppointmentInReport(id_appointment))
+                            {
                                   setGraphic(null);
-                            }else {
+                            }
+                            //posso creare il report solo se la data della visita è precedente alla data di oggi  // data di oggi +1
+                            else if(getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now().plusDays(1))) {
                                 setGraphic(btn);
                             }
+                            else {
+                                setGraphic(null);
+                            }
+                          }
                     }
                 };
                 return cell;
             }
         };
-        colBtn.setCellFactory(cellFactory);
-        tableBookingVisit.getColumns().add(colBtn);
+        colBtnCreateReport.setCellFactory(cellFactory);
+        tableBookingVisit.getColumns().add(colBtnCreateReport);
     }
 
     private void addButtonViewInfoOwnerPet() {

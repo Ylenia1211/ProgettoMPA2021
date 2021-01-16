@@ -15,8 +15,23 @@ public class ConcreteReportDAO implements ReportDAO {
         this.connection_db = connection_db;
     }
     @Override
-    public void add(Report item) {
-
+    public void add(Report report) {
+        PreparedStatement ps;
+        try {
+            ps = connection_db.dbConnection().prepareStatement("insert into REPORT(ID, ID_BOOKING, ID_OWNER, ID_PET,DIAGNOSIS, TREATMENTS,PATHFILE) values(?,?,?,?,?,?,?)");
+            ps.setString(1, report.getId());
+            ps.setString(2, report.getId_booking());
+            ps.setString(3, report.getId_owner());
+            ps.setString(4, report.getId_pet());
+            ps.setString(5, report.getDiagnosis());
+            ps.setString(6, report.getTreatments());
+            ps.setString(7, report.getPathFile());
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Report aggiunto correttamente!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
     }
 
     @Override

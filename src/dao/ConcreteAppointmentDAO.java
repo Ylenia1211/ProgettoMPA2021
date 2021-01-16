@@ -371,4 +371,18 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return null;
         }
     }
+
+    @Override
+    public boolean searchIfExistAppointmentInReport(String id) {
+        String sqlSearch = "SELECT * FROM REPORT WHERE ID_BOOKING = ? ";
+        try {
+            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
