@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="main_booking_view" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<VBox fx:id="main_booking_view" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" >
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
-            <Label alignment="CENTER" prefHeight="35.0" prefWidth="600.0" style="-fx-background-color: #3DA4E3;" text="DETTAGLI PRENOTAZIONE" textFill="WHITE">
+            <Label alignment="CENTER" prefHeight="25.0" prefWidth="600.0" style="-fx-background-color: #3DA4E3;" text="DETTAGLI PRENOTAZIONE" textFill="WHITE">
                <font>
                   <Font name="Calibri" size="14.0" />
                </font>
@@ -21,9 +21,9 @@
                         <Font name="Calibri" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dataText" style="-fx-background-color: #ffffff;" alignment="CENTER" prefHeight="22.0" prefWidth="402.0" text="data">
+                  <Label fx:id="dataText" alignment="CENTER" prefHeight="22.0" prefWidth="402.0" style="-fx-background-color: #ffffff;" text="data">
                      <font>
-                        <Font name="Calibri" size="18.0" />
+                        <Font name="Calibri" size="14.0" />
                      </font>
                   </Label>
                </children>
@@ -42,9 +42,9 @@
                   <Font name="Calibri" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="timestartText" style="-fx-background-color: #ffffff;" alignment="CENTER" prefHeight="22.0" prefWidth="408.0" text="ora inizio">
+            <Label fx:id="timestartText" alignment="CENTER" prefHeight="22.0" prefWidth="408.0" style="-fx-background-color: #ffffff;" text="ora inizio">
                <font>
-                  <Font name="Calibri" size="18.0" />
+                  <Font name="Calibri" size="14.0" />
                </font>
             </Label>
          </children>
@@ -63,9 +63,9 @@
                         <Font name="Calibri" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="timeendText" style="-fx-background-color: #ffffff;" alignment="CENTER" prefHeight="22.0" prefWidth="409.0" text="ora fine">
+                  <Label fx:id="timeendText" alignment="CENTER" prefHeight="22.0" prefWidth="409.0" style="-fx-background-color: #ffffff;" text="ora fine">
                      <font>
-                        <Font name="Calibri" size="18.0" />
+                        <Font name="Calibri" size="14.0" />
                      </font>
                   </Label>
                </children>
@@ -79,4 +79,7 @@
       </children>
       </VBox>
    </children>
+   <padding>
+      <Insets top="100.0" />
+   </padding>
 </VBox>

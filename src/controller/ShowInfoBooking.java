@@ -21,8 +21,8 @@ public class ShowInfoBooking implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-            this.dataText.setText(this.appointment.getLocalDate().toString());
-            this.timestartText.setText(this.appointment.getLocalTimeStart().toString());
-            this.timeendText.setText(this.appointment.getLocalTimeEnd().toString());
+        this.dataText.setText(this.appointment.getLocalDate().toString());
+        this.timestartText.setText(this.appointment.getLocalTimeStart().toString());
+        this.timeendText.setText(this.appointment.getLocalTimeEnd().toString());
     }
 }

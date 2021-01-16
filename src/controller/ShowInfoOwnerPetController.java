@@ -56,7 +56,7 @@ public class ShowInfoOwnerPetController implements Initializable {
             this.appointmentRepo = new ConcreteAppointmentDAO(connection);
 
             //ricerca di dei dati del owner
-           Owner owner =  this.appointmentRepo.searchOwnerById(idOwner);
+            Owner owner =  this.appointmentRepo.searchOwnerById(idOwner);
             if(owner!=null){
                 setFieldDataOwner(owner);
             }else
