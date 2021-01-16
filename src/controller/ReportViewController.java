@@ -1,6 +1,10 @@
 package controller;
 
+import dao.ConcreteAppointmentDAO;
+import dao.ConcreteReportDAO;
+import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,6 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Appointment;
+import model.Owner;
+import model.Pet;
+import model.Report;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -27,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ReportViewController implements Initializable {
+public class ReportViewController  implements Initializable {
     public TextArea textDiagnosi;
     public TextArea textTerapia;
     public TextField textPath;
@@ -36,9 +44,34 @@ public class ReportViewController implements Initializable {
     public Label firstAttachment;
     public VBox allegati;
     public Button creaReportButton;
+    public Button btnSaveReport;
+
+    private ConcreteReportDAO reportDAO;
+    private Appointment appointment;
+    private final String idOwner;
+    private final String idPet;
+
+
+    public ReportViewController(Appointment appointment) {
+        this.appointment = appointment;
+        this.idOwner = appointment.getId_owner();
+        this.idPet = appointment.getId_pet();
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        try {
+            ConnectionDBH2 connection = new ConnectionDBH2();
+            this.reportDAO = new ConcreteReportDAO(connection);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
+
+
         this.attachmentImage.setStyle("-fx-background-image: url('/resources/attachment.png')");
         this.creaReportButton.setOnAction(actionEvent -> {
             try {
@@ -47,6 +80,18 @@ public class ReportViewController implements Initializable {
                 e.printStackTrace();
             }
         });
+    }
+    public void registrationReport(ActionEvent actionEvent) {
+
+        Report newReport = new Report.Builder()
+                .setId_booking(this.appointment.getId())
+                .setId_owner(this.idOwner)
+                .setId_pet(this.idPet)
+                .setDiagnosis(this.textDiagnosi.getText())
+                .setTreatments(this.textTerapia.getText())
+                .setPathFile(this.textPath.getText()).build();
+        this.reportDAO.add(newReport);  //creazione oggetto Report e salvataggio in DB
+        System.out.println(newReport.toString());
     }
 
     public void findAttachment() {
@@ -154,6 +199,7 @@ public class ReportViewController implements Initializable {
             }
         }
     }
+
 
     public static class MultiLineParagraph {
 

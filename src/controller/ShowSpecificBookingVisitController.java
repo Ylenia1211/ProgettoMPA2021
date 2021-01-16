@@ -63,11 +63,59 @@ public class ShowSpecificBookingVisitController implements Initializable {
             addButtonUpdateToTable();
             addButtonDeleteToTable();
             addButtonViewInfoOwnerPet();
+            //#Todo:aggiungere bottone creazione del report nel caso la data della sia passata
+            addButtonCreateReport();
         }
         catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
+    }
+
+    private void addButtonCreateReport() {
+        TableColumn<Appointment, Void> colBtn = new TableColumn("");
+        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>>() {
+            @Override
+            public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
+                final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
+                    private final Button btn = new Button("Crea Report");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            Appointment data = getTableView().getItems().get(getIndex());
+                            //System.out.println("Print idOwner prenotazione" + data.getId_owner());
+                            Scene scene = this.getScene();
+                            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
+                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
+                                    public Object call(Class<?> p) {
+                                        return  new CreateReportController(data);
+                                    }
+                                });
+                                borderPane.setCenter(loader.load());
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            };
+                            //System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        tableBookingVisit.getColumns().add(colBtn);
     }
 
     private void addButtonViewInfoOwnerPet() {
