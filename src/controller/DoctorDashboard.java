@@ -134,41 +134,41 @@ public class DoctorDashboard implements Initializable{
         stage.close();
     }
 
-    public void createReport() throws IOException {
-        int ID = ++DoctorDashboard.reportID;
-        //Creating PDF document object
-        PDDocument document = new PDDocument();
-        PDPage my_page = new PDPage();
-        PDPageContentStream contentStream = new PDPageContentStream(document, my_page);
-        //Begin the Content stream
-        contentStream.beginText();
-
-        //Setting the font to the Content stream
-        contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
-        contentStream.setLeading(14.5f);
-        //Setting the position for the line
-        contentStream.newLineAtOffset(25, 700);
-
-        String text = "Report numero " + ID;
-
-        //Adding text in the form of string
-        contentStream.showText(text);
-
-        //Ending the content stream
-        contentStream.endText();
-
-        System.out.println("Content added");
-
-        //Closing the content stream
-        contentStream.close();
-        document.addPage(my_page);
-        //Saving the document
-        String currentPath = System.getProperty("user.dir");
-        document.save(currentPath + "/report/report_" + ID + ".pdf");
-
-        System.out.println("PDF created");
-
-        //Closing the document
-        document.close();
-    }
+//    public void createReport() throws IOException {
+//        int ID = ++DoctorDashboard.reportID;
+//        //Creating PDF document object
+//        PDDocument document = new PDDocument();
+//        PDPage my_page = new PDPage();
+//        PDPageContentStream contentStream = new PDPageContentStream(document, my_page);
+//        //Begin the Content stream
+//        contentStream.beginText();
+//
+//        //Setting the font to the Content stream
+//        contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+//        contentStream.setLeading(14.5f);
+//        //Setting the position for the line
+//        contentStream.newLineAtOffset(25, 700);
+//
+//        String text = "Report numero " + ID;
+//
+//        //Adding text in the form of string
+//        contentStream.showText(text);
+//
+//        //Ending the content stream
+//        contentStream.endText();
+//
+//        System.out.println("Content added");
+//
+//        //Closing the content stream
+//        contentStream.close();
+//        document.addPage(my_page);
+//        //Saving the document
+//        String currentPath = System.getProperty("user.dir");
+//        document.save(currentPath + "/report/report_" + ID + ".pdf");
+//
+//        System.out.println("PDF created");
+//
+//        //Closing the document
+//        document.close();
+//    }
 }
