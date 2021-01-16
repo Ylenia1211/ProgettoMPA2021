@@ -44,7 +44,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
     public ShowSpecificBookingVisitController(List<Appointment> listAppointment) {
         this.listItems = FXCollections.observableArrayList(listAppointment);
     }
-
+    //test
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableBookingVisit.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
