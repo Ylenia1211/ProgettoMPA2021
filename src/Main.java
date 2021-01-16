@@ -14,7 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(Main.class.getResource("/view/doctorDashboard.fxml"));
+         Parent root = FXMLLoader.load(Main.class.getResource("/view/doctorDashboard.fxml"));
         //Parent root = FXMLLoader.load(Main.class.getResource("/view/login.fxml")); //ok funzionante bisogna sistemare solo le azioni specifiche della sidebar
 
         root.setOnMousePressed(mouseEvent -> {

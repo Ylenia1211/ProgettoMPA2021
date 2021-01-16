@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -20,8 +21,10 @@ import model.Appointment;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static javafx.scene.layout.AnchorPane.*;
 
@@ -53,7 +56,7 @@ public class FullCalendarView {
         //System.out.println(currentYearMonth);
         // Create the calendar grid pane
         GridPane calendar = new GridPane();
-        calendar.setPrefSize(1000, 600); //dimensione agenda
+        calendar.setPrefSize(800, 600); //dimensione agenda
         calendar.setGridLinesVisible(true);
         // Create rows and columns with anchor panes for the calendar
         for (int i = 0; i < 5; i++) {
@@ -83,21 +86,22 @@ public class FullCalendarView {
         calendarTitle = new Text();
         calendarTitle.setFont(Font.font("Calibre",15));
         Button previousMonth = new Button("<<");
+        previousMonth.setStyle("-fx-background-color: white; -fx-background-radius: 30px, 30px, 30px, 30px;");
+
+        previousMonth.setEffect(new DropShadow(+2d, 0d, +2d, Color.LIGHTBLUE));
         previousMonth.setOnAction(e -> previousMonth());
         Button nextMonth = new Button(">>");
+        nextMonth.setStyle("-fx-background-color: white; -fx-background-radius: 30px, 30px, 30px, 30px;");
+
+        nextMonth.setEffect(new DropShadow(+2d, 0d, +2d, Color.LIGHTBLUE));
         nextMonth.setOnAction(e -> nextMonth());
         HBox titleBar = new HBox(previousMonth, calendarTitle, nextMonth);
         titleBar.setAlignment(Pos.BASELINE_CENTER);
-
-        Label titleView = new Label("AGENDA");
-        titleView.setAlignment(Pos.BASELINE_CENTER);
-        titleView.setTextFill(Paint.valueOf("#a6a6a6"));
-        titleView.setFont(Font.font("Calibre", 30));
-        HBox containertitle = new HBox(titleView);
         // Populate calendar with the appropriate day numbers
         populateCalendar(yearMonth);
         // Create the calendar view
-        view = new VBox( containertitle,titleBar, dayLabels, calendar);
+        view = new VBox(titleBar, dayLabels, calendar);
+        //view = new VBox( containertitle,titleBar, dayLabels, calendar);
     }
 
     /**
@@ -126,10 +130,11 @@ public class FullCalendarView {
 
 
             Circle circle = new Circle(); //inserimento eventi
-            circle.setRadius(35.0);
-            circle.setStroke(Color.BLACK);
+            circle.setRadius(30.0);
+            circle.setStroke(Color.TRANSPARENT);
             circle.setStrokeWidth(1);
             circle.setStrokeType(StrokeType.INSIDE);
+            circle.setEffect(new DropShadow(+2d, 0d, +2d, Color.LIGHTBLUE));
 
 
             // si deve colorare il cerchio in base al numero di visite in un giorno e settare il testo all'interno
@@ -151,7 +156,7 @@ public class FullCalendarView {
 
 
             setTopAnchor(stack, 40.0);
-            setLeftAnchor(stack, 40.0);
+            setLeftAnchor(stack, 30.0);
             ap.getChildren().add(stack);
             ap.setDate(calendarDate);
 
@@ -166,7 +171,7 @@ public class FullCalendarView {
             calendarDate = calendarDate.plusDays(1);
         }
         // Change the title of the calendar
-        calendarTitle.setText(yearMonth.getMonth().toString() + " " + yearMonth.getYear()); //#TODO: qua cambiare la stampa del mese in italiano
+        calendarTitle.setText(yearMonth.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN).toUpperCase(Locale.ROOT)+ "  " + yearMonth.getYear()); //#TODO: qua cambiare la stampa del mese in italiano
     }
 
     /**
