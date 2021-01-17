@@ -7,7 +7,7 @@ public class EmailProcessor {
 
     private static Consumer<Communication> handler;
 
-    public static Consumer<Communication> businessHandler = email -> {if (email.getMyAccountEmail().endsWith("hotmail.it")) {
+    public static Consumer<Communication> outlookHandler = email -> {if (email.getMyAccountEmail().endsWith("hotmail.it")) {
         ServiceOutlookMail.sendMail(email);
         System.out.println("Invio email ad un account outlook");}};
 

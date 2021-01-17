@@ -86,25 +86,18 @@ public class ShowSpecificBookingVisitController implements Initializable {
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
 
-
                             //System.out.println("Print idOwner prenotazione" + data.getId_owner());
                             Scene scene = this.getScene();
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
                             try {
                                 //#TODo: cambiare con vista di visualizzazione report
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return  new CreateReportController(data);
-                                    }
-                                });
+                                loader.setControllerFactory(p -> new CreateReportController(data));
                                 borderPane.setCenter(loader.load());
 
                             } catch (IOException e) {
                                 e.printStackTrace();
-                            };
-
-                            //System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
+                            }
                         });
                     }
 

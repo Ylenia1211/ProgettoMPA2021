@@ -344,7 +344,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                 "                  INNER JOIN person" +
                 "                             ON person.id = masterdata.id" +
                 "                  INNER JOIN OWNER" +
-                "                             ON  OWNER.id = ? ";
+                "                             ON  OWNER.id = MASTERDATA.ID WHERE OWNER.id = ?";
         try {
             PreparedStatement statement = connection_db.getConnectData().prepareStatement(sqlSearch);
             statement.setString(1, id);
