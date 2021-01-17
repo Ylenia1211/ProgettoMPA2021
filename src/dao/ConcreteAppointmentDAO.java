@@ -364,7 +364,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
             }
             assert owner != null;
-            //System.out.println(owner.toString());
+            System.out.println(owner.toString());
             return owner;
         } catch (SQLException e) {
             e.printStackTrace();

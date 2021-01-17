@@ -8,9 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import model.Appointment;
-import model.ConcreteObserver;
-import model.Observer;
-import model.Subject;
+import util.ConcreteObserver;
+import util.Observer;
+import util.Subject;
 
 import java.net.URL;
 import java.time.LocalDate;
