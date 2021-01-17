@@ -45,8 +45,8 @@ public class AnchorPaneNode extends AnchorPane {
     public AnchorPaneNode(Node... children) {
         super(children);
         try{
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            this.appointmentRepo = new ConcreteAppointmentDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
             this.listAppointmentDay = new ArrayList<>();
         }
         catch (Exception e){

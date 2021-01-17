@@ -64,8 +64,8 @@ public class ReportViewController  implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            this.reportDAO = new ConcreteReportDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            this.reportDAO = new ConcreteReportDAO(ConnectionDBH2.getInstance());
             this.idBooking = this.reportDAO.searchIdBookingByAppointment(this.appointment);
             
 

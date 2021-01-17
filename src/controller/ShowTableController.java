@@ -57,8 +57,8 @@ public class ShowTableController implements Initializable {
         col_animal.setCellValueFactory(new PropertyValueFactory<>("tot_animal"));
 
         try{
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            clientRepo = new ConcreteOwnerDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            clientRepo = new ConcreteOwnerDAO(ConnectionDBH2.getInstance());
             ResultSet r =  clientRepo.findAll();
             while(r.next()){
                      listItems.add( new Owner.Builder<>()

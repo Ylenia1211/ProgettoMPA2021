@@ -62,8 +62,8 @@ public class ClientController implements Initializable {
         this.textFiscalCode = new TextField();
 
         try{
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            this.clientRepo = new ConcreteOwnerDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            this.clientRepo = new ConcreteOwnerDAO(ConnectionDBH2.getInstance());
         }
 
         catch (Exception e){

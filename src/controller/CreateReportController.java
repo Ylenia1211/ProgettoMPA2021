@@ -62,8 +62,8 @@ public class CreateReportController  implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            this.appointmentRepo = new ConcreteAppointmentDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
 
             //ricerca di dei dati del owner
             Owner owner = this.appointmentRepo.searchOwnerById(idOwner);
@@ -83,11 +83,7 @@ public class CreateReportController  implements Initializable {
 
             //view estesa con un'altra
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml"));
-            loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                public Object call(Class<?> p) {
-                    return  new ReportViewController(appointment);
-                }
-            });
+            loader.setControllerFactory(p -> new ReportViewController(appointment));
             //loader.setController(new ReportViewController());
             VBox mainPane = loader.load();
             vbox_main.getChildren().add(mainPane);

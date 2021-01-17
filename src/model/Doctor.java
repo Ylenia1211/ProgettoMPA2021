@@ -8,23 +8,24 @@ public class Doctor extends Person{
         protected String username;
         protected String password;
 
+
         public Builder(String specialization, String username, String password){
             super();
             this.specialization = specialization;
             this.username = username;
             this.password = password;
         }
-        public T addSpecialization(String specialization){
+        public Builder addSpecialization(String specialization){
             this.specialization = specialization;
-            return (T) getThis();
+            return this;
         }
-        public T addUsername(String username){
+        public Builder addUsername(String username){
             this.username = username;
-            return (T) getThis();
+            return this;
         }
-        public T addPassword(String password){
+        public Builder addPassword(String password){
             this.password = password;
-            return (T) getThis();
+            return this;
         }
 
         @Override

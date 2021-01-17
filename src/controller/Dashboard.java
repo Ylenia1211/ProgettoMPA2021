@@ -40,8 +40,7 @@ public class Dashboard implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
          setUserLogged(LoginController.getInstance().getUserLogged());
-
-        //costruzione delle azioni della sideBar in base al Ruolo dell'utente loggato,  utilizzando il Pattern Factory
+       //costruzione delle azioni della sideBar in base al Ruolo dell'utente loggato,  utilizzando il Pattern Factory
         SideBarAction sideBarByRole = SideBarFactory.createSideBar(this.roleUserLogged);  //mi serve il ruolo dell'utente loggato
         try {
             this.setButtons(sidebar, sideBarByRole.getSpecificAction()); //costruzione specifica delle azioni dell'user loggato

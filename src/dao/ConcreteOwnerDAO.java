@@ -12,10 +12,9 @@ import java.sql.SQLException;
 
 
 public class ConcreteOwnerDAO implements OwnerDAO{
-    private ConnectionDBH2 connection_db;
-
-    public ConcreteOwnerDAO(ConnectionDBH2 con) {
-        this.connection_db = con;
+    private final ConnectionDBH2 connection_db;
+    public  ConcreteOwnerDAO(ConnectionDBH2 connection_db) {
+        this.connection_db = connection_db;
     }
 
     @Override
@@ -23,7 +22,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
         PreparedStatement ps = null;
         try {
-            ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
+            ps = connection_db.getConnectData().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
             ps.setString(1, owner.getId());
             ps.setString(2, owner.getName());
             ps.setString(3, owner.getSurname());
@@ -35,7 +34,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
 
             ps = null;
-            ps = connection_db.dbConnection().prepareStatement("insert into person(id, address, city, telephone, email, fiscalcode) values(?,?,?,?,?,?)");
+            ps = connection_db.getConnectData().prepareStatement("insert into person(id, address, city, telephone, email, fiscalcode) values(?,?,?,?,?,?)");
             ps.setString(1, owner.getId());
             ps.setString(2, owner.getAddress());
             ps.setString(3, owner.getCity());
@@ -46,7 +45,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             System.out.println("Dati civici Owner aggiunti al DB!");
 
             ps = null;
-            ps = connection_db.dbConnection().prepareStatement("insert into owner(id, tot_animal) values(?,?)");
+            ps = connection_db.getConnectData().prepareStatement("insert into owner(id, tot_animal) values(?,?)");
             ps.setString(1, owner.getId());
             ps.setInt(2, owner.getTot_animal());
             ps.executeUpdate();
@@ -62,7 +61,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
     @Override
     public ResultSet findAll() {
         try {
-            PreparedStatement statement = connection_db.dbConnection()
+            PreparedStatement statement = connection_db.getConnectData()
                     .prepareStatement(" SELECT * FROM masterdata INNER JOIN person ON person.id = masterdata.id INNER JOIN owner ON  person.id = owner.id ");
             return statement.executeQuery();
         } catch (SQLException e) {
@@ -78,7 +77,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
         PreparedStatement ps = null;
         try {
-            ps = connection_db.dbConnection().prepareStatement(sqlMasterData);
+            ps = connection_db.getConnectData().prepareStatement(sqlMasterData);
             ps.setString(1, client.getName());
             ps.setString(2, client.getSurname());
             ps.setString(3, client.getSex().toString());
@@ -103,18 +102,18 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
         PreparedStatement ps = null;
         try {
-            ps = connection_db.dbConnection().prepareStatement("delete from masterdata where masterdata.id = "+"\'"+ id +"\'" );
+            ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = "+"\'"+ id +"\'" );
             ps.executeUpdate();
             System.out.println("Cancellati dati Anagrafica del Owner!");
 
             ps = null;
-            ps = connection_db.dbConnection().prepareStatement("delete from person where person.id = "+"\'"+ id +"\'" );
+            ps = connection_db.getConnectData().prepareStatement("delete from person where person.id = "+"\'"+ id +"\'" );
 
             ps.executeUpdate();
             System.out.println("Cancellati dati civici del Owner!");
 
             ps = null;
-            ps = connection_db.dbConnection().prepareStatement("delete from owner where owner.id = "+"\'"+ id +"\'" );
+            ps = connection_db.getConnectData().prepareStatement("delete from owner where owner.id = "+"\'"+ id +"\'" );
 
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cancellato correttamente!");
@@ -128,7 +127,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
     public String search(Owner client) {
         PreparedStatement ps = null;
         try{
-            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT * FROM masterdata" +
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
                     "    INNER JOIN person" +
                     "    ON person.id = masterdata.id" +
                     "    INNER JOIN owner  " +

@@ -25,8 +25,8 @@ public class RegistrationDoctorController extends ClientController{
         //ConnectionDBH2.quitConnectionDB();
         try{
 
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            this.doctorRepo = new ConcreteDoctorDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
             //System.out.println(this.doctorRepo);
         }
 

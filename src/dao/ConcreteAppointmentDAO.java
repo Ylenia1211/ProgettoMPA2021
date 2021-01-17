@@ -28,7 +28,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     public void add(Appointment appointment) {
         PreparedStatement ps;
         try {
-            ps = connection_db.dbConnection().prepareStatement("insert into BOOKING(ID, DATE_VISIT, TIME_START, TIME_END, ID_DOCTOR, SPECIALIZATION,ID_OWNER, ID_PET) values(?,?,?,?,?,?,?,?)");
+            ps = connection_db.getConnectData().prepareStatement("insert into BOOKING(ID, DATE_VISIT, TIME_START, TIME_END, ID_DOCTOR, SPECIALIZATION,ID_OWNER, ID_PET) values(?,?,?,?,?,?,?,?)");
             ps.setString(1,  appointment.getId());
             ps.setString(2, appointment.getLocalDate().toString());
             ps.setString(3,  appointment.getLocalTimeStart().toString());
@@ -55,7 +55,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         String sqlUpdateAppointment =  "UPDATE BOOKING SET DATE_VISIT = ?, TIME_START = ?, TIME_END = ? WHERE ID = ?";
         PreparedStatement ps = null;
         try {
-            ps = connection_db.dbConnection().prepareStatement(sqlUpdateAppointment);
+            ps = connection_db.getConnectData().prepareStatement(sqlUpdateAppointment);
             ps.setString(1, appointment.getLocalDate().toString());
             ps.setString(2, appointment.getLocalTimeStart().toString() );
             ps.setString(3, appointment.getLocalTimeEnd().toString());
@@ -74,7 +74,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     public void delete(String id) {
         PreparedStatement ps = null;
         try {
-            ps = connection_db.dbConnection().prepareStatement("delete from BOOKING where BOOKING.ID = "+"\'"+ id +"\'" );
+            ps = connection_db.getConnectData().prepareStatement("delete from BOOKING where BOOKING.ID = "+"\'"+ id +"\'" );
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Prenotazione cancellata correttamente!");
         } catch (SQLException e) {
@@ -95,7 +95,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                 "                             ON  person.id = owner.id";
 
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearch);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
@@ -116,7 +116,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                 "        INNER JOIN pet ON pet.id = masterdata.id" +
                 "        WHERE pet.OWNER = ?";
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchById);
+            PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearchById);
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
@@ -155,7 +155,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                 "                             ON  person.id = DOCTOR.ID";
 
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearch);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 //dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
@@ -180,7 +180,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                 "                  INNER JOIN DOCTOR" +
                 "                             ON  person.id = DOCTOR.ID WHERE DOCTOR.ID = ? ";
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearch);
             statement.setString(1, idDoctorSearched);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
@@ -201,7 +201,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         List<Appointment> listAppointment = new ArrayList<>();
         String sqlSearch = "SELECT * FROM booking WHERE BOOKING.DATE_VISIT = ? ";
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearch);
             statement.setString(1, date);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
@@ -232,7 +232,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         String sqlSearch = "SELECT COUNT(date_visit) as count_visit FROM BOOKING\n" +
                 "        WHERE DATE_VISIT= ?";
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearch);
             statement.setString(1, date);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -256,7 +256,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     public String search(Appointment appointment) {
         PreparedStatement ps = null;
         try{
-            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT * FROM BOOKING" +
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM BOOKING" +
                      "   WHERE BOOKING.DATE_VISIT =" +"\'"+ appointment.getLocalDate() +"\'"+
                      "    AND BOOKING.TIME_START =" +"\'"+ appointment.getLocalTimeStart() +"\'"+
                      "    AND BOOKING.TIME_END =" +"\'"+ appointment.getLocalTimeEnd() +"\'"+
@@ -283,7 +283,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     public String searchEmailOwnerbyIdAppointment(String id) {
         PreparedStatement ps = null;
         try{
-            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT EMAIL FROM PERSON\n" +
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT EMAIL FROM PERSON\n" +
                     "                  INNER JOIN OWNER\n" +
                     "                             ON PERSON.id = OWNER.id\n" +
                     "                  INNER JOIN BOOKING\n" +
@@ -314,7 +314,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                 "                             ON MASTERDATA.ID = ?";
 
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement(sqlSearch);
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
@@ -346,7 +346,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                 "                  INNER JOIN OWNER" +
                 "                             ON  OWNER.id = ? ";
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement(sqlSearch);
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
@@ -376,7 +376,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     public boolean searchIfExistAppointmentInReport(String id) {
         String sqlSearch = "SELECT * FROM REPORT WHERE ID_BOOKING = ? ";
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement(sqlSearch);
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
             return rs.next();

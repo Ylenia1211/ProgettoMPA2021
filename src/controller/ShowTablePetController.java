@@ -48,8 +48,8 @@ public class ShowTablePetController  implements Initializable {
         col_particularSign.setCellValueFactory(new PropertyValueFactory<>("particularSign"));
 
         try{
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            petRepo = new ConcretePetDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
             System.out.println("id: dopo " + this.id_owner);
             List<Pet> petsResult = petRepo.searchByOwner(this.id_owner);
 

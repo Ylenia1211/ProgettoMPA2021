@@ -59,8 +59,8 @@ public class ShowSpecificBookingVisitController implements Initializable {
         //col_owner.setCellValueFactory(new PropertyValueFactory<>("id_owner"));
         //col_pet.setCellValueFactory(new PropertyValueFactory<>("id_pet"));
         try{
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            appointmentRepo = new ConcreteAppointmentDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
             tableBookingVisit.setItems(listItems);
             addButtonUpdateToTable();
             addButtonDeleteToTable();

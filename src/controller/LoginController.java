@@ -36,34 +36,36 @@ public class LoginController implements Initializable {
     @FXML
     private ComboBox<String> textRoleUser;
     private ConcreteLoginDAO loginRepo;
-
-    private static LoginController instance; // mi serve per prendere l'utente loggato
     private User userLogged;
 
+    private static LoginController instance; // Singleton: mi serve per prendere l'utente loggato
+    // Quando il client deve usare l’oggetto, lo può richiamare invocando
+                                                                          //il metodo getInstance
     public LoginController() {
         instance = this;
         try{
-
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            this.loginRepo = new ConcreteLoginDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            this.loginRepo = new ConcreteLoginDAO(ConnectionDBH2.getInstance()); //uso singleton
         }
         catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
     }
-    public static LoginController getInstance(){
+
+    public static LoginController getInstance() {
         return instance;
     }
+
+
 
     public User getUserLogged() {
         return userLogged;
     }
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         ObservableList<String> roles = FXCollections.observableArrayList("Dottore", "Segreteria", "Amministratore");
         this.textRoleUser = new ComboBox<>(roles);
         this.textRoleUser.setLayoutX(194.0);
@@ -83,7 +85,7 @@ public class LoginController implements Initializable {
         if (textRoleUser.getValue() != null) { //se è stato settato il valore della combobox
             this.userLogged = createUser();
             System.out.println(userLogged.toString());
-            //TODO: ricerca del username e password in base al ruolo
+            //ricerca del username e password in base al ruolo
             boolean result = this.loginRepo.searchUser(userLogged);
             if (result) {
                 btnLogin.getScene().getWindow().hide();

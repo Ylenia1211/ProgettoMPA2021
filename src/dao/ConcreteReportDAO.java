@@ -14,11 +14,12 @@ public class ConcreteReportDAO implements ReportDAO {
     public  ConcreteReportDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
     }
+
     @Override
     public void add(Report report) {
         PreparedStatement ps;
         try {
-            ps = connection_db.dbConnection().prepareStatement("insert into REPORT(ID, ID_BOOKING, ID_OWNER, ID_PET,DIAGNOSIS, TREATMENTS,PATHFILE) values(?,?,?,?,?,?,?)");
+            ps = connection_db.getConnectData().prepareStatement("insert into REPORT(ID, ID_BOOKING, ID_OWNER, ID_PET,DIAGNOSIS, TREATMENTS,PATHFILE) values(?,?,?,?,?,?,?)");
             ps.setString(1, report.getId());
             ps.setString(2, report.getId_booking());
             ps.setString(3, report.getId_owner());
@@ -53,7 +54,7 @@ public class ConcreteReportDAO implements ReportDAO {
     public String searchIdBookingByAppointment(Appointment appointment) {
         PreparedStatement ps = null;
         try{
-            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT * FROM BOOKING" +
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM BOOKING" +
                     "  WHERE BOOKING.ID_OWNER = ? AND BOOKING.ID_PET = ? AND BOOKING.DATE_VISIT = ? AND BOOKING.TIME_START = ? AND BOOKING.TIME_END = ? AND BOOKING.ID_DOCTOR = ? AND  BOOKING.SPECIALIZATION = ?");
             statement.setString(1, appointment.getId_owner());
             statement.setString(2, appointment.getId_pet());

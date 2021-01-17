@@ -50,8 +50,8 @@ public class RegistrationPetController implements Initializable {
         this.rbF = new RadioButton(Gender.F.getDeclaringClass().descriptorString());
 
         try{
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            this.petRepo = new ConcretePetDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            this.petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
 
         }
 

@@ -21,7 +21,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
     public void add(Doctor doctor) {
         PreparedStatement ps;
         try {
-            ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
+            ps =connection_db.getConnectData().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getName());
             ps.setString(3, doctor.getSurname());
@@ -32,7 +32,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             System.out.println("Anagrafica Doctor aggiunta al DB!");
 
             //#TODO:aggiungere cod.fiscale nella query sotto e nella vista di creazione del dottore
-            ps = connection_db.dbConnection().prepareStatement("insert into person(id, address, city, telephone, email) values(?,?,?,?,?)");
+            ps =connection_db.getConnectData().prepareStatement("insert into person(id, address, city, telephone, email) values(?,?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getAddress());
             ps.setString(3, doctor.getCity());
@@ -41,7 +41,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             ps.executeUpdate();
             System.out.println("Dati civici Doctor aggiunti al DB!");
 
-            ps = connection_db.dbConnection().prepareStatement("insert into doctor(id, specialization, username, password) values(?,?,?,?)");
+            ps = connection_db.getConnectData().prepareStatement("insert into doctor(id, specialization, username, password) values(?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getSpecialization());
             ps.setString(3, doctor.getUsername());
@@ -59,7 +59,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
     @Override
     public ResultSet findAll() {
         try {
-            PreparedStatement statement = connection_db.dbConnection().prepareStatement("SELECT * FROM DOCTOR");
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM DOCTOR");
             return statement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
 
         PreparedStatement ps;
         try {
-            ps = connection_db.dbConnection().prepareStatement(sqlMasterData);
+            ps = connection_db.getConnectData().prepareStatement(sqlMasterData);
             ps.setString(1, item.getSpecialization());
             ps.setString(2, item.getUsername());
             ps.setString(3, item.getPassword());
@@ -94,7 +94,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
 
         PreparedStatement ps;
         try {
-            ps = connection_db.dbConnection().prepareStatement("DELETE FROM DOCTOR WHERE DOCTOR.ID = "+ "'" + id + "'");
+            ps = connection_db.getConnectData().prepareStatement("DELETE FROM DOCTOR WHERE DOCTOR.ID = "+ "'" + id + "'");
             ps.executeUpdate();
             System.out.println("Cancellati dati del Doctor!");
             JOptionPane.showMessageDialog(null, "Cancellato correttamente!");
@@ -112,7 +112,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
         String sqlSearchSpecialization = "SELECT * FROM SPECIALIZATION";
 
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchSpecialization);
+            PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearchSpecialization);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 System.out.println(rs.getString("name"));

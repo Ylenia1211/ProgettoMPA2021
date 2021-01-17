@@ -22,7 +22,7 @@ public class ConcretePetDAO implements PetDAO {
     public void add(Pet pet) {
         PreparedStatement ps = null;
         try {
-            ps = connection_db.dbConnection().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
+            ps = connection_db.getConnectData().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
             ps.setString(1, pet.getId());
             ps.setString(2, pet.getName());
             ps.setString(3, pet.getSurname());
@@ -34,7 +34,7 @@ public class ConcretePetDAO implements PetDAO {
 
 
             ps = null;
-            ps = connection_db.dbConnection().prepareStatement("insert into pet(id, typepet, owner, particularsign) values(?,?,?,?)");
+            ps = connection_db.getConnectData().prepareStatement("insert into pet(id, typepet, owner, particularsign) values(?,?,?,?)");
             ps.setString(1, pet.getId());
             ps.setString(2, pet.getId_petRace());
             ps.setString(3, pet.getId_owner());
@@ -52,7 +52,7 @@ public class ConcretePetDAO implements PetDAO {
             ps = null;
             int number_pet=0;
             try {
-                ps = connection_db.dbConnection().prepareStatement(sqlSearchNumAnimalOwner);
+                ps = connection_db.getConnectData().prepareStatement(sqlSearchNumAnimalOwner);
                 ps.setString(1, pet.getId_owner());
                 ResultSet rs = ps.executeQuery();
                 while(rs.next()){
@@ -63,7 +63,7 @@ public class ConcretePetDAO implements PetDAO {
 
                 String sqlupdateNumberPet = "UPDATE owner SET tot_animal = ? where owner.id = ?";
                 try {
-                    ps = connection_db.dbConnection().prepareStatement(sqlupdateNumberPet);
+                    ps = connection_db.getConnectData().prepareStatement(sqlupdateNumberPet);
                     ps.setInt(1, number_pet);
                     ps.setString(2, pet.getId_owner());
                     ps.executeUpdate();
@@ -110,7 +110,7 @@ public class ConcretePetDAO implements PetDAO {
         String sqlSearchRace = "SELECT * FROM typepet";
 
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchRace);
+            PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearchRace);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 //System.out.println(rs.getString("name"));
@@ -139,7 +139,7 @@ public class ConcretePetDAO implements PetDAO {
                 "                             ON  person.id = owner.id";
 
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearch);
+            PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearch);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
@@ -161,7 +161,7 @@ public class ConcretePetDAO implements PetDAO {
                "        INNER JOIN pet ON pet.id = masterdata.id\n" +
                "        WHERE pet.OWNER = ?";
         try {
-            PreparedStatement statement = this.connection_db.dbConnection().prepareStatement(sqlSearchById);
+            PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearchById);
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){

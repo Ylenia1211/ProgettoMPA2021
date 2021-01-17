@@ -64,8 +64,8 @@ public class BookingAppointmentController implements Initializable {
         this.listDoctor  = new HashMap<>();
         this.listPets  = new HashMap<>();
         try{
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            this.appointmentRepo = new ConcreteAppointmentDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
         }
         catch (Exception e){
             e.printStackTrace();

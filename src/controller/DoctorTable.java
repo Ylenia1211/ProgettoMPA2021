@@ -34,8 +34,8 @@ public class DoctorTable implements Initializable {
         //#TODO aggiungere listerer onClick Long press quando si clicca su Cliente --> deve spuntare la lista degli animali associati
 
         try{
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            doctorRepo = new ConcreteDoctorDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
             ResultSet r = doctorRepo.findAll();
             while(r.next()){
                 listItems.add(new Doctor.Builder<>(r.getString("specialization"),

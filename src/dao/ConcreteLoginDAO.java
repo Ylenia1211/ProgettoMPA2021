@@ -13,8 +13,8 @@ import java.util.Locale;
 
 
 public class ConcreteLoginDAO{
-    private final ConnectionDBH2 connection_db;
-    public  ConcreteLoginDAO(ConnectionDBH2 connection_db) {
+     private final ConnectionDBH2 connection_db;
+     public  ConcreteLoginDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
     }
 
@@ -42,7 +42,9 @@ public class ConcreteLoginDAO{
         String username;
         String password;
         try {
-            ps = connection_db.dbConnection().prepareStatement(sqlSearch);
+            //ps = connection_db.dbConnection().prepareStatement(sqlSearch);
+
+            ps = connection_db.getConnectData().prepareStatement(sqlSearch);
             ps.setString(1, userLogged.getUsername());
             ps.setString(2, userLogged.getPassword());
             ResultSet rs = ps.executeQuery();
@@ -72,7 +74,7 @@ public class ConcreteLoginDAO{
         String username;
         String password;
         try {
-            ps = connection_db.dbConnection().prepareStatement(sqlSearch);
+            ps = connection_db.getConnectData().prepareStatement(sqlSearch);
             ps.setString(1, userLogged.getUsername());
             ps.setString(2, userLogged.getPassword());
             ResultSet rs = ps.executeQuery();
@@ -100,7 +102,7 @@ public class ConcreteLoginDAO{
         String username;
         String password;
         try {
-            ps = connection_db.dbConnection().prepareStatement(sqlSearch);
+            ps = connection_db.getConnectData().prepareStatement(sqlSearch);
             ps.setString(1, userLogged.getUsername());
             ps.setString(2, userLogged.getPassword());
             ResultSet rs = ps.executeQuery();

@@ -43,8 +43,8 @@ public class FullCalendarView {
     public FullCalendarView(YearMonth yearMonth) {
 
         try{
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            this.appointmentRepo = new ConcreteAppointmentDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
             this.listAppointmentDay = new ArrayList<>();
         }
         catch (Exception e){
@@ -97,6 +97,7 @@ public class FullCalendarView {
         nextMonth.setOnAction(e -> nextMonth());
         HBox titleBar = new HBox(previousMonth, calendarTitle, nextMonth);
         titleBar.setAlignment(Pos.BASELINE_CENTER);
+
         // Populate calendar with the appropriate day numbers
         populateCalendar(yearMonth);
         // Create the calendar view

@@ -52,8 +52,8 @@ public class ShowInfoOwnerPetController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
-            ConnectionDBH2 connection = new ConnectionDBH2();
-            this.appointmentRepo = new ConcreteAppointmentDAO(connection);
+            //ConnectionDBH2 connection = new ConnectionDBH2();
+            this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
 
             //ricerca di dei dati del owner
             Owner owner =  this.appointmentRepo.searchOwnerById(idOwner);
