@@ -8,11 +8,11 @@ public class EmailProcessor {
     private static Consumer<Communication> handler;
 
     public static Consumer<Communication> outlookHandler = email -> {if (email.getMyAccountEmail().endsWith("hotmail.it")) {
-        ServiceOutlookMail.sendMail(email);
+        ServiceClientMail.sendMail(email,"smtp.live.com");
         System.out.println("Invio email ad un account outlook");}};
 
     public static Consumer<Communication> gMailHandler = email -> {if (email.getMyAccountEmail().endsWith("gmail.com")) {
-        ServiceGMail.sendMail(email);
+        ServiceClientMail.sendMail(email, "smtp.gmail.com");
         System.out.println("Invio email ad un account gmail");}};
 
     public static Consumer<Communication> initialHandler = email ->   System.out.println("Prepazione invio email in corso...");

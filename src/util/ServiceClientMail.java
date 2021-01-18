@@ -13,13 +13,13 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ServiceOutlookMail {
+public class ServiceClientMail {
     private static JFrame jfrProgress;
     private static Container contentPane;
     private static JProgressBar progressBar;
     private static String doing;
 
-    public static void sendMail(Communication email) {
+    public static void sendMail(Communication email, String host) {
 
         System.out.println("Prepazione invio email in corso... ");
         /*Alert alert = new Alert(Alert.AlertType.INFORMATION,
@@ -56,7 +56,7 @@ public class ServiceOutlookMail {
         //necessari per mandare l'email
         proprieties.put("mail.smtp.auth", "true");
         proprieties.put("mail.smtp.starttls.enable", "true");
-        proprieties.put("mail.smtp.host", "smtp.live.com");  //mando  email con dominio gmail.com
+        proprieties.put("mail.smtp.host", host);  //mando  email con dominio gmail.com
         proprieties.put("mail.smtp.port", "587");
 
 
@@ -119,7 +119,7 @@ public class ServiceOutlookMail {
                     "\nCordiali saluti, \nStaff VetClinicManagement");
             return  message;
         } catch (MessagingException ex){
-            Logger.getLogger(ServiceGMail.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiceClientMail.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
