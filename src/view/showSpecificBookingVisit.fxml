@@ -9,7 +9,9 @@
             <TableColumn fx:id="col_data" text="Data" />
             <TableColumn fx:id="col_timestart" text="Ora inizio" />
             <TableColumn fx:id="col_timeend" text="Ora fine (prevista)" />
-            <TableColumn fx:id="col_doctor" text="Id_doctor" />
+            <!--<TableColumn fx:id="col_doctor" text="Dottore" />-->
+           <!-- <TableColumn fx:id="col_doctorName" text="Nome Dottore" />
+            <TableColumn fx:id="col_doctorSurname" text="Cognome Dottore" /> -->
             <TableColumn fx:id="col_type" text="Tipo Visita" />
             <!--<TableColumn fx:id="col_owner" text="Id_owner" />
             <TableColumn fx:id="col_pet" text="Id_pet" />-->

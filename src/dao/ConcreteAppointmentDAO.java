@@ -1,10 +1,7 @@
 package dao;
 
 import datasource.ConnectionDBH2;
-import model.Appointment;
-import model.Gender;
-import model.Owner;
-import model.Pet;
+import model.*;
 
 import javax.swing.*;
 import java.sql.PreparedStatement;
@@ -411,6 +408,43 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return listAppointment;
+        }
+    }
+
+    @Override
+    public Doctor searchDoctorById(String id) {
+        Doctor doctor = null;
+        String sqlSearch = "SELECT * FROM masterdata" +
+                "                  INNER JOIN person" +
+                "                             ON person.id = masterdata.id" +
+                "                  INNER JOIN DOCTOR" +
+                "                             ON  DOCTOR.id = MASTERDATA.ID WHERE DOCTOR.id = ?";
+        try {
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement(sqlSearch);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                doctor = new Doctor.Builder<>()
+                        .addName(rs.getString("name"))
+                        .addSurname(rs.getString("surname"))
+                        .addSex(Gender.valueOf(rs.getString("sex")))
+                        .addDateBirth(LocalDate.parse(rs.getString("datebirth")))
+                        .addAddress(rs.getString("address"))
+                        .addCity(rs.getString("city"))
+                        .addTelephone(rs.getString("telephone"))
+                        .addFiscalCode(rs.getString("fiscalcode"))
+                        .addEmail(rs.getString("email"))
+                        .addSpecialization(rs.getString("specialization"))
+                        .addUsername(rs.getString("username"))
+                        .addPassword(rs.getString("password"))
+                        .build();
+
+            }
+            assert doctor != null;
+            return doctor;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

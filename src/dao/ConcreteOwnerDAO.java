@@ -74,6 +74,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
     @Override
     public void update(String id, Owner client) {
         String sqlMasterData = "UPDATE masterdata SET name = ?, surname = ?, sex = ?, datebirth = ? where masterdata.id = ?";
+        String sqlPersonData = "UPDATE person SET address = ?, city = ?, telephone = ?, email = ?, fiscalcode = ? where person.id = ?";
 
         PreparedStatement ps = null;
         try {
@@ -86,9 +87,17 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             ps.executeUpdate();
 
             System.out.println("Aggiornati dati Anagrafica del Owner!");
-
-            //#TODO: Aggiornare le altre tabelle
-
+            ps = null;
+            ps = connection_db.getConnectData().prepareStatement(sqlPersonData);
+            ps.setString(1, client.getAddress());
+            ps.setString(2, client.getCity());
+            ps.setString(3, client.getTelephone());
+            ps.setString(4, client.getEmail());
+            ps.setString(5, client.getFiscalCode());
+            ps.setString(6, id);
+            ps.executeUpdate();
+            System.out.println("Aggiornati dati persona del Owner!");
+            JOptionPane.showMessageDialog(null, "Modificato correttamente!");
 
         } catch (SQLException e) {
             e.printStackTrace();

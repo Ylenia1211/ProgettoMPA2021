@@ -35,8 +35,10 @@ public class ShowSpecificBookingVisitController implements Initializable {
     public TableColumn<Appointment, String>  col_data;
     public TableColumn<Appointment, String>  col_timestart;
     public TableColumn<Appointment, String>  col_timeend;
-    public TableColumn<Appointment, String>  col_doctor;
+    //public TableColumn<Appointment, String>  col_doctor;
     public TableColumn<Appointment, String>  col_type;
+    //public TableColumn <Appointment, String> col_doctorName;
+    //public TableColumn <Appointment, String> col_doctorSurname;
     //public TableColumn<Appointment, String>  col_owner;
     //public TableColumn<Appointment, String>  col_pet;
     private ConcreteAppointmentDAO appointmentRepo;
@@ -53,25 +55,18 @@ public class ShowSpecificBookingVisitController implements Initializable {
         col_data.setCellValueFactory(new PropertyValueFactory<>("localDate"));
         col_timestart.setCellValueFactory(new PropertyValueFactory<>("localTimeStart"));
         col_timeend.setCellValueFactory(new PropertyValueFactory<>("localTimeEnd"));
-        col_doctor.setCellValueFactory(new PropertyValueFactory<>("id_doctor"));  //questo si toglie visto che la vista deve essere specifica
+        //col_doctor.setCellValueFactory(new PropertyValueFactory<>("id_doctor"));  //questo si toglie visto che la vista deve essere specifica
                                                                                      //in base al doctor che visualizza
+
         col_type.setCellValueFactory(new PropertyValueFactory<>("specialitation"));  //nome dell'attributo nella classe
-        //col_owner.setCellValueFactory(new PropertyValueFactory<>("id_owner"));
-        //col_pet.setCellValueFactory(new PropertyValueFactory<>("id_pet"));
-        try{
-            //ConnectionDBH2 connection = new ConnectionDBH2();
-            appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-            tableBookingVisit.setItems(listItems);
-            addButtonUpdateToTable();
-            addButtonDeleteToTable();
-            addButtonViewInfoOwnerPet();
-            addButtonCreateReport();
-            addButtonViewReport();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-        }
+
+        appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
+        tableBookingVisit.setItems(listItems);
+        addButtonUpdateToTable();
+        addButtonDeleteToTable();
+        addButtonViewInfoOwnerPet();
+        addButtonCreateReport();
+        addButtonViewReport();
     }
 
     private void addButtonViewReport() {
