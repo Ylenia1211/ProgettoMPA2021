@@ -79,7 +79,7 @@ public class ShowInfoOwnerPetController implements Initializable {
             {
                 JOptionPane.showMessageDialog(null,"Errore nel caricamento dei dati del Paziente");
             }
-           //#todo: ricerca dati dottore associato e visualizza
+
             Doctor doctor = this.appointmentRepo.searchDoctorById(idDoctor);
             if(doctor!=null){
                 setFieldDataDoctor(doctor);
