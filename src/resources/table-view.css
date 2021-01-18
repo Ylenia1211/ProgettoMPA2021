@@ -6,7 +6,7 @@
 .table-cell {
     -fx-padding: 0.1em;
     -fx-border-color: transparent -fx-box-border transparent transparent;
-    -fx-font: 13px "Calibri";
+    -fx-font: 15px "Calibri";
     -fx-text-fill: #212121;
 }
 
@@ -20,6 +20,7 @@
     -fx-background-color: -fx-box-border, -fx-box-border, white;
 }
 .table-view .column-header{
+    -fx-font: 14px "Calibri";
     -fx-background-color: #3DA4E3;
 }
 .table-view .column-header .label {

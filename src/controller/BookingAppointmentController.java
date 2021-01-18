@@ -1,27 +1,19 @@
 package controller;
-
 import dao.ConcreteAppointmentDAO;
-import dao.ConcretePetDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.util.converter.LocalTimeStringConverter;
-import model.*;
-
+import model.Appointment;
 import javax.swing.*;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static controller.RegistrationPetController.getKeyByValue;
 
@@ -30,6 +22,7 @@ public class BookingAppointmentController implements Initializable {
     public Label labelTitle;
     public DatePicker textdateVisit;
     private ComboBox<Object> textTimeStart;
+    private ComboBox<Object> textMinutesTimeStart;
     private ComboBox<Object> textTimeDuration;
 
     public TextField textSpecialitation;
@@ -41,33 +34,30 @@ public class BookingAppointmentController implements Initializable {
 
     //servono per il campo ricerca owner -->pets
     private GridPane container;
-    private  HBox searchBox;
     private TextField searchText;
     private VBox dropDownMenu;
     private Map<String, String> listClient;
     private Map<String, String> listPets;
     private String idOwnerSearched;
-    private String idPetSearched;
 
 
     //servono per il campo ricerca doctor --> specialization
     private GridPane container2;
-    private  HBox searchBox2;
     private TextField searchText2;
     private VBox dropDownMenu2;
     private Map<String, String> listDoctor;
     private String idDoctorSearched;
     private String specializationDoctor;
+    private List<Integer> minutesStart;
 
     public BookingAppointmentController() {
-        this.listClient  = new HashMap<>();
-        this.listDoctor  = new HashMap<>();
-        this.listPets  = new HashMap<>();
-        try{
+        this.listClient = new HashMap<>();
+        this.listDoctor = new HashMap<>();
+        this.listPets = new HashMap<>();
+        try {
             //ConnectionDBH2 connection = new ConnectionDBH2();
             this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
@@ -80,11 +70,28 @@ public class BookingAppointmentController implements Initializable {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
-                setDisable(empty || date.compareTo(today) < 0 );
+                setDisable(empty || date.compareTo(today) < 0);
             }
         });
 
+        //settiamo le possibili ore lavorative
+        this.heuresWorkDay = List.of(
+                LocalTime.of(8, 0),
+                LocalTime.of(9, 0),
+                LocalTime.of(10, 0),
+                LocalTime.of(11, 0),
+                LocalTime.of(12, 0),
+                LocalTime.of(13, 0),
+                LocalTime.of(15, 0),
+                LocalTime.of(16, 0),
+                LocalTime.of(17, 0)
+        );
+
+        this.minutes = List.of(15, 30, 45, 60, 90, 120);
+        this.minutesStart = List.of(0, 15, 30, 45);
+
         addFieldTimeStart();
+        addFieldMinutesTimeStart();
         addFieldTimeDuration();
         addFieldDoctor();
         addFieldSpecialization();
@@ -95,6 +102,14 @@ public class BookingAppointmentController implements Initializable {
 
     }
 
+
+    public ComboBox<Object> getTextMinutesTimeStart() {
+        return textMinutesTimeStart;
+    }
+
+    public void setTextMinutesTimeStart(ComboBox<Object> textMinutesTimeStart) {
+        this.textMinutesTimeStart = textMinutesTimeStart;
+    }
 
     public ConcreteAppointmentDAO getAppointmentRepo() {
         return appointmentRepo;
@@ -109,59 +124,78 @@ public class BookingAppointmentController implements Initializable {
     }
 
     public void registrationVisit(ActionEvent actionEvent) {
+        // ricerca prenotazioni per quel dottore in quella data
         Appointment p = createAppointment();
-        //System.out.println(p.toString()); //test ok
-        //inserire controlli
-        this.appointmentRepo.add(p);
+        List<Appointment> listAppointment = this.appointmentRepo.searchVisitbyDoctorAndDate(this.idDoctorSearched, this.textdateVisit.getValue().toString());
+        boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
+                (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) ||
+
+                ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) &&
+                        item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
+        );
+        if (isValid) {
+            this.appointmentRepo.add(p);
+        } else {
+            JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Un altro appuntamento è già stato prenotato per quell'intervallo di tempo!");
+        }
     }
 
-    public Appointment createAppointment(){
-        this.idPetSearched = getKeyByValue(this.listPets,this.textPet.getValue().toString());
+    public Appointment createAppointment() {
+        String idPetSearched = getKeyByValue(this.listPets, this.textPet.getValue());
         //System.out.println(this.idPetSearched); ok
+        LocalTime timeStartVisit = ((LocalTime) this.textTimeStart.getValue()).plusMinutes((Integer) this.textMinutesTimeStart.getValue());
         Appointment p = new Appointment.Builder()
                 .setLocalDate(this.textdateVisit.getValue())
-                .setLocalTimeStart((LocalTime)this.textTimeStart.getValue())
-                .setLocalTimeEnd(((LocalTime) this.textTimeStart.getValue()).plusMinutes((Integer)this.textTimeDuration.getValue()))
+                .setLocalTimeStart(timeStartVisit)
+                .setLocalTimeEnd(timeStartVisit.plusMinutes((Integer) this.textTimeDuration.getValue()))
                 .setId_doctor(this.idDoctorSearched)
                 .setSpecialitation(this.specializationDoctor)
                 .setId_owner(this.idOwnerSearched)
-                .setId_pet(this.idPetSearched)
+                .setId_pet(idPetSearched)
                 .build();
         return p;
     }
 
-    public void addFieldTimeStart()  {
-        //settiamo le possibili ore lavorative
-        this.heuresWorkDay = List.of(
-                LocalTime.of( 8 , 0 ) ,
-                LocalTime.of( 9 , 0 ) ,
-                LocalTime.of( 10 , 0 ) ,
-                LocalTime.of( 11 , 0 ) ,
-                LocalTime.of( 12 , 0 ) ,
-                LocalTime.of( 13 , 0 ) ,
-                LocalTime.of( 15 , 0 ) ,
-                LocalTime.of( 16 , 0 ) ,
-                LocalTime.of( 17 , 0 )
-        );
+    public void addFieldTimeStart() {
+        HBox timeStartBox = new HBox();
+        timeStartBox.setAlignment(Pos.CENTER);
+        Label labelTimeStart = new Label("Ora Inizio: ");
         this.textTimeStart = new ComboBox(FXCollections.observableArrayList(this.heuresWorkDay));
         this.textTimeStart.setId("textTimeStart");
         this.textTimeStart.setPromptText("Seleziona Orario");
-        this.pane_main_grid.getChildren().add(this.textTimeStart);
+        timeStartBox.getChildren().addAll(labelTimeStart, textTimeStart);
+        this.pane_main_grid.getChildren().add(timeStartBox);
     }
 
-    public void addFieldTimeDuration()  {
-        this.minutes = List.of( 15 , 30 , 45, 60,  90, 120) ;
+    public void addFieldMinutesTimeStart() {
+        HBox minutesStartBox = new HBox();
+        minutesStartBox.setAlignment(Pos.CENTER);
+        Label labelMinutesStart = new Label("Minuti Inizio: ");
+        this.textMinutesTimeStart = new ComboBox(FXCollections.observableArrayList(this.minutesStart));
+        this.textMinutesTimeStart.setId("textMinutesTimeStart");
+        this.textMinutesTimeStart.setPromptText("Seleziona minuti");
+        minutesStartBox.getChildren().addAll(labelMinutesStart, textMinutesTimeStart);
+        this.pane_main_grid.getChildren().add(minutesStartBox);
+    }
+
+    public void addFieldTimeDuration() {
+        HBox durationBox = new HBox();
+        durationBox.setAlignment(Pos.CENTER);
+        Label labelMinutes = new Label("Durata (prevista): ");
         this.textTimeDuration = new ComboBox(FXCollections.observableArrayList(this.minutes));
         this.textTimeDuration.setId("textTimeDuration");
         this.textTimeDuration.setPromptText("Seleziona Durata");
-        this.pane_main_grid.getChildren().add(this.textTimeDuration);
+        durationBox.getChildren().addAll(labelMinutes, textTimeDuration);
+        this.pane_main_grid.getChildren().add(durationBox);
     }
 
-    public void addFieldDoctor()  {
+    public void addFieldDoctor() {
         this.listDoctor = this.appointmentRepo.searchAllDoctorByFiscalCod(); //ricerca per codice fiscale
         //this.listDoctor.values().forEach(System.out::println);  //test ok
         this.container2 = new GridPane();
-        this.searchBox2 = new HBox();
+
+        HBox searchBox2 = new HBox();
+        //searchBox2.setPrefWidth(400);
         this.searchText2 = new TextField();
         this.container2.setAlignment(Pos.CENTER);
         this.searchText2.setPromptText("Inserisci Codice Fiscale Dottore");  //#todo:per ora è surname
@@ -178,8 +212,8 @@ public class BookingAppointmentController implements Initializable {
             this.dropDownMenu2.getChildren().clear();
 
         });
-        this.searchBox2.getChildren().addAll(this.searchText2, clean); //, search);
-        this.container2.add(this.searchBox2, 0, 0);
+        searchBox2.getChildren().addAll(this.searchText2, clean); //, search);
+        this.container2.add(searchBox2, 0, 0);
         this.pane_main_grid.getChildren().add(this.container2); //aggiunge drop-menu a view
     }
 
@@ -192,11 +226,15 @@ public class BookingAppointmentController implements Initializable {
                 Label label = new Label(option); // create a label and inserisce il testo dell'opzione
                 // per poter cliccare sulle opzioni del menu a tendina
                 dropDownMenu2.getChildren().add(label); // inserisce label a VBox
-                label.setOnMouseEntered((e) -> {label.setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null))); } );
-                label.setOnMouseExited((e) -> {label.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null))); } );
+                label.setOnMouseEntered((e) -> {
+                    label.setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null)));
+                });
+                label.setOnMouseExited((e) -> {
+                    label.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null)));
+                });
                 label.setOnMouseClicked((e) -> {
                     this.searchText2.setText(label.getText());
-                    this.idDoctorSearched = getKeyByValue(this.listDoctor,this.searchText2.getText());
+                    this.idDoctorSearched = getKeyByValue(this.listDoctor, this.searchText2.getText());
                     this.dropDownMenu2.getChildren().clear();  //pulisce il drop-menu generale
                     this.specializationDoctor = this.appointmentRepo.searchSpecializationByDoctor(this.idDoctorSearched);
                     this.textSpecialitation.setText(this.specializationDoctor);
@@ -207,28 +245,31 @@ public class BookingAppointmentController implements Initializable {
         return dropDownMenu2; // alla fine restituire il VBox (cioè il menu a tendina)
     }
 
-    public void addFieldSpecialization()  {
+    public void addFieldSpecialization() {
         this.textSpecialitation = new TextField();
+        this.textSpecialitation.setMaxWidth(400);
         this.textSpecialitation.setText("Tipo di visita (automatico)");
         this.textSpecialitation.setEditable(false);
         this.pane_main_grid.getChildren().add(this.textSpecialitation);
     }
 
-    public void addFieldPet()  {
+    public void addFieldPet() {
         //List<String> empty = new ArrayList<>();
-        this.textPet  = new ComboBox(FXCollections.observableArrayList(new ArrayList<>()));
+        this.textPet = new ComboBox(FXCollections.observableArrayList(new ArrayList<>()));
         this.textPet.setPromptText("Aggiungi animale");
+        this.textPet.setPrefWidth(400);
         this.pane_main_grid.getChildren().add(this.textPet);
     }
 
-
-    public void addFieldOwner()  {
+    public void addFieldOwner() {
         this.listClient = this.appointmentRepo.searchAllClientByFiscalCod(); //ricerca per codice fiscale
         this.container = new GridPane();
-        this.searchBox = new HBox();
+        HBox searchBox = new HBox();
+
         this.searchText = new TextField();
         //this.container.setGridLinesVisible(true);
         this.container.setAlignment(Pos.CENTER);
+        //this.container.setPrefWidth(400);
         this.searchText.setPromptText("Inserisci Codice Fiscale Cliente");
         //System.out.println(this.container.getAlignment().name());
         // aaggiungere un ascoltatore per ascoltare le modifiche nel campo di testo
@@ -246,9 +287,9 @@ public class BookingAppointmentController implements Initializable {
 
         });
 
-        this.searchBox.getChildren().addAll(this.searchText, clean); //, search);
+        searchBox.getChildren().addAll(this.searchText, clean); //, search);
         // add the search box to first row
-        this.container.add(this.searchBox, 0, 0);
+        this.container.add(searchBox, 0, 0);
 
         //this.root.getChildren().add(this.container);
         this.pane_main_grid.getChildren().add(this.container); //aggiunge drop-menu a view
@@ -268,11 +309,11 @@ public class BookingAppointmentController implements Initializable {
                 Label label = new Label(option); // create a label and inserisce il testo dell'opzione
                 // per poter cliccare sulle opzioni del menu a tendina
                 dropDownMenu.getChildren().add(label); // inserisce label a VBox
-                label.setOnMouseEntered((e) -> {label.setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null))); } );
-                label.setOnMouseExited((e) -> {label.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null))); } );
+                label.setOnMouseEntered((e) -> label.setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null))));
+                label.setOnMouseExited((e) -> label.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null))));
                 label.setOnMouseClicked((e) -> {
                     this.searchText.setText(label.getText());
-                    this.idOwnerSearched = getKeyByValue(listClient,this.searchText.getText());
+                    this.idOwnerSearched = getKeyByValue(listClient, this.searchText.getText());
                     this.dropDownMenu.getChildren().clear();  //pulisce il drop-menu generale
                     this.listPets = this.appointmentRepo.searchPetsByOwner(this.idOwnerSearched); //trovo gli animali associati all'owner
                     this.textPet.setItems(FXCollections.observableArrayList(this.listPets.values()));
@@ -285,9 +326,14 @@ public class BookingAppointmentController implements Initializable {
         return dropDownMenu; // alla fine restituire il VBox (cioè il menu a tendina)
     }
 
-    public  void addButtonSave()  {
+    public void addButtonSave() {
         this.btn = new Button("Salva");
         this.btn.setId("btn");
+        this.btn.setPrefWidth(200);
+        this.btn.setPrefHeight(30);
+
+        this.btn.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
+                " -fx-border-color: transparent; -fx-font-size: 16px; ");
         this.pane_main_grid.getChildren().add(this.btn);
     }
 

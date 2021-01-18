@@ -385,4 +385,32 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return false;
         }
     }
+
+    @Override
+    public List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date) {
+        String sqlSearch = "SELECT * From BOOKING Where ID_DOCTOR = ? AND DATE_VISIT = ?";
+        List<Appointment> listAppointment = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement(sqlSearch);
+            statement.setString(1, idDoctorSearched);
+            statement.setString(2, date);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                Appointment p = new Appointment.Builder()
+                        .setLocalDate(LocalDate.parse(rs.getString("date_visit")))
+                        .setLocalTimeStart(LocalTime.parse(rs.getString("time_start")))
+                        .setLocalTimeEnd(LocalTime.parse(rs.getString("time_end")))
+                        .setId_doctor(rs.getString("id_doctor"))
+                        .setSpecialitation(rs.getString("specialization"))
+                        .setId_owner(rs.getString("id_owner"))
+                        .setId_pet(rs.getString("id_pet"))
+                        .build();
+                listAppointment.add(p);
+            }
+            return listAppointment;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return listAppointment;
+        }
+    }
 }
