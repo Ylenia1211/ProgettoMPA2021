@@ -44,7 +44,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
         //super.labelTitle.setText("Modifica Data/Ora Prenotazione");
         this.labelView = new Label("Modifica Data/Ora Prenotazione");
         this.labelView.setTextFill(Paint.valueOf("a6a6a6"));
-        this.labelView.setFont(Font.font("Calibre", 30));
+        this.labelView.setFont(Font.font("Calibri", 30));
 
 
         this.dataVisit = new DatePicker();
@@ -53,7 +53,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
-                setDisable(empty || date.compareTo(today) < 0 );
+                setDisable(empty || date.compareTo(today) < 0 || (date.getDayOfWeek().getValue() == 7));//disabilita le domeniche;
             }
         });
 
