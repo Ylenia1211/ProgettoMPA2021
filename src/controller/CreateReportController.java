@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import model.Appointment;
+import model.Doctor;
 import model.Owner;
 import model.Pet;
 
@@ -46,9 +47,14 @@ public class CreateReportController  implements Initializable {
     public Label racePet;
 
     public Label particularSignPet;
+
+    public Label labelDottoreName;
+    public Label labelDottoreSurname;
+    public Label labelDottoreSpecialization;
+
     private final String idOwner;
     private final String idPet;
-
+    private final String idDoctor;
     public VBox vbox_main;
     private ConcreteAppointmentDAO appointmentRepo;
     private Appointment appointment;
@@ -57,6 +63,7 @@ public class CreateReportController  implements Initializable {
         this.appointment = appointment;
         this.idOwner = appointment.getId_owner();
         this.idPet = appointment.getId_pet();
+        this.idDoctor = appointment.getId_doctor();
     }
 
     @Override
@@ -81,6 +88,13 @@ public class CreateReportController  implements Initializable {
                 JOptionPane.showMessageDialog(null, "Errore nel caricamento dei dati del Paziente");
             }
 
+            Doctor doctor = this.appointmentRepo.searchDoctorById(idDoctor);
+            if(doctor!=null){
+                setFieldDataDoctor(doctor);
+            }else
+            {
+                JOptionPane.showMessageDialog(null,"Errore nel caricamento dei dati del Dottore");
+            }
             //view estesa con un'altra
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml"));
             loader.setControllerFactory(p -> new ReportViewController(appointment));
@@ -94,6 +108,11 @@ public class CreateReportController  implements Initializable {
         }
     }
 
+    private void setFieldDataDoctor(Doctor doctor) {
+        labelDottoreName.setText("Nome: " + doctor.getName());
+        labelDottoreSurname.setText("Cognome: " + doctor.getSurname());
+        labelDottoreSpecialization.setText("Tipo visita: " + doctor.getSpecialization());
+    }
 
     private void setFieldDataPet(Pet pet) {
         namePet.setText(pet.getName());

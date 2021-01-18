@@ -9,11 +9,11 @@ public class EmailProcessor {
 
     public static Consumer<Communication> outlookHandler = email -> {if (email.getMyAccountEmail().endsWith("hotmail.it")) {
         ServiceClientMail.sendMail(email,"smtp.live.com");
-        System.out.println("Invio email ad un account outlook");}};
+        System.out.println("Invio email da un account outlook");}};
 
     public static Consumer<Communication> gMailHandler = email -> {if (email.getMyAccountEmail().endsWith("gmail.com")) {
         ServiceClientMail.sendMail(email, "smtp.gmail.com");
-        System.out.println("Invio email ad un account gmail");}};
+        System.out.println("Invio email da un account gmail");}};
 
     public static Consumer<Communication> initialHandler = email ->   System.out.println("Prepazione invio email in corso...");
 
