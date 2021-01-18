@@ -74,6 +74,8 @@ public class BookingAppointmentController implements Initializable {
             }
         });
 
+
+
         //settiamo le possibili ore lavorative
         this.heuresWorkDay = List.of(
                 LocalTime.of(8, 0),
