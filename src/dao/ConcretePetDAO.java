@@ -50,16 +50,16 @@ public class ConcretePetDAO implements PetDAO {
              **/
             String sqlSearchNumAnimalOwner = "SELECT tot_animal FROM owner WHERE owner.id = ?";
             ps = null;
-            int number_pet=0;
+            int number_pet = 0;
             try {
                 ps = connection_db.getConnectData().prepareStatement(sqlSearchNumAnimalOwner);
                 ps.setString(1, pet.getId_owner());
                 ResultSet rs = ps.executeQuery();
-                while(rs.next()){
-                   number_pet = rs.getInt("tot_animal");
-                   System.out.println("numero pazienti associati adesso: " + number_pet);
+                while (rs.next()) {
+                    number_pet = rs.getInt("tot_animal");
+                    System.out.println("numero pazienti associati adesso: " + number_pet);
                 }
-                number_pet +=1; //incrementa di 1 i pazienti associati al quel proprietario
+                number_pet += 1; //incrementa di 1 i pazienti associati al quel proprietario
 
                 String sqlupdateNumberPet = "UPDATE owner SET tot_animal = ? where owner.id = ?";
                 try {
@@ -70,12 +70,12 @@ public class ConcretePetDAO implements PetDAO {
                     System.out.println(" Pet associato a Owner correttamente nel DB!");
                     JOptionPane.showMessageDialog(null, "Pet associato a Owner correttamente nel DB");
 
-                }catch (SQLException e){
+                } catch (SQLException e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
                 }
 
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
             }
@@ -99,7 +99,55 @@ public class ConcretePetDAO implements PetDAO {
 
     @Override
     public void delete(String id) {
+        System.out.println("id da cancellare a cascata: " + id);
+        String id_owner = null;
+        PreparedStatement ps = null;
 
+        //SELECT OWNER FROM PET WHERE  ID = ?
+        //UPDATE OWNER SET TOT_ANIMAL = 0 where ID = ?
+        try {
+
+            //cancellazione animale
+            ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = "+"\'"+ id +"\'" );
+            ps.executeUpdate();
+            System.out.println("Cancellati dati Anagrafica del Pet!");
+
+            ps = connection_db.getConnectData().prepareStatement("delete from PET where PET.id = "+"\'"+ id +"\'" );
+            ps.executeUpdate();
+            System.out.println("Cancellati dati Pet!");
+            ps.clearParameters();
+
+            //quando cancella l'animale devo aggiornare il numero di animali assocati all'owner
+            //#todo sistemare cancella l'animale devo aggiornare il numero di animali assocati all'owner
+            /*
+            ps = connection_db.getConnectData().prepareStatement("SELECT OWNER FROM PET WHERE  Pet.ID = ?");
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                id_owner = rs.getString("owner");
+                System.out.println("id owner " + id_owner);
+            }
+            ps.clearParameters();
+            ps = connection_db.getConnectData().prepareStatement("SELECT TOT_ANIMAL FROM OWNER WHERE  OWNER.ID = ?");
+            ps.setString(1, id_owner);
+            ResultSet res = ps.executeQuery();
+            int tot_animal  = 0;
+            while(res.next()){
+                tot_animal = res.getInt("tot_animal");
+                System.out.println("animali " + tot_animal);
+            }
+
+            tot_animal -= 1;
+            System.out.println("animali aggiornati " + tot_animal);
+            ps = connection_db.getConnectData().prepareStatement("UPDATE OWNER SET TOT_ANIMAL = ? where ID = ?");
+            ps.setInt(1, tot_animal);
+            ps.setString(2, id_owner);
+            ps.executeUpdate();*/
+            JOptionPane.showMessageDialog(null, "Cancellato correttamente!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
     }
 
     @Override
@@ -112,7 +160,7 @@ public class ConcretePetDAO implements PetDAO {
         try {
             PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearchRace);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 //System.out.println(rs.getString("name"));
                 listRace.add(rs.getString("name"));
             }
@@ -125,11 +173,10 @@ public class ConcretePetDAO implements PetDAO {
     }
 
 
-
     @Override
     public Map<String, String> searchAllClientByFiscalCod() {
         //List<String> list = new ArrayList<String>();
-        HashMap<String,Map<String, String>> linkedMap = new HashMap<>();
+        HashMap<String, Map<String, String>> linkedMap = new HashMap<>();
         Map<String, String> dictionary = new HashMap<>();  //<key,value>  both key and value are Strings
         PreparedStatement ps = null;
         String sqlSearch = "SELECT * FROM masterdata\n" +
@@ -141,8 +188,8 @@ public class ConcretePetDAO implements PetDAO {
         try {
             PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearch);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()){
-                dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
+            while (rs.next()) {
+                dictionary.put(rs.getString("id"), rs.getString("fiscalcode"));
             }
 
             //dictionary.entrySet().forEach(System.out::println);
@@ -157,26 +204,26 @@ public class ConcretePetDAO implements PetDAO {
     @Override
     public List<Pet> searchByOwner(String id) {
         List<Pet> listPets = new ArrayList<>();
-       String sqlSearchById = " SELECT * FROM masterdata\n" +
-               "        INNER JOIN pet ON pet.id = masterdata.id\n" +
-               "        WHERE pet.OWNER = ?";
+        String sqlSearchById = " SELECT * FROM masterdata\n" +
+                "        INNER JOIN pet ON pet.id = masterdata.id\n" +
+                "        WHERE pet.OWNER = ?";
         try {
             PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearchById);
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()){
-                 listPets.add(new Pet.Builder<>(rs.getString("typepet"),
-                          rs.getString("owner"),
-                          rs.getString("particularsign"))
-                         .addName(rs.getString("name"))
-                         .addSurname(rs.getString("surname"))
-                         .addSex(Gender.valueOf(rs.getString("sex")))
-                         .addDateBirth( LocalDate.parse(rs.getString("datebirth")))
-                         .build()
-                 );
+            while (rs.next()) {
+                listPets.add(new Pet.Builder<>(rs.getString("typepet"),
+                        rs.getString("owner"),
+                        rs.getString("particularsign"))
+                        .addName(rs.getString("name"))
+                        .addSurname(rs.getString("surname"))
+                        .addSex(Gender.valueOf(rs.getString("sex")))
+                        .addDateBirth(LocalDate.parse(rs.getString("datebirth")))
+                        .build()
+                );
             }
             //listPets.stream().map(Pet::getId_owner).forEach(System.out::println);
-           return listPets;
+            return listPets;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -185,4 +232,35 @@ public class ConcretePetDAO implements PetDAO {
 
     }
 
+    @Override
+    public String search(Pet pet) {
+        PreparedStatement ps = null;
+            try {
+                ps = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
+                        "    INNER JOIN PET" +
+                        "    ON pet.id = masterdata.id" +
+                        "    WHERE masterdata.name  = ?" +
+                        "    AND masterdata.surname = ?" +
+                        "    AND masterdata.sex = ?" +
+                        "    AND masterdata.datebirth = ?");
+                ps.setString(1, pet.getName());
+                ps.setString(2, pet.getSurname());
+                ps.setString(3, pet.getSex().toString());
+                ps.setString(4, pet.getDatebirth().toString());
+                ResultSet rs = ps.executeQuery();
+                String id_searched = "";
+                if (rs.next()) {
+                    id_searched = rs.getString("id");
+                    return id_searched;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ricerca Vuota");
+                    return id_searched;
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+                return null;
+            }
+        }
 }

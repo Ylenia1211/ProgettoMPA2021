@@ -77,17 +77,15 @@ public class ShowSpecificBookingVisitController implements Initializable {
                 final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
                     private final Button btn = new Button("Visualizza Report");
                     {
-
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
-
                             //System.out.println("Print idOwner prenotazione" + data.getId_owner());
                             Scene scene = this.getScene();
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
                             try {
                                 //#TODo: cambiare con vista di visualizzazione report
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
-                                loader.setControllerFactory(p -> new CreateReportController(data));
+                                loader.setControllerFactory(p -> new CreateReportController(data, true));
                                 borderPane.setCenter(loader.load());
 
                             } catch (IOException e) {
@@ -140,7 +138,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
                                 loader.setControllerFactory(new Callback<Class<?>, Object>() {
                                     public Object call(Class<?> p) {
-                                        return new CreateReportController(data);
+                                        return new CreateReportController(data, false);
                                     }
                                 });
                                 borderPane.setCenter(loader.load());
@@ -229,7 +227,6 @@ public class ShowSpecificBookingVisitController implements Initializable {
 
     private void addButtonUpdateToTable() {
         TableColumn<Appointment, Void> colBtn = new TableColumn("");
-
         Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
@@ -256,9 +253,6 @@ public class ShowSpecificBookingVisitController implements Initializable {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            ;
-
-                            System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
                         });
                     }
 

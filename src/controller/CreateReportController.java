@@ -58,12 +58,14 @@ public class CreateReportController  implements Initializable {
     public VBox vbox_main;
     private ConcreteAppointmentDAO appointmentRepo;
     private Appointment appointment;
+    private boolean typeView;
 
-    public CreateReportController(Appointment appointment) {
+    public CreateReportController(Appointment appointment, boolean typeView) { //il booleano mi serve per indicare il tipo di view da estendere
         this.appointment = appointment;
         this.idOwner = appointment.getId_owner();
         this.idPet = appointment.getId_pet();
         this.idDoctor = appointment.getId_doctor();
+        this.typeView = typeView;
     }
 
     @Override
@@ -96,11 +98,17 @@ public class CreateReportController  implements Initializable {
                 JOptionPane.showMessageDialog(null,"Errore nel caricamento dei dati del Dottore");
             }
             //view estesa con un'altra
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml"));
-            loader.setControllerFactory(p -> new ReportViewController(appointment));
-            //loader.setController(new ReportViewController());
-            VBox mainPane = loader.load();
-            vbox_main.getChildren().add(mainPane);
+            if(!typeView){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml")); //ok stesso file fxml
+                loader.setControllerFactory(p -> new ReportAddDataController(appointment));//estendo con la creazione del report
+                VBox mainPane = loader.load();
+                vbox_main.getChildren().add(mainPane);
+            }else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml"));//ok stesso file fxml
+                loader.setControllerFactory(p -> new ReportViewController(appointment));//estendo con la visualizzazione del report
+                VBox mainPane = loader.load();
+                vbox_main.getChildren().add(mainPane);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

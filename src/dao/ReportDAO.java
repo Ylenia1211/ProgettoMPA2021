@@ -6,4 +6,6 @@ import model.Report;
 public interface ReportDAO extends Crud<Report>{
 
     String searchIdBookingByAppointment(Appointment appointment);
+
+    Report searchByIdBooking(String idBooking);
 }

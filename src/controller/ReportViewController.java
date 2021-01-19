@@ -1,12 +1,12 @@
 package controller;
-
-import dao.ConcreteAppointmentDAO;
-import dao.ConcreteReportDAO;
 import datasource.ConnectionDBH2;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import model.Appointment;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import dao.ConcreteReportDAO;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ReportViewController  implements Initializable {
+public class ReportViewController implements Initializable {
     public TextArea textDiagnosi;
     public TextArea textTerapia;
     public TextField textPath;
@@ -43,9 +43,8 @@ public class ReportViewController  implements Initializable {
     public ArrayList<String> attachments = new ArrayList<>();
     public Label firstAttachment;
     public VBox allegati;
-    public Button creaReportButton;
-    public Button btnSaveReport;
-
+    public Button creaPDFReportButton;
+    public VBox pane_main_grid;
     private ConcreteReportDAO reportDAO;
     private Appointment appointment;
     private final String idOwner;
@@ -59,24 +58,31 @@ public class ReportViewController  implements Initializable {
         this.idPet = appointment.getId_pet();
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        try {
-            //ConnectionDBH2 connection = new ConnectionDBH2();
-            this.reportDAO = new ConcreteReportDAO(ConnectionDBH2.getInstance());
-            this.idBooking = this.reportDAO.searchIdBookingByAppointment(this.appointment);
-            
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-        }
-
-
+        this.reportDAO = new ConcreteReportDAO(ConnectionDBH2.getInstance());
+        this.idBooking = this.reportDAO.searchIdBookingByAppointment(this.appointment);
         this.attachmentImage.setStyle("-fx-background-image: url('/resources/attachment.png')");
-        this.creaReportButton.setOnAction(actionEvent -> {
+        //devono contenere i risultati ricavati dal db
+        //ricerco i dati del report tramite l'id della prenotazione
+        Report report = this.reportDAO.searchByIdBooking(this.idBooking);
+        this.textDiagnosi.setText(report.getDiagnosis());
+        this.textTerapia.setText(report.getTreatments());
+        this.textPath.setText(report.getPathFile());
+        //inizialmente non sono edititabili
+        this.textDiagnosi.setEditable(false);
+        this.textTerapia.setEditable(false);
+        this.textPath.setEditable(false);
+
+
+        //#Todo:aggiungere bottone o chackbox per la modifica (setEditable(true)) e dunque moodificare i campi Dignosi,terapia, textPath
+        //#Todo: quando si abilita la modifica il campo crea pdf e cancella devono sparire e deve apparire il bottone di salvataggio della modifica, quando si disabilita ricompaiono
+        //#Todo: applicare le modifiche della dignosi, terapia e path nel Db ( usare dao del report)
+        //#Todo: aggiungere bottone cancellazione e cancellare il report dal db
+        //#todo: creazione del file pdf
+
+        addButtonCreatePDFReport();
+        this.creaPDFReportButton.setOnAction(actionEvent -> {
             try {
                 creaReport();
             } catch (IOException e) {
@@ -84,18 +90,17 @@ public class ReportViewController  implements Initializable {
             }
         });
     }
-    public void registrationReport(ActionEvent actionEvent) {
 
-        Report newReport = new Report.Builder()
-                .setId_booking(this.idBooking)
-                .setId_owner(this.idOwner)
-                .setId_pet(this.idPet)
-                .setDiagnosis(this.textDiagnosi.getText())
-                .setTreatments(this.textTerapia.getText())
-                .setPathFile(this.textPath.getText()).build();
-        this.reportDAO.add(newReport);  //creazione oggetto Report e salvataggio in DB
-        System.out.println(newReport.toString());
+    private void addButtonCreatePDFReport() {
+        this.creaPDFReportButton = new Button("Crea PDF");
+        this.creaPDFReportButton.setId("btn");
+        this.creaPDFReportButton.setPrefWidth(200);
+        this.creaPDFReportButton.setPrefHeight(30);
+        this.creaPDFReportButton.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
+                " -fx-border-color: transparent; -fx-font-size: 16px; ");
+        this.pane_main_grid.getChildren().add(this.creaPDFReportButton);
     }
+
 
     public void findAttachment() {
         final FileChooser fileChooser = new FileChooser();
@@ -123,7 +128,7 @@ public class ReportViewController  implements Initializable {
         String reportText = "Diagnosi:\n" + this.textDiagnosi.getText() + "\nTerapia:\n";
 //        String labelTerapia = "Terapia:";
 //        String textTerapia = "Terapia:\n" + this.textTerapia.getText();
-        
+
 
 //        //Begin the Content stream
 //        contentStream.beginText();

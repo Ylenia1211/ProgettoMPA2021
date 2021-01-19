@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportViewController">
+<VBox  fx:id="pane_main_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportAddDataController">
 
    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Diagnosi">
       <font>
@@ -44,10 +44,10 @@
          <Label fx:id="firstAttachment" text="Nessuno" />
       </VBox>
    </HBox>
-   <Button fx:id="creaReportButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" text="Crea report">
+  <!-- <Button fx:id="creaReportButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" text="Crea report">
       <font>
          <Font name="Arial" size="13.0" />
       </font>
-   </Button>
-   <Button fx:id="btnSaveReport" mnemonicParsing="false" text="Salva " onAction="#registrationReport" />
+   </Button> -->
+ <!-- <Button fx:id="btnSaveReport" mnemonicParsing="false" text="Salva " onAction="#registrationReport" /> -->
 </VBox>
