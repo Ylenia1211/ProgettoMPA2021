@@ -84,7 +84,7 @@ public class FullCalendarView {
         }
         // Create calendarTitle and buttons to change current month
         calendarTitle = new Text();
-        calendarTitle.setFont(Font.font("Calibre",15));
+        calendarTitle.setFont(Font.font("Calibri",15));
         Button previousMonth = new Button("<<");
         previousMonth.setStyle("-fx-background-color: white; -fx-background-radius: 30px, 30px, 30px, 30px;");
 
@@ -126,7 +126,8 @@ public class FullCalendarView {
             // #TODO le righe sotto servono a far spuntare i cerchi nelle celle del calendario:
 
             Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
-            LocalDate dayCalendar = LocalDate.of(yearMonth.getYear(), yearMonth.getMonthValue(), calendarDate.getDayOfMonth());
+            LocalDate dayCalendar = LocalDate.of(calendarDate.getYear(), calendarDate.getMonthValue(), calendarDate.getDayOfMonth());
+            //System.out.println(dayCalendar);
             //this.appointmentRepo.searchAppointmentsByDate(String.valueOf(calendarDate.getDayOfMonth()));
 
 
@@ -139,7 +140,7 @@ public class FullCalendarView {
 
 
             // si deve colorare il cerchio in base al numero di visite in un giorno e settare il testo all'interno
-            Integer countVisitDay = this.appointmentRepo.countAppointmentsByDate(String.valueOf(dayCalendar));
+            Integer countVisitDay = this.appointmentRepo.countAppointmentsByDate(dayCalendar.toString());
             if(countVisitDay == 0)
                 circle.setFill(Color.WHITE);
             else  if(countVisitDay < 3)
@@ -162,17 +163,16 @@ public class FullCalendarView {
             ap.setDate(calendarDate);
 
 
-            txt.setFont(Font.font("Calibre", 15));
+            txt.setFont(Font.font("Calibri", 15));
 
             setTopAnchor(txt, 5.0);
             setLeftAnchor(txt, 5.0);
             ap.getChildren().add(txt);
-
             //ap.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
             calendarDate = calendarDate.plusDays(1);
         }
         // Change the title of the calendar
-        calendarTitle.setText(yearMonth.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN).toUpperCase(Locale.ROOT)+ "  " + yearMonth.getYear()); //#TODO: qua cambiare la stampa del mese in italiano
+        calendarTitle.setText(yearMonth.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN).toUpperCase(Locale.ROOT)+ "  " + yearMonth.getYear());
     }
 
     /**
@@ -188,6 +188,7 @@ public class FullCalendarView {
      */
     private void nextMonth() {
         currentYearMonth = currentYearMonth.plusMonths(1);
+        System.out.println(currentYearMonth);
         populateCalendar(currentYearMonth);
     }
 

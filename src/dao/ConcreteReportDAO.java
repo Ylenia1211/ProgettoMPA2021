@@ -79,4 +79,36 @@ public class ConcreteReportDAO implements ReportDAO {
             return null;
         }
     }
+
+    @Override
+    public Report searchByIdBooking(String idBooking) {
+        PreparedStatement ps;
+        Report report = null;
+        try {
+            ps = connection_db.getConnectData().prepareStatement("SELECT * FROM  REPORT  WHERE REPORT.ID_BOOKING = ?");
+            ps.setString(1, idBooking);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                //costruzione report
+              report = new Report.Builder()
+                        .setId_booking(rs.getString("id_booking"))
+                        .setId_owner(rs.getString("id_owner"))
+                        .setId_pet(rs.getString("id_pet"))
+                        .setDiagnosis(rs.getString("diagnosis"))
+                        .setTreatments(rs.getString("treatments"))
+                        .setPathFile(rs.getString("pathfile")).build();
+              System.out.println(report.toString());
+              JOptionPane.showMessageDialog(null, "dati report presi correttamente!");
+             return report;
+            }else{
+                JOptionPane.showMessageDialog(null, "Ricerca Vuota");
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
+        return report;
+    }
 }

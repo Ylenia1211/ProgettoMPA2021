@@ -10,4 +10,8 @@ public interface PetDAO extends Crud<Pet> {
     List<String> searchAllRace();
     Map<String, String> searchAllClientByFiscalCod();
     List<Pet> searchByOwner(String id);
+    String search(Pet pet);
+
+    void addPetToOwner(String id_owner); //+1 pet sul contatore tot_animal di owner
+    void dropPetToOwner(String id_owner);//-1 pet sul contatore tot_animal di owner
 }

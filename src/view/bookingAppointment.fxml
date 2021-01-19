@@ -5,16 +5,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="pane_main_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingAppointmentController">
+<VBox fx:id="pane_main_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" spacing="10.0"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingAppointmentController">
     <Label fx:id="labelTitle" alignment="CENTER" contentDisplay="TEXT_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Prenotazione Visita " textAlignment="CENTER" textFill="#a6a6a6">
         <font>
             <Font name="Calibri" size="29.0" />
         </font>
     </Label>
 
-    <DatePicker fx:id="textdateVisit" maxHeight="900" maxWidth="900" promptText="Seleziona Data Visita" showWeekNumbers="true" />
+    <DatePicker fx:id="textdateVisit" prefWidth="400" promptText="Seleziona Data Visita" showWeekNumbers="true" />
    <padding>
-      <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
+      <Insets top="50.0" />
    </padding>
     <!--<ComboBox fx:id="textTimeStart" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Seleziona Orario Inizio" />-->
     <!--<ComboBox fx:id="textTimeDuration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Seleziona Durata"/>

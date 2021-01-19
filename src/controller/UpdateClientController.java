@@ -30,8 +30,6 @@ public class UpdateClientController extends ClientController{
 
     @Override
     public void registerClient(ActionEvent actionEvent){
-        //JOptionPane.showMessageDialog(null, "Cliente Modificato!");
-        //JOptionPane.showMessageDialog(null, this.getTextName().getText());
         Owner p = createOwner();
         super.getClientRepo().update(id, p);
     }
@@ -52,18 +50,4 @@ public class UpdateClientController extends ClientController{
             super.rbF.setSelected(true);
         }
     }
-
-    //aggingere campi gui dinamicamente
-    /*
-    private void addTextField()  {
-        //super.pane_main_grid.getChildren().remove(btn); per rimuovere da pannello dinamicamente
-        TextField newField = new TextField("NUOVO CAMPO");
-        super.pane_main_grid.getChildren().add(newField);
-    }*/
-    /*
-    @FXML
-    @Override
-    protected void initialize() {
-        super.initialize();
-    }*/
 }

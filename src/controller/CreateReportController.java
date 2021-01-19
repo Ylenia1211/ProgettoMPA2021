@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Appointment;
+import model.Doctor;
 import model.Owner;
 import model.Pet;
 
@@ -49,17 +50,25 @@ public class CreateReportController  implements Initializable {
     public Label racePet;
 
     public Label particularSignPet;
+
+    public Label labelDottoreName;
+    public Label labelDottoreSurname;
+    public Label labelDottoreSpecialization;
+
     private final String idOwner;
     private final String idPet;
-
+    private final String idDoctor;
     public VBox vbox_main;
     private ConcreteAppointmentDAO appointmentRepo;
     private Appointment appointment;
+    private boolean typeView;
 
-    public CreateReportController(Appointment appointment) {
+    public CreateReportController(Appointment appointment, boolean typeView) { //il booleano mi serve per indicare il tipo di view da estendere
         this.appointment = appointment;
         this.idOwner = appointment.getId_owner();
         this.idPet = appointment.getId_pet();
+        this.idDoctor = appointment.getId_doctor();
+        this.typeView = typeView;
     }
 
     @Override
@@ -84,12 +93,25 @@ public class CreateReportController  implements Initializable {
                 JOptionPane.showMessageDialog(null, "Errore nel caricamento dei dati del Paziente");
             }
 
+            Doctor doctor = this.appointmentRepo.searchDoctorById(idDoctor);
+            if(doctor!=null){
+                setFieldDataDoctor(doctor);
+            }else
+            {
+                JOptionPane.showMessageDialog(null,"Errore nel caricamento dei dati del Dottore");
+            }
             //view estesa con un'altra
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml"));
-            loader.setControllerFactory(p -> new ReportViewController(appointment));
-            //loader.setController(new ReportViewController());
-            VBox mainPane = loader.load();
-            vbox_main.getChildren().add(mainPane);
+            if(!typeView){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml")); //ok stesso file fxml
+                loader.setControllerFactory(p -> new ReportAddDataController(appointment));//estendo con la creazione del report
+                VBox mainPane = loader.load();
+                vbox_main.getChildren().add(mainPane);
+            }else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml"));//ok stesso file fxml
+                loader.setControllerFactory(p -> new ReportViewController(appointment));//estendo con la visualizzazione del report
+                VBox mainPane = loader.load();
+                vbox_main.getChildren().add(mainPane);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,6 +119,11 @@ public class CreateReportController  implements Initializable {
         }
     }
 
+    private void setFieldDataDoctor(Doctor doctor) {
+        labelDottoreName.setText("Nome: " + doctor.getName());
+        labelDottoreSurname.setText("Cognome: " + doctor.getSurname());
+        labelDottoreSpecialization.setText("Tipo visita: " + doctor.getSpecialization());
+    }
 
     private void setFieldDataPet(Pet pet) {
         namePet.setText(pet.getName());

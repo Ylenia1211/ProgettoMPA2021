@@ -8,11 +8,13 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import model.Appointment;
-import util.ConcreteObserver;
-import util.Observer;
-import util.Subject;
+import util.email.ConcreteObserver;
+import util.email.Observer;
+import util.email.Subject;
 
+import javax.swing.*;
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
         //super.labelTitle.setText("Modifica Data/Ora Prenotazione");
         this.labelView = new Label("Modifica Data/Ora Prenotazione");
         this.labelView.setTextFill(Paint.valueOf("a6a6a6"));
-        this.labelView.setFont(Font.font("Calibre", 30));
+        this.labelView.setFont(Font.font("Calibri", 30));
 
 
         this.dataVisit = new DatePicker();
@@ -51,16 +53,16 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
-                setDisable(empty || date.compareTo(today) < 0 );
+                setDisable(empty || date.compareTo(today) < 0 || (date.getDayOfWeek().getValue() == 7));//disabilita le domeniche;
             }
         });
 
         //voglio modificare solo la data e/0 l'ora quindi elimino gli altri campi
         super.pane_main_grid.getChildren().clear();
-
         super.pane_main_grid.getChildren().add(this.labelView);
         super.pane_main_grid.getChildren().add(this.dataVisit);
         super.addFieldTimeStart();
+        super.addFieldMinutesTimeStart();
         super.addFieldTimeDuration();
         super.addButtonSave();
         this.addActionButton();
@@ -70,8 +72,13 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
     //mi serve per settare i parametri di modifica con i dati precedentementi salvati
     private void setParam(Appointment appointment) {
         this.dataVisit.setValue(appointment.getLocalDate());
-        super.getTextTimeStart().setValue(appointment.getLocalTimeStart());
-        super.getTextTimeDuration().setValue(appointment.getLocalTimeEnd().getMinute());
+        super.getTextTimeStart().setValue(appointment.getLocalTimeStart().minusMinutes(appointment.getLocalTimeStart().getMinute()));
+        super.getTextMinutesTimeStart().setValue(appointment.getLocalTimeStart().getMinute());
+        super.getTextTimeDuration().setValue((int) Duration.between(appointment.getLocalTimeStart(), appointment.getLocalTimeEnd()).toMinutes());
+              /*  appointment.getLocalTimeEnd()
+                .minusHours(appointment.getLocalTimeStart().getHour())
+                .minusMinutes(appointment.getLocalTimeStart().getMinute())
+                );*/
     }
 
     @Override
@@ -96,33 +103,60 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
         }
     }
 
+    private Appointment createAppointmentForUpdate(){
+        //creo un oggetto appuntamento tale da modificare solo data e/o ora
+       // var timeStartVisit = LocalTime.of((Integer)this.getTextTimeStart().getValue(),(Integer) this.getTextMinutesTimeStart().getValue());
+        LocalTime timeStartVisit = ((LocalTime) this.getTextTimeStart().getValue()).plusMinutes((Integer) this.getTextMinutesTimeStart().getValue());
+        System.out.println(timeStartVisit);
+        System.out.println((timeStartVisit).plusMinutes((Integer)super.getTextTimeDuration().getValue())); //fine
+        Appointment p = new Appointment.Builder()
+                .setLocalDate(this.dataVisit.getValue())
+                .setLocalTimeStart(timeStartVisit)
+                .setLocalTimeEnd((timeStartVisit).plusMinutes((Integer)super.getTextTimeDuration().getValue()))
+                .setId_doctor(this.appointment.getId_doctor())
+                .setSpecialitation(this.appointment.getSpecialitation())
+                .setId_owner(this.appointment.getId_owner())
+                .setId_pet(this.appointment.getId_pet())
+                .build();
+        return p;
+
+
+    }
+
     private void updateVisit(ActionEvent actionEvent) {
         Appointment p = createAppointmentForUpdate();
+        //System.out.println(p.toString());
+        //se uno tra data/ora inizio/ora fine è cambiata allora effettuo l'update
 
-        //controllo che almeno uno tra la data o la data di inizio o la data di fine SIANO CAMBIATI
-        if( !(p.getLocalDate().isEqual(this.appointment.getLocalDate()))  ||
-             ((p.getLocalTimeStart().compareTo(this.appointment.getLocalTimeStart()))!=0) ||
-                ((p.getLocalTimeEnd().compareTo(this.appointment.getLocalTimeEnd()))!=0)
-        ){
-            //se uno tra data/ora inizio/ora fine è cambiata allora effettuo l'update
-            this.getAppointmentRepo().update(this.id, p);
-            //System.out.println("id owner: " + this.appointment.getId_owner());
-            //passare a concrete observer:
-            // l'indirizzo email del owner associato
-            // data, ora inizio, ora fine (prevista) della visita
-            //String trialEmail = "provampa3@gmail.com";
-            String emailOwner = this.getAppointmentRepo().searchEmailOwnerbyIdAppointment(this.id);
-            //System.out.println("email owner: " + emailOwner); //test ok
+            if(!(p.getLocalDate().isEqual(this.appointment.getLocalDate()))||
+                ((p.getLocalTimeStart().compareTo(this.appointment.getLocalTimeStart()))!=0) ||
+                ((p.getLocalTimeEnd().compareTo(this.appointment.getLocalTimeEnd()))!=0))
+           {
+            List<Appointment> listAppointment = this.getAppointmentRepo().searchVisitbyDoctorAndDate(this.appointment.getId_doctor(), this.appointment.getLocalDate().toString());
+            boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
+                    (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) || //intervallo sinistro
 
-            ConcreteObserver observerChanges = new ConcreteObserver.Builder()
-                    .setEmailOwner(emailOwner) //passare email owner associatato alla prenotazione
-                    .setDataVisit(p.getLocalDate())
-                    .setTimeStartVisit(p.getLocalTimeStart())
-                    .setTimeEndVisit(p.getLocalTimeEnd())
-                    .build();
+                    ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) && //intervallo destro
+                            item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
+            );
+            if (isValid) {
+                      // this.appointmentRepo.add(p);
+                      this.getAppointmentRepo().update(this.id, p);
 
-            this.register(observerChanges);
-            this.notifyObservers();
+                      String emailOwner = this.getAppointmentRepo().searchEmailOwnerbyIdAppointment(this.id);
+                      ConcreteObserver observerChanges = new ConcreteObserver.Builder()
+                                .setEmailOwner(emailOwner) //passare email owner associatato alla prenotazione
+                                .setDataVisit(p.getLocalDate())
+                                .setTimeStartVisit(p.getLocalTimeStart())
+                                .setTimeEndVisit(p.getLocalTimeEnd())
+                                .build();
+
+                      this.register(observerChanges);
+                      this.notifyObservers();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Un altro appuntamento è già stato prenotato per quell'intervallo di tempo!");
+            }
         }
         else
         {
@@ -131,17 +165,6 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
             alert.setTitle("Nessuna modifica effettuata!");
             alert.showAndWait();
         }
-
-    }
-
-    private Appointment createAppointmentForUpdate(){
-        //creo un oggetto appuntamento tale da modificare solo data e/o ora
-        Appointment p = new Appointment.Builder()
-                .setLocalDate(this.dataVisit.getValue())
-                .setLocalTimeStart((LocalTime) super.getTextTimeStart().getValue())
-                .setLocalTimeEnd(((LocalTime) super.getTextTimeStart().getValue()).plusMinutes((Integer)super.getTextTimeDuration().getValue()))
-                .build();
-        return p;
     }
 
 }

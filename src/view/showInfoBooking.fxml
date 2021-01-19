@@ -11,7 +11,7 @@
          <children>
             <Label alignment="CENTER" prefHeight="25.0" prefWidth="600.0" style="-fx-background-color: #3DA4E3;" text="DETTAGLI PRENOTAZIONE" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri" size="16.0" />
                </font>
             </Label>
             <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
@@ -80,6 +80,6 @@
       </VBox>
    </children>
    <padding>
-      <Insets top="100.0" />
+      <Insets top="10.0" />
    </padding>
 </VBox>

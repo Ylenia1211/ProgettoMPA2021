@@ -1,10 +1,7 @@
 package dao;
 
 import datasource.ConnectionDBH2;
-import model.Appointment;
-import model.Gender;
-import model.Owner;
-import model.Pet;
+import model.*;
 
 import javax.swing.*;
 import java.sql.PreparedStatement;
@@ -383,6 +380,71 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    public List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date) {
+        String sqlSearch = "SELECT * From BOOKING Where ID_DOCTOR = ? AND DATE_VISIT = ?";
+        List<Appointment> listAppointment = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement(sqlSearch);
+            statement.setString(1, idDoctorSearched);
+            statement.setString(2, date);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                Appointment p = new Appointment.Builder()
+                        .setLocalDate(LocalDate.parse(rs.getString("date_visit")))
+                        .setLocalTimeStart(LocalTime.parse(rs.getString("time_start")))
+                        .setLocalTimeEnd(LocalTime.parse(rs.getString("time_end")))
+                        .setId_doctor(rs.getString("id_doctor"))
+                        .setSpecialitation(rs.getString("specialization"))
+                        .setId_owner(rs.getString("id_owner"))
+                        .setId_pet(rs.getString("id_pet"))
+                        .build();
+                listAppointment.add(p);
+            }
+            return listAppointment;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return listAppointment;
+        }
+    }
+
+    @Override
+    public Doctor searchDoctorById(String id) {
+        Doctor doctor = null;
+        String sqlSearch = "SELECT * FROM masterdata" +
+                "                  INNER JOIN person" +
+                "                             ON person.id = masterdata.id" +
+                "                  INNER JOIN DOCTOR" +
+                "                             ON  DOCTOR.id = MASTERDATA.ID WHERE DOCTOR.id = ?";
+        try {
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement(sqlSearch);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                doctor = new Doctor.Builder<>()
+                        .addName(rs.getString("name"))
+                        .addSurname(rs.getString("surname"))
+                        .addSex(Gender.valueOf(rs.getString("sex")))
+                        .addDateBirth(LocalDate.parse(rs.getString("datebirth")))
+                        .addAddress(rs.getString("address"))
+                        .addCity(rs.getString("city"))
+                        .addTelephone(rs.getString("telephone"))
+                        .addFiscalCode(rs.getString("fiscalcode"))
+                        .addEmail(rs.getString("email"))
+                        .addSpecialization(rs.getString("specialization"))
+                        .addUsername(rs.getString("username"))
+                        .addPassword(rs.getString("password"))
+                        .build();
+
+            }
+            assert doctor != null;
+            return doctor;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

@@ -1,6 +1,7 @@
 package dao;
 
 import model.Appointment;
+import model.Doctor;
 import model.Owner;
 import model.Pet;
 
@@ -19,4 +20,7 @@ public interface AppointmentDAO extends Crud<Appointment> {
     Pet searchPetById(String id);
     Owner searchOwnerById(String id);
     boolean searchIfExistAppointmentInReport(String id);
+    List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date);
+
+    Doctor searchDoctorById(String id);
 }

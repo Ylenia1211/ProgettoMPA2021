@@ -13,11 +13,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import model.Appointment;
+import model.Doctor;
 import model.Owner;
 import model.Pet;
 import javafx.scene.paint.Color;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,7 +41,13 @@ public class ShowInfoOwnerPetController implements Initializable {
     public Label particularSignPet;
     private final String idOwner;
     private final String idPet;
+    private final String idDoctor;
     public VBox vbox_main;
+    public VBox vboxLabel;
+
+    public Label labelDottoreName;
+    public Label labelDottoreSurname;
+    public Label labelDottoreSpecialization;
     private ConcreteAppointmentDAO appointmentRepo;
     private Appointment appointment;
 
@@ -47,14 +55,13 @@ public class ShowInfoOwnerPetController implements Initializable {
         this.idOwner = appointment.getId_owner();
         this.idPet = appointment.getId_pet();
         this.appointment = appointment;
+        this.idDoctor = appointment.getId_doctor();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try{
-            //ConnectionDBH2 connection = new ConnectionDBH2();
-            this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
 
+            this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
             //ricerca di dei dati del owner
             Owner owner =  this.appointmentRepo.searchOwnerById(idOwner);
             if(owner!=null){
@@ -73,17 +80,33 @@ public class ShowInfoOwnerPetController implements Initializable {
                 JOptionPane.showMessageDialog(null,"Errore nel caricamento dei dati del Paziente");
             }
 
+            Doctor doctor = this.appointmentRepo.searchDoctorById(idDoctor);
+            if(doctor!=null){
+                setFieldDataDoctor(doctor);
+            }else
+            {
+                JOptionPane.showMessageDialog(null,"Errore nel caricamento dei dati del Dottore");
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showInfoBooking.fxml"));
             loader.setController(new ShowInfoBooking(this.appointment));
-            VBox mainPane = loader.load();
+            VBox mainPane = null;
+            try {
+                mainPane = loader.load();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error" + ioException.getMessage());
+            }
             vbox_main.getChildren().add(mainPane);
+        }
 
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-        }
+    private void setFieldDataDoctor(Doctor doctor) {
+
+        labelDottoreName.setText("Nome: " + doctor.getName());
+        labelDottoreSurname.setText("Cognome: " + doctor.getSurname());
+        labelDottoreSpecialization.setText("Tipo visita: " + doctor.getSpecialization());
     }
+
 
     private void setFieldDataPet(Pet pet) {
         namePet.setText(pet.getName());
