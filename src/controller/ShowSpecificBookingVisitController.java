@@ -76,10 +76,10 @@ public class ShowSpecificBookingVisitController implements Initializable {
 
     private void addButtonViewReport() {
         TableColumn<Appointment, Void> colBtn = new TableColumn("");
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>>() {
+        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
+                return new TableCell<>() {
                     private final Button btn = new Button("Visualizza Report");
                     {
 
@@ -107,21 +107,20 @@ public class ShowSpecificBookingVisitController implements Initializable {
 
                         if (empty) {
                             setGraphic(null);
-                        } else{
+                        } else {
                             Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
                             String id_appointment = appointmentRepo.search(ap);
-                            if(appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
+                            if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
                                 //btn.disabledProperty();
                                 //this.getTableColumn().getTableView().getItems().remove(getIndex());
                                 setGraphic(btn);
 
-                            }else {
+                            } else {
                                 setGraphic(null);
                             }
                         }
                     }
                 };
-                return cell;
             }
         };
         colBtn.setCellFactory(cellFactory);
@@ -130,11 +129,12 @@ public class ShowSpecificBookingVisitController implements Initializable {
 
     private void addButtonCreateReport() {
 
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>>() {
+        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
+                final TableCell<Appointment, Void> cell = new TableCell<>() {
                     private final Button btn = new Button("Crea Report");
+
                     {
 
                         btn.setOnAction((ActionEvent event) -> {
@@ -146,16 +146,13 @@ public class ShowSpecificBookingVisitController implements Initializable {
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return  new CreateReportController(data);
-                                    }
-                                });
+                                loader.setControllerFactory(p -> new CreateReportController(data));
                                 borderPane.setCenter(loader.load());
 
                             } catch (IOException e) {
                                 e.printStackTrace();
-                            };
+                            }
+                            ;
 
                             //System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
                         });
@@ -168,21 +165,19 @@ public class ShowSpecificBookingVisitController implements Initializable {
                             setGraphic(null);
 
 
-                          } else {
+                        } else {
                             Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
                             String id_appointment = appointmentRepo.search(ap);
-                            if(appointmentRepo.searchIfExistAppointmentInReport(id_appointment))
-                            {
-                                  setGraphic(null);
-                            }
-                            //posso creare il report solo se la data della visita è precedente alla data di oggi  // data di oggi +1
-                            else if(getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now().plusDays(1))) {
-                                setGraphic(btn);
-                            }
-                            else {
+                            if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
                                 setGraphic(null);
                             }
-                          }
+                            //posso creare il report solo se la data della visita è precedente alla data di oggi  // data di oggi +1
+                            else if (getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now().plusDays(1))) {
+                                setGraphic(btn);
+                            } else {
+                                setGraphic(null);
+                            }
+                        }
                     }
                 };
                 return cell;
@@ -194,11 +189,12 @@ public class ShowSpecificBookingVisitController implements Initializable {
 
     private void addButtonViewInfoOwnerPet() {
         TableColumn<Appointment, Void> colBtn = new TableColumn("");
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>>() {
+        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
+                final TableCell<Appointment, Void> cell = new TableCell<>() {
                     private final Button btn = new Button("Dettagli");
+
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
@@ -207,16 +203,13 @@ public class ShowSpecificBookingVisitController implements Initializable {
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showInfoOwnerPet.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return  new ShowInfoOwnerPetController(data);
-                                    }
-                                });
+                                loader.setControllerFactory(p -> new ShowInfoOwnerPetController(data));
                                 borderPane.setCenter(loader.load());
 
                             } catch (IOException e) {
                                 e.printStackTrace();
-                            };
+                            }
+                            ;
                             System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
                         });
                     }
@@ -238,14 +231,13 @@ public class ShowSpecificBookingVisitController implements Initializable {
         tableBookingVisit.getColumns().add(colBtn);
     }
 
-
     private void addButtonUpdateToTable() {
         TableColumn<Appointment, Void> colBtn = new TableColumn("");
 
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>>() {
+        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
+                final TableCell<Appointment, Void> cell = new TableCell<>() {
 
                     private final Button btn = new Button("Modifica");
 
@@ -258,16 +250,13 @@ public class ShowSpecificBookingVisitController implements Initializable {
 
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return  new UpdateBookingAppointmentController(data);
-                                    }
-                                });
+                                loader.setControllerFactory(p -> new UpdateBookingAppointmentController(data));
                                 borderPane.setCenter(loader.load());
 
                             } catch (IOException e) {
                                 e.printStackTrace();
-                            };
+                            }
+                            ;
 
                             System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
                         });
@@ -294,11 +283,12 @@ public class ShowSpecificBookingVisitController implements Initializable {
     private void addButtonDeleteToTable() {
         TableColumn<Appointment, Void> colBtn = new TableColumn("");
 
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>>() {
+        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<Appointment, Void>() {
+                final TableCell<Appointment, Void> cell = new TableCell<>() {
                     private final Button btn = new Button("Cancella");
+
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
@@ -308,7 +298,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
                                     "Sei sicuro di voler cancellare?",
                                     "Cancellazione Prenotazione",
                                     JOptionPane.YES_NO_OPTION);
-                            if(ok ==0) { //cancella
+                            if (ok == 0) { //cancella
                                 String id = appointmentRepo.search(data);
                                 appointmentRepo.delete(id);
                                 tableBookingVisit.getItems().remove(data); //elimina graficamente

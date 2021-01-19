@@ -10,6 +10,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -26,6 +27,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DoctorDashboard implements Initializable{
+    private static BorderPane staticBorderPane;
     public VBox sidebar;
     public Button pazienti = new Button("Pazienti");
     public Button agenda = new Button("Agenda");
@@ -33,7 +35,8 @@ public class DoctorDashboard implements Initializable{
     public Button prenotazioni = new Button("Prenotazioni");
     public Button reportButton = new Button("Report");
     public BorderPane borderPane;
-    private static int reportID = 0;
+    private static final int reportID = 0;
+    public Pane borderPanePane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -42,11 +45,12 @@ public class DoctorDashboard implements Initializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        staticBorderPane = borderPane;
     }
 
-    public BorderPane getBorderPane() {
-        return borderPane;
+
+    public static BorderPane getStaticBorderPane() {
+        return staticBorderPane;
     }
 
     public void setButtons (VBox vBox, Button... buttons) throws IOException {
@@ -76,7 +80,6 @@ public class DoctorDashboard implements Initializable{
             button.setPrefWidth(150.0);
             button.setPrefHeight(25.0);
             button.setTextFill(Paint.valueOf("WHITE"));
-
             button.setOnMouseClicked(e -> {
                 Parent root;
                 try {

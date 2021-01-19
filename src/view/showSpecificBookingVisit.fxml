@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShowSpecificBookingVisitController">
-    <TableView fx:id="tableBookingVisit" cache="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false" prefHeight="400.0" prefWidth="918.0" stylesheets="@../resources/table-view.css">
+<AnchorPane cache="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShowSpecificBookingVisitController">
+    <TableView fx:id="tableBookingVisit" cache="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false" stylesheets="@../resources/table-view.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
             <TableColumn fx:id="col_data" text="Data" />
             <TableColumn fx:id="col_timestart" text="Ora inizio" />
@@ -18,4 +18,4 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
     </TableView>
-</HBox>
+</AnchorPane>

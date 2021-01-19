@@ -9,14 +9,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import model.FieldVerifier;
 import model.Gender;
 import model.Owner;
-
 import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ClientController implements Initializable {
+public class ClientController implements Initializable, FieldVerifier {
     @FXML
     public VBox pane_main_grid;
     @FXML
@@ -24,17 +24,17 @@ public class ClientController implements Initializable {
     @FXML
     public TextField textFiscalCode;
     @FXML
-    private TextField textName;
+    private final TextField textName;
     @FXML
-    private TextField textSurname;
+    private final TextField textSurname;
     @FXML
-    private TextField textAddress;
+    private final TextField textAddress;
     @FXML
-    private TextField textCity;
+    private final TextField textCity;
     @FXML
-    private TextField textTelephone;
+    public TextField textTelephone;
     @FXML
-    private TextField textEmail;
+    public TextField textEmail;
     @FXML
     public DatePicker textdateBirth;
     @FXML
@@ -72,8 +72,31 @@ public class ClientController implements Initializable {
         }
 
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.textFiscalCode.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
+            if (!FieldVerifier.super.fiscalCodeVerifier(newValueFC))
+                this.textFiscalCode.setStyle("-fx-border-color: red");
+            else
+                this.textFiscalCode.setStyle("-fx-border-color: lightgreen");
+        });
+//        this.textTelephone.setTextFormatter(new TextFormatter<>(change ->
+//                (change.getControlNewText().matches("([1-9][0-9]*)?")) ? change : null));
+        this.textTelephone.textProperty().addListener((observableT, oldValueT, newValueT) -> {
+            if (!FieldVerifier.super.phoneNumberVerifier(newValueT))
+                this.textTelephone.setStyle("-fx-border-color: red");
+            else
+                this.textTelephone.setStyle("-fx-border-color: lightgreen");
+        });
+        this.textEmail.textProperty().addListener((observableE, oldValueE, newValueE) -> {
+            if (!FieldVerifier.super.emailVerifier(newValueE))
+                this.textEmail.setStyle("-fx-border-color: red");
+            else
+                this.textEmail.setStyle("-fx-border-color: lightgreen");
+        });
+//        this.textFiscalCode.setTextFormatter(new TextFormatter<>(change ->
+//                (change.getControlNewText().matches("([1-9][0-9]*)?")) ? change : null));
 
     }
 
@@ -102,18 +125,14 @@ public class ClientController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-
         }
-
     }
 
     public Owner createOwner(){
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
         System.out.println(chk.getText());
 
-        Owner p = new Owner.Builder<>()
+        return new Owner.Builder<>()
                 .addName(this.textName.getText())
                 .addSurname(this.textSurname.getText())
                 .addSex((chk.getText().equals("M") ? Gender.M : Gender.F))
@@ -125,10 +144,7 @@ public class ClientController implements Initializable {
                 .addEmail(this.textEmail.getText())
                 .setTotAnimal(0)
                 .build();
-
-        return p;
     }
-
 
     public ConcreteOwnerDAO getClientRepo() {
         return this.clientRepo;

@@ -2,12 +2,15 @@ package controller;
 
 import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
-import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 import model.Appointment;
 import model.Owner;
 import model.Pet;
@@ -122,4 +125,5 @@ public class CreateReportController  implements Initializable {
     public String getIdPet() {
         return idPet;
     }
+
 }

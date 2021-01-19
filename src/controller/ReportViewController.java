@@ -7,11 +7,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -45,9 +43,10 @@ public class ReportViewController  implements Initializable {
     public VBox allegati;
     public Button creaReportButton;
     public Button btnSaveReport;
-
+    public VBox reportView;
+    public CheckBox enableFields;
     private ConcreteReportDAO reportDAO;
-    private Appointment appointment;
+    private final Appointment appointment;
     private final String idOwner;
     private final String idPet;
     private String idBooking;
@@ -59,7 +58,6 @@ public class ReportViewController  implements Initializable {
         this.idPet = appointment.getId_pet();
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -67,13 +65,16 @@ public class ReportViewController  implements Initializable {
             //ConnectionDBH2 connection = new ConnectionDBH2();
             this.reportDAO = new ConcreteReportDAO(ConnectionDBH2.getInstance());
             this.idBooking = this.reportDAO.searchIdBookingByAppointment(this.appointment);
-            
+
 
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
-
+        this.textDiagnosi.setDisable(true);
+        this.textTerapia.setDisable(true);
+        this.textPath.setDisable(true);
+        this.attachmentImage.setDisable(true);
 
         this.attachmentImage.setStyle("-fx-background-image: url('/resources/attachment.png')");
         this.creaReportButton.setOnAction(actionEvent -> {
@@ -123,7 +124,7 @@ public class ReportViewController  implements Initializable {
         String reportText = "Diagnosi:\n" + this.textDiagnosi.getText() + "\nTerapia:\n";
 //        String labelTerapia = "Terapia:";
 //        String textTerapia = "Terapia:\n" + this.textTerapia.getText();
-        
+
 
 //        //Begin the Content stream
 //        contentStream.beginText();
@@ -200,6 +201,21 @@ public class ReportViewController  implements Initializable {
                 contentStream.drawImage(pdImage, 70, 250);
                 contentStream.close();
             }
+        }
+    }
+
+    public void abilitaModifica(ActionEvent actionEvent) {
+
+        if (this.enableFields.isSelected()) {
+            this.textDiagnosi.setDisable(false);
+            this.textTerapia.setDisable(false);
+            this.textPath.setDisable(false);
+            this.attachmentImage.setDisable(false);
+        }else {
+            this.textDiagnosi.setDisable(true);
+            this.textTerapia.setDisable(true);
+            this.textPath.setDisable(true);
+            this.attachmentImage.setDisable(true);
         }
     }
 
