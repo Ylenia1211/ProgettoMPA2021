@@ -47,12 +47,17 @@ public class ShowTablePetController  implements Initializable {
         col_datebirth.setCellValueFactory(new PropertyValueFactory<>("datebirth"));
         col_type.setCellValueFactory(new PropertyValueFactory<>("id_petRace"));  //nome dell'attributo nella classe
         col_particularSign.setCellValueFactory(new PropertyValueFactory<>("particularSign"));
+
+
         petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
         System.out.println("id: dopo " + this.id_owner);
         List<Pet> petsResult = petRepo.searchByOwner(this.id_owner);
         //petsResult.stream().forEach(x -> listItems.add(x));
         listItems.addAll(petsResult); //scrittura piu compatta
+
         tableSpecificPets.setItems(listItems);
+
+
         var colBtnUpdate =  addButtonUpdateToTable("/view/registrationPet.fxml", tableSpecificPets);
         tableSpecificPets.getColumns().add((TableColumn<Pet, ?>) colBtnUpdate);
         var colBtnDelete = addButtonDeleteToTable(tableSpecificPets, Pet.class);

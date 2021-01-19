@@ -75,7 +75,7 @@ public class ReportViewController implements Initializable {
         this.textPath.setEditable(false);
 
 
-        //#Todo:aggiungere bottone o chackbox per la modifica (setEditable(true)) e dunque moodificare i campi Dignosi,terapia, textPath
+        //#Todo:aggiungere bottone o checkbox per la modifica (setEditable(true)) e dunque moodificare i campi Dignosi,terapia, textPath
         //#Todo: quando si abilita la modifica il campo crea pdf e cancella devono sparire e deve apparire il bottone di salvataggio della modifica, quando si disabilita ricompaiono
         //#Todo: applicare le modifiche della dignosi, terapia e path nel Db ( usare dao del report)
         //#Todo: aggiungere bottone cancellazione e cancellare il report dal db

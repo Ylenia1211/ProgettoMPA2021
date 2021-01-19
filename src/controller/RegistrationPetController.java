@@ -44,21 +44,18 @@ public class RegistrationPetController implements Initializable {
     private TextField searchText;
     private VBox dropDownMenu;
 
+
+
     public RegistrationPetController() {
         this.listClient  = new HashMap<>();
         this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
         this.rbF = new RadioButton(Gender.F.getDeclaringClass().descriptorString());
+        this.petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
 
-        try{
-            //ConnectionDBH2 connection = new ConnectionDBH2();
-            this.petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
+    }
 
-        }
-
-        catch (Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-        }
+    public ConcretePetDAO getPetRepo() {
+        return petRepo;
     }
 
     @Override
@@ -74,6 +71,7 @@ public class RegistrationPetController implements Initializable {
         this.btn.setId("btn");
         this.pane_main_grid.getChildren().add(this.btn);
     }
+
 
     public void addActionButton() {
         this.btn.setOnAction(this::registrationPet);
@@ -101,7 +99,6 @@ public class RegistrationPetController implements Initializable {
         System.out.println(chk.getText());
         String idOwnerSearched = getKeyByValue(listClient,this.searchText.getText());
         System.out.println(idOwnerSearched);
-
         Pet p = new Pet.Builder<>((String) this.textPetRace.getValue(),
                 idOwnerSearched,
                 this.textParticularSign.getText())
@@ -110,7 +107,6 @@ public class RegistrationPetController implements Initializable {
                 .addSex((chk.getText().equals("M") ? Gender.M : Gender.F))
                 .addDateBirth(this.textdateBirth.getValue())
                 .build();
-
         return p;
     }
 
@@ -124,6 +120,8 @@ public class RegistrationPetController implements Initializable {
                 .orElse(null);
                 //.collect(Collectors.toSet());
     }
+
+
 
 
     public void addFieldOwner()  {
@@ -190,5 +188,74 @@ public class RegistrationPetController implements Initializable {
         this.textPetRace.setId("petRace");
         this.textPetRace.setPromptText("Razza");
         this.pane_main_grid.getChildren().add(this.textPetRace);
+    }
+
+
+    public VBox getPane_main_grid() {
+        return pane_main_grid;
+    }
+
+    public Label getLabelTitle() {
+        return labelTitle;
+    }
+
+    public TextField getTextName() {
+        return textName;
+    }
+
+    public TextField getTextSurname() {
+        return textSurname;
+    }
+
+    public HBox getGender() {
+        return gender;
+    }
+
+    public RadioButton getRbM() {
+        return rbM;
+    }
+
+    public ToggleGroup getGenderGroup() {
+        return genderGroup;
+    }
+
+    public RadioButton getRbF() {
+        return rbF;
+    }
+
+    public DatePicker getTextdateBirth() {
+        return textdateBirth;
+    }
+
+    public ComboBox getTextPetRace() {
+        return textPetRace;
+    }
+
+    public TextField getTextParticularSign() {
+        return textParticularSign;
+    }
+
+    public Button getBtn() {
+        return btn;
+    }
+
+    public Map<String, String> getListClient() {
+        return listClient;
+    }
+
+    public GridPane getContainer() {
+        return container;
+    }
+
+    public HBox getSearchBox() {
+        return searchBox;
+    }
+
+    public TextField getSearchText() {
+        return searchText;
+    }
+
+    public VBox getDropDownMenu() {
+        return dropDownMenu;
     }
 }
