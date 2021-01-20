@@ -1,13 +1,12 @@
 package controller;
 import datasource.ConnectionDBH2;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import model.Appointment;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import dao.ConcreteReportDAO;
@@ -16,27 +15,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Appointment;
-import model.Owner;
-import model.Pet;
 import model.Report;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import util.pdfutilities.FacadePDFReportGenerator;
 
-import javax.swing.*;
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
-public class ReportViewController implements Initializable {
+public class ReportViewController extends FacadePDFReportGenerator implements Initializable {
     public Button creaPDFReportButton;
     public Button deleteReportButton;
     private Button savePDFReportButton;
@@ -56,7 +41,8 @@ public class ReportViewController implements Initializable {
     private final String idPet;
     private String idBooking;
     private CheckBox enableModify;
-
+    private ConcreteReportDAO reportDAO;
+    private Report report;
 
 
     public ReportViewController(Appointment appointment) {
@@ -67,12 +53,12 @@ public class ReportViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ConcreteReportDAO reportDAO = new ConcreteReportDAO(ConnectionDBH2.getInstance());
+        this.reportDAO = new ConcreteReportDAO(ConnectionDBH2.getInstance());
         this.idBooking = reportDAO.searchIdBookingByAppointment(this.appointment);
         this.attachmentImage.setStyle("-fx-background-image: url('/resources/attachment.png')");
         //devono contenere i risultati ricavati dal db
         //ricerco i dati del report tramite l'id della prenotazione
-        Report report = reportDAO.searchByIdBooking(this.idBooking);
+        this.report = reportDAO.searchByIdBooking(this.idBooking);
         this.textDiagnosi.setText(report.getDiagnosis());
         this.textTerapia.setText(report.getTreatments());
         this.textPath.setText(report.getPathFile());
@@ -81,27 +67,25 @@ public class ReportViewController implements Initializable {
         this.textTerapia.setEditable(false);
         this.textPath.setEditable(false);
         this.attachmentImage.setDisable(true);
-
-        //#Todo: aggiungere bottone o checkbox per la modifica (setEditable(true)) e dunque moodificare i campi Dignosi,terapia, textPath
-        //#Todo: quando si abilita la modifica il campo crea pdf e cancella devono sparire e deve apparire il bottone di salvataggio della modifica, quando si disabilita ricompaiono
-        //#Todo: applicare le modifiche della dignosi, terapia e path nel Db ( usare dao del report)
-        //#Todo: aggiungere bottone cancellazione e cancellare il report dal db
-        //#todo: creazione del file pdf
+        if (!this.textPath.getText().trim().isEmpty()) {
+            this.firstAttachment.setText(this.report.getPathFile());
+        }
+        /*
+        #Todo: aggiungere bottone o checkbox per la modifica (setEditable(true)) e dunque moodificare i campi Dignosi,terapia, textPath
+        #Todo: quando si abilita la modifica il campo crea pdf e cancella devono sparire e deve apparire il bottone di salvataggio della modifica, quando si disabilita ricompaiono
+        #Todo: applicare le modifiche della dignosi, terapia e path nel Db ( usare dao del report)
+        #Todo: aggiungere bottone cancellazione e cancellare il report dal db
+        #todo: creazione del file pdf
+        */
+        this.setButtons();
         this.addEnableModifyCheckBox();
         this.buttons.setAlignment(Pos.CENTER);
         this.buttons.setSpacing(20);
         this.pane_main_grid.getChildren().add(buttons);
         this.addCreateAndDeleteButtonsPDFReport();
-//        this.creaPDFReportButton.setOnAction(actionEvent -> {
-//            try {
-//                creaReport();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
     }
 
-    private void addCreateAndDeleteButtonsPDFReport() {
+    private void setButtons(){
         // Creo il createButton
         this.creaPDFReportButton = new Button("Crea PDF");
         this.creaPDFReportButton.setId("createPDF");
@@ -109,6 +93,13 @@ public class ReportViewController implements Initializable {
         this.creaPDFReportButton.setPrefHeight(30);
         this.creaPDFReportButton.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
+        this.creaPDFReportButton.setOnAction(actionEvent -> {
+            try {
+                creaReport(this.report);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         // Creo il deleteButton
         this.deleteReportButton = new Button("Elimina report");
@@ -117,11 +108,10 @@ public class ReportViewController implements Initializable {
         this.deleteReportButton.setPrefHeight(30);
         this.deleteReportButton.setStyle("-fx-background-color: red;-fx-text-fill: white;" +
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
-        this.buttons.getChildren().add(0, this.creaPDFReportButton);
-        this.buttons.getChildren().add(1, this.deleteReportButton);
-    }
+        this.deleteReportButton.setOnAction(actionEvent -> {
+            this.reportDAO.delete(this.idBooking);
+        });
 
-    private void addSaveAndCancelButtonsPDFReport() {
         // Creo il saveButton
         this.savePDFReportButton = new Button("Salva");
         this.savePDFReportButton.setId("btn");
@@ -129,6 +119,12 @@ public class ReportViewController implements Initializable {
         this.savePDFReportButton.setPrefHeight(30);
         this.savePDFReportButton.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
+        this.savePDFReportButton.setOnAction(actionEvent -> {
+            this.report.setDiagnosis(this.textDiagnosi.getText());
+            this.report.setTreatments(this.textTerapia.getText());
+            this.report.setPathFile(this.textPath.getText());
+            this.reportDAO.update(this.idBooking, this.report);
+        });
 
         // Creo il cancelButton
         this.cancelReportButton = new Button("Annulla modifiche");
@@ -137,6 +133,22 @@ public class ReportViewController implements Initializable {
         this.cancelReportButton.setPrefHeight(30);
         this.cancelReportButton.setStyle("-fx-background-color: red;-fx-text-fill: white;" +
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
+        this.cancelReportButton.setOnAction(actionEvent -> {
+            this.textDiagnosi.setText(this.report.getDiagnosis());
+            this.textTerapia.setText(this.report.getTreatments());
+            this.textPath.setText(this.report.getPathFile());
+            this.enableModify.setSelected(false);
+            this.buttons.getChildren().clear();
+            this.addCreateAndDeleteButtonsPDFReport();
+        });
+    }
+
+    private void addCreateAndDeleteButtonsPDFReport() {
+        this.buttons.getChildren().add(0, this.creaPDFReportButton);
+        this.buttons.getChildren().add(1, this.deleteReportButton);
+    }
+
+    private void addSaveAndCancelButtonsPDFReport() {
         this.buttons.getChildren().add(0, this.savePDFReportButton);
         this.buttons.getChildren().add(1, this.cancelReportButton);
     }
@@ -177,7 +189,7 @@ public class ReportViewController implements Initializable {
             this.textPath.setText(filePath);
         }
     }
-//
+
 //    public void creaReport() throws IOException {
 //        //int ID = ++DoctorDashboard.reportID;
 //        //Creating PDF document object

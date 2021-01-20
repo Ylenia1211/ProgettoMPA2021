@@ -11,13 +11,13 @@ import java.sql.SQLException;
 
 public class ConcreteReportDAO implements ReportDAO {
     private final ConnectionDBH2 connection_db;
-    public  ConcreteReportDAO(ConnectionDBH2 connection_db) {
+    private PreparedStatement ps;
+    public ConcreteReportDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
     }
 
     @Override
     public void add(Report report) {
-        PreparedStatement ps;
         try {
             ps = connection_db.getConnectData().prepareStatement("insert into REPORT(ID, ID_BOOKING, ID_OWNER, ID_PET,DIAGNOSIS, TREATMENTS,PATHFILE) values(?,?,?,?,?,?,?)");
             ps.setString(1, report.getId());
@@ -41,13 +41,35 @@ public class ConcreteReportDAO implements ReportDAO {
     }
 
     @Override
-    public void update(String id, Report item) {
-
+    public void update(String id, Report report) {
+        try {
+            ps = connection_db.getConnectData().prepareStatement("""
+                    update REPORT
+                    set DIAGNOSIS = ?, TREATMENTS = ?, PATHFILE = ?
+                    where ID_BOOKING = ?""");
+            ps.setString(1, report.getDiagnosis());
+            ps.setString(2, report.getTreatments());
+            ps.setString(3, report.getPathFile());
+            ps.setString(4, id);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Report modificato correttamente!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
     }
 
     @Override
     public void delete(String id) {
-
+        try {
+            ps = connection_db.getConnectData().prepareStatement("delete from REPORT where ID_BOOKING=?");
+            ps.setString(1, id);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Report eliminato correttamente!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
     }
 
     @Override
