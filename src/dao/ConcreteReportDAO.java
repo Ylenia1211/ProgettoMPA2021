@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ConcreteReportDAO implements ReportDAO {
     private final ConnectionDBH2 connection_db;
@@ -36,7 +37,7 @@ public class ConcreteReportDAO implements ReportDAO {
     }
 
     @Override
-    public ResultSet findAll() {
+    public List<Report> findAll() {
         return null;
     }
 

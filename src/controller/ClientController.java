@@ -24,13 +24,13 @@ public class ClientController implements Initializable, FieldVerifier {
     @FXML
     public TextField textFiscalCode;
     @FXML
-    private final TextField textName;
+    private TextField textName;
     @FXML
-    private final TextField textSurname;
+    private TextField textSurname;
     @FXML
-    private final TextField textAddress;
+    private TextField textAddress;
     @FXML
-    private final TextField textCity;
+    private TextField textCity;
     @FXML
     public TextField textTelephone;
     @FXML
@@ -42,16 +42,13 @@ public class ClientController implements Initializable, FieldVerifier {
     public RadioButton rbM;
     public RadioButton rbF;
     public HBox gender;
-
     public ToggleGroup genderGroup;
-    //private ClientRepository clientRepo = new ClientRepository();
     private ConcreteOwnerDAO clientRepo;
 
 
     public ClientController() {
         this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
         this.rbF = new RadioButton(Gender.F.getDeclaringClass().descriptorString());
-
         this.textName = new TextField();
         this.textSurname = new TextField();
         this.textAddress = new TextField();
@@ -61,16 +58,7 @@ public class ClientController implements Initializable, FieldVerifier {
         this.textdateBirth = new DatePicker();
         this.textFiscalCode = new TextField();
 
-        try{
-            //ConnectionDBH2 connection = new ConnectionDBH2();
-            this.clientRepo = new ConcreteOwnerDAO(ConnectionDBH2.getInstance());
-        }
-
-        catch (Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-        }
-
+        this.clientRepo = new ConcreteOwnerDAO(ConnectionDBH2.getInstance());
     }
 
     @Override
@@ -95,9 +83,6 @@ public class ClientController implements Initializable, FieldVerifier {
             else
                 this.textEmail.setStyle("-fx-border-color: lightgreen");
         });
-//        this.textFiscalCode.setTextFormatter(new TextFormatter<>(change ->
-//                (change.getControlNewText().matches("([1-9][0-9]*)?")) ? change : null));
-
     }
 
     //onAction="#registerClient"
@@ -115,7 +100,7 @@ public class ClientController implements Initializable, FieldVerifier {
 
             try {
                 clientRepo.add(p);
-                this. textName.clear();
+                this.textName.clear();
                 this.textSurname.clear();
                 this.textAddress.clear();
                 this.textCity.clear();

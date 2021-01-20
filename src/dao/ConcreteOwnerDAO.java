@@ -2,6 +2,8 @@ package dao;
 
 import controller.ClientController;
 import datasource.ConnectionDBH2;
+import model.Appointment;
+import model.Gender;
 import model.Owner;
 
 import javax.swing.*;
@@ -9,6 +11,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ConcreteOwnerDAO implements OwnerDAO{
@@ -59,11 +64,26 @@ public class ConcreteOwnerDAO implements OwnerDAO{
     }
 
     @Override
-    public ResultSet findAll() {
+    public List<Owner> findAll() {
+       List<Owner> listItems = new ArrayList<>();
         try {
             PreparedStatement statement = connection_db.getConnectData()
                     .prepareStatement(" SELECT * FROM masterdata INNER JOIN person ON person.id = masterdata.id INNER JOIN owner ON  person.id = owner.id ");
-            return statement.executeQuery();
+            ResultSet r = statement.executeQuery();
+            while(r.next()) {
+                listItems.add(new Owner.Builder<>()
+                        .addName(r.getString("name"))
+                        .addSurname(r.getString("surname"))
+                        .addSex(Gender.valueOf(r.getString("sex")))
+                        .addDateBirth(LocalDate.parse(r.getString("datebirth")))
+                        .addFiscalCode(r.getString("fiscalcode"))
+                        .addAddress(r.getString("address"))
+                        .addCity(r.getString("city"))
+                        .addTelephone(r.getString("telephone"))
+                        .addEmail(r.getString("email")).setTotAnimal(r.getInt("tot_animal")).build()
+                );
+            }
+            return listItems;
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
@@ -140,11 +160,14 @@ public class ConcreteOwnerDAO implements OwnerDAO{
                     "    INNER JOIN person" +
                     "    ON person.id = masterdata.id" +
                     "    INNER JOIN owner  " +
-                    "    ON  person.id = owner.id WHERE masterdata.name =" +"\'"+ client.getName() +"\'"+
-                    "    AND masterdata.surname =" +"\'"+ client.getSurname() +"\'"+
-                    "    AND masterdata.sex =" +"\'"+ client.getSex() +"\'"+
-                    "    AND masterdata.datebirth =" +"\'"+ client.getDatebirth() +"\'");
-            //System.out.println(client.getName());
+                    "    ON  person.id = owner.id WHERE masterdata.name = ? AND masterdata.surname = ? " +
+                    "    AND masterdata.sex = ?"+
+                    "    AND masterdata.datebirth = ? AND PERSON.FISCALCODE = ?");
+            statement.setString(1, client.getName());
+            statement.setString(2, client.getSurname());
+            statement.setString(3, client.getSex().toString());
+            statement.setString(4, client.getDatebirth().toString());
+            statement.setString(5, client.getFiscalCode());
             ResultSet rs = statement.executeQuery();
             String id_searched ="";
             if(rs.next()){

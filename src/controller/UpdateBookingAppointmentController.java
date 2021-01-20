@@ -22,12 +22,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class UpdateBookingAppointmentController extends BookingAppointmentController implements Subject {
-    private Appointment appointment;
-    private Label labelView;
+    private final Appointment appointment;
     private DatePicker dataVisit;
-    private String id;  //mi serve per l'update nel dao
+    private final String id;  //mi serve per l'update nel dao
 
-    private List<Observer> observers;
+    private final List<Observer> observers;
 
     public UpdateBookingAppointmentController(Appointment appointment) {
         super();
@@ -42,9 +41,9 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.initialize(url, resourceBundle);
         //super.labelTitle.setText("Modifica Data/Ora Prenotazione");
-        this.labelView = new Label("Modifica Data/Ora Prenotazione");
-        this.labelView.setTextFill(Paint.valueOf("a6a6a6"));
-        this.labelView.setFont(Font.font("Calibri", 30));
+        Label labelView = new Label("Modifica Data/Ora Prenotazione");
+        labelView.setTextFill(Paint.valueOf("a6a6a6"));
+        labelView.setFont(Font.font("Calibri", 30));
 
 
         this.dataVisit = new DatePicker();
@@ -59,7 +58,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
 
         //voglio modificare solo la data e/0 l'ora quindi elimino gli altri campi
         super.pane_main_grid.getChildren().clear();
-        super.pane_main_grid.getChildren().add(this.labelView);
+        super.pane_main_grid.getChildren().add(labelView);
         super.pane_main_grid.getChildren().add(this.dataVisit);
         super.addFieldTimeStart();
         super.addFieldMinutesTimeStart();

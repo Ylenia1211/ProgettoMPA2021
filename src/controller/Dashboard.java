@@ -3,6 +3,7 @@ import controller.factorySidebar.SideBarAction;
 import controller.factorySidebar.SideBarFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,9 +34,8 @@ public class Dashboard implements Initializable {
     public Button agenda = new Button("Agenda");
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
-    public Button reportButton = new Button("Report");
+
     private String roleUserLogged;
-    private static int reportID = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -89,13 +89,16 @@ public class Dashboard implements Initializable {
             button.setPrefWidth(150.0);
             button.setPrefHeight(25.0);
             button.setTextFill(Paint.valueOf("WHITE"));
+            if (button.getText().equals("Logout")){
+                button.setStyle("-fx-background-color: #fb4a4a; -fx-background-radius: 30px, 30px, 30px, 30px;");
 
+            }
             button.setOnMouseClicked(e -> {
                 Parent root;
                 try {
                     switch (button.getText()) {
                         case "Pazienti" -> {  //segretaria
-                            Tab pazienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showOwner.fxml")));
+                            Tab pazienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showTableOwner.fxml")));
                             Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
                             Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
                             tabPane.getTabs().clear();
@@ -132,6 +135,9 @@ public class Dashboard implements Initializable {
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
+                        }
+                        case "Logout" ->{
+                             //#Todo: inserire azione di logout
                         }
                         default -> {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));

@@ -7,9 +7,9 @@ public class Doctor extends Person{
         protected String specialization;
         protected String username;
         protected String password;
+
         public Builder(){
             super();
-            //this.tot_animal = tot_animal;
         }
 
         public Builder(String specialization, String username, String password){

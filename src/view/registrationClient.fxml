@@ -11,10 +11,10 @@
             <Font name="Calibri" size="29.0" />
         </font>
     </Label>
-    <TextField fx:id="textName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Name" />
-    <TextField fx:id="textSurname" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Surname" />
+    <TextField fx:id="textName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Nome" />
+    <TextField fx:id="textSurname" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Cognome" />
     <HBox fx:id="gender" alignment="CENTER" fillHeight="false" nodeOrientation="LEFT_TO_RIGHT">
-        <Label prefHeight="25.0" prefWidth="59.0" text="Gender:" />
+        <Label prefHeight="25.0" prefWidth="59.0" text="Sesso:" />
         <RadioButton fx:id="rbM" mnemonicParsing="false" text="M">
             <toggleGroup>
                 <ToggleGroup fx:id="genderGroup" />
@@ -26,7 +26,7 @@
             </HBox.margin>
         </RadioButton>
     </HBox>
-    <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Birth Date" showWeekNumbers="true" />
+    <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Date di Nascita" showWeekNumbers="true" />
     <TextField fx:id="textFiscalCode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Codice Fiscale" />
     <TextField fx:id="textEmail" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Email" />
     <TextField fx:id="textTelephone" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Telefono" />

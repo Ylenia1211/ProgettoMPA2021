@@ -1,6 +1,7 @@
 package dao;
 
 import datasource.ConnectionDBH2;
+import model.Appointment;
 import model.Gender;
 import model.Pet;
 
@@ -88,7 +89,7 @@ public class ConcretePetDAO implements PetDAO {
     }
 
     @Override
-    public ResultSet findAll() {
+    public List<Pet> findAll() {
         return null;
     }
 

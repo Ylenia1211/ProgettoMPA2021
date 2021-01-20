@@ -14,26 +14,17 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+//uso la stessa view di registrazione dell'owner, registrationClient.fxml
 public class RegistrationDoctorController extends ClientController{
     private TextField username;
     private PasswordField password;
-    private ComboBox specialization;
+    private ComboBox<String> specialization;
     private Button saveBtn;
+    private Label title;
     private ConcreteDoctorDAO doctorRepo;
 
     public RegistrationDoctorController() {
-        //ConnectionDBH2.quitConnectionDB();
-        try{
-
-            //ConnectionDBH2 connection = new ConnectionDBH2();
-            this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
-            //System.out.println(this.doctorRepo);
-        }
-
-        catch (Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-        }
+         this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
     }
 
     @Override
@@ -41,10 +32,9 @@ public class RegistrationDoctorController extends ClientController{
 
         super.initialize(url, resourceBundle);
 
-        Label l = (Label) super.pane_main_grid.lookup("#labelTitle");
-        l.setText("Creazione Dottore");
+        title = (Label) super.pane_main_grid.lookup("#labelTitle");
+        title.setText("Creazione Dottore");
         super.pane_main_grid.getChildren().remove(btn); //per rimuovere da pannello dinamicamente il bottone di salvataggio
-
         // menu a tendina per specializzazione
         addFieldSpecialization();
         //username, password
@@ -52,8 +42,6 @@ public class RegistrationDoctorController extends ClientController{
         addFieldPassword();
         addButtonSave();
         addActionButton();
-
-
     }
     public void addFieldSpecialization()  {
         List<String> listSpecialization = this.getDoctorRepo().searchAllSpecialization();
@@ -82,23 +70,19 @@ public class RegistrationDoctorController extends ClientController{
     public  void addButtonSave()  {
         this.saveBtn = new Button("Salva");
         this.saveBtn.setId("saveBtn");
+        this.saveBtn.setPrefWidth(200);
+        this.saveBtn.setPrefHeight(30);
+        this.saveBtn.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
+                " -fx-border-color: transparent; -fx-font-size: 16px; ");
         super.pane_main_grid.getChildren().add(this.saveBtn);
         }
 
     public void addActionButton() {
             this.saveBtn.setOnAction(e -> {
-                /*
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                        "Devi implementare la creazione del Dottore");
-                alert.show();
-                */
                 Doctor d = createDoctor();
-
                 //inserire controlli
                 this.doctorRepo.add(d);
             });
-
-
 
     }
 
@@ -108,12 +92,7 @@ public class RegistrationDoctorController extends ClientController{
 
     public Doctor createDoctor(){
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
-        System.out.println(chk.getText());
-
-        Doctor p = new Doctor.Builder<>(
-                (String) this.specialization.getValue(),
-                this.username.getText(),
-                this.password.getText())
+        return new Doctor.Builder<>()
                 .addName(super.getTextName().getText())
                 .addSurname(super.getTextSurname().getText())
                 .addSex((chk.getText().equals("M") ? Gender.M : Gender.F)) //toString()
@@ -122,8 +101,29 @@ public class RegistrationDoctorController extends ClientController{
                 .addCity(super.getTextCity().getText())
                 .addTelephone(super.getTextTelephone().getText())
                 .addEmail(super.getTextEmail().getText())
+                .addFiscalCode(super.getTextFiscalCode().getText())
+                .addSpecialization((String) this.specialization.getValue())
+                .addUsername(this.username.getText())
+                .addPassword( this.password.getText())
                 .build();
+    }
+    public TextField getUsername() {
+        return username;
+    }
 
-        return p;
+    public PasswordField getPassword() {
+        return password;
+    }
+
+    public ComboBox<String> getSpecialization() {
+        return specialization;
+    }
+
+    public Button getSaveBtn() {
+        return saveBtn;
+    }
+
+    public Label getTitle() {
+        return title;
     }
 }

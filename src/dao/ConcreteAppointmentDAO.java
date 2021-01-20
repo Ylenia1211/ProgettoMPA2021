@@ -43,7 +43,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     }
 
     @Override
-    public ResultSet findAll() {
+    public List<Appointment> findAll() {
         return null;
     }
 

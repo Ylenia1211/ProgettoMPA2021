@@ -17,15 +17,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
-import model.Gender;
-import model.Owner;
-
-import javax.naming.Binding;
-import javax.script.Bindings;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;

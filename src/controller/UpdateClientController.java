@@ -1,17 +1,15 @@
 package controller;
+
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
 import model.Gender;
 import model.Owner;
-import javax.swing.*;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UpdateClientController extends ClientController{
-    private String id;
-    private Owner own;
+    private final String id;
+    private final Owner own;
 
 
     public  UpdateClientController(Owner client) {
@@ -35,7 +33,6 @@ public class UpdateClientController extends ClientController{
     }
 
     public void setParam(Owner data) {
-
         super.getTextName().setText(data.getName().trim());
         super.getTextSurname().setText(data.getSurname().trim());
         super.getTextAddress().setText(data.getAddress().trim());

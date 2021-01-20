@@ -33,7 +33,6 @@ public class DoctorDashboard implements Initializable{
     public Button agenda = new Button("Agenda");
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
-    public Button reportButton = new Button("Report");
     public BorderPane borderPane;
     private static final int reportID = 0;
     public Pane borderPanePane;
@@ -41,7 +40,7 @@ public class DoctorDashboard implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni, reportButton);
+            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,7 +84,7 @@ public class DoctorDashboard implements Initializable{
                 try {
                     switch (button.getText()) {
                         case "Pazienti" -> {
-                            Tab pazienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showOwner.fxml")));
+                            Tab pazienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showTableOwner.fxml")));
                             Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
                             Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
                             tabPane.getTabs().clear();
@@ -99,9 +98,12 @@ public class DoctorDashboard implements Initializable{
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
                                 loader.setControllerFactory(p -> new RegistrationDoctorController());
-                                Tab dottore = new Tab("Nuovo Dottore", loader.load());
+                                Tab nuovoDottore = new Tab("Nuovo Dottore", loader.load());
+                                Tab dottori = new Tab("Dottori", FXMLLoader.load(getClass().getResource("/view/showTableDoctor.fxml")));
                                 tabPane.getTabs().clear();
-                                tabPane.getTabs().add(dottore);
+                                tabPane.getTabs().add(nuovoDottore);
+                                tabPane.getTabs().add(dottori);
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 // Tab nuovaSegreteria = new Tab("Nuova Segreteria", FXMLLoader.load(getClass().getResource("")));
                                 // tabPane.getTabs().clear();
                                 //tabPane.getTabs().add(nuovoPaziente);
@@ -123,10 +125,6 @@ public class DoctorDashboard implements Initializable{
                                 ex.printStackTrace();
                             }
                         }
-                        case "Report" -> {
-                            root = FXMLLoader.load(getClass().getResource("/view/reportView.fxml"));
-                            borderPane.setCenter(root);
-                        }//this.createReport();
                         default -> {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
                             borderPane.setCenter(root);

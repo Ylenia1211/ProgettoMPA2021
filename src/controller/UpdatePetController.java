@@ -12,8 +12,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class UpdatePetController extends  RegistrationPetController implements Initializable {
-    private String id;
-    private Pet pet;
+    private final String id;
+    private final Pet pet;
 
     public UpdatePetController(Pet data) {
         super();

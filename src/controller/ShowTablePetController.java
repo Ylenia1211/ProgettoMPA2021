@@ -50,15 +50,13 @@ public class ShowTablePetController  implements Initializable {
 
 
         petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
-        System.out.println("id: dopo " + this.id_owner);
+        //System.out.println("id: dopo " + this.id_owner);
         List<Pet> petsResult = petRepo.searchByOwner(this.id_owner);
         //petsResult.stream().forEach(x -> listItems.add(x));
         listItems.addAll(petsResult); //scrittura piu compatta
-
         tableSpecificPets.setItems(listItems);
 
-
-        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationPet.fxml", tableSpecificPets);
+        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationPet.fxml", tableSpecificPets, -1);
         tableSpecificPets.getColumns().add((TableColumn<Pet, ?>) colBtnUpdate);
         var colBtnDelete = addButtonDeleteToTable(tableSpecificPets, Pet.class);
         tableSpecificPets.getColumns().add((TableColumn<Pet, ?>)colBtnDelete);

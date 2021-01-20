@@ -1,6 +1,8 @@
 package util.gui;
 
+import controller.UpdateDoctorController;
 import controller.UpdatePetController;
+import dao.ConcreteDoctorDAO;
 import dao.ConcretePetDAO;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
@@ -13,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
+import model.Doctor;
 import model.Pet;
 
 import javax.swing.*;
@@ -20,7 +23,7 @@ import java.io.IOException;
 
 public class ButtonTable{
 
-    public static TableColumn<?, ?> addButtonUpdateToTable(String resourceFxml, TableView<?> tableView) {
+    public static TableColumn<?, ?> addButtonUpdateToTable(String resourceFxml, TableView<?> tableView, int controlView) {
         var colBtn = new TableColumn<>("");
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
             @Override
@@ -32,10 +35,29 @@ public class ButtonTable{
                             var data = getTableView().getItems().get(getIndex());
                             Scene scene = this.getScene();
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
-                            try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));  //#Todo: (aggiungere switch) in base all'elemento fxml mi prendo il controller giusto
-                                loader.setControllerFactory(p -> new UpdatePetController((Pet) data));
-                                borderPane.setCenter(loader.load());
+                            try { //#Todo: (aggiungere switch) in base all'elemento fxml mi prendo il controller giusto
+                                switch (resourceFxml) {
+                                    case "/view/registrationPet.fxml" -> {
+                                        FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
+                                        loader.setControllerFactory(p -> new UpdatePetController((Pet) data));
+                                        borderPane.setCenter(loader.load());
+                                    }
+                                    case "/view/registrationClient.fxml" -> { //qua è un problema perchè non possiamo generalizzare anche per update registrazione di cliente e segretaria
+                                       switch (controlView){
+                                           case 0 ->{
+                                               FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
+                                               loader.setControllerFactory(p -> new UpdateDoctorController((Doctor) data));
+                                               borderPane.setCenter(loader.load());
+                                           }
+                                           case 1 -> {
+                                                // faccio l'update della segretaria
+                                           }
+                                           case 2 -> {
+                                               // faccio l'update dell' owner
+                                           }
+                                       }
+                                    }
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -80,7 +102,12 @@ public class ButtonTable{
                                     String id = petRepo.search((Pet) data);
                                     petRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
-                               }
+                                }else if (object.equals(Doctor.class)){
+                                    var doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
+                                    String id = doctorRepo.search((Doctor) data);
+                                    doctorRepo.delete(id);
+                                    tableView.getItems().remove(data); //elimina graficamente
+                                }
                                 //#Todo: lo stesso per gli altri elementi
                             }
                         });

@@ -1,12 +1,16 @@
 package dao;
 
 import datasource.ConnectionDBH2;
+import model.Appointment;
 import model.Doctor;
+import model.Gender;
+import model.Owner;
 
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +35,13 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             ps.executeUpdate();
             System.out.println("Anagrafica Doctor aggiunta al DB!");
 
-            //#TODO:aggiungere cod.fiscale nella query sotto e nella vista di creazione del dottore
-            ps =connection_db.getConnectData().prepareStatement("insert into person(id, address, city, telephone, email) values(?,?,?,?,?)");
+            ps =connection_db.getConnectData().prepareStatement("insert into person(id, address, city, telephone, email, FISCALCODE) values(?,?,?,?,?,?)");
             ps.setString(1, doctor.getId());
             ps.setString(2, doctor.getAddress());
             ps.setString(3, doctor.getCity());
             ps.setString(4, doctor.getTelephone());
             ps.setString(5, doctor.getEmail());
+            ps.setString(6, doctor.getFiscalCode());
             ps.executeUpdate();
             System.out.println("Dati civici Doctor aggiunti al DB!");
 
@@ -55,33 +59,78 @@ public class ConcreteDoctorDAO implements DoctorDAO {
 
     }
 
-    //#TODO Creare vista per mostrare i dottori e provare a modificarli
+
+
     @Override
-    public ResultSet findAll() {
+    public List<Doctor> findAll() {
+        List<Doctor> listItems = new ArrayList<>();
         try {
-            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM DOCTOR");
-            return statement.executeQuery();
+            PreparedStatement statement = connection_db.getConnectData()
+                    .prepareStatement(" SELECT * FROM masterdata INNER JOIN person ON person.id = masterdata.id INNER JOIN DOCTOR ON  person.id = DOCTOR.id ");
+            ResultSet r = statement.executeQuery();
+            while(r.next()) {
+                listItems.add(new Doctor.Builder<>()
+                        .addName(r.getString("name"))
+                        .addSurname(r.getString("surname"))
+                        .addSex(Gender.valueOf(r.getString("sex")))
+                        .addDateBirth(LocalDate.parse(r.getString("datebirth")))
+                        .addFiscalCode(r.getString("fiscalcode"))
+                        .addAddress(r.getString("address"))
+                        .addCity(r.getString("city"))
+                        .addTelephone(r.getString("telephone"))
+                        .addEmail(r.getString("email"))
+                        .addSpecialization(r.getString("specialization"))
+                        .addUsername(r.getString("username"))
+                        .addPassword(r.getString("password"))
+                        .build()
+                );
+            }
+            return listItems;
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
             return null;
         }
+
     }
 
     @Override
-    public void update(String id, Doctor item) {
-        String sqlMasterData = "UPDATE DOCTOR SET specialization = ?, USERNAME = ?, PASSWORD = ? where DOCTOR.ID = ?";
-
-        PreparedStatement ps;
+    public void update(String id, Doctor doctor) {
+        String sqlMasterData = "UPDATE masterdata SET name = ?, surname = ?, sex = ?, datebirth = ? where masterdata.id = ?";
+        String sqlPersonData = "UPDATE person SET address = ?, city = ?, telephone = ?, email = ?, fiscalcode = ? where person.id = ?";
+        String sqlDoctorData = "UPDATE doctor SET specialization = ?, username = ?, password = ? where doctor.id = ?";
+        PreparedStatement ps = null;
         try {
             ps = connection_db.getConnectData().prepareStatement(sqlMasterData);
-            ps.setString(1, item.getSpecialization());
-            ps.setString(2, item.getUsername());
-            ps.setString(3, item.getPassword());
-            //#todo:manca l'id in posizione 4
+            ps.setString(1, doctor.getName());
+            ps.setString(2, doctor.getSurname());
+            ps.setString(3, doctor.getSex().toString());
+            ps.setString(4, doctor.getDatebirth().toString());
+            ps.setString(5, id);
             ps.executeUpdate();
 
-            System.out.println("Aggiornati dati Anagrafica del Doctor!");
+            System.out.println("Aggiornati dati Anagrafica del doctor!");
+            ps = null;
+            ps = connection_db.getConnectData().prepareStatement(sqlPersonData);
+            ps.setString(1, doctor.getAddress());
+            ps.setString(2, doctor.getCity());
+            ps.setString(3, doctor.getTelephone());
+            ps.setString(4, doctor.getEmail());
+            ps.setString(5, doctor.getFiscalCode());
+            ps.setString(6, id);
+            ps.executeUpdate();
+            System.out.println("Aggiornati dati persona del doctor!");
+
+            ps = null;
+            ps = connection_db.getConnectData().prepareStatement(sqlDoctorData);
+            ps.setString(1, doctor.getSpecialization());
+            ps.setString(2, doctor.getUsername());
+            ps.setString(3, doctor.getPassword());
+            ps.setString(4, id);
+            ps.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Modificato correttamente!");
+
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
@@ -92,11 +141,22 @@ public class ConcreteDoctorDAO implements DoctorDAO {
     public void delete(String id) {
         System.out.println("id da cancellare a cascata: " + id);
 
-        PreparedStatement ps;
+        PreparedStatement ps = null;
         try {
-            ps = connection_db.getConnectData().prepareStatement("DELETE FROM DOCTOR WHERE DOCTOR.ID = "+ "'" + id + "'");
+            ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = "+"\'"+ id +"\'" );
             ps.executeUpdate();
-            System.out.println("Cancellati dati del Doctor!");
+            System.out.println("Cancellati dati Anagrafica del doctor!");
+
+            ps = null;
+            ps = connection_db.getConnectData().prepareStatement("delete from person where person.id = "+"\'"+ id +"\'" );
+
+            ps.executeUpdate();
+            System.out.println("Cancellati dati civici del doctor!");
+
+            ps = null;
+            ps = connection_db.getConnectData().prepareStatement("delete from DOCTOR where DOCTOR.id = "+"\'"+ id +"\'" );
+
+            ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cancellato correttamente!");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -127,7 +187,37 @@ public class ConcreteDoctorDAO implements DoctorDAO {
     }
 
     @Override
-    public String search(Doctor data) {
-        return null;
+    public String search(Doctor doctor) {
+        PreparedStatement ps = null;
+        try{
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
+                    "    INNER JOIN person" +
+                    "    ON person.id = masterdata.id" +
+                    "    INNER JOIN DOCTOR  " +
+                    "    ON  person.id = DOCTOR.id WHERE masterdata.name = ? AND masterdata.surname = ? " +
+                    "    AND masterdata.sex = ?"+
+                    "    AND masterdata.datebirth = ? AND PERSON.FISCALCODE = ?");
+            statement.setString(1, doctor.getName());
+            statement.setString(2, doctor.getSurname());
+            statement.setString(3, doctor.getSex().toString());
+            statement.setString(4, doctor.getDatebirth().toString());
+            statement.setString(5, doctor.getFiscalCode());
+            ResultSet rs = statement.executeQuery();
+            String id_searched ="";
+            if(rs.next()){
+                id_searched  = rs.getString("id");
+                //System.out.println(rs.getString("name"));
+                //System.out.println(rs.getString("fiscalcode"));
+                return id_searched;
+            }else{
+                JOptionPane.showMessageDialog(null, "Ricerca Vuota");
+                return id_searched;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
     }
 }
