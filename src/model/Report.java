@@ -7,9 +7,9 @@ public class Report {
     private final String id_booking;
     private final String id_owner;
     private final String id_pet;
-    private String diagnosis;
-    private String treatments;
-    private String pathFile; //allegato
+    private final String diagnosis;
+    private final String treatments;
+    private final String pathFile; //allegato
 
     public Report(Builder builder) {
         id = builder.id;
@@ -40,17 +40,7 @@ public class Report {
     public String getDiagnosis() {
         return diagnosis;
     }
-    public void setDiagnosis(String diagnosi) {
-        this.diagnosis = diagnosi;
-    }
 
-    public void setTreatments(String treatments) {
-        this.treatments = treatments;
-    }
-
-    public void setPathFile(String pathFile) {
-        this.pathFile = pathFile;
-    }
 
     public String getTreatments() {
         return treatments;
