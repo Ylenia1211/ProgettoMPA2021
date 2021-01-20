@@ -172,6 +172,9 @@
         </VBox>
     </HBox>
     <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+        <VBox.margin>
+            <Insets />
+        </VBox.margin>
         <children>
             <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3DA4E3;" text="Dottore" textFill="WHITE">
                 <font>
@@ -198,6 +201,8 @@
 
 
         </children></VBox>
-
+    <padding>
+        <Insets bottom="10.0" left="20.0" right="20.0" />
+    </padding>
 </VBox>
 
