@@ -2,6 +2,7 @@ package util.gui;
 
 import controller.UpdateDoctorController;
 import controller.UpdatePetController;
+import controller.UpdateSecretariatController;
 import dao.ConcreteDoctorDAO;
 import dao.ConcretePetDAO;
 import dao.ConcreteSecretariatDAO;
@@ -47,13 +48,16 @@ public class ButtonTable{
                                     case "/view/registrationClient.fxml" -> { //qua è un problema perchè non possiamo generalizzare anche per update registrazione di cliente e segretaria
                                        switch (controlView){
                                            case 0 ->{
+                                               // faccio l'update dell dottore
                                                FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
                                                loader.setControllerFactory(p -> new UpdateDoctorController((Doctor) data));
                                                borderPane.setCenter(loader.load());
                                            }
                                            case 1 -> {
-                                              // #Todo: implementare controller update segreteria
                                                 // faccio l'update della segretaria
+                                               FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
+                                               loader.setControllerFactory(p -> new UpdateSecretariatController((Secretariat) data));
+                                               borderPane.setCenter(loader.load());
                                            }
                                            case 2 -> {
                                                // faccio l'update dell' owner

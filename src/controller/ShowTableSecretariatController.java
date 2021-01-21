@@ -54,10 +54,10 @@ public class ShowTableSecretariatController implements Initializable {
         listItems.addAll(this.secretariatRepo.findAll());
         tableSecretariat.setItems(listItems);
         //#todo: implementare update controller
-         /*
+
         var colBtnUpdate =  addButtonUpdateToTable("/view/registrationClient.fxml", tableSecretariat, 1);
         tableSecretariat.getColumns().add((TableColumn<Secretariat, ?>) colBtnUpdate);
-        */
+
         var colBtnDelete = addButtonDeleteToTable(tableSecretariat, Secretariat.class);
         tableSecretariat.getColumns().add((TableColumn<Secretariat, ?>)colBtnDelete);
     }
