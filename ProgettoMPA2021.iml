@@ -26,5 +26,6 @@
     <orderEntry type="library" name="flying-saucer-core-9.1.20" level="project" />
     <orderEntry type="library" name="flying-saucer-pdf-9.1.19" level="project" />
     <orderEntry type="library" name="itext-2.1.0" level="project" />
+    <orderEntry type="library" name="j2html-1.4.0" level="project" />
   </component>
 </module>

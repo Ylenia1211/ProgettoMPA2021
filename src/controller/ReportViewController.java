@@ -2,6 +2,7 @@ package controller;
 
 import dao.ConcreteReportDAO;
 import datasource.ConnectionDBH2;
+import j2html.TagCreator;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -14,11 +15,17 @@ import model.Appointment;
 import model.Report;
 import util.pdfutilities.FacadePDFReportGenerator;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import static j2html.TagCreator.h1;
+import static j2html.TagCreator.table;
+import static util.pdfutilities.FacadePDFReportGenerator.createHtml;
 
 public class ReportViewController extends FacadePDFReportGenerator implements Initializable {
     public Button creaPDFReportButton;
@@ -90,7 +97,17 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
         this.creaPDFReportButton.setOnAction(actionEvent -> {
             try {
-                String inputFile = "./trial.html";
+                  String documentHtml = createHtml("Signup page",
+                       h1("Report")
+                     );
+                FileWriter fWriter = null;
+                BufferedWriter writer = null;
+                String inputFile = "./fileName.html";
+                fWriter = new FileWriter("./fileName.html");
+                writer = new BufferedWriter(fWriter);
+                writer.write(documentHtml);
+                writer.newLine(); //this is not actually needed for html files - can make your code more readable though
+                writer.close(); //make sure you close the writer object
                 String outputFile = "./TestPdf.pdf";
                 generatePDF(inputFile, outputFile);
                 System.out.println("Done!");

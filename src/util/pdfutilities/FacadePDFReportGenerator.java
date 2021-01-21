@@ -1,24 +1,26 @@
 package util.pdfutilities;
-
 import com.lowagie.text.DocumentException;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import j2html.tags.Tag;
 import model.Report;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.xhtmlrenderer.pdf.ITextRenderer;
-
+import static j2html.TagCreator.*;
 import java.io.*;
-import java.net.MalformedURLException;
+
 
 public class FacadePDFReportGenerator {
     public void creaReport(Report report) throws IOException {
         //creazione del report in pdf
 
     }
-
+    public static String createHtml(String pageTitle, Tag... tags) {
+           return html(head(title(pageTitle)),
+                       body(
+                               header(),
+                               main(tags), //the view from the partials example),
+                               footer()
+                       )
+                    ).render();
+    }
     public static void generatePDF(String inputHtmlPath, String outputPdfPath) {
         String url = null;
         try {
