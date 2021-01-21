@@ -105,10 +105,12 @@ public class DoctorDashboard implements Initializable{
                                 FXMLLoader loaderSecretariat = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
                                 loaderSecretariat.setControllerFactory(p -> new RegistrationSecretariatController());
                                 Tab nuovaSegreteria = new Tab("Nuovo Segreteria", loaderSecretariat.load());
+                                Tab segreteria = new Tab("Segreteria", FXMLLoader.load(getClass().getResource("/view/showTableSecretariat.fxml")));
                                 tabPane.getTabs().clear();
                                 tabPane.getTabs().add(nuovoDottore);
                                 tabPane.getTabs().add(dottori);
                                 tabPane.getTabs().add(nuovaSegreteria);
+                                tabPane.getTabs().add(segreteria);
                                 tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
                             } catch (IOException ex) {
