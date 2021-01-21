@@ -4,9 +4,7 @@ import j2html.tags.ContainerTag;
 import j2html.tags.Tag;
 import model.*;
 import org.xhtmlrenderer.pdf.ITextRenderer;
-
 import javax.swing.*;
-
 import static j2html.TagCreator.*;
 import java.io.*;
 import java.time.LocalDate;

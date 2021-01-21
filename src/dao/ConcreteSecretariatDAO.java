@@ -4,6 +4,7 @@ import datasource.ConnectionDBH2;
 import model.Doctor;
 import model.Gender;
 import model.Secretariat;
+import model.User;
 
 import javax.swing.*;
 import java.sql.PreparedStatement;
@@ -189,4 +190,44 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             return null;
         }
     }
+
+    @Override
+    public Secretariat searchByUsernameAndPassword(User userLogged) {
+        PreparedStatement ps = null;
+        String sqlSearch = "SELECT * FROM masterdata" +
+                "    INNER JOIN person" +
+                "    ON person.id = masterdata.id" +
+                "    INNER JOIN SECRETARIAT  " +
+                "    ON  person.id = SECRETARIAT.id WHERE SECRETARIAT.USERNAME = ? AND SECRETARIAT.PASSWORD = ? ";
+        try {
+            ps = connection_db.getConnectData().prepareStatement(sqlSearch);
+            ps.setString(1, userLogged.getUsername());
+            ps.setString(2, userLogged.getPassword());
+            ResultSet r = ps.executeQuery();
+            if(r.next()){
+                return new Secretariat.Builder<>()
+                        .addName(r.getString("name"))
+                        .addSurname(r.getString("surname"))
+                        .addSex(Gender.valueOf(r.getString("sex")))
+                        .addDateBirth(LocalDate.parse(r.getString("datebirth")))
+                        .addFiscalCode(r.getString("fiscalcode"))
+                        .addAddress(r.getString("address"))
+                        .addCity(r.getString("city"))
+                        .addTelephone(r.getString("telephone"))
+                        .addEmail(r.getString("email"))
+                        .addUsername(r.getString("username"))
+                        .addPassword(r.getString("password"))
+                        .build();
+            }else{
+                ConcreteLoginDAO.searchEmpty();
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
+    }
+
 }

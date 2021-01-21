@@ -20,6 +20,7 @@ public interface AppointmentDAO extends Crud<Appointment> {
     Pet searchPetById(String id);
     Owner searchOwnerById(String id);
     boolean searchIfExistAppointmentInReport(String id);
-    List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date);
+    List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date); //mi serve per il controllo delle sovrapposizioni
     Doctor searchDoctorById(String id);
+    Integer countAppointmentsByDateAndDoctor(String date, String id_doctor);
 }

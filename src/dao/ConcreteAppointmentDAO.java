@@ -383,6 +383,11 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * @param idDoctorSearched
+     * @param date
+     * @return
+     */
     @Override
     public List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date) {
         String sqlSearch = "SELECT * From BOOKING Where ID_DOCTOR = ? AND DATE_VISIT = ?";
@@ -446,5 +451,12 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public Integer countAppointmentsByDateAndDoctor(String date, String id_doctor) {
+         List<Appointment> listAppointment = searchVisitbyDoctorAndDate(id_doctor, date);
+          System.out.println(listAppointment.size());
+         return listAppointment.size();
     }
 }

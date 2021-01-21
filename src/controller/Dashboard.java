@@ -1,10 +1,14 @@
 package controller;
+import com.sun.tools.javac.Main;
 import controller.factorySidebar.SideBarAction;
 import controller.factorySidebar.SideBarFactory;
+import dao.ConcreteDoctorDAO;
+import datasource.ConnectionDBH2;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -17,7 +21,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.User;
+import util.SessionUser;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -25,7 +32,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 
-public class Dashboard implements Initializable {
+public class Dashboard  implements Initializable {
     public BorderPane borderPane;
     public Label labelWelcome;
 
@@ -34,12 +41,11 @@ public class Dashboard implements Initializable {
     public Button agenda = new Button("Agenda");
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
-
     private String roleUserLogged;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-         setUserLogged(LoginController.getInstance().getUserLogged());
+        setUserLogged(SessionUser.getUser());
        //costruzione delle azioni della sideBar in base al Ruolo dell'utente loggato,  utilizzando il Pattern Factory
         SideBarAction sideBarByRole = SideBarFactory.createSideBar(this.roleUserLogged);  //mi serve il ruolo dell'utente loggato
         try {
@@ -57,7 +63,19 @@ public class Dashboard implements Initializable {
 
     public void setUserLogged(User user){
         this.roleUserLogged = user.getRole();
-        this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + user.getUsername());
+        switch (this.roleUserLogged){
+            case "Dottore" -> {
+                this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getDoctor().getName() + SessionUser.getDoctor().getSurname());
+            }
+            case "Segreteria" -> {
+                this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getSecretariat().getName() + SessionUser.getSecretariat().getSurname());
+            }
+            case "Amministratore" -> {
+                this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getAdmin().getUsername());
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + user.getRole());
+        }
+
     }
 
     public BorderPane getBorderPane() {
@@ -136,9 +154,24 @@ public class Dashboard implements Initializable {
                                 ex.printStackTrace();
                             }
                         }
-                        case "Logout" ->{
-                             //#Todo: inserire azione di logout
-                        }
+                        //case "Logout" ->{
+                             //#NON SI PUO FARE //singleton non lo consente
+                            //button.getScene().getWindow().hide();
+                            /*Stage home = new Stage();
+                            try {
+                                //cambia schermata --> login
+                                close();
+                                Parent rootLogin = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+                                SessionUser.logoutSession();
+                                Scene scene = new Scene(rootLogin);
+                                home.setScene(scene);
+                                home.initStyle(StageStyle.TRANSPARENT); //per nascondere la barra in alto
+                                home.setResizable(false);
+                                home.show();
+                            }catch (IOException ex) {
+                                ex.printStackTrace();
+                            }*/
+                       // }
                         default -> {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
                             borderPane.setCenter(root);

@@ -1,6 +1,5 @@
 package controller;
 
-import dao.ConcreteDoctorDAO;
 import dao.ConcreteLoginDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
@@ -12,20 +11,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.User;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class LoginController implements Initializable {
     public BorderPane borderPane;
@@ -37,27 +32,25 @@ public class LoginController implements Initializable {
     private ComboBox<String> textRoleUser;
     private ConcreteLoginDAO loginRepo;
     private User userLogged;
-
     private static LoginController instance; // Singleton: mi serve per prendere l'utente loggato
+    private Object userData;
+
     // Quando il client deve usare l’oggetto, lo può richiamare invocando
                                                                           //il metodo getInstance
     public LoginController() {
         instance = this;
-        try{
-            //ConnectionDBH2 connection = new ConnectionDBH2();
-            this.loginRepo = new ConcreteLoginDAO(ConnectionDBH2.getInstance()); //uso singleton
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-        }
+        this.loginRepo = new ConcreteLoginDAO(ConnectionDBH2.getInstance());
+
     }
+
 
     public static LoginController getInstance() {
         return instance;
     }
 
-
+    public Object getUserData() {
+        return userData;
+    }
 
     public User getUserLogged() {
         return userLogged;
@@ -87,13 +80,25 @@ public class LoginController implements Initializable {
             System.out.println(userLogged.toString());
             //ricerca del username e password in base al ruolo
             boolean result = this.loginRepo.searchUser(userLogged);
+
             if (result) {
                 btnLogin.getScene().getWindow().hide();
                 Stage home = new Stage();
+                AtomicReference<Double> x = new AtomicReference<>((double) 0);
+                AtomicReference<Double> y = new AtomicReference<>((double) 0);
                 try {
                     //cambia schermata --> dashboard
                     Parent root = FXMLLoader.load(getClass().getResource("/view/dashboard.fxml"));
                     Scene scene = new Scene(root);
+                    root.setOnMousePressed(mouseEvent -> {
+                        x.set(mouseEvent.getSceneX());
+                        y.set(mouseEvent.getSceneY());
+                    });
+                    root.setOnMouseDragged(mouseEvent -> {
+                        home.setX(mouseEvent.getScreenX() - x.get());
+                        home.setY(mouseEvent.getScreenY() - y.get());
+                    });
+
                     home.setScene(scene);
                     home.initStyle(StageStyle.TRANSPARENT); //per nascondere la barra in alto
                     home.setResizable(false);

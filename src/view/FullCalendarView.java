@@ -1,6 +1,8 @@
 package view;
 
+import controller.LoginController;
 import dao.ConcreteAppointmentDAO;
+import dao.ConcreteDoctorDAO;
 import datasource.ConnectionDBH2;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 import model.Appointment;
+import util.SessionUser;
 
 import javax.swing.*;
 import java.time.LocalDate;
@@ -34,7 +37,8 @@ public class FullCalendarView {
     private final VBox view;
     private final Text calendarTitle;
     private YearMonth currentYearMonth;
-    private ConcreteAppointmentDAO appointmentRepo;
+    private final ConcreteAppointmentDAO appointmentRepo;
+    private final ConcreteDoctorDAO doctorRepo;
     private List<Appointment> listAppointmentDay;
     /**
      * Create a calendar view
@@ -42,16 +46,9 @@ public class FullCalendarView {
      */
     public FullCalendarView(YearMonth yearMonth) {
 
-        try{
-            //ConnectionDBH2 connection = new ConnectionDBH2();
-            this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-            this.listAppointmentDay = new ArrayList<>();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-        }
-
+        this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
+        this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
+        this.listAppointmentDay = new ArrayList<>();
         currentYearMonth = yearMonth;
         //System.out.println(currentYearMonth);
         // Create the calendar grid pane
@@ -123,8 +120,7 @@ public class FullCalendarView {
                 ap.getChildren().clear();  //serve per il refresh
             }
 
-            // #TODO le righe sotto servono a far spuntare i cerchi nelle celle del calendario:
-
+            //le righe sotto servono a far spuntare i cerchi nelle celle del calendario:
             Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
             LocalDate dayCalendar = LocalDate.of(calendarDate.getYear(), calendarDate.getMonthValue(), calendarDate.getDayOfMonth());
             //System.out.println(dayCalendar);
@@ -140,7 +136,12 @@ public class FullCalendarView {
 
 
             // si deve colorare il cerchio in base al numero di visite in un giorno e settare il testo all'interno
-            Integer countVisitDay = this.appointmentRepo.countAppointmentsByDate(dayCalendar.toString());
+            //:deve spuntare numero di visite in un giorno di quel giorno per l'utente loggato OK FATTO
+            /*
+            String id_doctor = this.doctorRepo.search(SessionUser.getDoctor());
+            System.out.println("id_dottore loggato: " + id_doctor);
+            Integer countVisitDay = this.appointmentRepo.countAppointmentsByDateAndDoctor(dayCalendar.toString(), id_doctor);*/
+            Integer countVisitDay = this.appointmentRepo.countAppointmentsByDate(dayCalendar.toString()); //questo è generale NON Cancellare
             if(countVisitDay == 0)
                 circle.setFill(Color.WHITE);
             else  if(countVisitDay < 3)

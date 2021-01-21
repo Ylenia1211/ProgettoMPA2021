@@ -1,8 +1,6 @@
 package controller;
-
 import dao.ConcreteReportDAO;
 import datasource.ConnectionDBH2;
-import j2html.TagCreator;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -13,19 +11,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.*;
 import util.pdfutilities.FacadePDFReportGenerator;
-
-import javax.swing.*;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static j2html.TagCreator.h1;
-import static j2html.TagCreator.table;
-import static util.pdfutilities.FacadePDFReportGenerator.createHtml;
 
 public class ReportViewController extends FacadePDFReportGenerator implements Initializable {
     public Button creaPDFReportButton;
@@ -50,9 +41,9 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     private ConcreteReportDAO reportDAO;
     private Report report;
 
-    private Owner owner;
-    private Pet pet;
-    private Doctor doctor;
+    private final Owner owner;
+    private final Pet pet;
+    private final Doctor doctor;
 
 
     public ReportViewController(Appointment appointment, Owner owner, Pet pet, Doctor doctor) {

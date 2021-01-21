@@ -3,6 +3,7 @@ package view;
 import controller.ShowSpecificBookingVisitController;
 import controller.ShowTablePetController;
 import dao.ConcreteAppointmentDAO;
+import dao.ConcreteDoctorDAO;
 import datasource.ConnectionDBH2;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -18,6 +19,7 @@ import javafx.scene.text.TextBoundsType;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Appointment;
+import util.SessionUser;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -35,32 +37,30 @@ import java.util.List;
 public class AnchorPaneNode extends AnchorPane {
     // Date associated with this pane
     private LocalDate date;
-    private Color color;
-    private ConcreteAppointmentDAO appointmentRepo;
+    private final ConcreteAppointmentDAO appointmentRepo;
     private List<Appointment> listAppointmentDay;
+    private final ConcreteDoctorDAO doctorRepo;
     /**
      * Create a anchor pane node. Date is not assigned in the constructor.
      * @param children children of the anchor pane
      */
     public AnchorPaneNode(Node... children) {
         super(children);
-        try{
-            //ConnectionDBH2 connection = new ConnectionDBH2();
-            this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-            this.listAppointmentDay = new ArrayList<>();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-        }
+
+        this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
+        this.listAppointmentDay = new ArrayList<>();
+        this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
 
         // Add action handler for mouse clicked
         this.setOnMouseClicked(e -> {
             System.out.println("Data cliccata: " + date);
-            this.listAppointmentDay =this.appointmentRepo.searchAppointmentsByDate(date.toString());
+            //deve spuntare la lista delle prenotazioni di quel giorno per l'utente loggato OK
+            /*String id_doctor = this.doctorRepo.search(SessionUser.getDoctor());
+            System.out.println("id_dottore loggato: " + id_doctor);
+            this.listAppointmentDay = this.appointmentRepo.searchVisitbyDoctorAndDate(id_doctor,date.toString());*/
+            this.listAppointmentDay =this.appointmentRepo.searchAppointmentsByDate(date.toString()); //questo è generale NON Cancellare
             //this.listAppointmentDay.stream().map(Appointment::toString).forEach(System.out::println);
             //funziona fino a qui
-            //#TODO:deve spuntare la lista delle prenotazioni di quel giorno
 
             Scene scene = this.getScene();
             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
@@ -94,7 +94,4 @@ public class AnchorPaneNode extends AnchorPane {
         this.date = date;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
 }

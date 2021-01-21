@@ -1,10 +1,7 @@
 package dao;
 
 import datasource.ConnectionDBH2;
-import model.Appointment;
-import model.Doctor;
-import model.Gender;
-import model.Owner;
+import model.*;
 
 import javax.swing.*;
 import java.sql.PreparedStatement;
@@ -212,6 +209,46 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             }else{
                 JOptionPane.showMessageDialog(null, "Ricerca Vuota");
                 return id_searched;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public Doctor searchByUsernameAndPassword(User userLogged) {
+        PreparedStatement ps = null;
+        String sqlSearch = "SELECT * FROM masterdata" +
+                "    INNER JOIN person" +
+                "    ON person.id = masterdata.id" +
+                "    INNER JOIN DOCTOR  " +
+                "    ON  person.id = DOCTOR.id WHERE DOCTOR.USERNAME = ? AND DOCTOR.PASSWORD = ? ";
+        try {
+            ps = connection_db.getConnectData().prepareStatement(sqlSearch);
+            ps.setString(1, userLogged.getUsername());
+            ps.setString(2, userLogged.getPassword());
+            ResultSet r = ps.executeQuery();
+            if(r.next()){
+                return new Doctor.Builder<>()
+                        .addName(r.getString("name"))
+                        .addSurname(r.getString("surname"))
+                        .addSex(Gender.valueOf(r.getString("sex")))
+                        .addDateBirth(LocalDate.parse(r.getString("datebirth")))
+                        .addFiscalCode(r.getString("fiscalcode"))
+                        .addAddress(r.getString("address"))
+                        .addCity(r.getString("city"))
+                        .addTelephone(r.getString("telephone"))
+                        .addEmail(r.getString("email"))
+                        .addSpecialization(r.getString("specialization"))
+                        .addUsername(r.getString("username"))
+                        .addPassword(r.getString("password"))
+                        .build();
+            }else{
+                ConcreteLoginDAO.searchEmpty();
+                return null;
             }
 
         } catch (SQLException e) {
