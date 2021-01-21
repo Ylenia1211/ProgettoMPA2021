@@ -96,17 +96,20 @@ public class DoctorDashboard implements Initializable{
                         }
                         case "Utenti" -> {
                             try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
-                                loader.setControllerFactory(p -> new RegistrationDoctorController());
-                                Tab nuovoDottore = new Tab("Nuovo Dottore", loader.load());
+                                FXMLLoader loaderDoctor = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
+                                loaderDoctor.setControllerFactory(p -> new RegistrationDoctorController());
+                                Tab nuovoDottore = new Tab("Nuovo Dottore", loaderDoctor.load());
                                 Tab dottori = new Tab("Dottori", FXMLLoader.load(getClass().getResource("/view/showTableDoctor.fxml")));
+
+                                //segreteria
+                                FXMLLoader loaderSecretariat = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
+                                loaderSecretariat.setControllerFactory(p -> new RegistrationSecretariatController());
+                                Tab nuovaSegreteria = new Tab("Nuovo Segreteria", loaderSecretariat.load());
                                 tabPane.getTabs().clear();
                                 tabPane.getTabs().add(nuovoDottore);
                                 tabPane.getTabs().add(dottori);
+                                tabPane.getTabs().add(nuovaSegreteria);
                                 tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-                                // Tab nuovaSegreteria = new Tab("Nuova Segreteria", FXMLLoader.load(getClass().getResource("")));
-                                // tabPane.getTabs().clear();
-                                //tabPane.getTabs().add(nuovoPaziente);
                                 borderPane.setCenter(tabPane);
                             } catch (IOException ex) {
                                 ex.printStackTrace();

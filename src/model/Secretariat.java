@@ -2,7 +2,7 @@ package model;
 
 public class Secretariat extends Person {
 
-    public static class Builder<T extends Secretariat.Builder<T>>  extends Person.Builder<Secretariat.Builder<T>>{
+    public static class Builder<T extends Secretariat>  extends Person.Builder<Secretariat.Builder<T>>{
 
 
         protected String username;
@@ -12,6 +12,14 @@ public class Secretariat extends Person {
             super();
         }
 
+        public Builder addUsername(String username){
+            this.username = username;
+            return this;
+        }
+        public Builder addPassword(String password){
+            this.password = password;
+            return this;
+        }
         @Override
         public Secretariat.Builder getThis(){
             return  this;
@@ -26,7 +34,7 @@ public class Secretariat extends Person {
     final private String username;
     final private String password;
 
-    protected Secretariat(Secretariat.Builder builder){
+    protected Secretariat(Builder builder){
         super (builder);
         this.username = builder.username;
         this.password = builder.password;
@@ -35,10 +43,8 @@ public class Secretariat extends Person {
     public String getUsername() {
         return username;
     }
-
     public String getPassword() {
         return password;
     }
-
 
 }

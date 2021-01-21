@@ -1,6 +1,4 @@
 package controller;
-
-
 import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
@@ -13,7 +11,6 @@ import util.Common;
 import util.FieldVerifier;
 import model.Gender;
 import model.Owner;
-import javax.swing.*;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
