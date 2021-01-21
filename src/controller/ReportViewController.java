@@ -97,21 +97,6 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
         this.creaPDFReportButton.setOnAction(actionEvent -> {
             try {
-                  String documentHtml = createHtml("Signup page",
-                       h1("Report")
-                     );
-                FileWriter fWriter = null;
-                BufferedWriter writer = null;
-                String inputFile = "./fileName.html";
-                fWriter = new FileWriter("./fileName.html");
-                writer = new BufferedWriter(fWriter);
-                writer.write(documentHtml);
-                writer.newLine(); //this is not actually needed for html files - can make your code more readable though
-                writer.close(); //make sure you close the writer object
-                String outputFile = "./TestPdf.pdf";
-                generatePDF(inputFile, outputFile);
-                System.out.println("Done!");
-
                 creaReport(this.report);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -2,7 +2,6 @@
   <library name="flying-saucer-core-9.1.20">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/flying-saucer-core-9.1.20.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/flying-saucer-pdf-openpdf-9.1.20.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
