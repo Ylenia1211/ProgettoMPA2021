@@ -4,6 +4,7 @@ import controller.UpdateDoctorController;
 import controller.UpdatePetController;
 import dao.ConcreteDoctorDAO;
 import dao.ConcretePetDAO;
+import dao.ConcreteSecretariatDAO;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import javafx.util.Callback;
 import model.Appointment;
 import model.Doctor;
 import model.Pet;
+import model.Secretariat;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -50,6 +52,7 @@ public class ButtonTable{
                                                borderPane.setCenter(loader.load());
                                            }
                                            case 1 -> {
+                                              // #Todo: implementare controller update segreteria
                                                 // faccio l'update della segretaria
                                            }
                                            case 2 -> {
@@ -106,6 +109,12 @@ public class ButtonTable{
                                     var doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
                                     String id = doctorRepo.search((Doctor) data);
                                     doctorRepo.delete(id);
+                                    tableView.getItems().remove(data); //elimina graficamente
+                                }
+                                else if (object.equals(Secretariat.class)){
+                                    var secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
+                                    String id = secretariatRepo.search((Secretariat) data);
+                                    secretariatRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
                                 }
                                 //#Todo: lo stesso per gli altri elementi

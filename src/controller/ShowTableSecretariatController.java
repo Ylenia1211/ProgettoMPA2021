@@ -53,10 +53,12 @@ public class ShowTableSecretariatController implements Initializable {
         col_password.setCellValueFactory(new PropertyValueFactory<>("password"));
         listItems.addAll(this.secretariatRepo.findAll());
         tableSecretariat.setItems(listItems);
-           /*
-        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationClient.fxml", tableDoctor, 0);
-        tableDoctor.getColumns().add((TableColumn<Doctor, ?>) colBtnUpdate);
-        var colBtnDelete = addButtonDeleteToTable(tableDoctor, Doctor.class);
-        tableDoctor.getColumns().add((TableColumn<Doctor, ?>)colBtnDelete);*/
+        //#todo: implementare update controller
+         /*
+        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationClient.fxml", tableSecretariat, 1);
+        tableSecretariat.getColumns().add((TableColumn<Secretariat, ?>) colBtnUpdate);
+        */
+        var colBtnDelete = addButtonDeleteToTable(tableSecretariat, Secretariat.class);
+        tableSecretariat.getColumns().add((TableColumn<Secretariat, ?>)colBtnDelete);
     }
 }
