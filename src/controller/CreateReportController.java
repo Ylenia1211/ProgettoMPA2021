@@ -108,7 +108,7 @@ public class CreateReportController  implements Initializable {
                 vbox_main.getChildren().add(mainPane);
             }else {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml"));//ok stesso file fxml
-                loader.setControllerFactory(p -> new ReportViewController(appointment));//estendo con la visualizzazione del report
+                loader.setControllerFactory(p -> new ReportViewController(appointment, owner, pet, doctor));//estendo con la visualizzazione del report
                 VBox mainPane = loader.load();
                 vbox_main.getChildren().add(mainPane);
             }

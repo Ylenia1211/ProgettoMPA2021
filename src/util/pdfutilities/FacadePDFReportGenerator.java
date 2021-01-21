@@ -2,18 +2,91 @@ package util.pdfutilities;
 import com.lowagie.text.DocumentException;
 import j2html.tags.ContainerTag;
 import j2html.tags.Tag;
-import model.Report;
+import model.*;
 import org.xhtmlrenderer.pdf.ITextRenderer;
+
+import javax.swing.*;
+
 import static j2html.TagCreator.*;
 import java.io.*;
+import java.time.LocalDate;
+import java.util.Locale;
 
 
 public class FacadePDFReportGenerator {
-    public void creaReport(Report report) throws IOException {
+
+    public void creaReport(Report report, Appointment appointment, Owner owner, Pet pet, Doctor doctor)  throws IOException {
         //creazione del report in pdf
         String documentHtml = createHtml("Report Page",
                 h1("Report"),
                 table().with(
+                        tr().with(
+                                td().with(
+                                        span("Cliente:")
+
+                                ),
+                                td().with(
+                                        span(owner.getName())
+                                ),
+                                td().with(
+                                        span(owner.getSurname())
+                                ),
+                                td().with(
+                                        span(owner.getSex().toString())
+                                ),
+                                td().with(
+                                        span(owner.getDatebirth().toString())
+                                )
+
+                        ),
+
+                        tr().with(
+                                td().with(
+                                        span("Paziente:")
+
+                                ),
+                                td().with(
+                                        span(pet.getName())
+                                ),
+                                td().with(
+                                        span(pet.getSurname())
+                                ),
+                                td().with(
+                                        span(pet.getSex().toString())
+                                ),
+                                td().with(
+                                        span(pet.getDatebirth().toString())
+                                )
+
+                        ),
+                        tr().with(
+                                td().with(
+                                        span("Dottore che ha effettuato la visita:")
+
+                                ),
+                                td().with(
+                                        span(doctor.getName())
+                                ),
+                                td().with(
+                                        span(doctor.getSurname())
+                                ),
+                                td().with(
+                                        span(doctor.getSex().toString())
+                                ),
+                                td().with(
+                                        span(doctor.getDatebirth().toString())
+                                )
+
+                        ),
+                        tr().with(
+                                td().with(
+                                        span("Tipo di Visita:")
+
+                                ),
+                                td().with(
+                                        span(doctor.getSpecialization())
+                                )
+                        ),
                         tr().with(
                                 td().with(
                                         span("Diagnosi:")
@@ -43,8 +116,8 @@ public class FacadePDFReportGenerator {
         writer.write(documentHtml);
         writer.newLine(); //this is not actually needed for html files - can make your code more readable though
         writer.close(); //make sure you close the writer object
-
-        String outputFile = "./filepdf.pdf";
+                                       //data in cui è stata effettuata la visita
+        String outputFile = "./report/"+ appointment.getLocalDate() + "_"+ pet.getName().toUpperCase() + "_"+ pet.getSurname().toUpperCase()  +".pdf";
         generatePDF(inputFile, outputFile);
 
         //per cancellare il file html di supporto creato visto che non ci serve
@@ -58,7 +131,7 @@ public class FacadePDFReportGenerator {
             System.out.println("File NON cancellato");
         }
 
-        System.out.println("OK!");
+        JOptionPane.showMessageDialog(null, "Pdf del report creato correttamente!\n (percorso: "+ outputFile +")");
 
     }
     public static String createHtml(String pageTitle, Tag... tags) {

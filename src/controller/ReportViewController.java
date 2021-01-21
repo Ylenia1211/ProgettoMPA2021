@@ -11,10 +11,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Appointment;
-import model.Report;
+import model.*;
 import util.pdfutilities.FacadePDFReportGenerator;
 
+import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -50,11 +50,18 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     private ConcreteReportDAO reportDAO;
     private Report report;
 
+    private Owner owner;
+    private Pet pet;
+    private Doctor doctor;
 
-    public ReportViewController(Appointment appointment) {
+
+    public ReportViewController(Appointment appointment, Owner owner, Pet pet, Doctor doctor) {
         this.appointment = appointment;
         this.idOwner = appointment.getId_owner();
         this.idPet = appointment.getId_pet();
+        this.owner = owner;
+        this.pet = pet;
+        this.doctor = doctor;
     }
 
     @Override
@@ -76,9 +83,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         if (!this.textPath.getText().trim().isEmpty()) {
             this.firstAttachment.setText(this.report.getPathFile());
         }
-        /*
-        #todo: creazione del file pdf
-        */
+
         this.setButtons();
         this.addEnableModifyCheckBox();
         this.buttons.setAlignment(Pos.CENTER);
@@ -97,7 +102,8 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
         this.creaPDFReportButton.setOnAction(actionEvent -> {
             try {
-                creaReport(this.report);
+                creaReport(this.report, this.appointment, this.owner, this.pet, this.doctor);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -143,11 +149,10 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         });
     }
 
+
+
     private Report createNewReport() {
         return new Report.Builder()
-                //.setId_pet(this.idPet)
-                //.setId_booking(this.idBooking)
-                //.setId_owner(this.idOwner)
                 .setDiagnosis(this.textDiagnosi.getText())
                 .setTreatments(this.textTerapia.getText())
                 .setPathFile(this.textPath.getText())
