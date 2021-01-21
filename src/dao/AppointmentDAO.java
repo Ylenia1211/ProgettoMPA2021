@@ -21,6 +21,5 @@ public interface AppointmentDAO extends Crud<Appointment> {
     Owner searchOwnerById(String id);
     boolean searchIfExistAppointmentInReport(String id);
     List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date);
-
     Doctor searchDoctorById(String id);
 }

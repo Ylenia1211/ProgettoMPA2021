@@ -90,6 +90,11 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
         this.creaPDFReportButton.setOnAction(actionEvent -> {
             try {
+                String inputFile = "./trial.html";
+                String outputFile = "./TestPdf.pdf";
+                generatePDF(inputFile, outputFile);
+                System.out.println("Done!");
+
                 creaReport(this.report);
             } catch (IOException e) {
                 e.printStackTrace();

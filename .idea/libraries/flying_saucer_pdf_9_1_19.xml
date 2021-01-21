@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="flying-saucer-pdf-9.1.19">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/flying-saucer-pdf-9.1.19.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

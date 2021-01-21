@@ -1,5 +1,6 @@
 package util.pdfutilities;
 
+import com.lowagie.text.DocumentException;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Report;
@@ -7,10 +8,37 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import java.io.File;
-import java.io.IOException;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+
+import java.io.*;
+import java.net.MalformedURLException;
 
 public class FacadePDFReportGenerator {
+    public void creaReport(Report report) throws IOException {
+        //creazione del report in pdf
+
+    }
+
+    public static void generatePDF(String inputHtmlPath, String outputPdfPath) {
+        String url = null;
+        try {
+            url = new File(inputHtmlPath).toURI().toURL().toString();
+            System.out.println("URL: " + url);
+            OutputStream out = null;
+            out = new FileOutputStream(outputPdfPath);
+
+            //Flying Saucer part
+            ITextRenderer renderer = new ITextRenderer();
+            renderer.setDocument(url);
+            renderer.layout();
+            renderer.createPDF(out);
+            out.close();
+
+       } catch (IOException | DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+    /*
     public void creaReport(Report report) throws IOException {
         PDDocument document = new PDDocument();
         PDPage page = new PDPage();
@@ -55,4 +83,6 @@ public class FacadePDFReportGenerator {
             saveStage.close();
         return filepath;
     }
+    */
+
 }

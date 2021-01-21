@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="core-renderer-R8">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/core-renderer-R8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
