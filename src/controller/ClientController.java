@@ -9,11 +9,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import util.Common;
 import util.FieldVerifier;
 import model.Gender;
 import model.Owner;
 import javax.swing.*;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable, FieldVerifier {
@@ -63,9 +65,13 @@ public class ClientController implements Initializable, FieldVerifier {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        int yearsValid = LocalDate.now().getYear() - 18; //posso registrare solo chi ha almeno 18 anni e non piu di 90 anni
+        Common.restrictDatePicker(this.textdateBirth, LocalDate.of(1930, 1,1), LocalDate.of(yearsValid,1,1));
+        this.textdateBirth.setValue( LocalDate.of(1980, 1,1));
         this.textFiscalCode.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
             if (!FieldVerifier.super.fiscalCodeVerifier(newValueFC))
                 this.textFiscalCode.setStyle("-fx-border-color: red");
+              //#todo: quando è settato rosso non devo poter salavre i dati--> messaggio di errore
             else
                 this.textFiscalCode.setStyle("-fx-border-color: lightgreen");
         });

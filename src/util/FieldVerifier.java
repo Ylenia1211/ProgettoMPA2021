@@ -18,17 +18,4 @@ public interface FieldVerifier {
         return number.matches("^(\\((00|\\+)39\\)|(00|\\+)39)?(38[890]|35[01]|34[7-90]|36[680]|33[3-90]|32[0-9])\\d{7}$");
     }
 
-//    default EventHandler<KeyEvent> fieldChangeListener(final Integer max_Lengh) {
-//        return new EventHandler<KeyEvent>() {
-//            @Override
-//            public void handle(KeyEvent event) {
-//                TextField field = (TextField) event.getSource();
-//                String text = field.getText();
-//                // I need here something like:
-//                if(KeyEvent.VK_ENTER){
-//                    // do special part for ENTER KEY
-//                }
-//            }
-//        }
-//    }
 }
