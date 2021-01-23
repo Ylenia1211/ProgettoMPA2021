@@ -510,4 +510,51 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return null;
         }
     }
+
+    @Override
+    public List<Appointment> findAllVisitPet(String name, String surname) {
+        String sqlSearchVisitsbyPet = "SELECT  *  FROM MASTERDATA INNER JOIN PET ON MASTERDATA.id = PET.id\n" +
+                "INNER JOIN BOOKING on PET.ID = BOOKING.ID_PET\n" +
+                "WHERE MASTERDATA.NAME = ? AND MASTERDATA.SURNAME = ?";
+        List<Appointment> listItems = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection_db.getConnectData()
+                    .prepareStatement(sqlSearchVisitsbyPet);
+            statement.setString(1,name);
+            statement.setString(2, surname);
+            ResultSet r = statement.executeQuery();
+            while(r.next()) {
+                listItems.add(new Appointment.Builder()
+                        .setId_pet(r.getString("id_pet"))
+                        .setId_owner(r.getString("id_owner"))
+                        .setSpecialitation(r.getString("specialization"))
+                        .setId_doctor(r.getString("id_doctor"))
+                        .setLocalDate(LocalDate.parse(r.getString("date_visit")))
+                        .setLocalTimeStart(LocalTime.parse(r.getString("time_start")))
+                        .setLocalTimeEnd(LocalTime.parse(r.getString("time_end")))
+                        .build()
+                );
+            }
+            //listItems.forEach(System.out::println);
+            return listItems;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Appointment> findAllVisitPetBeforeDate(String name, String surname, LocalDate date) {
+        List<Appointment> listAllAppointment = findAllVisitPet(name, surname);
+        if(!listAllAppointment.isEmpty()) {
+            return listAllAppointment.stream()
+                    .filter(item -> (item.getLocalDate().isBefore(date)))
+                    .collect(Collectors.toList());
+            //return null;
+        } else{
+            JOptionPane.showMessageDialog(null, "La ricerca è vuota!");
+            return null;
+        }
+    }
 }

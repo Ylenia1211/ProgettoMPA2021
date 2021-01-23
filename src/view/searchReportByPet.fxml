@@ -8,12 +8,12 @@
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" cache="true"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchReportController">
    <VBox  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children >
-         <HBox  alignment="TOP_CENTER">
+         <HBox maxHeight="1.7976931348623157E308" alignment="TOP_CENTER">
             <children>
-               <TextField fx:id="searchField" alignment="CENTER" prefWidth="250.0" maxHeight="1.7976931348623157E308" promptText="Ricerca Paziente" />
+               <TextField fx:id="searchField" alignment="CENTER" prefWidth="350.0"  prefHeight="30.0" maxHeight="1.7976931348623157E308" promptText="Ricerca Paziente" />
                <!-- <Button mnemonicParsing="false" maxHeight="1.7976931348623157E308" alignment="CENTER">
                    <graphic> -->
-                       <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                       <ImageView fx:id="searchbtn" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" >
                            <image>
                                <Image url="@../resources/icon_search.png"/>
                            </image>

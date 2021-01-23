@@ -5,20 +5,26 @@ import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
+import util.FieldVerifier;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 //visualizza le prenotazioni gia effettutate con il riferimento ai report associati
@@ -29,6 +35,7 @@ public class SearchReportController  implements Initializable {
     public TableColumn<Appointment, String> col_timestart;
     public TableColumn<Appointment, String> col_timeend;
     public TableColumn<Appointment, String> col_type;
+    public ImageView searchbtn;
     private ConcreteAppointmentDAO appointmentRepo;
     public ObservableList<Appointment> listItems;
     public TableColumn<Appointment, Void> colBtnCreateReport= new TableColumn("");
@@ -43,11 +50,32 @@ public class SearchReportController  implements Initializable {
         List<Appointment> listPrecAppointments = appointmentRepo.searchVisitBeforeDate(LocalDate.now());
 
         listItems = FXCollections.observableArrayList(listPrecAppointments); //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
-        tableAllBookingVisit.setItems(listItems);
+        tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
         addButtonViewInfoOwnerPet();
         addButtonDeleteToTable();
         addButtonCreateReport();
         addButtonViewReport();
+        this.searchField.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
+            if ((newValueFC).matches(("[A-Za-z]*\s[A-Za-z]+"))){
+
+                searchbtn.setOnMouseClicked(event -> {
+                    //System.out.println("Effettuare la ricerca ");
+                    String[] fieldSplitted = newValueFC.split("\s");
+                    List<Appointment> prevAppointmentsPet = this.appointmentRepo.findAllVisitPetBeforeDate(fieldSplitted[0],fieldSplitted[1], LocalDate.now());
+                    //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
+                    tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(prevAppointmentsPet, ArrayList::new)));
+                });
+
+            }
+            else{
+                searchbtn.setOnMouseClicked(event -> {
+                   // System.out.println(" Non Effettuare la ricerca ");
+                    JOptionPane.showMessageDialog(null, "Impossibile effettuare la ricerca!\n Controlla di aver inserito almeno:\n 2 parole: nome cognome\n 1 spazio tra le due parole");
+                });
+            }
+
+        });
+
     }
 
     private void addButtonViewReport() {
