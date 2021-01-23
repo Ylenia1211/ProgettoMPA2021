@@ -59,6 +59,7 @@ public class CreateReportController  implements Initializable {
     private final String idPet;
     private final String idDoctor;
     public VBox vbox_main;
+    public VBox vboxLabel;
     private ConcreteAppointmentDAO appointmentRepo;
     private Appointment appointment;
     private boolean typeView;

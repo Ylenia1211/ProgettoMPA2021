@@ -5,6 +5,7 @@ import model.Doctor;
 import model.Owner;
 import model.Pet;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -22,5 +23,7 @@ public interface AppointmentDAO extends Crud<Appointment> {
     boolean searchIfExistAppointmentInReport(String id);
     List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date); //mi serve per il controllo delle sovrapposizioni
     Doctor searchDoctorById(String id);
-    Integer countAppointmentsByDateAndDoctor(String date, String id_doctor);
+    Integer countAppointmentsByDateAndDoctor(String date, String id_doctor); //mi serve
+    List<Appointment> searchVisitBeforeDate(LocalDate date); // mi serve per prendere tutte le visite precedenti a una data
+    List<Appointment> searchVisitAfterDate(LocalDate date); // mi serve per prendere tutte le visite successive o uguali a una data
 }

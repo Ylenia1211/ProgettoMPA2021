@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javax.swing.Icon?>
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" cache="true"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchReportController">
+   <VBox  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children >
+         <HBox  alignment="TOP_CENTER">
+            <children>
+               <TextField fx:id="searchField" alignment="CENTER" prefWidth="250.0" maxHeight="1.7976931348623157E308" promptText="Ricerca Paziente" />
+               <!-- <Button mnemonicParsing="false" maxHeight="1.7976931348623157E308" alignment="CENTER">
+                   <graphic> -->
+                       <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                               <Image url="@../resources/icon_search.png"/>
+                           </image>
+                       </ImageView>
+                 <!--  </graphic>
+               </Button> -->
+
+            </children>
+         </HBox>
+          <TableView maxHeight="1.7976931348623157E308" fx:id="tableAllBookingVisit" cache="true"  pickOnBounds="false" stylesheets="@../resources/table-view.css" >
+              <columns>
+                  <TableColumn fx:id="col_data" text="Data" />
+                  <TableColumn fx:id="col_timestart" text="Ora inizio" />
+                  <TableColumn fx:id="col_timeend" text="Ora fine (prevista)" />
+                  <TableColumn fx:id="col_type" text="Tipo Visita" />
+              </columns>
+              <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+              </columnResizePolicy>
+          </TableView>
+      </children>
+   </VBox>
+</AnchorPane>

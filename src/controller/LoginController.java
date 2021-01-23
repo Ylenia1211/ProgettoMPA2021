@@ -16,9 +16,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.User;
+import util.SessionUser;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -45,7 +47,11 @@ public class LoginController implements Initializable {
 
 
     public static LoginController getInstance() {
-        return instance;
+        return Objects.requireNonNullElseGet(instance, () -> instance = new LoginController());
+    }
+
+    public static void setInstance() {
+        LoginController.instance = null;
     }
 
     public Object getUserData() {

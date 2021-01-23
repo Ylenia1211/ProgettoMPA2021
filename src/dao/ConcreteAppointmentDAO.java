@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ConcreteAppointmentDAO implements AppointmentDAO {
     private final ConnectionDBH2 connection_db;
@@ -44,7 +45,30 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
     @Override
     public List<Appointment> findAll() {
-        return null;
+        List<Appointment> listItems = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection_db.getConnectData()
+                    .prepareStatement(" SELECT * FROM BOOKING");
+            ResultSet r = statement.executeQuery();
+            while(r.next()) {
+                listItems.add(new Appointment.Builder()
+                        .setId_pet(r.getString("id_pet"))
+                        .setId_owner(r.getString("id_owner"))
+                        .setSpecialitation(r.getString("specialization"))
+                        .setId_doctor(r.getString("id_doctor"))
+                        .setLocalDate(LocalDate.parse(r.getString("date_visit")))
+                        .setLocalTimeStart(LocalTime.parse(r.getString("time_start")))
+                        .setLocalTimeEnd(LocalTime.parse(r.getString("time_end")))
+                        .build()
+                );
+            }
+            //listItems.forEach(System.out::println);
+            return listItems;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
     }
 
     @Override
@@ -144,7 +168,6 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     public Map<String, String> searchAllDoctorByFiscalCod() {
         //HashMap<String,Map<String, String>> linkedMap = new HashMap<>();
         Map<String, String> dictionary = new HashMap<>();  //<key,value>  both key and value are Strings
-        PreparedStatement ps = null;
         String sqlSearch = "SELECT * FROM masterdata" +
                 "                  INNER JOIN person" +
                 "                             ON person.id = masterdata.id" +
@@ -278,14 +301,14 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
     @Override
     public String searchEmailOwnerbyIdAppointment(String id) {
-        PreparedStatement ps = null;
         try{
-            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT EMAIL FROM PERSON\n" +
-                    "                  INNER JOIN OWNER\n" +
-                    "                             ON PERSON.id = OWNER.id\n" +
-                    "                  INNER JOIN BOOKING\n" +
-                    "                             ON  OWNER.ID = BOOKING.ID_OWNER\n" +
-                    " WHERE BOOKING.ID = ?" );
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("""
+                    SELECT EMAIL FROM PERSON
+                                      INNER JOIN OWNER
+                                                 ON PERSON.id = OWNER.id
+                                      INNER JOIN BOOKING
+                                                 ON  OWNER.ID = BOOKING.ID_OWNER
+                     WHERE BOOKING.ID = ?""");
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
             String emailOwner = "";
@@ -456,7 +479,35 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     @Override
     public Integer countAppointmentsByDateAndDoctor(String date, String id_doctor) {
          List<Appointment> listAppointment = searchVisitbyDoctorAndDate(id_doctor, date);
-          System.out.println(listAppointment.size());
          return listAppointment.size();
+    }
+
+    @Override
+    public List<Appointment> searchVisitBeforeDate(LocalDate date) {
+        List<Appointment> listAllAppointment = findAll();
+        //listAllAppointment.forEach(System.out::println); ok
+        if(!listAllAppointment.isEmpty()) {
+            return listAllAppointment.stream()
+                    .filter(item -> (item.getLocalDate().isBefore(date)))
+                    .collect(Collectors.toList());
+            //return null;
+        } else{
+            JOptionPane.showMessageDialog(null, "La ricerca è vuota!");
+            return null;
+        }
+    }
+
+    @Override
+    public List<Appointment> searchVisitAfterDate(LocalDate date) {
+        List<Appointment> listAllAppointment = findAll();
+        if(!listAllAppointment.isEmpty()) {
+            return listAllAppointment.stream()
+                    .filter( item -> item.getLocalDate().isAfter(date))
+                    .collect(Collectors.toList());
+            //return null;
+        } else{
+            JOptionPane.showMessageDialog(null, "La ricerca è vuota!");
+            return null;
+        }
     }
 }

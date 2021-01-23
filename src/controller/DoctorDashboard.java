@@ -33,6 +33,7 @@ public class DoctorDashboard implements Initializable{
     public Button agenda = new Button("Agenda");
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
+    public Button report = new Button("Report");
     public BorderPane borderPane;
     private static final int reportID = 0;
     public Pane borderPanePane;
@@ -40,7 +41,7 @@ public class DoctorDashboard implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni);
+            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni, report);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -123,6 +124,18 @@ public class DoctorDashboard implements Initializable{
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
                                 loader.setControllerFactory(p -> new BookingAppointmentController());
                                 Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
+                                tabPane.getTabs().clear();
+                                tabPane.getTabs().add(bookingVisits);
+                                borderPane.setCenter(tabPane);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                        case "Report" -> {
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/searchReportbyPet.fxml"));
+                                loader.setControllerFactory(p -> new SearchReportController());
+                                Tab bookingVisits = new Tab("Tutte le visite Effettuate", loader.load());
                                 tabPane.getTabs().clear();
                                 tabPane.getTabs().add(bookingVisits);
                                 borderPane.setCenter(tabPane);

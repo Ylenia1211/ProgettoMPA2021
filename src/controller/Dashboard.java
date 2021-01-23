@@ -154,15 +154,15 @@ public class Dashboard  implements Initializable {
                                 ex.printStackTrace();
                             }
                         }
-                        //case "Logout" ->{
+                        case "Logout" ->{
                              //#NON SI PUO FARE //singleton non lo consente
                             //button.getScene().getWindow().hide();
-                            /*Stage home = new Stage();
+                            Stage home = new Stage();
                             try {
                                 //cambia schermata --> login
                                 close();
                                 Parent rootLogin = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
-                                SessionUser.logoutSession();
+                                LoginController.setInstance();
                                 Scene scene = new Scene(rootLogin);
                                 home.setScene(scene);
                                 home.initStyle(StageStyle.TRANSPARENT); //per nascondere la barra in alto
@@ -170,8 +170,8 @@ public class Dashboard  implements Initializable {
                                 home.show();
                             }catch (IOException ex) {
                                 ex.printStackTrace();
-                            }*/
-                       // }
+                            }
+                       }
                         default -> {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
                             borderPane.setCenter(root);

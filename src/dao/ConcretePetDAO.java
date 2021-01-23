@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class ConcretePetDAO implements PetDAO {
@@ -90,7 +91,30 @@ public class ConcretePetDAO implements PetDAO {
 
     @Override
     public List<Pet> findAll() {
-        return null;
+        List<Pet> listItems = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection_db.getConnectData()
+                    .prepareStatement("SELECT * FROM masterdata INNER JOIN PET ON PET.id = masterdata.id");
+            ResultSet r = statement.executeQuery();
+            while(r.next()) {
+                listItems.add(new Pet.Builder<>()
+                        .addName(r.getString("name"))
+                        .addSurname(r.getString("surname"))
+                        .addSex(Gender.valueOf(r.getString("sex")))
+                        .addDateBirth(LocalDate.parse(r.getString("datebirth")))
+                        .setId_petRace(r.getString("typepet"))
+                        .setId_owner(r.getString("owner"))
+                        .setParticularSign(r.getString("particularsign"))
+                        .build()
+                );
+            }
+            //listItems.forEach(System.out::println);
+            return listItems;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
     }
 
     @Override
