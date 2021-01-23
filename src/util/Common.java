@@ -4,6 +4,7 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.util.Callback;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 public interface Common {
@@ -28,5 +29,12 @@ public interface Common {
             }
         };
         datePicker.setDayCellFactory(dayCellFactory);
+    }
+
+     static String humanReadableFormat(Duration duration) {
+        return duration.toString()
+                .substring(2)
+                .replaceAll("(\\d[HMS])(?!$)", "$1 ")
+                .toLowerCase();
     }
 }

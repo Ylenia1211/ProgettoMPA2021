@@ -2,6 +2,7 @@ package controller;
 import dao.ConcreteReportDAO;
 import datasource.ConnectionDBH2;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -162,6 +163,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
 
     private void addEnableModifyCheckBox(){
         this.enableModify = new CheckBox("Abilita modifiche");
+        this.enableModify.setStyle("-fx-font-size: 14px; -fx-text-fill: white");
         this.enableModify.setId("enableModify");
         this.enableModify.setOnAction(actionEvent -> {
             if (!enableModify.isSelected()) {
@@ -180,6 +182,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 attachmentImage.setDisable(false);
             }
         });
+        this.lastHbox.setPadding(new Insets(20.0));
         this.lastHbox.getChildren().add(0, enableModify);
     }
 

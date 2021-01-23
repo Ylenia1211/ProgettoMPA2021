@@ -5,4 +5,4 @@
 <!--<Pane fx:id="calendarPane" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CalendarController">-->
 <!--</Pane>-->
 
-<HBox fx:id="calendarPane"  alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CalendarController" />
+<HBox fx:id="calendarPane"   style="-fx-background-color: #163754;" alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CalendarController" />

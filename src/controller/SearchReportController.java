@@ -163,7 +163,6 @@ public class SearchReportController  implements Initializable {
                         if (empty) {
                             setGraphic(null);
 
-
                         } else {
                             Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
                             String id_appointment = appointmentRepo.search(ap);

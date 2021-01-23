@@ -27,7 +27,7 @@ public class UpdateDoctorController extends RegistrationDoctorController{
         super.getTextSurname().setText(data.getSurname().trim());
         super.getTextAddress().setText(data.getAddress().trim());
         super.getTextCity().setText(data.getCity().trim());
-        super.getTextTelephone().setText(data.getCity().trim());
+        super.getTextTelephone().setText(data.getTelephone().trim());
         super.getTextEmail().setText(data.getEmail().trim());
         super.getTextFiscalCode().setText(data.getFiscalCode().trim());
         super.getTextdateBirth().setValue(data.getDatebirth());

@@ -89,9 +89,12 @@ public class DoctorDashboard implements Initializable{
                             Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
                             Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
                             tabPane.getTabs().clear();
+
                             tabPane.getTabs().add(pazienti);
                             tabPane.getTabs().add(nuovoClient);
                             tabPane.getTabs().add(nuovoPaziente);
+                            tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+
                             tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                             borderPane.setCenter(tabPane);
                         }
@@ -112,6 +115,7 @@ public class DoctorDashboard implements Initializable{
                                 tabPane.getTabs().add(dottori);
                                 tabPane.getTabs().add(nuovaSegreteria);
                                 tabPane.getTabs().add(segreteria);
+                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
                                 tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
                             } catch (IOException ex) {
@@ -126,6 +130,8 @@ public class DoctorDashboard implements Initializable{
                                 Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
                                 tabPane.getTabs().clear();
                                 tabPane.getTabs().add(bookingVisits);
+                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -138,7 +144,10 @@ public class DoctorDashboard implements Initializable{
                                 Tab bookingVisits = new Tab("Tutte le visite Effettuate", loader.load());
                                 tabPane.getTabs().clear();
                                 tabPane.getTabs().add(bookingVisits);
+                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
+
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
