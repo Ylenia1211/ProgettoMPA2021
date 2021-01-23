@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="pane_main_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportAddDataController">
+<VBox fx:id="pane_main_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportAddDataController">
 
    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Diagnosi">
       <font>
@@ -30,19 +30,34 @@
       <font>
          <Font name="Calibri" size="13.0" />
       </font></TextArea>
-   <HBox fx:id="lastHbox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="25.0">
-      <TextField fx:id="textPath" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="406.0" />
-      <ImageView fx:id="attachmentImage" fitHeight="20.0" fitWidth="19.0" onMouseClicked="#findAttachment" style="-fx-background-image: url('/resources/attachment.png');">
-         <Image url="@../resources/Photo_Add-RoundedBlack-512.png" />
-      </ImageView>
-      <VBox fx:id="allegati" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-         <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Allegati:">
-            <font>
-               <Font name="Arial" size="13.0" />
-            </font>
-         </Label>
-         <Label fx:id="firstAttachment" text="Nessuno" />
-      </VBox>
+   <HBox fx:id="lastHbox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="15.0">
+      <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
+         <children>
+            <TextField fx:id="textPath" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="270.0" />
+            <ImageView fx:id="attachmentImage" fitHeight="22.0" fitWidth="22.0" onMouseClicked="#findAttachment" style="-fx-background-image: url('/resources/attachment.png');">
+               <Image url="@../resources/Photo_Add-RoundedBlack-512.png" />
+            </ImageView>
+            <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+              <content>
+                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0">
+                     <children>
+                        <VBox fx:id="allegati" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0">
+                           <Label contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Allegati:">
+                              <font>
+                                 <Font name="Arial" size="13.0" />
+                              </font>
+                           </Label>
+                           <Label fx:id="firstAttachment" maxWidth="1.7976931348623157E308" text="Nessuno" />
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+         </children>
+      </HBox>
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
    </HBox>
    <padding>
       <Insets bottom="10.0" left="20.0" right="20.0" />

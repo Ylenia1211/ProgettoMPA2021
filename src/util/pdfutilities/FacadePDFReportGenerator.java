@@ -7,9 +7,6 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import javax.swing.*;
 import static j2html.TagCreator.*;
 import java.io.*;
-import java.time.LocalDate;
-import java.util.Locale;
-
 
 public class FacadePDFReportGenerator {
 
@@ -21,7 +18,6 @@ public class FacadePDFReportGenerator {
                         tr().with(
                                 td().with(
                                         span("Cliente:")
-
                                 ),
                                 td().with(
                                         span(owner.getName())
@@ -41,7 +37,6 @@ public class FacadePDFReportGenerator {
                         tr().with(
                                 td().with(
                                         span("Paziente:")
-
                                 ),
                                 td().with(
                                         span(pet.getName())
@@ -55,12 +50,10 @@ public class FacadePDFReportGenerator {
                                 td().with(
                                         span(pet.getDatebirth().toString())
                                 )
-
                         ),
                         tr().with(
                                 td().with(
                                         span("Dottore che ha effettuato la visita:")
-
                                 ),
                                 td().with(
                                         span(doctor.getName())
@@ -74,7 +67,6 @@ public class FacadePDFReportGenerator {
                                 td().with(
                                         span(doctor.getDatebirth().toString())
                                 )
-
                         ),
                         tr().with(
                                 td().with(
@@ -93,7 +85,6 @@ public class FacadePDFReportGenerator {
                                 td().with(
                                         span(report.getDiagnosis())
                                 )
-
                         ),
                         tr().with(
                                 td().with(
@@ -106,8 +97,8 @@ public class FacadePDFReportGenerator {
                         )
         ));
 
-        FileWriter fWriter = null;
-        BufferedWriter writer = null;
+        FileWriter fWriter;
+        BufferedWriter writer;
         String inputFile = "./fileName.html";
         fWriter = new FileWriter("./fileName.html");
         writer = new BufferedWriter(fWriter);
