@@ -15,6 +15,9 @@ import model.Secretariat;
 import javax.activation.MimetypesFileTypeMap;
 import javax.swing.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -51,16 +54,25 @@ public class PersonalProfileController implements Initializable{
 //            secretariat = (Secretariat) person;
 //    }
 
-    public void changeProfilePic() {
+    public void changeProfilePic() throws FileNotFoundException {
         final FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
             String filePath = file.getAbsolutePath();
-            File f = new File(filePath);
-            String mimetype= new MimetypesFileTypeMap().getContentType(f);
-            String type = mimetype.split("/")[0];
-            if(type.equals("image"))
-                this.picProfile.setImage(new Image(filePath));
+            if(filePath.endsWith(".jpg") ||
+               filePath.endsWith(".jpeg") ||
+               filePath.endsWith(".png") ||
+               filePath.endsWith(".gif")) {
+                InputStream stream = new FileInputStream(filePath);
+                try {
+                    stream = new FileInputStream("D:\\images\\elephant.jpg");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Image image = new Image(stream);
+                //Setting image to the image view
+                this.picProfile.setImage(image);
+            }
             else
                 JOptionPane.showMessageDialog(null, "Inserire un'immagine valida");
         }else
