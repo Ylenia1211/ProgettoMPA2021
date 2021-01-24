@@ -1,5 +1,6 @@
 package view;
 
+import com.sun.javafx.geom.Rectangle;
 import controller.LoginController;
 import dao.ConcreteAppointmentDAO;
 import dao.ConcreteDoctorDAO;
@@ -35,7 +36,7 @@ public class FullCalendarView {
 
     private ArrayList<AnchorPaneNode> allCalendarDays = new ArrayList<>(35);
     private final VBox view;
-    private final Text calendarTitle;
+    private final Label calendarTitle;
     private YearMonth currentYearMonth;
     private final ConcreteAppointmentDAO appointmentRepo;
     private final ConcreteDoctorDAO doctorRepo;
@@ -65,22 +66,23 @@ public class FullCalendarView {
             }
         }
         // Days of the week labels
-        Text[] dayNames = new Text[]{new Text("Lunedi"), new Text("Martedi"),
-                                        new Text("Mercoledi"), new Text("Giovedi"), new Text("Venerdi"),
-                                        new Text("Sabato"),  new Text("Domenica") };
+        Label[] dayNames = new  Label[]{new  Label("Lunedi"), new Label("Martedi"),
+                                        new  Label("Mercoledi"), new  Label("Giovedi"), new  Label("Venerdi"),
+                                        new  Label("Sabato"),  new  Label("Domenica") };
         GridPane dayLabels = new GridPane();
         dayLabels.setPrefWidth(600);
         int col = 0;
-        for (Text txt : dayNames) {
+        for (Label txt : dayNames) {
             AnchorPane ap = new AnchorPane();
             ap.setPrefSize(200, 10);
             txt.setFont(Font.font("Calibri", 20));
+            txt.setStyle("-fx-text-fill: white");
             setBottomAnchor(txt, 5.0);
             ap.getChildren().add(txt);
             dayLabels.add(ap, col++, 0);
         }
         // Create calendarTitle and buttons to change current month
-        calendarTitle = new Text();
+        calendarTitle = new Label();
         calendarTitle.setFont(Font.font("Calibri",15));
         Button previousMonth = new Button("<<");
         previousMonth.setStyle("-fx-background-color: white; -fx-background-radius: 30px, 30px, 30px, 30px;");
@@ -121,7 +123,7 @@ public class FullCalendarView {
             }
 
             //le righe sotto servono a far spuntare i cerchi nelle celle del calendario:
-            Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
+            Label txt = new Label(String.valueOf(calendarDate.getDayOfMonth()));
             LocalDate dayCalendar = LocalDate.of(calendarDate.getYear(), calendarDate.getMonthValue(), calendarDate.getDayOfMonth());
             //System.out.println(dayCalendar);
             //this.appointmentRepo.searchAppointmentsByDate(String.valueOf(calendarDate.getDayOfMonth()));
@@ -162,17 +164,21 @@ public class FullCalendarView {
             setLeftAnchor(stack, 30.0);
             ap.getChildren().add(stack);
             ap.setDate(calendarDate);
-
-
             txt.setFont(Font.font("Calibri", 15));
+            txt.setPrefWidth(100);
 
+            txt.setStyle("-fx-text-fill: white; -fx-alignment: center; -fx-background-color: #3DA4E3;");
+            //txt.setFill(Paint.valueOf("#163754"));
             setTopAnchor(txt, 5.0);
             setLeftAnchor(txt, 5.0);
+
             ap.getChildren().add(txt);
+            ap.setStyle("-fx-background-color: white; -fx-border-color:#163754;");
             //ap.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
             calendarDate = calendarDate.plusDays(1);
         }
         // Change the title of the calendar
+        calendarTitle.setStyle("-fx-text-fill: white");
         calendarTitle.setText(yearMonth.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN).toUpperCase(Locale.ROOT)+ "  " + yearMonth.getYear());
     }
 

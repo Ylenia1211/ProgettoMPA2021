@@ -9,14 +9,16 @@ import model.Doctor;
 import model.Secretariat;
 import model.User;
 
+import java.util.Objects;
+
 public class SessionUser { //singleton per la connessione dell'utente
     private static  SessionUser instance = new SessionUser();
     private static User user;
     private static Doctor doctor;
     private static Secretariat secretariat;
     private static Admin admin;
-    private SessionUser() {
 
+    private SessionUser() {
         user = LoginController.getInstance().getUserLogged();
         switch (user.getRole()) {
             case "Dottore" -> {

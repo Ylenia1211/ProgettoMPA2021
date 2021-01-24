@@ -15,50 +15,41 @@ import model.Appointment;
 import model.Doctor;
 import model.Owner;
 import model.Pet;
+import util.Common;
 
 import javax.swing.*;
 import java.net.URL;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 //ha lo stesso file fxml di ShowInfoOwnerPetController
 public class CreateReportController  implements Initializable {
 
     public Label nameOwner;
-
     public Label surnameOwner;
-
     public Label sexOwner;
-
     public Label datebirthOwner;
-
     public Label addressOwner;
-
     public Label cityOwner;
-
     public Label codFiscalOwner;
-
     public Label emailOwner;
-
     public Label namePet;
-
     public Label surnamePet;
-
     public Label sexPet;
-
     public Label datebirthPet;
-
     public Label racePet;
-
     public Label particularSignPet;
-
     public Label labelDottoreName;
     public Label labelDottoreSurname;
     public Label labelDottoreSpecialization;
-
     private final String idOwner;
     private final String idPet;
     private final String idDoctor;
     public VBox vbox_main;
+    public VBox vboxLabel;
+    public Label labelDataVisit;
+    public Label labelTimeStartEndVisit;
     private ConcreteAppointmentDAO appointmentRepo;
     private Appointment appointment;
     private boolean typeView;
@@ -76,7 +67,8 @@ public class CreateReportController  implements Initializable {
         try {
             //ConnectionDBH2 connection = new ConnectionDBH2();
             this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-
+            this.labelDataVisit.setText("Data: " +this.appointment.getLocalDate().toString());
+            this.labelTimeStartEndVisit.setText("Durata: " + Common.humanReadableFormat(Duration.between(this.appointment.getLocalTimeStart(), this.appointment.getLocalTimeEnd())));
             //ricerca di dei dati del owner
             Owner owner = this.appointmentRepo.searchOwnerById(idOwner);
             if (owner != null) {

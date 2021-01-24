@@ -21,22 +21,23 @@
 }
 .table-view .column-header{
     -fx-font: 14px "Calibri";
-    -fx-background-color: #3DA4E3;
+     -fx-background-color: #3DA4E3;
+    /* -fx-background-color: #163754; */
 }
 .table-view .column-header .label {
-    -fx-text-fill: white;
+   -fx-text-fill: white;
 }
 .table-row-cell {
-    -fx-background-color: transparent;
+   -fx-background-color: transparent;
 }
 
 .table-row-cell:odd {
-    -fx-background-color: #f0f0f0;
-    -fx-background-insets: 0, 0 0 1 0;
+   -fx-background-color: #f0f0f0;
+   -fx-background-insets: 0, 0 0 1 0;
 }
 
 .table-row-cell:even {
-   /*-fx-background-color: #dbf8fe;*/
+  /*-fx-background-color: #dbf8fe;*/
     -fx-background-color: white;
     -fx-background-insets: 0, 0 0 1 0;
 }

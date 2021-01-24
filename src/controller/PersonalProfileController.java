@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PersonalProfileController implements Initializable{
-//    private final String id;
+    //    private final String id;
 //    public Button profilePicButton;
 //    public TextField name;
 //    public TextField surname;
@@ -60,9 +60,9 @@ public class PersonalProfileController implements Initializable{
         if (file != null) {
             String filePath = file.getAbsolutePath();
             if(filePath.endsWith(".jpg") ||
-               filePath.endsWith(".jpeg") ||
-               filePath.endsWith(".png") ||
-               filePath.endsWith(".gif")) {
+                    filePath.endsWith(".jpeg") ||
+                    filePath.endsWith(".png") ||
+                    filePath.endsWith(".gif")) {
                 InputStream stream = new FileInputStream(filePath);
                 try {
                     stream = new FileInputStream("D:\\images\\elephant.jpg");

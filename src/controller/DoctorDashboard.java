@@ -3,6 +3,7 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -16,6 +17,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,6 +34,7 @@ public class DoctorDashboard implements Initializable{
     public Button agenda = new Button("Agenda");
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
+    public Button report = new Button("Report");
     public Button profilo = new Button("Profilo");
     public BorderPane borderPane;
     private static final int reportID = 0;
@@ -37,7 +43,7 @@ public class DoctorDashboard implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni, profilo);
+            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni, report, profilo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,7 +83,7 @@ public class DoctorDashboard implements Initializable{
             button.setPrefHeight(25.0);
             button.setTextFill(Paint.valueOf("WHITE"));
             button.setOnMouseClicked(e -> {
-                Parent root = null;
+                Parent root;
                 try {
                     switch (button.getText()) {
                         case "Pazienti" -> {
@@ -85,9 +91,12 @@ public class DoctorDashboard implements Initializable{
                             Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
                             Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
                             tabPane.getTabs().clear();
+
                             tabPane.getTabs().add(pazienti);
                             tabPane.getTabs().add(nuovoClient);
                             tabPane.getTabs().add(nuovoPaziente);
+                            tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+
                             tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                             borderPane.setCenter(tabPane);
                         }
@@ -108,6 +117,7 @@ public class DoctorDashboard implements Initializable{
                                 tabPane.getTabs().add(dottori);
                                 tabPane.getTabs().add(nuovaSegreteria);
                                 tabPane.getTabs().add(segreteria);
+                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
                                 tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
                             } catch (IOException ex) {
@@ -122,18 +132,36 @@ public class DoctorDashboard implements Initializable{
                                 Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
                                 tabPane.getTabs().clear();
                                 tabPane.getTabs().add(bookingVisits);
+                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                        case "Report" -> {
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/searchReportbyPet.fxml"));
+                                loader.setControllerFactory(p -> new SearchReportController());
+                                Tab bookingVisits = new Tab("Tutte le visite Effettuate", loader.load());
+                                tabPane.getTabs().clear();
+                                tabPane.getTabs().add(bookingVisits);
+                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+                                borderPane.setCenter(tabPane);
+
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
                         }
                         case "Profilo" -> { // Aggiunto solo per testare il profilo
                             try {
-                                root = FXMLLoader.load(getClass().getResource("/view/personalProfile.fxml"));
+                                var profile = FXMLLoader.load(getClass().getResource("/view/personalProfile.fxml"));
+                                borderPane.setCenter((Node) profile);
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }
-                            borderPane.setCenter(root);
+
                         }
                         default -> {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
