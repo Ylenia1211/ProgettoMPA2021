@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 public class RegistrationDoctorController extends ClientController{
     private TextField username;
     private PasswordField password;
+    private Label passwordRealTime;
     private ComboBox<String> specialization;
     private Button saveBtn;
     private Label title;
@@ -33,6 +34,8 @@ public class RegistrationDoctorController extends ClientController{
         title = (Label) super.pane_main_grid.lookup("#labelTitle");
         title.setText("Creazione Dottore");
         super.pane_main_grid.getChildren().remove(btn); //per rimuovere da pannello dinamicamente il bottone di salvataggio
+
+
         // menu a tendina per specializzazione
         addFieldSpecialization();
         //username, password
@@ -43,10 +46,12 @@ public class RegistrationDoctorController extends ClientController{
     }
     public void addFieldSpecialization()  {
         List<String> listSpecialization = this.getDoctorRepo().searchAllSpecialization();
-        this.specialization = new ComboBox(FXCollections
+        this.specialization = new ComboBox<>(FXCollections
                 .observableArrayList(listSpecialization));
         this.specialization.setId("specialization");
         this.specialization.setPromptText("Scegli specializzazione");
+        this.specialization.setTooltip(new Tooltip("Specializzazione in un tipo di visita"));
+
         super.pane_main_grid.getChildren().add(this.specialization);
     }
 
@@ -55,14 +60,34 @@ public class RegistrationDoctorController extends ClientController{
         this.username = new TextField();
         this.username.setId("username");
         this.username.setPromptText("Username");
+        this.username.setTooltip(new Tooltip("Username"));
         super.pane_main_grid.getChildren().add(this.username);
     }
-
+    //private TextField passwordRealtime;
     public  void addFieldPassword()  {
+        this.passwordRealTime = new Label();
         this.password = new PasswordField();
+        this.password.setTooltip(new Tooltip("Password"));
         this.password.setId("password");
         this.password.setPromptText("Inserisci password Utente");
+        this.password.setOnKeyReleased( e-> {
+            String checkPassword = this.password.getText();
+            System.out.println(checkPassword);
+            if (checkPassword.length() < 6) {
+                passwordRealTime.setText("Password poco sicura");
+                passwordRealTime.setStyle("-fx-text-fill: red");
+            } else {
+                passwordRealTime.setText("Password mediamente sicura");
+                passwordRealTime.setStyle("-fx-text-fill: #b0511a");
+            }
+            if (checkPassword.length() >= 6 && checkPassword.matches(".*\\d.*")) {
+                passwordRealTime.setText("Password molto sicura");
+                passwordRealTime.setStyle("-fx-text-fill: green");
+            }
+
+        });
         super.pane_main_grid.getChildren().add(this.password);
+        super.pane_main_grid.getChildren().add(this.passwordRealTime);
     }
 
     public  void addButtonSave()  {
@@ -127,7 +152,7 @@ public class RegistrationDoctorController extends ClientController{
                 .addTelephone(super.getTextTelephone().getText())
                 .addEmail(super.getTextEmail().getText())
                 .addFiscalCode(super.getTextFiscalCode().getText().toUpperCase())
-                .addSpecialization((String) this.specialization.getValue().toUpperCase())
+                .addSpecialization(this.specialization.getValue().toUpperCase())
                 .addUsername(this.username.getText())
                 .addPassword( this.password.getText())
                 .build();

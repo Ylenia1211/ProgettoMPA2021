@@ -10,13 +10,13 @@
       <columns>
          <TableColumn fx:id="col_name" text="Nome" />
          <TableColumn fx:id="col_surname" text="Cognome" />
-         <TableColumn fx:id="col_sex" text="M/F" />
+         <TableColumn fx:id="col_sex"  text="M/F" />
          <TableColumn fx:id="col_datebirth" text="Data di Nascita" />
          <TableColumn fx:id="col_fiscalCode" text="Cod.Fiscale" />
          <TableColumn fx:id="col_address" text="Indirizzo" />
          <TableColumn fx:id="col_city" text="Città" />
          <TableColumn fx:id="col_tel" text="Tel." />
-         <TableColumn fx:id="col_email" prefWidth="114.0" text="Email" />
+         <TableColumn fx:id="col_email"  text="Email" />
          <TableColumn fx:id="col_animal" text="N. Animali" />
       </columns>
       <columnResizePolicy>

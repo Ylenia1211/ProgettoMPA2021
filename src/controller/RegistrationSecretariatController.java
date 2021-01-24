@@ -2,7 +2,6 @@ package controller;
 import dao.ConcreteSecretariatDAO;
 import datasource.ConnectionDBH2;
 import javafx.scene.control.*;
-import model.Doctor;
 import model.Gender;
 import model.Secretariat;
 
@@ -13,6 +12,7 @@ import java.util.ResourceBundle;
 public class RegistrationSecretariatController extends ClientController{
     private TextField username;
     private PasswordField password;
+    private Label passwordRealTime;
     private Button saveBtn;
     private Label title;
     private final ConcreteSecretariatDAO secretariatRepo;
@@ -40,14 +40,34 @@ public class RegistrationSecretariatController extends ClientController{
         this.username = new TextField();
         this.username.setId("username");
         this.username.setPromptText("Username");
+        this.username.setTooltip(new Tooltip("Username"));
         super.pane_main_grid.getChildren().add(this.username);
     }
 
     public  void addFieldPassword()  {
         this.password = new PasswordField();
+        this.passwordRealTime = new Label();
+        this.password.setTooltip(new Tooltip("Password"));
         this.password.setId("password");
         this.password.setPromptText("Inserisci password Utente");
+        this.password.setOnKeyReleased( e-> {
+            String checkPassword = this.password.getText();
+            System.out.println(checkPassword);
+            if (checkPassword.length() < 6) {
+                passwordRealTime.setText("Password poco sicura");
+                passwordRealTime.setStyle("-fx-text-fill: red");
+            } else {
+                passwordRealTime.setText("Password mediamente sicura");
+                passwordRealTime.setStyle("-fx-text-fill: #b0511a");
+            }
+            if (checkPassword.length() >= 6 && checkPassword.matches(".*\\d.*")) {
+                passwordRealTime.setText("Password molto sicura");
+                passwordRealTime.setStyle("-fx-text-fill: green");
+            }
+
+        });
         super.pane_main_grid.getChildren().add(this.password);
+        super.pane_main_grid.getChildren().add(this.passwordRealTime);
     }
 
     public  void addButtonSave()  {
@@ -61,12 +81,6 @@ public class RegistrationSecretariatController extends ClientController{
     }
 
     public void addActionButton() {
-       /* this.saveBtn.setOnAction(e -> {
-            System.out.println("inserire utente segreteria");
-            Secretariat secretariat = createSecretariat();
-            //inserire controlli
-            this.secretariatRepo.add(secretariat);
-        });*/
         //controlli
         this.saveBtn.setOnAction(e -> {
             if(!super.getTextName().getText().trim().isEmpty() &&

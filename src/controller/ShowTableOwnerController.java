@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 
 import model.Gender;
@@ -44,7 +45,6 @@ public class ShowTableOwnerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tableClient.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_surname.setCellValueFactory(new PropertyValueFactory<>("surname"));
         col_sex.setCellValueFactory(new PropertyValueFactory<>("sex"));

@@ -64,6 +64,9 @@ public class ClientController implements Initializable, FieldVerifier {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setTooltipOnField(); //serve a mettere le etichette su i textfield quando ci si passa sopra con il mouse
+
+
         int yearsValid = LocalDate.now().getYear() - 18; //posso registrare solo chi ha almeno 18 anni e non piu di 90 anni
         Common.restrictDatePicker(this.textdateBirth, LocalDate.of(1930, 1,1), LocalDate.of(yearsValid,1,1));
         this.textdateBirth.setValue( LocalDate.of(1980, 1,1));
@@ -89,6 +92,16 @@ public class ClientController implements Initializable, FieldVerifier {
             else
                 this.textEmail.setStyle("-fx-border-color: lightgreen");
         });
+    }
+
+    private void setTooltipOnField() {
+        this.textName.setTooltip(new Tooltip("Nome"));
+        this.textSurname.setTooltip(new Tooltip("Cognome"));
+        this.textAddress.setTooltip(new Tooltip("Indirizzo"));
+        this.textCity.setTooltip(new Tooltip("Città"));
+        this.textFiscalCode.setTooltip(new Tooltip("Codice Fiscale"));
+        this.textTelephone.setTooltip(new Tooltip("Telefono"));
+        this.textEmail.setTooltip(new Tooltip("Email"));
     }
 
     //onAction="#registerClient"
