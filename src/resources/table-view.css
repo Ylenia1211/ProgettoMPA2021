@@ -21,8 +21,8 @@
 }
 .table-view .column-header{
     -fx-font: 14px "Calibri";
-    /* -fx-background-color: #3DA4E3; */
-    -fx-background-color: #163754;
+     -fx-background-color: #3DA4E3;
+    /* -fx-background-color: #163754; */
 }
 .table-view .column-header .label {
    -fx-text-fill: white;

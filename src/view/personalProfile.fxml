@@ -6,8 +6,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PersonalProfileController">
-    <Label graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3da4e3;" text="Profilo personale" textFill="WHITE">
+<VBox  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" alignment="CENTER" style="-fx-background-color: #163754;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PersonalProfileController">
+    <Label alignment="CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3da4e3;" text="Profilo personale" textFill="WHITE">
         <font>
             <Font size="20.0" />
         </font>
@@ -26,64 +26,64 @@
         <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
             <HBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="100.0">
                 <VBox fx:id="labels" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="3.0" HBox.hgrow="ALWAYS">
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Nome">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Nome" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Cognome">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Cognome" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Sesso">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Sesso" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Data di nascita">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Data di nascita" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Città">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Città" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Indirizzo">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Indirizzo" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Telefono">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Telefono" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Codice fiscale">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Codice fiscale" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="E-mail">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="E-mail" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Username">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Username" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Password">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Password" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Nuova password">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Nuova password" textFill="white">
                         <font>
-                            <Font size="13.0" />
+                            <Font size="14.0" />
                         </font>
                     </Label>
                 </VBox>
@@ -91,13 +91,13 @@
                     <TextField fx:id="name" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     <TextField fx:id="surname" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     <HBox fx:id="gender" alignment="CENTER" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" spacing="15.0">
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Sesso:" />
-                        <RadioButton fx:id="rbM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="M">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Sesso:" textFill="white"/>
+                        <RadioButton fx:id="rbM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="M" textFill="white">
                             <toggleGroup>
                                 <ToggleGroup fx:id="genderGroup" />
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="rbF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="F" toggleGroup="$genderGroup">
+                        <RadioButton fx:id="rbF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="F" textFill="white" toggleGroup="$genderGroup">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
