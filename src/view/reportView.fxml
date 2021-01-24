@@ -41,10 +41,17 @@
                <Font name="Calibri" size="14.0" />
             </font>
          </Label>
-         <Label fx:id="firstAttachment" alignment="CENTER" prefWidth="350" text="Nessuno" textAlignment="CENTER" textFill="WHITE">
-            <font>
-               <Font name="Calibri" size="10.0" />
-            </font></Label>
+
+         <HBox alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="2.0">
+            <ImageView fx:id="deleteFirstAttachmentButton" accessibleHelp="Elimina allegato" accessibleRoleDescription="Elimina allegato" accessibleText="Elimina allegato" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <Image url="@../resources/delete.png" />
+            </ImageView>
+            <Label fx:id="firstAttachment" alignment="CENTER" prefWidth="350" text="Nessuno" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Calibri" size="10.0" />
+               </font>
+            </Label>
+         </HBox>
       </VBox>
    </HBox>
    <padding>

@@ -111,7 +111,16 @@ public class FacadePDFReportGenerator {
         writer.newLine(); //this is not actually needed for html files - can make your code more readable though
         writer.close(); //make sure you close the writer object
                                        //data in cui è stata effettuata la visita
-        String outputFile = "./report/"+ appointment.getLocalDate() + "_"+ pet.getName().toUpperCase() + "_"+ pet.getSurname().toUpperCase()  +".pdf";
+
+        String outputFile = "./report/"; //+ appointment.getLocalDate() + "_"+ pet.getName().toUpperCase() + "_"+ pet.getSurname().toUpperCase()  +".pdf";
+        String directoryName = outputFile.concat(owner.getSurname() + owner.getName() + "/" + pet.getName());
+        String fileName = appointment.getLocalDate() + "_"+ pet.getName().toUpperCase() + "_"+ pet.getSurname().toUpperCase()  +".pdf";
+
+        File directory = new File(directoryName);
+        if (!directory.exists())
+            directory.mkdirs();
+        outputFile = directoryName + "/" + fileName;
+
         generatePDF(inputFile, outputFile);
         if(!report.getPathFile().trim().isEmpty())
             this.checkForAttachments(report, outputFile, report.getPathFile().trim());

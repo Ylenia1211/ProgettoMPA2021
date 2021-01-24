@@ -2,13 +2,11 @@ package controller;
 
 import dao.ConcreteReportDAO;
 import datasource.ConnectionDBH2;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -80,6 +78,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
             this.deleteFirstAttachmentButton.setDisable(true);
             this.deleteFirstAttachmentButton.setOnMouseClicked(mouseEvent -> {
                 this.firstAttachment.setText("Nessuno");
+                this.firstAttachment.setAlignment(Pos.CENTER);
                 this.deleteFirstAttachmentButton.setVisible(false);
                 this.textPath.clear();
             });
@@ -143,13 +142,22 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
             this.textDiagnosi.setText(this.report.getDiagnosis());
             this.textTerapia.setText(this.report.getTreatments());
             this.textPath.setText(this.report.getPathFile());
+            this.textPath.setEditable(false);
             this.enableModify.setSelected(false);
+            this.attachmentImage.setDisable(true);
             this.buttons.getChildren().clear();
+            if (this.report.getPathFile().trim().isEmpty()){
+                this.firstAttachment.setText("Nessuno");
+                this.deleteFirstAttachmentButton.setVisible(false);
+            }else {
+                this.firstAttachment.setText(this.report.getPathFile());
+                this.deleteFirstAttachmentButton.setVisible(true);
+                this.deleteFirstAttachmentButton.setDisable(true);
+            }
+
             this.addCreateAndDeleteButtonsPDFReport();
         });
     }
-
-
 
     private Report createNewReport() {
         return new Report.Builder()
@@ -202,8 +210,16 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
             String filePath = file.getAbsolutePath();
-            if (this.firstAttachment.getText().equals("Nessuno"))
+            if (this.firstAttachment.getText().equals("Nessuno")) {
+                this.deleteFirstAttachmentButton.setVisible(true);
+                this.deleteFirstAttachmentButton.setOnMouseClicked(mouseEvent -> {
+                    this.firstAttachment.setText("Nessuno");
+                    this.firstAttachment.setAlignment(Pos.CENTER_LEFT);
+                    this.deleteFirstAttachmentButton.setVisible(false);
+                    this.textPath.clear();
+                });
                 this.firstAttachment.setText(filePath);
+            }
             else
                 this.allegati.getChildren().add(new Label(filePath));
             this.attachments.add(filePath);

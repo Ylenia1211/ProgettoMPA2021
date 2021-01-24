@@ -6,6 +6,7 @@ import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -97,6 +98,7 @@ public class ReportAddDataController implements Initializable {
                 this.deleteFirstAttachmentButton.setVisible(true);
                 this.deleteFirstAttachmentButton.setOnMouseClicked(mouseEvent -> {
                     this.firstAttachment.setText("Nessuno");
+                    this.firstAttachment.setAlignment(Pos.CENTER_LEFT);
                     this.deleteFirstAttachmentButton.setVisible(false);
                     this.textPath.clear();
                 });
