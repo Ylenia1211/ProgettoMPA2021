@@ -12,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.Gender;
 import model.Pet;
+import model.Secretariat;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -37,21 +38,17 @@ public class RegistrationPetController implements Initializable {
     private ConcretePetDAO petRepo;
     private Map<String, String> listClient;
 
-
     //servono per il campo ricerca
     private GridPane container;
     private  HBox searchBox;
     private TextField searchText;
     private VBox dropDownMenu;
 
-
-
     public RegistrationPetController() {
         this.listClient  = new HashMap<>();
         this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
         this.rbF = new RadioButton(Gender.F.getDeclaringClass().descriptorString());
         this.petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
-
     }
 
     public ConcretePetDAO getPetRepo() {
@@ -78,20 +75,31 @@ public class RegistrationPetController implements Initializable {
     }
 
     public void registrationPet(ActionEvent actionEvent) {
-             Pet p = createPet();
-            //inserire controlli
-            this.petRepo.add(p);
+        // controlli
+        if (!this.textName.getText().trim().isEmpty() &&
+                !this.textSurname.getText().trim().isEmpty() &&
+                (this.rbM.isSelected() || rbF.isSelected()) &&
+                !this.textdateBirth.getValue().toString().isEmpty() &&
+                !this.textPetRace.getValue().toString().isEmpty() &&
+                !this.searchText.getText().trim().isEmpty() &&
+                !this.textParticularSign.getText().trim().isEmpty()
+        ) {
+            Pet p = createPet();
+            if (this.petRepo.isNotDuplicate(p)) {
+                try {
+                    this.petRepo.add(p);
 
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
 
-            /*
-            System.out.println(p.getName());
-            System.out.println(p.getSurname());
-            System.out.println(p.getDatebirth());
-            System.out.println(p.getSex());
-            System.out.println(p.getId_petRace());
-            System.out.println(p.getId_owner());
-            System.out.println(p.getParticularSign());
-           */
+            } else {
+                JOptionPane.showMessageDialog(null, "Impossibile creare Animale! Già esistente!");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi!");
+        }
     }
 
     public Pet createPet(){
@@ -99,15 +107,15 @@ public class RegistrationPetController implements Initializable {
         System.out.println(chk.getText());
         String idOwnerSearched = getKeyByValue(listClient,this.searchText.getText());
         System.out.println(idOwnerSearched);
-        Pet p = new Pet.Builder<>((String) this.textPetRace.getValue(),
-                idOwnerSearched,
-                this.textParticularSign.getText())
+        return new Pet.Builder<>()
                 .addName(this.textName.getText())
                 .addSurname(this.textSurname.getText())
                 .addSex((chk.getText().equals("M") ? Gender.M : Gender.F))
                 .addDateBirth(this.textdateBirth.getValue())
+                .setId_petRace((String) this.textPetRace.getValue())
+                .setId_owner(idOwnerSearched)
+                .setParticularSign( this.textParticularSign.getText())
                 .build();
-        return p;
     }
 
 

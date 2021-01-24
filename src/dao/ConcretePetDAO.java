@@ -22,9 +22,9 @@ public class ConcretePetDAO implements PetDAO {
 
     @Override
     public void add(Pet pet) {
-        PreparedStatement ps = null;
+
         try {
-            ps = connection_db.getConnectData().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
+            PreparedStatement ps = connection_db.getConnectData().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
             ps.setString(1, pet.getId());
             ps.setString(2, pet.getName());
             ps.setString(3, pet.getSurname());
@@ -35,7 +35,6 @@ public class ConcretePetDAO implements PetDAO {
             System.out.println("Anagrafica Pet aggiunta al DB!");
 
 
-            ps = null;
             ps = connection_db.getConnectData().prepareStatement("insert into pet(id, typepet, owner, particularsign) values(?,?,?,?)");
             ps.setString(1, pet.getId());
             ps.setString(2, pet.getId_petRace());
@@ -121,9 +120,8 @@ public class ConcretePetDAO implements PetDAO {
     public void update(String id, Pet pet) {
         String sqlMasterData = "UPDATE masterdata SET name = ?, surname = ?, sex = ?, datebirth = ? where masterdata.id = ?";
         String sqlPetData = "UPDATE pet SET typepet = ?, owner = ?, particularsign = ? where pet.id = ?";
-        PreparedStatement ps = null;
         try {
-            ps = connection_db.getConnectData().prepareStatement(sqlMasterData);
+            PreparedStatement ps  = connection_db.getConnectData().prepareStatement(sqlMasterData);
             ps.setString(1, pet.getName());
             ps.setString(2, pet.getSurname());
             ps.setString(3, pet.getSex().toString());
@@ -132,7 +130,6 @@ public class ConcretePetDAO implements PetDAO {
             ps.executeUpdate();
             System.out.println("Anagrafica Pet aggiornata  DB!");
 
-            ps = null;
             ps = connection_db.getConnectData().prepareStatement(sqlPetData);
             ps.setString(1, pet.getId_petRace());
             ps.setString(2, pet.getId_owner());
@@ -154,7 +151,7 @@ public class ConcretePetDAO implements PetDAO {
     @Override
     public void delete(String id) {
         System.out.println("id da cancellare a cascata: " + id);
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
 
             //quando cancella l'animale devo aggiornare il numero di animali assocati all'owner
@@ -300,6 +297,41 @@ public class ConcretePetDAO implements PetDAO {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public boolean isNotDuplicate(Pet pet) {
+        PreparedStatement ps = null;
+        try {
+            ps = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
+                    "    INNER JOIN PET" +
+                    "    ON pet.id = masterdata.id" +
+                    "    WHERE masterdata.name  = ?" +
+                    "    AND masterdata.surname = ?" +
+                    "    AND masterdata.sex = ?" +
+                    "    AND masterdata.datebirth = ?" +
+                    "    AND pet.TYPEPET = ? " +
+                    "    AND pet.OWNER = ?" +
+                    "    AND pet.PARTICULARSIGN = ?");
+            ps.setString(1, pet.getName());
+            ps.setString(2, pet.getSurname());
+            ps.setString(3, pet.getSex().toString());
+            ps.setString(4, pet.getDatebirth().toString());
+            ps.setString(5, pet.getId_petRace());
+            ps.setString(6, pet.getId_owner());
+            ps.setString(7, pet.getParticularSign());
+
+            ResultSet rs = ps.executeQuery();
+            String id_searched = "";
+            if (rs.next()) {
+                id_searched = rs.getString("id");
+            }
+            return id_searched.equals("");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return false;
         }
     }
 
