@@ -4,6 +4,7 @@ import model.Doctor;
 import model.Gender;
 import model.Owner;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,9 +45,17 @@ public class UpdateDoctorController extends RegistrationDoctorController{
    @Override
     public void addActionButton() {
        this.getSaveBtn().setOnAction(e -> {
+           //super.getDoctorRepo().update(id, d);
            Doctor d = createDoctor();
-           super.getDoctorRepo().update(id, d);
-           System.out.println("modifica qui");
+       if(super.getDoctorRepo().isNotDuplicate(d)){
+           try {
+               super.getDoctorRepo().update(id, d);
+           } catch (Exception ex) {
+               ex.printStackTrace();
+           }
+       }else {
+           JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
+       }
        });
    }
 }

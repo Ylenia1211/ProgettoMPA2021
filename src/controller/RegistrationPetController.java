@@ -19,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.*;
 
 public class RegistrationPetController implements Initializable {
@@ -57,10 +58,13 @@ public class RegistrationPetController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       addFieldOwner();
-       addFieldRace();
-       addButtonSave();
-       addActionButton();
+
+        this.textdateBirth.setValue(LocalDate.now()); //non fa modificare all'utente il textfield  per evitare di mettere valori non consentiti
+        this.textdateBirth.setEditable(false);
+        addFieldOwner();
+        addFieldRace();
+        addButtonSave();
+        addActionButton();
 
     }
     public  void addButtonSave()  {

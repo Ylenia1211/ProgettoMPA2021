@@ -125,7 +125,7 @@ public class RegistrationDoctorController extends ClientController{
                 .addAddress(super.getTextAddress().getText().toUpperCase())
                 .addCity(super.getTextCity().getText().toUpperCase())
                 .addTelephone(super.getTextTelephone().getText())
-                .addEmail(super.getTextEmail().getText().toUpperCase())
+                .addEmail(super.getTextEmail().getText())
                 .addFiscalCode(super.getTextFiscalCode().getText().toUpperCase())
                 .addSpecialization((String) this.specialization.getValue().toUpperCase())
                 .addUsername(this.username.getText())

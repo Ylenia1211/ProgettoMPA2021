@@ -103,15 +103,15 @@ public class RegistrationSecretariatController extends ClientController{
     public Secretariat createSecretariat(){
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
         return new Secretariat.Builder<>()
-                .addName(super.getTextName().getText())
-                .addSurname(super.getTextSurname().getText())
+                .addName(super.getTextName().getText().toUpperCase())
+                .addSurname(super.getTextSurname().getText().toUpperCase())
                 .addSex((chk.getText().equals("M") ? Gender.M : Gender.F))
                 .addDateBirth(super.getTextdateBirth().getValue())
-                .addAddress(super.getTextAddress().getText())
-                .addCity(super.getTextCity().getText())
+                .addAddress(super.getTextAddress().getText().toUpperCase())
+                .addCity(super.getTextCity().getText().toUpperCase())
                 .addTelephone(super.getTextTelephone().getText())
                 .addEmail(super.getTextEmail().getText())
-                .addFiscalCode(super.getTextFiscalCode().getText())
+                .addFiscalCode(super.getTextFiscalCode().getText().toUpperCase())
                 .addUsername(this.username.getText())
                 .addPassword( this.password.getText())
                 .build();

@@ -67,6 +67,7 @@ public class ClientController implements Initializable, FieldVerifier {
         int yearsValid = LocalDate.now().getYear() - 18; //posso registrare solo chi ha almeno 18 anni e non piu di 90 anni
         Common.restrictDatePicker(this.textdateBirth, LocalDate.of(1930, 1,1), LocalDate.of(yearsValid,1,1));
         this.textdateBirth.setValue( LocalDate.of(1980, 1,1));
+        this.textdateBirth.setEditable(false);
         this.textFiscalCode.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
             if (!FieldVerifier.super.fiscalCodeVerifier(newValueFC))
                 this.textFiscalCode.setStyle("-fx-border-color: red");
@@ -138,7 +139,7 @@ public class ClientController implements Initializable, FieldVerifier {
                 .addAddress(this.textAddress.getText().toUpperCase())
                 .addCity(this.textCity.getText().toUpperCase())
                 .addTelephone(this.textTelephone.getText())
-                .addEmail(this.textEmail.getText().toUpperCase())
+                .addEmail(this.textEmail.getText())
                 .setTotAnimal(0)
                 .build();
     }

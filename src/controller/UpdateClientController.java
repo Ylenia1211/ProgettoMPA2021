@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import model.Gender;
 import model.Owner;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,7 +30,16 @@ public class UpdateClientController extends ClientController{
     @Override
     public void registerClient(ActionEvent actionEvent){
         Owner p = createOwner();
-        super.getClientRepo().update(id, p);
+        if(super.getClientRepo().isNotDuplicate(p)){
+            try {
+                super.getClientRepo().update(id, p);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
+            JOptionPane.showMessageDialog(null, "Impossibile creare il cliente! Già esistente!");
+        }
+
     }
 
     public void setParam(Owner data) {

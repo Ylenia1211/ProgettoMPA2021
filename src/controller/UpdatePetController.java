@@ -6,6 +6,7 @@ import model.Gender;
 import model.Owner;
 import model.Pet;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.Map;
 import java.util.Objects;
@@ -52,16 +53,20 @@ public class UpdatePetController extends  RegistrationPetController implements I
     @Override
     public void registrationPet(ActionEvent actionEvent){
         Pet pet = createPet();
-        System.out.println(pet.getName());
-        System.out.println(pet.getId_owner());
-        System.out.println(this.pet.getId_owner());
-        if(!(pet.getId_owner().equals(this.pet.getId_owner()))){
-            //System.out.println("devo incrementare il contatore");
-            this.getPetRepo().addPetToOwner(pet.getId_owner());
-            //devo diminuire il contatore dell'altro owner
-            this.getPetRepo().dropPetToOwner(this.pet.getId_owner());
-           }
-        this.getPetRepo().update(this.id, pet);
+        if (this.getPetRepo().isNotDuplicate(pet)) {
+            try {
+                if(!(pet.getId_owner().equals(this.pet.getId_owner()))){
+                    //System.out.println("devo incrementare il contatore");
+                    this.getPetRepo().addPetToOwner(pet.getId_owner());
+                    //devo diminuire il contatore dell'altro owner
+                    this.getPetRepo().dropPetToOwner(this.pet.getId_owner());
+                }
+                this.getPetRepo().update(this.id, pet);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Impossibile creare Animale! Già esistente!");
+        }
     }
-
 }

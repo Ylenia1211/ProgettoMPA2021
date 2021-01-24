@@ -4,6 +4,7 @@ import model.Doctor;
 import model.Gender;
 import model.Secretariat;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,10 +44,21 @@ public class UpdateSecretariatController extends RegistrationSecretariatControll
 
     @Override
     public void addActionButton() {
-
         this.getSaveBtn().setOnAction(e -> {
             Secretariat s = createSecretariat();
-            super.getSecretariatRepo().update(id, s);
+            if(super.getSecretariatRepo().isNotDuplicate(s)){
+                try {
+                    super.getSecretariatRepo().update(id, s);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else {
+                JOptionPane.showMessageDialog(null, "Impossibile creare l'utente di segreteria! Già esistente!");
+            }
         });
+       /* this.getSaveBtn().setOnAction(e -> {
+            Secretariat s = createSecretariat();
+            super.getSecretariatRepo().update(id, s);
+        });*/
     }
 }
