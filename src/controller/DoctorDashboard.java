@@ -3,6 +3,7 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -34,6 +35,7 @@ public class DoctorDashboard implements Initializable{
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
     public Button report = new Button("Report");
+    public Button profilo = new Button("Profilo");
     public BorderPane borderPane;
     private static final int reportID = 0;
     public Pane borderPanePane;
@@ -41,7 +43,7 @@ public class DoctorDashboard implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni, report);
+            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni, report, profilo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -151,6 +153,15 @@ public class DoctorDashboard implements Initializable{
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
+                        }
+                        case "Profilo" -> { // Aggiunto solo per testare il profilo
+                            try {
+                                var profile = FXMLLoader.load(getClass().getResource("/view/personalProfile.fxml"));
+                                borderPane.setCenter((Node) profile);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+
                         }
                         default -> {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
