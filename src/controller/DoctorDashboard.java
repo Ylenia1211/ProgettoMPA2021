@@ -29,6 +29,7 @@ public class DoctorDashboard implements Initializable{
     public Button agenda = new Button("Agenda");
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
+    public Button profilo = new Button("Profilo");
     public BorderPane borderPane;
     private static final int reportID = 0;
     public Pane borderPanePane;
@@ -36,7 +37,7 @@ public class DoctorDashboard implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni);
+            this.setButtons(sidebar, pazienti, agenda, utenti, prenotazioni, profilo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,7 +77,7 @@ public class DoctorDashboard implements Initializable{
             button.setPrefHeight(25.0);
             button.setTextFill(Paint.valueOf("WHITE"));
             button.setOnMouseClicked(e -> {
-                Parent root;
+                Parent root = null;
                 try {
                     switch (button.getText()) {
                         case "Pazienti" -> {
@@ -125,6 +126,14 @@ public class DoctorDashboard implements Initializable{
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
+                        }
+                        case "Profilo" -> { // Aggiunto solo per testare il profilo
+                            try {
+                                root = FXMLLoader.load(getClass().getResource("/view/personalProfile.fxml"));
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                            borderPane.setCenter(root);
                         }
                         default -> {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
