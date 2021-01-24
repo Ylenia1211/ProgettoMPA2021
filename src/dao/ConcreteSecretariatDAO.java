@@ -230,4 +230,33 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         }
     }
 
+    @Override
+    public boolean isNotDuplicate(Secretariat secretariat) {
+        try {
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
+                    "    INNER JOIN person" +
+                    "    ON person.id = masterdata.id" +
+                    "    INNER JOIN  SECRETARIAT  " +
+                    "    ON  person.id = SECRETARIAT.id WHERE masterdata.name = ? AND masterdata.surname = ? " +
+                    "    AND masterdata.sex = ?" +
+                    "    AND masterdata.datebirth = ? AND PERSON.FISCALCODE = ? AND PERSON.TELEPHONE= ?");
+            statement.setString(1, secretariat.getName());
+            statement.setString(2, secretariat.getSurname());
+            statement.setString(3, secretariat.getSex().toString());
+            statement.setString(4, secretariat.getDatebirth().toString());
+            statement.setString(5, secretariat.getFiscalCode());
+            statement.setString(6, secretariat.getTelephone());
+            ResultSet rs = statement.executeQuery();
+            String id_searched = "";
+            if (rs.next()) {
+                id_searched = rs.getString("id");
+            }
+            return id_searched.equals("");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return false;
+        }
+    }
+
 }

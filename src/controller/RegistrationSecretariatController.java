@@ -6,6 +6,7 @@ import model.Doctor;
 import model.Gender;
 import model.Secretariat;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -60,13 +61,45 @@ public class RegistrationSecretariatController extends ClientController{
     }
 
     public void addActionButton() {
-        this.saveBtn.setOnAction(e -> {
+       /* this.saveBtn.setOnAction(e -> {
             System.out.println("inserire utente segreteria");
             Secretariat secretariat = createSecretariat();
             //inserire controlli
             this.secretariatRepo.add(secretariat);
-        });
+        });*/
+        //controlli
+        this.saveBtn.setOnAction(e -> {
+            if(!super.getTextName().getText().trim().isEmpty() &&
+                    !super.getTextSurname().getText().trim().isEmpty() &&
+                    !super.getTextAddress().getText().trim().isEmpty() &&
+                    !super.getTextCity().getText().trim().isEmpty() &&
+                    !super.getTextFiscalCode().getText().trim().isEmpty() &&
+                    !super.getTextTelephone().getText().trim().isEmpty() &&
+                    !super.getTextEmail().getText().trim().isEmpty() &&
+                    (this.rbM.isSelected() || rbF.isSelected()) &&
+                    !this.username.getText().trim().isEmpty() &&
+                    !this.password.getText().trim().isEmpty()
+            )
+            {
+                Secretariat secretariat = createSecretariat();
+                if(this.secretariatRepo.isNotDuplicate(secretariat)){
+                    try {
+                        this.secretariatRepo.add(secretariat);
+
+                    }catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                }else {
+                    JOptionPane.showMessageDialog(null, "Impossibile creare l'utente di segreteria! Già esistente!");
+                }
+
+            }else
+            {
+                JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi!");
+            }});
     }
+
     public Secretariat createSecretariat(){
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
         return new Secretariat.Builder<>()

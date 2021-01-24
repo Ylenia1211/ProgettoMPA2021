@@ -1,13 +1,11 @@
 package controller;
 
 import dao.ConcreteDoctorDAO;
-import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import model.Doctor;
 import model.Gender;
-import model.Owner;
 
 import javax.swing.*;
 import java.net.URL;
@@ -78,12 +76,39 @@ public class RegistrationDoctorController extends ClientController{
         }
 
     public void addActionButton() {
-            this.saveBtn.setOnAction(e -> {
-                Doctor d = createDoctor();
-                //inserire controlli
-                this.doctorRepo.add(d);
-            });
 
+           //controlli
+            this.saveBtn.setOnAction(e -> {
+                if(!super.getTextName().getText().trim().isEmpty() &&
+                        !super.getTextSurname().getText().trim().isEmpty() &&
+                        !super.getTextAddress().getText().trim().isEmpty() &&
+                        !super.getTextCity().getText().trim().isEmpty() &&
+                        !super.getTextFiscalCode().getText().trim().isEmpty() &&
+                        !super.getTextTelephone().getText().trim().isEmpty() &&
+                        !super.getTextEmail().getText().trim().isEmpty() &&
+                        (this.rbM.isSelected() || rbF.isSelected()) &&
+                        !this.specialization.getValue().trim().isEmpty() &&
+                        !this.username.getText().trim().isEmpty() &&
+                        !this.password.getText().trim().isEmpty()
+                )
+                {
+                Doctor d = createDoctor();
+                if(this.doctorRepo.isNotDuplicate(d)){
+                    try {
+                        this.doctorRepo.add(d);
+
+                    }catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                }else {
+                    JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
+                }
+
+               }else
+                {
+                    JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi!");
+                }});
     }
 
     public ConcreteDoctorDAO getDoctorRepo() {
@@ -93,16 +118,16 @@ public class RegistrationDoctorController extends ClientController{
     public Doctor createDoctor(){
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
         return new Doctor.Builder<>()
-                .addName(super.getTextName().getText())
-                .addSurname(super.getTextSurname().getText())
+                .addName(super.getTextName().getText().toUpperCase())
+                .addSurname(super.getTextSurname().getText().toUpperCase())
                 .addSex((chk.getText().equals("M") ? Gender.M : Gender.F)) //toString()
                 .addDateBirth(super.getTextdateBirth().getValue())
-                .addAddress(super.getTextAddress().getText())
-                .addCity(super.getTextCity().getText())
+                .addAddress(super.getTextAddress().getText().toUpperCase())
+                .addCity(super.getTextCity().getText().toUpperCase())
                 .addTelephone(super.getTextTelephone().getText())
-                .addEmail(super.getTextEmail().getText())
-                .addFiscalCode(super.getTextFiscalCode().getText())
-                .addSpecialization((String) this.specialization.getValue())
+                .addEmail(super.getTextEmail().getText().toUpperCase())
+                .addFiscalCode(super.getTextFiscalCode().getText().toUpperCase())
+                .addSpecialization((String) this.specialization.getValue().toUpperCase())
                 .addUsername(this.username.getText())
                 .addPassword( this.password.getText())
                 .build();

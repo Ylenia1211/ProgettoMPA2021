@@ -257,4 +257,34 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             return null;
         }
     }
+
+    @Override
+    public boolean isNotDuplicate(Doctor doctor) {
+        try {
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
+                    "    INNER JOIN person" +
+                    "    ON person.id = masterdata.id" +
+                    "    INNER JOIN  DOCTOR  " +
+                    "    ON  person.id = DOCTOR.id WHERE masterdata.name = ? AND masterdata.surname = ? " +
+                    "    AND masterdata.sex = ?" +
+                    "    AND masterdata.datebirth = ? AND PERSON.FISCALCODE = ? AND PERSON.TELEPHONE= ?");
+            statement.setString(1, doctor.getName());
+            statement.setString(2, doctor.getSurname());
+            statement.setString(3, doctor.getSex().toString());
+            statement.setString(4, doctor.getDatebirth().toString());
+            statement.setString(5, doctor.getFiscalCode());
+            statement.setString(6, doctor.getTelephone());
+            //statement.setString(7, doctor.getUsername());
+            ResultSet rs = statement.executeQuery();
+            String id_searched = "";
+            if (rs.next()) {
+                id_searched = rs.getString("id");
+            }
+            return id_searched.equals("");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return false;
+        }
+    }
 }

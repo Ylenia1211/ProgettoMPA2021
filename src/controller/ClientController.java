@@ -11,6 +11,8 @@ import util.Common;
 import util.FieldVerifier;
 import model.Gender;
 import model.Owner;
+
+import javax.swing.*;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -42,7 +44,7 @@ public class ClientController implements Initializable, FieldVerifier {
     public RadioButton rbF;
     public HBox gender;
     public ToggleGroup genderGroup;
-    private ConcreteOwnerDAO clientRepo;
+    private final ConcreteOwnerDAO clientRepo;
 
 
     public ClientController() {
@@ -100,19 +102,26 @@ public class ClientController implements Initializable, FieldVerifier {
                 (this.rbM.isSelected() || this.rbF.isSelected()))
         {
             Owner p = createOwner();
-
-            try {
-                clientRepo.add(p);
-                this.textName.clear();
-                this.textSurname.clear();
-                this.textAddress.clear();
-                this.textCity.clear();
-                this.textFiscalCode.clear();
-                this.textTelephone.clear();
-                this.textEmail.clear();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(this.clientRepo.isNotDuplicate(p)){
+                try {
+                    clientRepo.add(p);
+                    this.textName.clear();
+                    this.textSurname.clear();
+                    this.textAddress.clear();
+                    this.textCity.clear();
+                    this.textFiscalCode.clear();
+                    this.textTelephone.clear();
+                    this.textEmail.clear();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                JOptionPane.showMessageDialog(null, "Impossibile creare il cliente! Già esistente!");
             }
+
+        }else
+        {
+            JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi!");
         }
     }
 
@@ -121,15 +130,15 @@ public class ClientController implements Initializable, FieldVerifier {
         System.out.println(chk.getText());
 
         return new Owner.Builder<>()
-                .addName(this.textName.getText())
-                .addSurname(this.textSurname.getText())
+                .addName(this.textName.getText().toUpperCase())
+                .addSurname(this.textSurname.getText().toUpperCase())
                 .addSex((chk.getText().equals("M") ? Gender.M : Gender.F))
                 .addDateBirth(this.textdateBirth.getValue())
-                .addFiscalCode(this.textFiscalCode.getText())
-                .addAddress(this.textAddress.getText())
-                .addCity(this.textCity.getText())
+                .addFiscalCode(this.textFiscalCode.getText().toUpperCase())
+                .addAddress(this.textAddress.getText().toUpperCase())
+                .addCity(this.textCity.getText().toUpperCase())
                 .addTelephone(this.textTelephone.getText())
-                .addEmail(this.textEmail.getText())
+                .addEmail(this.textEmail.getText().toUpperCase())
                 .setTotAnimal(0)
                 .build();
     }

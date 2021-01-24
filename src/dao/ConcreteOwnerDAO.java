@@ -184,4 +184,33 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             return null;
         }
     }
+
+    @Override
+    public boolean isNotDuplicate(Owner owner) {
+        try {
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
+                    "    INNER JOIN person" +
+                    "    ON person.id = masterdata.id" +
+                    "    INNER JOIN owner  " +
+                    "    ON  person.id = owner.id WHERE masterdata.name = ? AND masterdata.surname = ? " +
+                    "    AND masterdata.sex = ?" +
+                    "    AND masterdata.datebirth = ? AND PERSON.FISCALCODE = ? AND PERSON.TELEPHONE= ?");
+            statement.setString(1, owner.getName());
+            statement.setString(2, owner.getSurname());
+            statement.setString(3, owner.getSex().toString());
+            statement.setString(4, owner.getDatebirth().toString());
+            statement.setString(5, owner.getFiscalCode());
+            statement.setString(6, owner.getTelephone());
+            ResultSet rs = statement.executeQuery();
+            String id_searched = "";
+            if (rs.next()) {
+                id_searched = rs.getString("id");
+            }
+            return id_searched.equals("");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return false;
+        }
+    }
 }

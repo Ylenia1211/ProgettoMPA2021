@@ -5,6 +5,7 @@ import model.Doctor;
 import model.Owner;
 import model.User;
 
+import javax.print.Doc;
 import java.util.List;
 
 public interface DoctorDAO extends Crud<Doctor>{
@@ -14,4 +15,5 @@ public interface DoctorDAO extends Crud<Doctor>{
     String search(Doctor data);
 
     Doctor searchByUsernameAndPassword(User user);
+    boolean isNotDuplicate(Doctor doctor); //fa controlli piu stretti rispetto al search
 }
