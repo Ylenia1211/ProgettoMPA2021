@@ -47,7 +47,16 @@
                                  <Font name="Arial" size="13.0" />
                               </font>
                            </Label>
-                           <Label fx:id="firstAttachment" maxWidth="1.7976931348623157E308" text="Nessuno" />
+                           <HBox alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="2.0">
+                              <children>
+                                 <ImageView fx:id="deleteFirstAttachmentButton" accessibleHelp="Elimina allegato" accessibleRoleDescription="Elimina allegato" accessibleText="Elimina allegato" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                    <image>
+                                       <Image url="@../resources/delete.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label fx:id="firstAttachment" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Nessuno" />
+                              </children>
+                           </HBox>
                         </VBox>
                      </children>
                   </AnchorPane>

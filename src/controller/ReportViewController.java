@@ -1,10 +1,13 @@
 package controller;
+
 import dao.ConcreteReportDAO;
 import datasource.ConnectionDBH2;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -29,6 +32,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     public ImageView attachmentImage;
     public ArrayList<String> attachments = new ArrayList<>();
     public Label firstAttachment;
+    public ImageView deleteFirstAttachmentButton;
     public VBox allegati;
     public VBox pane_main_grid;
     public HBox lastHbox;
@@ -40,7 +44,6 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     private CheckBox enableModify;
     private ConcreteReportDAO reportDAO;
     private Report report;
-
     private final Owner owner;
     private final Pet pet;
     private final Doctor doctor;
@@ -72,6 +75,13 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         this.textPath.setEditable(false);
         this.attachmentImage.setDisable(true);
         if (!this.textPath.getText().trim().isEmpty()) {
+            this.deleteFirstAttachmentButton.setVisible(true);
+            this.deleteFirstAttachmentButton.setDisable(true);
+            this.deleteFirstAttachmentButton.setOnMouseClicked(mouseEvent -> {
+                this.firstAttachment.setText("Nessuno");
+                this.deleteFirstAttachmentButton.setVisible(false);
+                this.textPath.clear();
+            });
             this.firstAttachment.setText(this.report.getPathFile());
         }
 
@@ -107,9 +117,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         this.deleteReportButton.setPrefHeight(30);
         this.deleteReportButton.setStyle("-fx-background-color: red;-fx-text-fill: white;" +
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
-        this.deleteReportButton.setOnAction(actionEvent -> {
-            this.reportDAO.delete(this.idBooking);
-        });
+        this.deleteReportButton.setOnAction(actionEvent -> this.reportDAO.delete(this.idBooking));
 
         // Creo il saveButton
         this.savePDFReportButton = new Button("Salva");
@@ -167,10 +175,12 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
             if (!enableModify.isSelected()) {
                 this.buttons.getChildren().clear();
                 this.addCreateAndDeleteButtonsPDFReport();
-                textDiagnosi.setEditable(false);
-                textTerapia.setEditable(false);
-                textPath.setEditable(false);
-                attachmentImage.setDisable(true);
+                this.textDiagnosi.setEditable(false);
+                this.textTerapia.setEditable(false);
+                this.textPath.setEditable(false);
+                this.attachmentImage.setDisable(true);
+                this.deleteFirstAttachmentButton.setDisable(true);
+
             }else {
                 this.buttons.getChildren().clear();
                 this.addSaveAndCancelButtonsPDFReport();
@@ -178,6 +188,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 textTerapia.setEditable(true);
                 textPath.setEditable(true);
                 attachmentImage.setDisable(false);
+                this.deleteFirstAttachmentButton.setDisable(false);
             }
         });
         this.lastHbox.getChildren().add(0, enableModify);

@@ -38,6 +38,7 @@ public class ReportAddDataController implements Initializable {
     public Button creaReportButton;
     public Button btnSaveReport;
     public VBox pane_main_grid;
+    public ImageView deleteFirstAttachmentButton;
 
     private ConcreteReportDAO reportDAO;
     private Appointment appointment;
@@ -92,8 +93,15 @@ public class ReportAddDataController implements Initializable {
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
             String filePath = file.getAbsolutePath();
-            if (this.firstAttachment.getText().equals("Nessuno"))
+            if (this.firstAttachment.getText().equals("Nessuno")) {
+                this.deleteFirstAttachmentButton.setVisible(true);
+                this.deleteFirstAttachmentButton.setOnMouseClicked(mouseEvent -> {
+                    this.firstAttachment.setText("Nessuno");
+                    this.deleteFirstAttachmentButton.setVisible(false);
+                    this.textPath.clear();
+                });
                 this.firstAttachment.setText(filePath);
+            }
             else
                 this.allegati.getChildren().add(new Label(filePath));
             this.attachments.add(filePath);

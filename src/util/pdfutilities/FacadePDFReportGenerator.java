@@ -3,6 +3,11 @@ import com.lowagie.text.DocumentException;
 import j2html.tags.ContainerTag;
 import j2html.tags.Tag;
 import model.*;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import javax.swing.*;
 import static j2html.TagCreator.*;
@@ -108,6 +113,8 @@ public class FacadePDFReportGenerator {
                                        //data in cui è stata effettuata la visita
         String outputFile = "./report/"+ appointment.getLocalDate() + "_"+ pet.getName().toUpperCase() + "_"+ pet.getSurname().toUpperCase()  +".pdf";
         generatePDF(inputFile, outputFile);
+        if(!report.getPathFile().trim().isEmpty())
+            this.checkForAttachments(report, outputFile, report.getPathFile().trim());
 
         //per cancellare il file html di supporto creato visto che non ci serve
         File file = new File(inputFile);
@@ -123,20 +130,45 @@ public class FacadePDFReportGenerator {
         JOptionPane.showMessageDialog(null, "Pdf del report creato correttamente!\n (percorso: "+ outputFile +")");
 
     }
+
+    private void checkForAttachments(Report report, String outputFile, String attachmentPath) throws IOException {
+        if(!report.getPathFile().trim().isEmpty()){
+            File file = new File(outputFile);
+            PDDocument document = PDDocument.load(file);
+            PDPage attachmentPage = new PDPage();
+            document.addPage(attachmentPage);
+            PDPageContentStream contentStream = new PDPageContentStream(document, attachmentPage);
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+            contentStream.beginText();
+            contentStream.newLineAtOffset(25, 750);
+            contentStream.setLeading(14.5f);
+            contentStream.showText("Allegati:");
+            contentStream.newLine();
+            contentStream.endText();
+//            PDImageXObject pdImage = PDImageXObject.createFromFile(attachmentPath, document);
+            PDImageXObject pdImage = PDImageXObject.createFromFile("D:/Desktop/radiografia.jpg", document);
+            contentStream.drawImage(pdImage, 70, 250);
+            contentStream.close();
+            document.save(outputFile);
+            document.close();
+        }
+    }
+
     public static String createHtml(String pageTitle, Tag... tags) {
            ContainerTag html = html(
                    head
-                           (title(pageTitle), style("h1 {\n" +
-                                   "    color: navy;\n" +
-                                   "    margin-left: 20px;\n" +
-                                   "} \n" +
-                                   "table, th, td {\n" +
-                                   "    border: 1px solid black;\n" +
-                                   "}\n" +
-                                   "\n" +
-                                   "table {\n" +
-                                   "    width: 100%;\n" +
-                                   "}" )
+                           (title(pageTitle), style("""
+                                   h1 {
+                                       color: navy;
+                                       margin-left: 20px;
+                                   }\s
+                                   table, th, td {
+                                       border: 1px solid black;
+                                   }
+
+                                   table {
+                                       width: 100%;
+                                   }""")
                            ),
                                    //link().withRel("stylesheet").withHref(pathCss).withType("text/css")),
                        body(
@@ -148,11 +180,11 @@ public class FacadePDFReportGenerator {
            return document().render() + html.render();
     }
     public static void generatePDF(String inputHtmlPath, String outputPdfPath) {
-        String url = null;
+        String url;
         try {
             url = new File(inputHtmlPath).toURI().toURL().toString();
             System.out.println("URL: " + url);
-            OutputStream out = null;
+            OutputStream out;
             out = new FileOutputStream(outputPdfPath);
 
             //Flying Saucer part
