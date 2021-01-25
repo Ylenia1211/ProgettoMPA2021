@@ -6,8 +6,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #163754;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PersonalProfileController">
-    <Label alignment="CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3da4e3;" text="Profilo personale" textFill="WHITE">
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #d9f3fc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PersonalProfileController">
+    <Label alignment="TOP_CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3da4e3;" text="Profilo personale" textFill="WHITE">
         <font>
             <Font size="20.0" />
         </font>
@@ -15,119 +15,124 @@
             <Insets bottom="20.0" />
         </VBox.margin>
     </Label>
-    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="50.0" VBox.vgrow="ALWAYS">
+    <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="50.0">
         <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="15.0" HBox.hgrow="ALWAYS">
             <ImageView fx:id="picProfile" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../resources/docProfilePic.png" />
+            <VBox.margin>
+               <Insets top="40.0" />
+            </VBox.margin>
             </ImageView>
             <!--            <Button fx:id="profilePicButton" mnemonicParsing="false" onAction="#changeProfilePic" style="-fx-background-color: #3da4e3;" text="Cambia foto profilo" textFill="WHITE" />-->
             <Button fx:id="profilePicButton" mnemonicParsing="false" onAction="#changeProfilePic" style="-fx-background-color: #3da4e3;" text="Cambia foto profilo" textFill="WHITE" />
+         <CheckBox fx:id="checkboxUpdate" mnemonicParsing="false" style="-fx-text-fill:#163754;" text="Abilita Modifica">
+            <padding>
+               <Insets top="140.0" />
+            </padding>
+            <font>
+               <Font size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
+         </CheckBox>
         </VBox>
-        <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
-            <HBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="100.0">
-                <VBox fx:id="labels" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="3.0" HBox.hgrow="ALWAYS">
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Nome" textFill="white">
+        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
+            <HBox fx:id="form_pain_main" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="100.0">
+                <VBox fx:id="labels" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="337.0" prefWidth="102.0" spacing="3.0" HBox.hgrow="ALWAYS">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="Nome" textFill="white">
                         <font>
                             <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Cognome" textFill="white">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="Cognome">
                         <font>
                             <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Sesso" textFill="white">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="Sesso">
                         <font>
                             <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Data di nascita" textFill="white">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="Data di nascita">
                         <font>
                             <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Città" textFill="white">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="Città">
                         <font>
                             <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Indirizzo" textFill="white">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="Indirizzo">
                         <font>
                             <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Telefono" textFill="white">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="Telefono">
                         <font>
                             <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Codice fiscale" textFill="white">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="Codice fiscale">
                         <font>
                             <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="E-mail" textFill="white">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="E-mail">
                         <font>
                             <Font size="14.0" />
                         </font>
                     </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Username" textFill="white">
-                        <font>
-                            <Font size="14.0" />
-                        </font>
-                    </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Password" textFill="white">
-                        <font>
-                            <Font size="14.0" />
-                        </font>
-                    </Label>
-                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" text="Nuova password" textFill="white">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="Username">
                         <font>
                             <Font size="14.0" />
                         </font>
                     </Label>
                 </VBox>
-                <VBox fx:id="labelsFields" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="3.0" HBox.hgrow="ALWAYS">
-                    <TextField fx:id="name" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-                    <TextField fx:id="surname" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                <VBox fx:id="labelsFields" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="337.0" prefWidth="218.0" spacing="3.0" HBox.hgrow="ALWAYS">
+                    <TextField fx:id="name" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="185.0" />
+                    <TextField fx:id="surname" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     <HBox fx:id="gender" alignment="CENTER" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" spacing="15.0">
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Sesso:" textFill="white" />
-                        <RadioButton fx:id="rbM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="M" textFill="white">
+                        <RadioButton fx:id="rbM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="M" textFill="white">
                             <toggleGroup>
                                 <ToggleGroup fx:id="genderGroup" />
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="rbF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="F" textFill="white" toggleGroup="$genderGroup">
+                        <RadioButton fx:id="rbF" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="F" textFill="white" toggleGroup="$genderGroup">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </RadioButton>
                     </HBox>
-                    <DatePicker fx:id="birthDate" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" showWeekNumbers="true" />
-                    <TextField fx:id="city" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-                    <TextField fx:id="address" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-                    <TextField fx:id="telephone" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-                    <TextField fx:id="fiscalCode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-                    <TextField fx:id="email" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-                    <TextField fx:id="username" />
-                    <PasswordField fx:id="password" />
-                    <TextField fx:id="newPassword" />
+                    <DatePicker fx:id="birthDate" disable="true" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" showWeekNumbers="true" />
+                    <TextField fx:id="city" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                    <TextField fx:id="address" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                    <TextField fx:id="telephone" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                    <TextField fx:id="fiscalCode" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                    <TextField fx:id="email" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                    <TextField fx:id="username" editable="false" />
                     <HBox.margin>
                         <Insets />
                     </HBox.margin>
                 </VBox>
+            <padding>
+               <Insets right="30.0" />
+            </padding>
             </HBox>
             <!--         <Button fx:id="update" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateProfile" prefHeight="25.0" style="-fx-background-color: #3da4e3; -fx-border-radius: 3;" text="Aggiorna profilo" textFill="WHITE" />-->
-            <Button fx:id="update" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #3da4e3; -fx-border-radius: 3;" text="Aggiorna profilo" textFill="WHITE">
+          <!--  <Button fx:id="save_update" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #3da4e3; -fx-border-radius: 3;" text="Aggiorna profilo" textFill="WHITE">
             <font>
                <Font name="Calibri" size="14.0" />
-            </font></Button>
+            </font></Button>-->
+         <padding>
+            <Insets top="100.0" />
+         </padding>
         </VBox>
         <VBox.margin>
             <Insets />
         </VBox.margin>
     </HBox>
-    <padding>
-        <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
-    </padding>
 </VBox>

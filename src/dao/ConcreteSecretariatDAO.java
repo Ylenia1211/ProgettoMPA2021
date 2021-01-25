@@ -259,4 +259,41 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         }
     }
 
+    @Override
+    public Secretariat searchById(String id) {
+        String sqlSearch = "SELECT * FROM masterdata" +
+                "    INNER JOIN person" +
+                "    ON person.id = masterdata.id" +
+                "    INNER JOIN SECRETARIAT " +
+                "    ON  person.id = SECRETARIAT.id WHERE SECRETARIAT.id = ? ";
+        try {
+            PreparedStatement ps = connection_db.getConnectData().prepareStatement(sqlSearch);
+            ps.setString(1, id);
+            ResultSet r = ps.executeQuery();
+            if(r.next()){
+                return new Secretariat.Builder<>()
+                        .addName(r.getString("name"))
+                        .addSurname(r.getString("surname"))
+                        .addSex(Gender.valueOf(r.getString("sex")))
+                        .addDateBirth(LocalDate.parse(r.getString("datebirth")))
+                        .addFiscalCode(r.getString("fiscalcode"))
+                        .addAddress(r.getString("address"))
+                        .addCity(r.getString("city"))
+                        .addTelephone(r.getString("telephone"))
+                        .addEmail(r.getString("email"))
+                        .addUsername(r.getString("username"))
+                        .addPassword(r.getString("password"))
+                        .build();
+            }else{
+                ConcreteLoginDAO.searchEmpty();
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
+    }
+
 }

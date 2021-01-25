@@ -5,61 +5,46 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="pane_main_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-      minHeight="-Infinity" spacing="10.0" style="-fx-background-color: #163754;"
-      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controller.ClientController">
-    <Label fx:id="labelTitle" alignment="CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308"
-           maxWidth="1.7976931348623157E308" style="-fx-background-color: #3da4e3;" text="Registrazione Clienti"
-           textFill="WHITE">
+<VBox fx:id="pane_main_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" spacing="10.0" style="-fx-background-color: #d9f3fc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClientController">
+    <Label fx:id="labelTitle" alignment="CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3da4e3;" text="Registrazione Clienti" textFill="WHITE">
         <font>
-            <Font size="20.0"/>
+            <Font size="20.0" />
         </font>
         <VBox.margin>
-            <Insets bottom="20.0"/>
+            <Insets bottom="20.0" />
         </VBox.margin>
     </Label>
-    <TextField fx:id="textName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Nome"
-               style="-fx-border-color:#3da4e3;-fx-prompt-text-fill:#163754"/>
-    <TextField fx:id="textSurname" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-               promptText="Cognome" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"/>
+    <TextField fx:id="textName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Nome" style="-fx-border-color:#3da4e3;-fx-prompt-text-fill:#163754" />
+    <TextField fx:id="textSurname" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Cognome" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
     <HBox fx:id="gender" alignment="CENTER" fillHeight="false" nodeOrientation="LEFT_TO_RIGHT">
-        <Label prefHeight="25.0" prefWidth="59.0" text="Sesso:" textFill="white">
+        <Label prefHeight="25.0" prefWidth="59.0" text="Sesso:">
             <font>
-                <Font name="Calibri" size="16.0"/>
+                <Font name="Calibri" size="16.0" />
             </font>
         </Label>
-        <RadioButton fx:id="rbM" mnemonicParsing="false" text="M" textFill="white">
+        <RadioButton fx:id="rbM" mnemonicParsing="false" text="M">
             <toggleGroup>
-                <ToggleGroup fx:id="genderGroup"/>
+                <ToggleGroup fx:id="genderGroup" />
             </toggleGroup>
         </RadioButton>
-        <RadioButton fx:id="rbF" mnemonicParsing="false" text="F" textFill="white" toggleGroup="$genderGroup">
+        <RadioButton fx:id="rbF" mnemonicParsing="false" text="F" toggleGroup="$genderGroup">
             <HBox.margin>
-                <Insets left="80.0"/>
+                <Insets left="80.0" />
             </HBox.margin>
         </RadioButton>
     </HBox>
-    <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                promptText="Date di Nascita" showWeekNumbers="true"
-                style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"/>
-    <TextField fx:id="textFiscalCode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-               promptText="Codice Fiscale" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"/>
-    <TextField fx:id="textEmail" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Email"
-               style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"/>
-    <TextField fx:id="textTelephone" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-               promptText="Telefono" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"/>
-    <TextField fx:id="textCity" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Città"
-               style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"/>
-    <TextField fx:id="textAddress" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-               promptText="Indirizzo" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"/>
-    <Button fx:id="btn" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#registerClient"
-            text="Salva">
+    <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Date di Nascita" showWeekNumbers="true" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
+    <TextField fx:id="textFiscalCode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Codice Fiscale" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
+    <TextField fx:id="textEmail" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Email" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
+    <TextField fx:id="textTelephone" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Telefono" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
+    <TextField fx:id="textCity" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Città" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
+    <TextField fx:id="textAddress" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Indirizzo" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
+    <Button fx:id="btn" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#registerClient" text="Salva">
         <font>
-            <Font name="Calibri" size="14.0"/>
+            <Font name="Calibri" size="14.0" />
         </font>
     </Button>
     <padding>
-        <Insets bottom="20.0" left="50.0" right="50.0" top="20.0"/>
+        <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
     </padding>
 </VBox>

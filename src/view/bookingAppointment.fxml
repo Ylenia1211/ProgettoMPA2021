@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="pane_main_grid" style="-fx-background-color: #163754;" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" spacing="10.0"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingAppointmentController">
+<VBox fx:id="pane_main_grid" style="-fx-background-color: #d9f3fc;" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" spacing="10.0"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingAppointmentController">
    <!-- <Label fx:id="labelTitle" alignment="CENTER" contentDisplay="TEXT_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Prenotazione Visita " textAlignment="CENTER" textFill="#a6a6a6">
         <font>
             <Font name="Calibri" size="29.0" />

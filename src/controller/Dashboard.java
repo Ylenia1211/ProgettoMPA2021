@@ -7,6 +7,7 @@ import datasource.ConnectionDBH2;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -41,6 +42,7 @@ public class Dashboard  implements Initializable {
     public Button agenda = new Button("Agenda");
     public Button utenti = new Button("Utenti");
     public Button prenotazioni = new Button("Prenotazioni");
+    public Button profilo = new Button("Profilo");
     private String roleUserLogged;
 
     @Override
@@ -153,6 +155,19 @@ public class Dashboard  implements Initializable {
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
+                        }
+                        case "Profilo" -> { // Aggiunto solo per testare il profilo
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/personalProfile.fxml"));
+                                loader.setControllerFactory(p -> new PersonalProfileController(this.roleUserLogged));
+                                borderPane.setCenter(loader.load());
+                                /*
+                                var profile = FXMLLoader.load(getClass().getResource("/view/personalProfile.fxml"));
+                                borderPane.setCenter((Node) profile);*/
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+
                         }
                         case "Logout" ->{
                              //#NON SI PUO FARE //singleton non lo consente

@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="pane_main_grid" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #163754;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportAddDataController">
+<VBox fx:id="pane_main_grid" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #d9f3fc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportAddDataController">
 
-   <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Diagnosi" textFill="WHITE">
+   <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Diagnosi">
       <font>
          <Font name="Calibri" size="18.0" />
       </font>
@@ -21,7 +21,7 @@
          <Font name="Calibri" size="13.0" />
       </font>
    </TextArea>
-   <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Terapia" textFill="WHITE">
+   <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Terapia">
       <font>
          <Font name="Calibri" size="18.0" />
       </font>
@@ -36,12 +36,12 @@
          <Image url="@../resources/Photo_Add-RoundedBlack-512.png" />
       </ImageView>
       <VBox fx:id="allegati" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-         <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Allegati:" textFill="WHITE">
+         <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Allegati:">
             <font>
                <Font name="Calibri" size="14.0" />
             </font>
          </Label>
-         <Label fx:id="firstAttachment" alignment="CENTER" prefWidth="350" text="Nessuno" textAlignment="CENTER" textFill="WHITE">
+         <Label fx:id="firstAttachment" alignment="CENTER" prefWidth="350" text="Nessuno" textAlignment="CENTER">
             <font>
                <Font name="Calibri" size="10.0" />
             </font></Label>

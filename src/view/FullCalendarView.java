@@ -76,7 +76,7 @@ public class FullCalendarView {
             AnchorPane ap = new AnchorPane();
             ap.setPrefSize(200, 10);
             txt.setFont(Font.font("Calibri", 20));
-            txt.setStyle("-fx-text-fill: white");
+            txt.setStyle("-fx-text-fill: #163754");
             setBottomAnchor(txt, 5.0);
             ap.getChildren().add(txt);
             dayLabels.add(ap, col++, 0);
@@ -178,7 +178,7 @@ public class FullCalendarView {
             calendarDate = calendarDate.plusDays(1);
         }
         // Change the title of the calendar
-        calendarTitle.setStyle("-fx-text-fill: white");
+        calendarTitle.setStyle("-fx-text-fill: #163754");
         calendarTitle.setText(yearMonth.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN).toUpperCase(Locale.ROOT)+ "  " + yearMonth.getYear());
     }
 
