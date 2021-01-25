@@ -143,7 +143,7 @@ public class DoctorDashboard implements Initializable{
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/searchReportbyPet.fxml"));
                                 loader.setControllerFactory(p -> new SearchReportController());
-                                Tab bookingVisits = new Tab("Tutte le visite Effettuate", loader.load());
+                                Tab bookingVisits = new Tab("Tutte le visite passate", loader.load());
                                 tabPane.getTabs().clear();
                                 tabPane.getTabs().add(bookingVisits);
                                 tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));

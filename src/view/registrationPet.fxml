@@ -5,33 +5,51 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="pane_main_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistrationPetController">
-    <Label fx:id="labelTitle" alignment="CENTER" contentDisplay="TEXT_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Creazione Dati Paziente " textAlignment="CENTER" textFill="#a6a6a6">
+<VBox fx:id="pane_main_grid" style="-fx-background-color: #163754;" alignment="TOP_CENTER"
+      maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0"
+      minHeight="-Infinity"
+      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.RegistrationPetController">
+    <Label fx:id="labelTitle" alignment="CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308"
+           maxWidth="1.7976931348623157E308" style="-fx-background-color: #3da4e3;" text="Registrazione Pazienti"
+           textFill="WHITE">
         <font>
-            <Font name="Calibri" size="29.0" />
+            <Font size="20.0"/>
         </font>
+        <VBox.margin>
+            <Insets bottom="20.0"/>
+        </VBox.margin>
     </Label>
-    <TextField fx:id="textName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Name" />
-    <TextField fx:id="textSurname" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Surname" />
+    <TextField fx:id="textName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Nome"
+               style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"/>
+    <TextField fx:id="textSurname" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+               promptText="Cognome" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"/>
     <HBox fx:id="gender" alignment="CENTER" fillHeight="false" nodeOrientation="LEFT_TO_RIGHT">
-        <Label prefHeight="25.0" prefWidth="59.0" text="Gender:" />
-        <RadioButton fx:id="rbM" mnemonicParsing="false" text="M">
+        <Label prefHeight="25.0" prefWidth="59.0" text="Sesso:" textFill="white">
+            <font>
+                <Font name="Calibri" size="16.0"/>
+            </font>
+        </Label>
+        <RadioButton fx:id="rbM" mnemonicParsing="false" text="M" textFill="white">
             <toggleGroup>
-                <ToggleGroup fx:id="genderGroup" />
+                <ToggleGroup fx:id="genderGroup"/>
             </toggleGroup>
         </RadioButton>
-        <RadioButton fx:id="rbF" mnemonicParsing="false" text="F" toggleGroup="$genderGroup">
+        <RadioButton fx:id="rbF" mnemonicParsing="false" text="F" textFill="white" toggleGroup="$genderGroup">
             <HBox.margin>
-                <Insets left="80.0" />
+                <Insets left="80.0"/>
             </HBox.margin>
         </RadioButton>
     </HBox>
-    <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Birth Date" showWeekNumbers="true" />
+    <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                promptText="Data di Nascita" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"
+                showWeekNumbers="true" />
 
-    <TextField fx:id="textParticularSign" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Segni Particolari" />
-   <padding>
-      <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
-   </padding>
+    <TextField fx:id="textParticularSign" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+               promptText="Segni Particolari" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754"/>
+    <padding>
+        <Insets bottom="20.0" left="50.0" right="50.0" top="20.0"/>
+    </padding>
 
 
 </VBox>

@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import util.Common;
 import util.FieldVerifier;
@@ -44,6 +45,7 @@ public class ClientController implements Initializable, FieldVerifier {
     public RadioButton rbF;
     public HBox gender;
     public ToggleGroup genderGroup;
+    public double MAX_SIZE = 1.7976931348623157E308;
     private final ConcreteOwnerDAO clientRepo;
 
 
@@ -65,7 +67,10 @@ public class ClientController implements Initializable, FieldVerifier {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setTooltipOnField(); //serve a mettere le etichette su i textfield quando ci si passa sopra con il mouse
-
+        this.btn.setMaxWidth(MAX_SIZE); //MAX_SIZE
+        this.btn.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        this.btn.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
+                " -fx-border-color: transparent; -fx-font-size: 14px; ");
 
         int yearsValid = LocalDate.now().getYear() - 18; //posso registrare solo chi ha almeno 18 anni e non piu di 90 anni
         Common.restrictDatePicker(this.textdateBirth, LocalDate.of(1930, 1,1), LocalDate.of(yearsValid,1,1));
@@ -73,24 +78,22 @@ public class ClientController implements Initializable, FieldVerifier {
         this.textdateBirth.setEditable(false);
         this.textFiscalCode.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
             if (!FieldVerifier.super.fiscalCodeVerifier(newValueFC))
-                this.textFiscalCode.setStyle("-fx-border-color: red");
+                this.textFiscalCode.setStyle("-fx-border-color: red; -fx-border-width: 2px");
               //#todo: quando è settato rosso non devo poter salavre i dati--> messaggio di errore
             else
-                this.textFiscalCode.setStyle("-fx-border-color: lightgreen");
+                this.textFiscalCode.setStyle("-fx-border-color: lightgreen;  -fx-border-width: 2px");
         });
-//        this.textTelephone.setTextFormatter(new TextFormatter<>(change ->
-//                (change.getControlNewText().matches("([1-9][0-9]*)?")) ? change : null));
         this.textTelephone.textProperty().addListener((observableT, oldValueT, newValueT) -> {
             if (!FieldVerifier.super.phoneNumberVerifier(newValueT))
-                this.textTelephone.setStyle("-fx-border-color: red");
+                this.textTelephone.setStyle("-fx-border-color: red;  -fx-border-width: 2px");
             else
-                this.textTelephone.setStyle("-fx-border-color: lightgreen");
+                this.textTelephone.setStyle("-fx-border-color: lightgreen;  -fx-border-width: 2px");
         });
         this.textEmail.textProperty().addListener((observableE, oldValueE, newValueE) -> {
             if (!FieldVerifier.super.emailVerifier(newValueE))
-                this.textEmail.setStyle("-fx-border-color: red");
+                this.textEmail.setStyle("-fx-border-color: red;  -fx-border-width: 2px");
             else
-                this.textEmail.setStyle("-fx-border-color: lightgreen");
+                this.textEmail.setStyle("-fx-border-color: lightgreen;  -fx-border-width: 2px");
         });
     }
 

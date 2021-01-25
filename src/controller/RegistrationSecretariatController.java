@@ -2,6 +2,7 @@ package controller;
 import dao.ConcreteSecretariatDAO;
 import datasource.ConnectionDBH2;
 import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import model.Gender;
 import model.Secretariat;
 
@@ -41,6 +42,7 @@ public class RegistrationSecretariatController extends ClientController{
         this.username.setId("username");
         this.username.setPromptText("Username");
         this.username.setTooltip(new Tooltip("Username"));
+        this.username.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         super.pane_main_grid.getChildren().add(this.username);
     }
 
@@ -49,20 +51,21 @@ public class RegistrationSecretariatController extends ClientController{
         this.passwordRealTime = new Label();
         this.password.setTooltip(new Tooltip("Password"));
         this.password.setId("password");
+        this.password.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         this.password.setPromptText("Inserisci password Utente");
         this.password.setOnKeyReleased( e-> {
             String checkPassword = this.password.getText();
             System.out.println(checkPassword);
             if (checkPassword.length() < 6) {
                 passwordRealTime.setText("Password poco sicura");
-                passwordRealTime.setStyle("-fx-text-fill: red");
+                passwordRealTime.setStyle("-fx-text-fill: red;-fx-font-size: 14px;");
             } else {
                 passwordRealTime.setText("Password mediamente sicura");
-                passwordRealTime.setStyle("-fx-text-fill: #b0511a");
+                passwordRealTime.setStyle("-fx-text-fill: #b0511a;-fx-font-size: 14px;");
             }
             if (checkPassword.length() >= 6 && checkPassword.matches(".*\\d.*")) {
                 passwordRealTime.setText("Password molto sicura");
-                passwordRealTime.setStyle("-fx-text-fill: green");
+                passwordRealTime.setStyle("-fx-text-fill: green;-fx-font-size: 14px;");
             }
 
         });
@@ -73,7 +76,8 @@ public class RegistrationSecretariatController extends ClientController{
     public  void addButtonSave()  {
         this.saveBtn = new Button("Salva");
         this.saveBtn.setId("saveBtn");
-        this.saveBtn.setPrefWidth(200);
+        this.saveBtn.setMaxWidth(MAX_SIZE); //MAX_SIZE
+        this.saveBtn.setPrefWidth(Region.USE_COMPUTED_SIZE);
         this.saveBtn.setPrefHeight(30);
         this.saveBtn.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");

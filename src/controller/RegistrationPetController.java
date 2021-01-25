@@ -38,7 +38,7 @@ public class RegistrationPetController implements Initializable {
     public Button btn;
     private ConcretePetDAO petRepo;
     private Map<String, String> listClient;
-
+    public double MAX_SIZE = 1.7976931348623157E308;
     //servono per il campo ricerca
     private GridPane container;
     private  HBox searchBox;
@@ -70,6 +70,10 @@ public class RegistrationPetController implements Initializable {
     public  void addButtonSave()  {
         this.btn = new Button("Salva");
         this.btn.setId("btn");
+        this.btn.setMaxWidth(MAX_SIZE); //MAX_SIZE
+        this.btn.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        this.btn.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
+                " -fx-border-color: transparent; -fx-font-size: 14px; ");
         this.pane_main_grid.getChildren().add(this.btn);
     }
 
@@ -140,9 +144,12 @@ public class RegistrationPetController implements Initializable {
         this.listClient = this.petRepo.searchAllClientByFiscalCod(); //ricerca per codice fiscale
         this.container = new GridPane();
         this.searchBox = new HBox();
-        this.searchText = new TextField();
+        this.searchText = new TextField("");
+
         //this.container.setGridLinesVisible(true);
+        this.searchText.setPrefWidth(800);
         this.container.setAlignment(Pos.CENTER);
+        this.searchText.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         this.searchText.setPromptText("Inserisci Codice Fiscale Cliente");
         //System.out.println(this.container.getAlignment().name());
         // aaggiungere un ascoltatore per ascoltare le modifiche nel campo di testo
@@ -154,9 +161,13 @@ public class RegistrationPetController implements Initializable {
         });
 
         Button clean = new Button("Cancella");
+        clean.setPrefWidth(100);
+        clean.setStyle("-fx-text-fill: white; -fx-background-color: #3da4e3");
         clean.setOnMouseClicked((e) -> {
            this.searchText.clear();
-           this.dropDownMenu.getChildren().clear();
+           if(this.dropDownMenu != null) { // necessario senno NUllPointer exception
+               this.dropDownMenu.getChildren().clear();
+           }
         });
         //Button search = new Button("Search");
 
@@ -175,15 +186,14 @@ public class RegistrationPetController implements Initializable {
         dropDownMenu = new VBox();
         dropDownMenu.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null)));
         //dropDownMenu.setAlignment(Pos.CENTER);
-
         for (String option : options) {
             //  se il testo dato non è vuoto e non è composto solo da spazi
             if (!text.replace(" ", "").isEmpty() && option.toUpperCase().contains(text.toUpperCase())) {
                 Label label = new Label(option); // create a label and inserisce il testo dell'opzione
                 // per poter cliccare sulle opzioni del menu a tendina
                 dropDownMenu.getChildren().add(label); // inserisce label a VBox
-                label.setOnMouseEntered((e) -> {label.setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null))); } );
-                label.setOnMouseExited((e) -> {label.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null))); } );
+                label.setOnMouseEntered((e) -> label.setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null))));
+                label.setOnMouseExited((e) -> label.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null))));
                 label.setOnMouseClicked((e) -> {
                     this.searchText.setText(label.getText());
                     this.dropDownMenu.getChildren().clear();  //pulisce il drop-menu generale
@@ -195,10 +205,12 @@ public class RegistrationPetController implements Initializable {
 
     public void addFieldRace()  {
         List<String> listRace =this.petRepo.searchAllRace();
-        this.textPetRace = new ComboBox(FXCollections
+        this.textPetRace = new ComboBox<>(FXCollections
                 .observableArrayList(listRace));
         this.textPetRace.setId("petRace");
         this.textPetRace.setPromptText("Razza");
+        this.textPetRace.setMaxWidth(MAX_SIZE);
+        this.textPetRace.setPrefWidth(Region.USE_COMPUTED_SIZE);
         this.pane_main_grid.getChildren().add(this.textPetRace);
     }
 

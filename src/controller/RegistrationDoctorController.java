@@ -4,6 +4,7 @@ import dao.ConcreteDoctorDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import model.Doctor;
 import model.Gender;
 
@@ -51,7 +52,8 @@ public class RegistrationDoctorController extends ClientController{
         this.specialization.setId("specialization");
         this.specialization.setPromptText("Scegli specializzazione");
         this.specialization.setTooltip(new Tooltip("Specializzazione in un tipo di visita"));
-
+        this.specialization.setMaxWidth(MAX_SIZE);
+        this.specialization.setPrefWidth(Region.USE_COMPUTED_SIZE);
         super.pane_main_grid.getChildren().add(this.specialization);
     }
 
@@ -59,6 +61,7 @@ public class RegistrationDoctorController extends ClientController{
     public void addFieldUsername()  {
         this.username = new TextField();
         this.username.setId("username");
+        this.username.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         this.username.setPromptText("Username");
         this.username.setTooltip(new Tooltip("Username"));
         super.pane_main_grid.getChildren().add(this.username);
@@ -67,6 +70,7 @@ public class RegistrationDoctorController extends ClientController{
     public  void addFieldPassword()  {
         this.passwordRealTime = new Label();
         this.password = new PasswordField();
+        this.password.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         this.password.setTooltip(new Tooltip("Password"));
         this.password.setId("password");
         this.password.setPromptText("Inserisci password Utente");
@@ -75,14 +79,14 @@ public class RegistrationDoctorController extends ClientController{
             System.out.println(checkPassword);
             if (checkPassword.length() < 6) {
                 passwordRealTime.setText("Password poco sicura");
-                passwordRealTime.setStyle("-fx-text-fill: red");
+                passwordRealTime.setStyle("-fx-text-fill: red; -fx-font-size: 14px;");
             } else {
                 passwordRealTime.setText("Password mediamente sicura");
-                passwordRealTime.setStyle("-fx-text-fill: #b0511a");
+                passwordRealTime.setStyle("-fx-text-fill: #b0511a;-fx-font-size: 14px;");
             }
             if (checkPassword.length() >= 6 && checkPassword.matches(".*\\d.*")) {
                 passwordRealTime.setText("Password molto sicura");
-                passwordRealTime.setStyle("-fx-text-fill: green");
+                passwordRealTime.setStyle("-fx-text-fill: green;-fx-font-size: 14px;");
             }
 
         });
@@ -93,7 +97,8 @@ public class RegistrationDoctorController extends ClientController{
     public  void addButtonSave()  {
         this.saveBtn = new Button("Salva");
         this.saveBtn.setId("saveBtn");
-        this.saveBtn.setPrefWidth(200);
+        this.saveBtn.setMaxWidth(MAX_SIZE); //MAX_SIZE
+        this.saveBtn.setPrefWidth(Region.USE_COMPUTED_SIZE);
         this.saveBtn.setPrefHeight(30);
         this.saveBtn.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
