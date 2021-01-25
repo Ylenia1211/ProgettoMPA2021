@@ -47,7 +47,7 @@ public class Dashboard  implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setUserLogged(SessionUser.getUser());
+        setUserLogged(SessionUser.getUserLogged());
        //costruzione delle azioni della sideBar in base al Ruolo dell'utente loggato,  utilizzando il Pattern Factory
         SideBarAction sideBarByRole = SideBarFactory.createSideBar(this.roleUserLogged);  //mi serve il ruolo dell'utente loggato
         try {
@@ -67,10 +67,10 @@ public class Dashboard  implements Initializable {
         this.roleUserLogged = user.getRole();
         switch (this.roleUserLogged){
             case "Dottore" -> {
-                this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getDoctor().getName() + SessionUser.getDoctor().getSurname());
+                this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getDoctor().getName() + " " + SessionUser.getDoctor().getSurname());
             }
             case "Segreteria" -> {
-                this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getSecretariat().getName() + SessionUser.getSecretariat().getSurname());
+                this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getSecretariat().getName() + " " + SessionUser.getSecretariat().getSurname());
             }
             case "Amministratore" -> {
                 this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getAdmin().getUsername());
@@ -170,14 +170,12 @@ public class Dashboard  implements Initializable {
 
                         }
                         case "Logout" ->{
-                             //#NON SI PUO FARE //singleton non lo consente
-                            //button.getScene().getWindow().hide();
                             Stage home = new Stage();
                             try {
                                 //cambia schermata --> login
                                 close();
                                 Parent rootLogin = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
-                                LoginController.setInstance();
+                                SessionUser.logout();
                                 Scene scene = new Scene(rootLogin);
                                 home.setScene(scene);
                                 home.initStyle(StageStyle.TRANSPARENT); //per nascondere la barra in alto

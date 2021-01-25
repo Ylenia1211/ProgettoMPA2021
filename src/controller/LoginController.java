@@ -34,33 +34,17 @@ public class LoginController implements Initializable {
     private ComboBox<String> textRoleUser;
     private ConcreteLoginDAO loginRepo;
     private User userLogged;
-    private static LoginController instance; // Singleton: mi serve per prendere l'utente loggato
-    private Object userData;
+    //private static LoginController instance; // Singleton: mi serve per prendere l'utente loggato
 
     // Quando il client deve usare l’oggetto, lo può richiamare invocando
                                                                           //il metodo getInstance
     public LoginController() {
-        instance = this;
+        //instance = this;
         this.loginRepo = new ConcreteLoginDAO(ConnectionDBH2.getInstance());
 
     }
 
 
-    public static LoginController getInstance() {
-        return Objects.requireNonNullElseGet(instance, () -> instance = new LoginController());
-    }
-
-    public static void setInstance() {
-        LoginController.instance = null;
-    }
-
-    public Object getUserData() {
-        return userData;
-    }
-
-    public User getUserLogged() {
-        return userLogged;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -89,6 +73,7 @@ public class LoginController implements Initializable {
 
             if (result) {
                 btnLogin.getScene().getWindow().hide();
+                SessionUser.login(this.userLogged);
                 Stage home = new Stage();
                 AtomicReference<Double> x = new AtomicReference<>((double) 0);
                 AtomicReference<Double> y = new AtomicReference<>((double) 0);
