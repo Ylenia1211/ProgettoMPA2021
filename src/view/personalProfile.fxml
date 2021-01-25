@@ -24,10 +24,10 @@
             </VBox.margin>
             </ImageView>
             <!--            <Button fx:id="profilePicButton" mnemonicParsing="false" onAction="#changeProfilePic" style="-fx-background-color: #3da4e3;" text="Cambia foto profilo" textFill="WHITE" />-->
-            <Button fx:id="profilePicButton" mnemonicParsing="false" onAction="#changeProfilePic" style="-fx-background-color: #3da4e3;" text="Cambia foto profilo" textFill="WHITE" />
+        <!--    <Button fx:id="profilePicButton" mnemonicParsing="false" onAction="#changeProfilePic" style="-fx-background-color: #3da4e3;" text="Cambia foto profilo" textFill="WHITE" />-->
          <CheckBox fx:id="checkboxUpdate" mnemonicParsing="false" style="-fx-text-fill:#163754;" text="Abilita Modifica">
             <padding>
-               <Insets top="140.0" />
+               <Insets top="180.0" />
             </padding>
             <font>
                <Font size="14.0" />
@@ -90,6 +90,11 @@
                             <Font size="14.0" />
                         </font>
                     </Label>
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" style="-fx-text-fill: #163754;" text="Password">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </Label>
                 </VBox>
                 <VBox fx:id="labelsFields" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="337.0" prefWidth="218.0" spacing="3.0" HBox.hgrow="ALWAYS">
                     <TextField fx:id="name" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="185.0" />
@@ -114,6 +119,7 @@
                     <TextField fx:id="fiscalCode" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     <TextField fx:id="email" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     <TextField fx:id="username" editable="false" />
+                    <PasswordField fx:id="password" editable="false" />
                     <HBox.margin>
                         <Insets />
                     </HBox.margin>
