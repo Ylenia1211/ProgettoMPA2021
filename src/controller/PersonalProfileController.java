@@ -63,6 +63,7 @@ public class PersonalProfileController implements Initializable {
 
         switch (roleUserLogged) {
             case "Dottore" -> {
+                var debugSession = SessionUser.getDoctor();
                 this.id_doctor = this.doctorRepo.search(SessionUser.getDoctor());
                 this.doctor = this.doctorRepo.searchById(this.id_doctor);
             }
@@ -147,6 +148,7 @@ public class PersonalProfileController implements Initializable {
             if (this.doctorRepo.isNotDuplicate(d)) {
                 try {
                     this.doctorRepo.update(this.id_doctor, d);
+                    SessionUser.updateProfile(d);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -158,6 +160,7 @@ public class PersonalProfileController implements Initializable {
             if (this.secretariatRepo.isNotDuplicate(s)) {
                 try {
                     this.secretariatRepo.update(this.id_secretariat, s);
+                    SessionUser.updateProfile(s);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

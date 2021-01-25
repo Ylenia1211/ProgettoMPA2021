@@ -75,4 +75,10 @@ public class SessionUser { //singleton per la connessione dell'utente
         return doctor;
     }
 
+    public static void updateProfile(Doctor doctor_) {
+        doctor = doctor_;
+    }
+    public static void updateProfile(Secretariat secretariat_) {
+        secretariat = secretariat_;
+    }
 }
