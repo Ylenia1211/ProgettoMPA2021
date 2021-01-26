@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.Appointment;
+import util.FieldVerifier;
 
 import javax.swing.*;
 import java.net.URL;
@@ -24,7 +25,7 @@ import java.util.stream.Stream;
 
 import static controller.RegistrationPetController.getKeyByValue;
 
-public class BookingAppointmentController implements Initializable {
+public class BookingAppointmentController implements Initializable, FieldVerifier {
     public VBox pane_main_grid;
     public Label labelTitle;
     public DatePicker textdateVisit;
@@ -129,19 +130,13 @@ public class BookingAppointmentController implements Initializable {
         return textTimeDuration;
     }
 
-    public boolean checkNull(Stream<Object> fields) {
-       return fields.allMatch(Objects::isNull);
-    }
-
-    public boolean checkEmptyComboBox(Stream<ComboBox<? extends Object>> fields) {
-        return fields.allMatch( x -> x.getValue()==null);
-    }
 
     public void registrationVisit(ActionEvent actionEvent) throws IllegalAccessException {
         // ricerca prenotazioni per quel dottore in quella data
         Stream<Object> fieldsText;
         fieldsText = Stream.of( this.idDoctorSearched,this.specializationDoctor,this.idOwnerSearched);
         var fieldsComboBox =  Stream.of(this.textPet, this.textTimeStart, this.textMinutesTimeStart, this.textTimeDuration);
+
 
         if(checkNull(fieldsText) || checkEmptyComboBox(fieldsComboBox)) {
             JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Devi riempire tutti i campi!");

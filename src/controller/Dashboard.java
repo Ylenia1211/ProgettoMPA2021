@@ -36,13 +36,7 @@ import java.util.ResourceBundle;
 public class Dashboard  implements Initializable {
     public BorderPane borderPane;
     public Label labelWelcome;
-
     public VBox sidebar;
-    public Button pazienti = new Button("Pazienti");
-    public Button agenda = new Button("Agenda");
-    public Button utenti = new Button("Utenti");
-    public Button prenotazioni = new Button("Prenotazioni");
-    public Button profilo = new Button("Profilo");
     private String roleUserLogged;
 
     @Override
@@ -65,7 +59,7 @@ public class Dashboard  implements Initializable {
 
     public void setUserLogged(User user){
         this.roleUserLogged = user.getRole();
-        this.labelWelcome.setText("Benvenuto "+ this.roleUserLogged + "!");
+        this.labelWelcome.setText("  Benvenuto "+ this.roleUserLogged + "!");
     }
 
     public BorderPane getBorderPane() {
@@ -118,14 +112,23 @@ public class Dashboard  implements Initializable {
                         }
                         case "Utenti" -> { //admin
                             try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
-                                loader.setControllerFactory(p -> new RegistrationDoctorController());
-                                Tab dottore = new Tab("Nuovo Dottore", loader.load());
+                                FXMLLoader loaderDoctor = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
+                                loaderDoctor.setControllerFactory(p -> new RegistrationDoctorController());
+                                Tab nuovoDottore = new Tab("Nuovo Dottore", loaderDoctor.load());
+                                Tab dottori = new Tab("Dottori", FXMLLoader.load(getClass().getResource("/view/showTableDoctor.fxml")));
+
+                                //segreteria
+                                FXMLLoader loaderSecretariat = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
+                                loaderSecretariat.setControllerFactory(p -> new RegistrationSecretariatController());
+                                Tab nuovaSegreteria = new Tab("Nuovo Segreteria", loaderSecretariat.load());
+                                Tab segreteria = new Tab("Segreteria", FXMLLoader.load(getClass().getResource("/view/showTableSecretariat.fxml")));
                                 tabPane.getTabs().clear();
-                                tabPane.getTabs().add(dottore);
-                                // Tab nuovaSegreteria = new Tab("Nuova Segreteria", FXMLLoader.load(getClass().getResource("")));
-                                // tabPane.getTabs().clear();
-                                //tabPane.getTabs().add(nuovoPaziente);
+                                tabPane.getTabs().add(nuovoDottore);
+                                tabPane.getTabs().add(dottori);
+                                tabPane.getTabs().add(nuovaSegreteria);
+                                tabPane.getTabs().add(segreteria);
+                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -139,7 +142,24 @@ public class Dashboard  implements Initializable {
                                 Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
                                 tabPane.getTabs().clear();
                                 tabPane.getTabs().add(bookingVisits);
+                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                        case "Report" -> { //dottore
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/searchReportbyPet.fxml"));
+                                loader.setControllerFactory(p -> new SearchReportController());
+                                Tab bookingVisits = new Tab("Tutte le visite passate", loader.load());
+                                tabPane.getTabs().clear();
+                                tabPane.getTabs().add(bookingVisits);
+                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+                                borderPane.setCenter(tabPane);
+
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }

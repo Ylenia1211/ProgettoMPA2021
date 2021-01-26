@@ -1,5 +1,10 @@
 package util;
 
+import javafx.scene.control.ComboBox;
+
+import java.util.Objects;
+import java.util.stream.Stream;
+
 public interface FieldVerifier {
 
     default boolean fiscalCodeVerifier(String fiscalCode){
@@ -17,5 +22,14 @@ public interface FieldVerifier {
     default boolean phoneNumberVerifier(String number){
         return number.matches("^(\\((00|\\+)39\\)|(00|\\+)39)?(38[890]|35[01]|34[7-90]|36[680]|33[3-90]|32[0-9])\\d{7}$");
     }
+
+    default boolean checkNull(Stream<Object> fields) {
+        return fields.anyMatch(Objects::isNull);
+    }
+
+    default boolean checkEmptyComboBox(Stream<ComboBox<? extends Object>> fields) {
+        return fields.anyMatch( x -> x.getValue()==null);
+    }
+
 
 }
