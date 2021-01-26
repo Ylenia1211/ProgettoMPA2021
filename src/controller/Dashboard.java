@@ -99,6 +99,20 @@ public class Dashboard  implements Initializable {
                 Parent root;
                 try {
                     switch (button.getText()) {
+                        case "Aggiungi" -> {  //segretaria
+                            Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
+                            Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
+                            loader.setControllerFactory(p -> new BookingAppointmentController());
+                            Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
+                            tabPane.getTabs().clear();
+
+                            tabPane.getTabs().add(nuovoClient);
+                            tabPane.getTabs().add(nuovoPaziente);
+                            tabPane.getTabs().add(bookingVisits);
+                            tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+                            borderPane.setCenter(tabPane);
+                        }
                         case "Clienti" -> {  //segretaria
                             Tab clienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showTableOwner.fxml")));
                             tabPane.getTabs().clear();
@@ -110,12 +124,8 @@ public class Dashboard  implements Initializable {
                             FXMLLoader loaderPet = new FXMLLoader(getClass().getResource("/view/showTablePet.fxml"));
                             loaderPet.setControllerFactory(p -> new ShowTableAllPetController());
                             Tab pazienti = new Tab("Pazienti", loaderPet.load());
-                            Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
-                            Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
                             tabPane.getTabs().clear();
                             tabPane.getTabs().add(pazienti);
-                            tabPane.getTabs().add(nuovoClient);
-                            tabPane.getTabs().add(nuovoPaziente);
                             tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                             borderPane.setCenter(tabPane);
                         }
@@ -146,12 +156,10 @@ public class Dashboard  implements Initializable {
                         }
                         case "Prenotazioni" -> { //segretaria
                             try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
-                                loader.setControllerFactory(p -> new BookingAppointmentController());
-                                Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/searchBookingByPet.fxml"));
+                                Tab bookingVisitsFuture = new Tab("Prenotazioni Visite (ancora da effettuare)", loader.load());
                                 tabPane.getTabs().clear();
-                                tabPane.getTabs().add(bookingVisits);
-                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+                                tabPane.getTabs().add(bookingVisitsFuture);
                                 tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
                             } catch (IOException ex) {

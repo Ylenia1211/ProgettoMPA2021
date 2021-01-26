@@ -1,8 +1,10 @@
 package util.gui;
 
+import controller.UpdateBookingAppointmentController;
 import controller.UpdateDoctorController;
 import controller.UpdatePetController;
 import controller.UpdateSecretariatController;
+import dao.ConcreteAppointmentDAO;
 import dao.ConcreteDoctorDAO;
 import dao.ConcretePetDAO;
 import dao.ConcreteSecretariatDAO;
@@ -64,6 +66,11 @@ public class ButtonTable{
                                            }
                                        }
                                     }
+                                    case "/view/bookingAppointment.fxml" ->{
+                                        FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
+                                        loader.setControllerFactory(p -> new UpdateBookingAppointmentController((Appointment) data));
+                                        borderPane.setCenter(loader.load());
+                                    }
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -107,6 +114,7 @@ public class ButtonTable{
                                 if(object.equals(Pet.class)){
                                     var petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
                                     String id = petRepo.search((Pet) data);
+                                    //#todo: dovrei cancellare anche le prenotazioni a suo carico con data >= a quella di oggi
                                     petRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
                                 }else if (object.equals(Doctor.class)){
@@ -119,6 +127,11 @@ public class ButtonTable{
                                     var secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
                                     String id = secretariatRepo.search((Secretariat) data);
                                     secretariatRepo.delete(id);
+                                    tableView.getItems().remove(data); //elimina graficamente
+                                }else if(object.equals((Appointment.class))){
+                                    var appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
+                                    String id = appointmentRepo.search((Appointment) data);
+                                    appointmentRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
                                 }
                                 //#Todo: lo stesso per gli altri elementi
@@ -142,4 +155,5 @@ public class ButtonTable{
         colBtn.setCellFactory(cellFactory);
         return colBtn;
     }
+
 }

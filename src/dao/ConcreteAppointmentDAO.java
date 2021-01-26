@@ -553,4 +553,17 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return null;
         }
     }
+
+    @Override
+    public List<Appointment> findAllVisitPetAfterDate(String name, String surname, LocalDate date) {
+        List<Appointment> listAllAppointment = findAllVisitPet(name, surname);
+        if(!listAllAppointment.isEmpty()) {
+            return listAllAppointment.stream()
+                    .filter(item -> (item.getLocalDate().isAfter(date) ||(item.getLocalDate().isEqual(date))))
+                    .collect(Collectors.toList());
+        } else{
+            JOptionPane.showMessageDialog(null, "La ricerca è vuota!");
+            return null;
+        }
+    }
 }

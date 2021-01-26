@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import java.util.List;
 
 public class SecretariatSideBar implements SideBarAction{
+    public Button add = new Button("Aggiungi");
     public Button profilo = new Button("Profilo");
     public Button pazienti = new Button("Pazienti");
     public Button clienti = new Button("Clienti");
@@ -12,6 +13,6 @@ public class SecretariatSideBar implements SideBarAction{
     public Button logout = new Button("Logout");
     @Override
     public List<Button> getSpecificAction() {
-        return List.of(clienti,pazienti,prenotazioni,profilo,logout);//aggiungere qui nuovi comandi per segretaria
+        return List.of(add,clienti,pazienti,prenotazioni,profilo,logout);//aggiungere qui nuovi comandi per segretaria
     }
 }

@@ -116,13 +116,13 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
         String idOwnerSearched = getKeyByValue(listClient,this.searchText.getText());
         System.out.println(idOwnerSearched);
         return new Pet.Builder<>()
-                .addName(this.textName.getText())
-                .addSurname(this.textSurname.getText())
+                .addName(this.textName.getText().toUpperCase())
+                .addSurname(this.textSurname.getText().toUpperCase())
                 .addSex((chk.getText().equals("M") ? Gender.M : Gender.F))
                 .addDateBirth(this.textdateBirth.getValue())
                 .setId_petRace((String) this.textPetRace.getValue())
                 .setId_owner(idOwnerSearched)
-                .setParticularSign( this.textParticularSign.getText())
+                .setParticularSign( this.textParticularSign.getText().toUpperCase())
                 .build();
     }
 

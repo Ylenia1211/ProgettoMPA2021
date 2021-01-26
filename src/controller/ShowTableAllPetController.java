@@ -39,7 +39,7 @@ public class ShowTableAllPetController implements Initializable {
         col_type.setCellValueFactory(new PropertyValueFactory<>("id_petRace"));  //nome dell'attributo nella classe
         col_particularSign.setCellValueFactory(new PropertyValueFactory<>("particularSign"));
         List<Pet> petsResult = this.petRepo.findAll();
-        listItems.addAll(petsResult); //scrittura piu compatta
+        listItems.addAll(petsResult);
         tableSpecificPets.setItems(listItems);
         var colBtnUpdate =  addButtonUpdateToTable("/view/registrationPet.fxml", tableSpecificPets, -1);
         tableSpecificPets.getColumns().add((TableColumn<Pet, ?>) colBtnUpdate);

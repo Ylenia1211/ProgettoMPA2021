@@ -59,8 +59,7 @@ public class SearchReportController  implements Initializable {
             if ((newValueFC).matches(("[A-Za-z]*\s[A-Za-z]+"))){
 
                 searchbtn.setOnMouseClicked(event -> {
-                    //System.out.println("Effettuare la ricerca ");
-                    String[] fieldSplitted = newValueFC.split("\s");
+                    String[] fieldSplitted = newValueFC.toUpperCase().split("\s");
                     List<Appointment> prevAppointmentsPet = this.appointmentRepo.findAllVisitPetBeforeDate(fieldSplitted[0],fieldSplitted[1], LocalDate.now());
                     //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
                     tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(prevAppointmentsPet, ArrayList::new)));
@@ -189,27 +188,18 @@ public class SearchReportController  implements Initializable {
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
                 final TableCell<Appointment, Void> cell = new TableCell<>() {
                     private final Button btn = new Button("Dettagli");
-
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
-                            //System.out.println("Print idOwner prenotazione" + data.getId_owner());
                             Scene scene = this.getScene();
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showInfoOwnerPet.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return new ShowInfoOwnerPetController(data);
-                                    }
-
-                                });
+                                loader.setControllerFactory(p -> new ShowInfoOwnerPetController(data));
                                 borderPane.setCenter(loader.load());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            ;
-                            System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
                         });
                     }
 

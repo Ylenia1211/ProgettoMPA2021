@@ -75,16 +75,13 @@ public class ShowTableOwnerController implements Initializable {
                     Owner rowData = row.getItem(); // i valori su la row
                     String idOwnerSearched = clientRepo.search(rowData);
                     BorderPane borderPane = (BorderPane) this.tableClient.getScene().lookup("#borderPane");
-
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showTablePet.fxml"));
                         loader.setControllerFactory(p -> new ShowTablePetController(idOwnerSearched));
                         borderPane.setCenter(loader.load());
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             });
             return row ;
