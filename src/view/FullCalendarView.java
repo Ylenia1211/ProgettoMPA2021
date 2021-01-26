@@ -5,8 +5,10 @@ import controller.LoginController;
 import dao.ConcreteAppointmentDAO;
 import dao.ConcreteDoctorDAO;
 import datasource.ConnectionDBH2;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -77,6 +79,8 @@ public class FullCalendarView {
             ap.setPrefSize(200, 10);
             txt.setFont(Font.font("Calibri", 20));
             txt.setStyle("-fx-text-fill: white");
+            GridPane.setHalignment(txt, HPos.CENTER); // To align horizontally in the cell
+            GridPane.setValignment(txt, VPos.CENTER); // To align vertically in the cell
             setBottomAnchor(txt, 5.0);
             ap.getChildren().add(txt);
             dayLabels.add(ap, col++, 0);

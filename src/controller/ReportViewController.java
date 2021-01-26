@@ -214,16 +214,18 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 this.deleteFirstAttachmentButton.setVisible(true);
                 this.deleteFirstAttachmentButton.setOnMouseClicked(mouseEvent -> {
                     this.firstAttachment.setText("Nessuno");
-                    this.firstAttachment.setAlignment(Pos.CENTER_LEFT);
+                    this.firstAttachment.setAlignment(Pos.CENTER);
                     this.deleteFirstAttachmentButton.setVisible(false);
                     this.textPath.clear();
+                    this.textPath.setText(filePath);
                 });
                 this.firstAttachment.setText(filePath);
             }
-            else
-                this.allegati.getChildren().add(new Label(filePath));
+            else{
+                this.textPath.setAlignment(Pos.CENTER_LEFT);
+                this.textPath.setText(filePath);
+            }
             this.attachments.add(filePath);
-            this.textPath.setText(filePath);
         }
     }
 }

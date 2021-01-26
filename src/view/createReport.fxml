@@ -19,96 +19,110 @@
                 </font>
             </Label>
             <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                <children>
-                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0">
-                        <children>
-                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Nome">
-                                <font>
-                                    <Font size="14.0" />
-                                </font>
-                            </Label>
-                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Cognome">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Sesso">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Data di Nascita">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Indirizzo">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Città">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Codice Fiscale">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Email">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                        </children>
-                    </VBox>
-                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0">
-                        <children>
-                            <Label fx:id="nameOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Nome Cliente">
-                                <font>
-                                    <Font size="14.0" />
-                                </font>
-                            </Label>
-                            <Label fx:id="surnameOwner" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Cognome Cliente">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label fx:id="sexOwner" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Sesso Cliente">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label fx:id="datebirthOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Data Nascita Cliente">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label fx:id="addressOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Indirizzo Cliente">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label fx:id="cityOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Città Cliente">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label fx:id="codFiscalOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Cod. Cliente">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                            <Label fx:id="emailOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Email Cliente">
-                                <font>
-                                    <Font size="13.0" />
-                                </font>
-                            </Label>
-                        </children>
-                    </VBox>
-                </children>
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0">
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: white;" text="Nome">
+                        <font>
+                            <Font size="14.0"/>
+                        </font>
+                    </Label>
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: #cbeaf5;" text="Cognome">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: white;" text="Sesso">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: #cbeaf5;" text="Data di Nascita">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: white;" text="Indirizzo">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: #cbeaf5;" text="Città">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: white;" text="Codice Fiscale">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: #cbeaf5;" text="Email">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0">
+                    <Label fx:id="nameOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: white;" text="Nome Cliente">
+                        <font>
+                            <Font size="14.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="surnameOwner" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308"
+                           maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;"
+                           text="Cognome Cliente">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="sexOwner" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308"
+                           maxWidth="1.7976931348623157E308" style="-fx-background-color: white;"
+                           text="Sesso Cliente">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="datebirthOwner" maxHeight="1.7976931348623157E308"
+                           maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;"
+                           text="Data Nascita Cliente">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="addressOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: white;" text="Indirizzo Cliente">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="cityOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: #cbeaf5;" text="Città Cliente">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="codFiscalOwner" maxHeight="1.7976931348623157E308"
+                           maxWidth="1.7976931348623157E308" style="-fx-background-color: white;"
+                           text="Cod. Cliente">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="emailOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: #cbeaf5;" text="Email Cliente">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                </VBox>
             </HBox>
         </VBox>
         <Line startY="150.0" stroke="#cbeaf5" strokeWidth="2.0" />
@@ -152,38 +166,43 @@
                     </Label>
                 </VBox>
                 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0">
-                    <children>
-                        <Label fx:id="namePet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Nome pet">
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="surnamePet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Cognome Pet">
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="sexPet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Sesso Pet">
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="datebirthPet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Data Nascita Pet">
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="racePet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Razza Pet">
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="particularSignPet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="400.0" style="-fx-background-color: #cbeaf5;" text="Segni Pet">
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                        </Label>
-                    </children>
+                    <Label fx:id="namePet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: white;" text="Nome pet">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="surnamePet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: #cbeaf5;" text="Cognome Pet">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="sexPet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: white;" text="Sesso Pet">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="datebirthPet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: #cbeaf5;" text="Data Nascita Pet">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="racePet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           style="-fx-background-color: white;" text="Razza Pet">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="particularSignPet" maxHeight="1.7976931348623157E308"
+                           maxWidth="1.7976931348623157E308" prefWidth="400.0" style="-fx-background-color: #cbeaf5;"
+                           text="Segni Pet">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
                 </VBox>
             </HBox>
         </VBox>
@@ -237,6 +256,6 @@
         </VBox>
     </HBox>
     <padding>
-        <Insets left="20.0" right="20.0" />
+        <Insets left="5.0" right="5.0" />
     </padding>
 </VBox>

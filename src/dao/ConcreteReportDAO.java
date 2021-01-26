@@ -36,6 +36,7 @@ public class ConcreteReportDAO implements ReportDAO {
         }
     }
 
+    // Todo: Capire cosa farci di questa
     @Override
     public List<Report> findAll() {
         return null;

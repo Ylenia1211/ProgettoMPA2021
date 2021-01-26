@@ -47,13 +47,20 @@ public class DoctorDashboard implements Initializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        staticBorderPane = borderPane;
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/view/agenda.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        borderPane.setCenter(root);
+//        staticBorderPane = borderPane;
     }
 
 
-    public static BorderPane getStaticBorderPane() {
-        return staticBorderPane;
-    }
+//    public static BorderPane getStaticBorderPane() {
+//        return staticBorderPane;
+//    }
 
     public void setButtons (VBox vBox, Button... buttons) throws IOException {
         DropShadow shadow = new DropShadow();

@@ -65,7 +65,7 @@ public class PersonalProfileController implements Initializable{
                     filePath.endsWith(".gif")) {
                 InputStream stream = new FileInputStream(filePath);
                 try {
-                    stream = new FileInputStream("D:\\images\\elephant.jpg");
+                    stream = new FileInputStream(filePath);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
