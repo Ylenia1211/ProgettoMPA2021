@@ -1,6 +1,7 @@
 package util;
 
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -27,9 +28,17 @@ public interface FieldVerifier {
         return fields.anyMatch(Objects::isNull);
     }
 
+    default boolean checkEmptyTextField(Stream<TextField> fields) {
+        return fields.anyMatch( x -> x.getText().isEmpty());
+    }
+
     default boolean checkEmptyComboBox(Stream<ComboBox<? extends Object>> fields) {
         return fields.anyMatch( x -> x.getValue()==null);
     }
 
+    /* controlla che i campi telefono email codice fiscale siano idonei */
+    default boolean checkAllFieldWithControlRestricted(Stream<TextField> fields) {
+        return fields.anyMatch( x -> x.getStyle().contains("-fx-border-color: red"));
+    }
 
 }

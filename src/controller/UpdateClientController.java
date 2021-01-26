@@ -24,20 +24,24 @@ public class UpdateClientController extends ClientController{
     public void initialize(URL url, ResourceBundle resourceBundle) {
            super.initialize(url, resourceBundle);
            setParam(own);
-           //System.out.println("Name " + own.getName());
     }
 
     @Override
     public void registerClient(ActionEvent actionEvent){
-        Owner p = createOwner();
-        if(super.getClientRepo().isNotDuplicate(p)){
-            try {
-                super.getClientRepo().update(id, p);
-            } catch (Exception e) {
-                e.printStackTrace();
+        if(!checkEmptyTextField(super.getFieldsText()) && !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict())) {
+            Owner p = createOwner();
+            if (super.getClientRepo().isNotDuplicate(p)) {
+                try {
+                    super.getClientRepo().update(id, p);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Impossibile creare il cliente! Già esistente!");
             }
-        }else {
-            JOptionPane.showMessageDialog(null, "Impossibile creare il cliente! Già esistente!");
+        }else
+        {
+            JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi!");
         }
 
     }
