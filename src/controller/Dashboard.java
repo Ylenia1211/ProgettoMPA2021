@@ -99,8 +99,17 @@ public class Dashboard  implements Initializable {
                 Parent root;
                 try {
                     switch (button.getText()) {
+                        case "Clienti" -> {  //segretaria
+                            Tab clienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showTableOwner.fxml")));
+                            tabPane.getTabs().clear();
+                            tabPane.getTabs().add(clienti);
+                            tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+                            borderPane.setCenter(tabPane);
+                        }
                         case "Pazienti" -> {  //segretaria
-                            Tab pazienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showTableOwner.fxml")));
+                            FXMLLoader loaderPet = new FXMLLoader(getClass().getResource("/view/showTablePet.fxml"));
+                            loaderPet.setControllerFactory(p -> new ShowTableAllPetController());
+                            Tab pazienti = new Tab("Pazienti", loaderPet.load());
                             Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
                             Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
                             tabPane.getTabs().clear();

@@ -74,17 +74,11 @@ public class ShowTableOwnerController implements Initializable {
                 if (event.getClickCount() == 1 && (!row.isEmpty()) ) {
                     Owner rowData = row.getItem(); // i valori su la row
                     String idOwnerSearched = clientRepo.search(rowData);
-                    //System.out.println(rowData.getName());
-                    //System.out.println("id: prima " + idOwnerSearched);
                     BorderPane borderPane = (BorderPane) this.tableClient.getScene().lookup("#borderPane");
 
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showTablePet.fxml"));
-                        loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                            public Object call(Class<?> p) {
-                                return new ShowTablePetController(idOwnerSearched);
-                            }
-                        });
+                        loader.setControllerFactory(p -> new ShowTablePetController(idOwnerSearched));
                         borderPane.setCenter(loader.load());
 
                     } catch (IOException e) {

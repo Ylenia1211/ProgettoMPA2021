@@ -1,34 +1,20 @@
 package view;
 
 import controller.ShowSpecificBookingVisitController;
-import controller.ShowTablePetController;
 import dao.ConcreteAppointmentDAO;
 import dao.ConcreteDoctorDAO;
 import datasource.ConnectionDBH2;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextBoundsType;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
-import util.SessionUser;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
