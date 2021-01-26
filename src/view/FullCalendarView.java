@@ -79,8 +79,6 @@ public class FullCalendarView {
             ap.setPrefSize(200, 10);
             txt.setFont(Font.font("Calibri", 20));
             txt.setStyle("-fx-text-fill: white");
-            GridPane.setHalignment(txt, HPos.CENTER); // To align horizontally in the cell
-            GridPane.setValignment(txt, VPos.CENTER); // To align vertically in the cell
             setBottomAnchor(txt, 5.0);
             ap.getChildren().add(txt);
             dayLabels.add(ap, col++, 0);
