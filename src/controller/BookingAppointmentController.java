@@ -137,7 +137,6 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         fieldsText = Stream.of( this.idDoctorSearched,this.specializationDoctor,this.idOwnerSearched);
         var fieldsComboBox =  Stream.of(this.textPet, this.textTimeStart, this.textMinutesTimeStart, this.textTimeDuration);
 
-
         if(checkNull(fieldsText) || checkEmptyComboBox(fieldsComboBox)) {
             JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Devi riempire tutti i campi!");
         }else
@@ -168,7 +167,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
                 .setLocalTimeStart(timeStartVisit)
                 .setLocalTimeEnd(timeStartVisit.plusMinutes((Integer) this.textTimeDuration.getValue()))
                 .setId_doctor(this.idDoctorSearched)
-                .setSpecialitation(this.specializationDoctor)
+                .setSpecialitation(this.specializationDoctor.toUpperCase())
                 .setId_owner(this.idOwnerSearched)
                 .setId_pet(idPetSearched)
                 .build();

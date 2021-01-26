@@ -41,6 +41,7 @@ public class SessionUser { //singleton per la connessione dell'utente
                     secretariat = secretariatRepo.searchByUsernameAndPassword(user);
                 }
                 case "Amministratore" -> {
+                    admin = new Admin();
                     admin.setUsername(user.getUsername());
                     admin.setPassword(user.getPassword());
                 }
