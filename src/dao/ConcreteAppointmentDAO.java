@@ -163,10 +163,8 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     }
 
 
-    //#Todo: bisogna cambiare il surname con il codice fiscale
     @Override
     public Map<String, String> searchAllDoctorByFiscalCod() {
-        //HashMap<String,Map<String, String>> linkedMap = new HashMap<>();
         Map<String, String> dictionary = new HashMap<>();  //<key,value>  both key and value are Strings
         String sqlSearch = "SELECT * FROM masterdata" +
                 "                  INNER JOIN person" +
@@ -178,7 +176,6 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearch);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
-                //dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
                 dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
             }
             dictionary.entrySet().forEach(System.out::println);
@@ -551,7 +548,6 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return listAllAppointment.stream()
                     .filter(item -> (item.getLocalDate().isBefore(date)))
                     .collect(Collectors.toList());
-            //return null;
         } else{
             JOptionPane.showMessageDialog(null, "La ricerca è vuota!");
             return null;

@@ -7,16 +7,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.Appointment;
 
 import javax.swing.*;
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static controller.RegistrationPetController.getKeyByValue;
@@ -77,7 +80,8 @@ public class BookingAppointmentController implements Initializable {
                 setDisable(empty || date.compareTo(today) < 0 || (date.getDayOfWeek().getValue() == 7));//disabilita le domeniche
             }
         });
-
+        this.textdateVisit.setValue(LocalDate.now());
+        this.textdateVisit.setEditable(false);
 
         //settiamo le possibili ore lavorative
         this.heuresWorkDay = List.of(
@@ -125,15 +129,21 @@ public class BookingAppointmentController implements Initializable {
         return textTimeDuration;
     }
 
-    public boolean checkNull( Stream<Object> fields) {
+    public boolean checkNull(Stream<Object> fields) {
        return fields.allMatch(Objects::isNull);
     }
+
+    public boolean checkEmptyComboBox(Stream<ComboBox<? extends Object>> fields) {
+        return fields.allMatch( x -> x.getValue()==null);
+    }
+
     public void registrationVisit(ActionEvent actionEvent) throws IllegalAccessException {
         // ricerca prenotazioni per quel dottore in quella data
-        Stream<Object> fields;
-        fields = Stream.of( this.idDoctorSearched,this.specializationDoctor,this.idOwnerSearched);
+        Stream<Object> fieldsText;
+        fieldsText = Stream.of( this.idDoctorSearched,this.specializationDoctor,this.idOwnerSearched);
+        var fieldsComboBox =  Stream.of(this.textPet, this.textTimeStart, this.textMinutesTimeStart, this.textTimeDuration);
 
-        if(checkNull(fields)) {
+        if(checkNull(fieldsText) || checkEmptyComboBox(fieldsComboBox)) {
             JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Devi riempire tutti i campi!");
         }else
         {

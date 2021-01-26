@@ -239,13 +239,21 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
                     "    INNER JOIN  SECRETARIAT  " +
                     "    ON  person.id = SECRETARIAT.id WHERE masterdata.name = ? AND masterdata.surname = ? " +
                     "    AND masterdata.sex = ?" +
-                    "    AND masterdata.datebirth = ? AND PERSON.FISCALCODE = ? AND PERSON.TELEPHONE= ?");
+                    "    AND masterdata.datebirth = ? AND PERSON.FISCALCODE = ? AND PERSON.TELEPHONE= ?" +
+                    "    AND PERSON.CITY =? AND PERSON.ADDRESS = ? " +
+                    "    AND PERSON.EMAIL =? AND SECRETARIAT.USERNAME =?");
             statement.setString(1, secretariat.getName());
             statement.setString(2, secretariat.getSurname());
             statement.setString(3, secretariat.getSex().toString());
             statement.setString(4, secretariat.getDatebirth().toString());
             statement.setString(5, secretariat.getFiscalCode());
             statement.setString(6, secretariat.getTelephone());
+            statement.setString(7, secretariat.getCity());
+            statement.setString(8, secretariat.getAddress());
+            statement.setString(9, secretariat.getEmail());
+            statement.setString(10,secretariat.getUsername());
+
+
             ResultSet rs = statement.executeQuery();
             String id_searched = "";
             if (rs.next()) {

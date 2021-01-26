@@ -3,6 +3,7 @@ package controller;
 import dao.ConcreteDoctorDAO;
 import dao.ConcreteSecretariatDAO;
 import datasource.ConnectionDBH2;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -24,13 +25,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PersonalProfileController implements Initializable {
     public ImageView picProfile;
     public Button profilePicButton;
     public CheckBox checkboxUpdate;
-
     public TextField name;
     public TextField surname;
     public HBox gender;
@@ -101,6 +102,9 @@ public class PersonalProfileController implements Initializable {
                 this.rbF.setDisable(true);
                 this.username.setEditable(false);
                 this.password.setEditable(false);
+                if (doctor != null) {
+                    this.specialization.setDisable(true);
+                }
             }else {
                 this.saveBtn.setDisable(false);
                 this.name.setEditable(true);
@@ -113,6 +117,9 @@ public class PersonalProfileController implements Initializable {
                 this.birthDate.setDisable(false);
                 this.rbM.setDisable(false);
                 this.rbF.setDisable(false);
+                if (doctor != null) {
+                    this.specialization.setDisable(false);
+                }
                 this.username.setEditable(true);
                 this.password.setEditable(true);
             }
@@ -214,7 +221,11 @@ public class PersonalProfileController implements Initializable {
         this.specialization.setTooltip(new Tooltip("Specializzazione in un tipo di visita"));
         this.specialization.setMaxWidth(MAX_SIZE);
         this.specialization.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        List<String> listSpecialization = this.doctorRepo.searchAllSpecialization();
+        this.specialization = new ComboBox<>(FXCollections
+                .observableArrayList(listSpecialization));
         this.specialization.setValue(specialization);
+        this.specialization.setDisable(true);
         this.labelsFields.getChildren().add(this.specialization);
     }
 
