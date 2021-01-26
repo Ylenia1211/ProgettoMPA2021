@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import model.Gender;
 import model.Pet;
 import model.Secretariat;
+import util.FieldVerifier;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -22,7 +23,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
 
-public class RegistrationPetController implements Initializable {
+public class RegistrationPetController implements Initializable, FieldVerifier {
     public VBox pane_main_grid;
     public Label labelTitle;
     public TextField textName;
@@ -32,7 +33,7 @@ public class RegistrationPetController implements Initializable {
     public ToggleGroup genderGroup;
     public RadioButton rbF;
     public DatePicker textdateBirth;
-    public ComboBox textPetRace;
+    public ComboBox<String> textPetRace;
     //public ComboBox textOwner;
     public TextField textParticularSign;
     public Button btn;
@@ -44,6 +45,8 @@ public class RegistrationPetController implements Initializable {
     private  HBox searchBox;
     private TextField searchText;
     private VBox dropDownMenu;
+    private List<TextField> fieldsTextPet;
+    private List<ComboBox<?>> fieldsComboBox;
 
     public RegistrationPetController() {
         this.listClient  = new HashMap<>();
@@ -61,11 +64,16 @@ public class RegistrationPetController implements Initializable {
 
         this.textdateBirth.setValue(LocalDate.now()); //non fa modificare all'utente il textfield  per evitare di mettere valori non consentiti
         this.textdateBirth.setEditable(false);
+        this.rbM.setSelected(true); //default
         addFieldOwner();
         addFieldRace();
         addButtonSave();
         addActionButton();
-
+        this.fieldsTextPet = List.of(this.textName,
+                this.textSurname,
+                this.textParticularSign,
+                this.searchText);
+       this.fieldsComboBox = List.of(this.textPetRace);
     }
     public  void addButtonSave()  {
         this.btn = new Button("Salva");
@@ -83,15 +91,7 @@ public class RegistrationPetController implements Initializable {
     }
 
     public void registrationPet(ActionEvent actionEvent) {
-        // controlli
-        if (!this.textName.getText().trim().isEmpty() &&
-                !this.textSurname.getText().trim().isEmpty() &&
-                (this.rbM.isSelected() || rbF.isSelected()) &&
-                !this.textdateBirth.getValue().toString().isEmpty() &&
-                !this.textPetRace.getValue().toString().isEmpty() &&
-                !this.searchText.getText().trim().isEmpty() &&
-                !this.textParticularSign.getText().trim().isEmpty()
-        ) {
+        if ( !checkEmptyTextField(this.fieldsTextPet.stream()) && !checkEmptyComboBox(this.fieldsComboBox.stream())) {
             Pet p = createPet();
             if (this.petRepo.isNotDuplicate(p)) {
                 try {
@@ -126,6 +126,13 @@ public class RegistrationPetController implements Initializable {
                 .build();
     }
 
+    public List<TextField> getFieldsTextPet() {
+        return fieldsTextPet;
+    }
+
+    public List<ComboBox<?>> getFieldsComboBox() {
+        return fieldsComboBox;
+    }
 
     public static <T, E> String getKeyByValue(Map<String, String> map, Object value) {
         return map.entrySet()
@@ -169,9 +176,6 @@ public class RegistrationPetController implements Initializable {
                this.dropDownMenu.getChildren().clear();
            }
         });
-        //Button search = new Button("Search");
-
-
         this.searchBox.getChildren().addAll(this.searchText, clean); //, search);
         // add the search box to first row
         this.container.add(this.searchBox, 0, 0);
@@ -239,19 +243,12 @@ public class RegistrationPetController implements Initializable {
         return rbM;
     }
 
-    public ToggleGroup getGenderGroup() {
-        return genderGroup;
-    }
-
-    public RadioButton getRbF() {
-        return rbF;
-    }
 
     public DatePicker getTextdateBirth() {
         return textdateBirth;
     }
 
-    public ComboBox getTextPetRace() {
+    public ComboBox<String> getTextPetRace() {
         return textPetRace;
     }
 
@@ -271,15 +268,8 @@ public class RegistrationPetController implements Initializable {
         return container;
     }
 
-    public HBox getSearchBox() {
-        return searchBox;
-    }
-
     public TextField getSearchText() {
         return searchText;
     }
 
-    public VBox getDropDownMenu() {
-        return dropDownMenu;
-    }
 }

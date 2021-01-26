@@ -8,6 +8,7 @@ import model.Secretariat;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class RegistrationSecretariatController extends ClientController{
@@ -17,6 +18,7 @@ public class RegistrationSecretariatController extends ClientController{
     private Button saveBtn;
     private Label title;
     private final ConcreteSecretariatDAO secretariatRepo;
+    private List<TextField> fieldsTextSecretariat;
 
     public RegistrationSecretariatController() {
         this.secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
@@ -29,7 +31,7 @@ public class RegistrationSecretariatController extends ClientController{
         title = (Label) super.pane_main_grid.lookup("#labelTitle");
         title.setText("Creazione Utente Segreteria");
         super.pane_main_grid.getChildren().remove(btn); //per rimuovere da pannello dinamicamente il bottone di salvataggio
-
+        this.rbM.setSelected(true); //default
         //username, password
         addFieldUsername();
         addFieldPassword();
@@ -43,8 +45,10 @@ public class RegistrationSecretariatController extends ClientController{
         this.username.setPromptText("Username");
         this.username.setTooltip(new Tooltip("Username"));
         this.username.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
+        this.fieldsTextSecretariat = List.of(this.username);
         super.pane_main_grid.getChildren().add(this.username);
     }
+
 
     public  void addFieldPassword()  {
         this.password = new PasswordField();
@@ -73,6 +77,9 @@ public class RegistrationSecretariatController extends ClientController{
         super.pane_main_grid.getChildren().add(this.passwordRealTime);
     }
 
+    public Label getPasswordRealTime() {
+        return passwordRealTime;
+    }
     public  void addButtonSave()  {
         this.saveBtn = new Button("Salva");
         this.saveBtn.setId("saveBtn");
@@ -84,19 +91,16 @@ public class RegistrationSecretariatController extends ClientController{
         super.pane_main_grid.getChildren().add(this.saveBtn);
     }
 
+    public List<TextField> getFieldsTextSecretariat() {
+        return fieldsTextSecretariat;
+    }
+
     public void addActionButton() {
-        //controlli
         this.saveBtn.setOnAction(e -> {
-            if(!super.getTextName().getText().trim().isEmpty() &&
-                    !super.getTextSurname().getText().trim().isEmpty() &&
-                    !super.getTextAddress().getText().trim().isEmpty() &&
-                    !super.getTextCity().getText().trim().isEmpty() &&
-                    !super.getTextFiscalCode().getText().trim().isEmpty() &&
-                    !super.getTextTelephone().getText().trim().isEmpty() &&
-                    !super.getTextEmail().getText().trim().isEmpty() &&
-                    (this.rbM.isSelected() || rbF.isSelected()) &&
-                    !this.username.getText().trim().isEmpty() &&
-                    !this.password.getText().trim().isEmpty()
+            if(!checkEmptyTextField(super.getFieldsText().stream()) &&
+                    !checkEmptyTextField(this.fieldsTextSecretariat.stream()) &&
+                    !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
+                    !checkifNotSecurePassword(this.passwordRealTime)
             )
             {
                 Secretariat secretariat = createSecretariat();

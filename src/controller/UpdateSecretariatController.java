@@ -1,6 +1,5 @@
 package controller;
 
-import model.Doctor;
 import model.Gender;
 import model.Secretariat;
 
@@ -8,7 +7,7 @@ import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UpdateSecretariatController extends RegistrationSecretariatController{
+public class UpdateSecretariatController extends RegistrationSecretariatController {
     private final String id;
     private final Secretariat secretariat;
 
@@ -17,6 +16,7 @@ public class UpdateSecretariatController extends RegistrationSecretariatControll
         this.secretariat = secretariat;
         this.id = super.getSecretariatRepo().search(secretariat);
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.initialize(url, resourceBundle);
@@ -29,15 +29,15 @@ public class UpdateSecretariatController extends RegistrationSecretariatControll
         super.getTextSurname().setText(data.getSurname().trim());
         super.getTextAddress().setText(data.getAddress().trim());
         super.getTextCity().setText(data.getCity().trim());
-        super.getTextTelephone().setText(data.getCity().trim());
+        super.getTextTelephone().setText(data.getTelephone().trim());
         super.getTextEmail().setText(data.getEmail().trim());
         super.getTextFiscalCode().setText(data.getFiscalCode().trim());
         super.getTextdateBirth().setValue(data.getDatebirth());
         super.getUsername().setText(data.getUsername().trim());
         super.getPassword().setText(data.getPassword().trim());
-        if(data.getSex().compareTo(Gender.M) == 0){
+        if (data.getSex().compareTo(Gender.M) == 0) {
             super.rbM.setSelected(true);
-        }else{
+        } else {
             super.rbF.setSelected(true);
         }
     }
@@ -45,20 +45,24 @@ public class UpdateSecretariatController extends RegistrationSecretariatControll
     @Override
     public void addActionButton() {
         this.getSaveBtn().setOnAction(e -> {
-            Secretariat s = createSecretariat();
-            if(super.getSecretariatRepo().isNotDuplicate(s)){
-                try {
-                    super.getSecretariatRepo().update(id, s);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+            if (!checkEmptyTextField(super.getFieldsText().stream()) &&
+                    !checkEmptyTextField(super.getFieldsTextSecretariat().stream()) &&
+                    !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
+                    !checkifNotSecurePassword(super.getPasswordRealTime())
+            ) {
+                Secretariat s = createSecretariat();
+                if (super.getSecretariatRepo().isNotDuplicate(s)) {
+                    try {
+                        super.getSecretariatRepo().update(id, s);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Impossibile creare l'utente di segreteria! Già esistente!");
                 }
-            }else {
-                JOptionPane.showMessageDialog(null, "Impossibile creare l'utente di segreteria! Già esistente!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
             }
         });
-       /* this.getSaveBtn().setOnAction(e -> {
-            Secretariat s = createSecretariat();
-            super.getSecretariatRepo().update(id, s);
-        });*/
     }
 }

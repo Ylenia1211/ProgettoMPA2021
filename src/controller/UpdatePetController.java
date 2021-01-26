@@ -52,6 +52,7 @@ public class UpdatePetController extends  RegistrationPetController implements I
     }
     @Override
     public void registrationPet(ActionEvent actionEvent){
+        if ( !checkEmptyTextField(super.getFieldsTextPet().stream()) && !checkEmptyComboBox(super.getFieldsComboBox().stream())) {
         Pet pet = createPet();
         if (this.getPetRepo().isNotDuplicate(pet)) {
             try {
@@ -67,6 +68,9 @@ public class UpdatePetController extends  RegistrationPetController implements I
             }
         } else {
             JOptionPane.showMessageDialog(null, "Impossibile creare Animale! Già esistente!");
+        }
+    }else{
+            JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi!");
         }
     }
 }
