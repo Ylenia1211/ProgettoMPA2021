@@ -65,19 +65,7 @@ public class Dashboard  implements Initializable {
 
     public void setUserLogged(User user){
         this.roleUserLogged = user.getRole();
-        switch (this.roleUserLogged){
-            case "Dottore" -> {
-                this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getDoctor().getName() + " " + SessionUser.getDoctor().getSurname());
-            }
-            case "Segreteria" -> {
-                this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getSecretariat().getName() + " " + SessionUser.getSecretariat().getSurname());
-            }
-            case "Amministratore" -> {
-                this.labelWelcome.setText("Benvenuto! "+ this.roleUserLogged + ": " + SessionUser.getAdmin().getUsername());
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + user.getRole());
-        }
-
+        this.labelWelcome.setText("Benvenuto "+ this.roleUserLogged + "!");
     }
 
     public BorderPane getBorderPane() {

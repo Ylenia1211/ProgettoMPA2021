@@ -179,7 +179,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 //dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
-                dictionary.put( rs.getString("id"), rs.getString("surname"));
+                dictionary.put( rs.getString("id"), rs.getString("fiscalcode"));
             }
             dictionary.entrySet().forEach(System.out::println);
             return dictionary;

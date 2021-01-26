@@ -139,11 +139,11 @@ public class FullCalendarView {
 
             // si deve colorare il cerchio in base al numero di visite in un giorno e settare il testo all'interno
             //:deve spuntare numero di visite in un giorno di quel giorno per l'utente loggato OK FATTO
-
+/*
             String id_doctor = this.doctorRepo.search(SessionUser.getDoctor());
             System.out.println("id_dottore loggato: " + id_doctor);
-            Integer countVisitDay = this.appointmentRepo.countAppointmentsByDateAndDoctor(dayCalendar.toString(), id_doctor);
-           // Integer countVisitDay = this.appointmentRepo.countAppointmentsByDate(dayCalendar.toString()); //questo è generale NON Cancellare
+            Integer countVisitDay = this.appointmentRepo.countAppointmentsByDateAndDoctor(dayCalendar.toString(), id_doctor);*/
+            Integer countVisitDay = this.appointmentRepo.countAppointmentsByDate(dayCalendar.toString()); //questo è generale NON Cancellare
             if(countVisitDay == 0)
                 circle.setFill(Color.WHITE);
             else  if(countVisitDay < 3)

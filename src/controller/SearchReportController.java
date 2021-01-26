@@ -205,9 +205,9 @@ public class SearchReportController  implements Initializable {
                                     public Object call(Class<?> p) {
                                         return new ShowInfoOwnerPetController(data);
                                     }
+
                                 });
                                 borderPane.setCenter(loader.load());
-
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

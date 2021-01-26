@@ -12,10 +12,12 @@ import javafx.scene.paint.Color;
 import model.Appointment;
 
 import javax.swing.*;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static controller.RegistrationPetController.getKeyByValue;
 
@@ -110,9 +112,6 @@ public class BookingAppointmentController implements Initializable {
         return textMinutesTimeStart;
     }
 
-    public void setTextMinutesTimeStart(ComboBox<Object> textMinutesTimeStart) {
-        this.textMinutesTimeStart = textMinutesTimeStart;
-    }
 
     public ConcreteAppointmentDAO getAppointmentRepo() {
         return appointmentRepo;
@@ -126,20 +125,32 @@ public class BookingAppointmentController implements Initializable {
         return textTimeDuration;
     }
 
-    public void registrationVisit(ActionEvent actionEvent) {
+    public boolean checkNull( Stream<Object> fields) {
+       return fields.allMatch(Objects::isNull);
+    }
+    public void registrationVisit(ActionEvent actionEvent) throws IllegalAccessException {
         // ricerca prenotazioni per quel dottore in quella data
-        Appointment p = createAppointment();
-        List<Appointment> listAppointment = this.appointmentRepo.searchVisitbyDoctorAndDate(this.idDoctorSearched, this.textdateVisit.getValue().toString());
-        boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
-                (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) ||
+        Stream<Object> fields;
+        fields = Stream.of( this.idDoctorSearched,this.specializationDoctor,this.idOwnerSearched);
 
-                ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) &&
-                        item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
-        );
-        if (isValid) {
-            this.appointmentRepo.add(p);
-        } else {
-            JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Un altro appuntamento è già stato prenotato per quell'intervallo di tempo!");
+        if(checkNull(fields)) {
+            JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Devi riempire tutti i campi!");
+        }else
+        {
+            Appointment p = createAppointment();
+            List<Appointment> listAppointment = this.appointmentRepo.searchVisitbyDoctorAndDate(this.idDoctorSearched, this.textdateVisit.getValue().toString());
+            boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
+                    (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) ||
+
+                    ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) &&
+                            item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
+            );
+            if (isValid) {
+                this.appointmentRepo.add(p);
+            } else {
+                JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Un altro appuntamento è già stato prenotato per quell'intervallo di tempo!");
+            }
+
         }
     }
 
@@ -337,7 +348,13 @@ public class BookingAppointmentController implements Initializable {
     }
 
     public void addActionButton() {
-        this.btn.setOnAction(this::registrationVisit);
+        this.btn.setOnAction(actionEvent -> {
+            try {
+                registrationVisit(actionEvent);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 
