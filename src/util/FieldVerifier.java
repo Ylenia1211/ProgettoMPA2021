@@ -1,6 +1,7 @@
 package util;
 
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.util.Objects;
@@ -40,5 +41,7 @@ public interface FieldVerifier {
     default boolean checkAllFieldWithControlRestricted(Stream<TextField> fields) {
         return fields.anyMatch( x -> x.getStyle().contains("-fx-border-color: red"));
     }
-
+    default boolean checkifNotSecurePassword(Label field) {
+        return (field.getStyle().contains("-fx-text-fill: red") || field.getStyle().contains("-fx-text-fill: orange"));
+    }
 }

@@ -28,7 +28,7 @@ public class UpdateClientController extends ClientController{
 
     @Override
     public void registerClient(ActionEvent actionEvent){
-        if(!checkEmptyTextField(super.getFieldsText()) && !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict())) {
+        if(!checkEmptyTextField(super.getFieldsText().stream()) && !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream())) {
             Owner p = createOwner();
             if (super.getClientRepo().isNotDuplicate(p)) {
                 try {
@@ -41,7 +41,7 @@ public class UpdateClientController extends ClientController{
             }
         }else
         {
-            JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi!");
+            JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!!");
         }
 
     }
@@ -51,7 +51,7 @@ public class UpdateClientController extends ClientController{
         super.getTextSurname().setText(data.getSurname().trim());
         super.getTextAddress().setText(data.getAddress().trim());
         super.getTextCity().setText(data.getCity().trim());
-        super.getTextTelephone().setText(data.getCity().trim());
+        super.getTextTelephone().setText(data.getTelephone().trim());
         super.getTextEmail().setText(data.getEmail().trim());
         super.getTextFiscalCode().setText(data.getFiscalCode().trim());
         super.getTextdateBirth().setValue(data.getDatebirth());

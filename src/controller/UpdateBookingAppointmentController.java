@@ -74,10 +74,6 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
         super.getTextTimeStart().setValue(appointment.getLocalTimeStart().minusMinutes(appointment.getLocalTimeStart().getMinute()));
         super.getTextMinutesTimeStart().setValue(appointment.getLocalTimeStart().getMinute());
         super.getTextTimeDuration().setValue((int) Duration.between(appointment.getLocalTimeStart(), appointment.getLocalTimeEnd()).toMinutes());
-              /*  appointment.getLocalTimeEnd()
-                .minusHours(appointment.getLocalTimeStart().getHour())
-                .minusMinutes(appointment.getLocalTimeStart().getMinute())
-                );*/
     }
 
     @Override
@@ -123,47 +119,41 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
     }
 
     private void updateVisit(ActionEvent actionEvent) {
-        Appointment p = createAppointmentForUpdate();
-        //System.out.println(p.toString());
-        //se uno tra data/ora inizio/ora fine è cambiata allora effettuo l'update
 
-            if(!(p.getLocalDate().isEqual(this.appointment.getLocalDate()))||
-                ((p.getLocalTimeStart().compareTo(this.appointment.getLocalTimeStart()))!=0) ||
-                ((p.getLocalTimeEnd().compareTo(this.appointment.getLocalTimeEnd()))!=0))
-           {
-            List<Appointment> listAppointment = this.getAppointmentRepo().searchVisitbyDoctorAndDate(this.appointment.getId_doctor(), this.appointment.getLocalDate().toString());
-            boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
-                    (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) || //intervallo sinistro
+            Appointment p = createAppointmentForUpdate();
 
-                    ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) && //intervallo destro
-                            item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
-            );
-            if (isValid) {
-                      // this.appointmentRepo.add(p);
-                      this.getAppointmentRepo().update(this.id, p);
+            if (!(p.getLocalDate().isEqual(this.appointment.getLocalDate())) ||
+                    ((p.getLocalTimeStart().compareTo(this.appointment.getLocalTimeStart())) != 0) ||
+                    ((p.getLocalTimeEnd().compareTo(this.appointment.getLocalTimeEnd())) != 0)) {
+                List<Appointment> listAppointment = this.getAppointmentRepo().searchVisitbyDoctorAndDate(this.appointment.getId_doctor(), this.appointment.getLocalDate().toString());
+                boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
+                        (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) || //intervallo sinistro
 
-                      String emailOwner = this.getAppointmentRepo().searchEmailOwnerbyIdAppointment(this.id);
-                      ConcreteObserver observerChanges = new ConcreteObserver.Builder()
-                                .setEmailOwner(emailOwner) //passare email owner associatato alla prenotazione
-                                .setDataVisit(p.getLocalDate())
-                                .setTimeStartVisit(p.getLocalTimeStart())
-                                .setTimeEndVisit(p.getLocalTimeEnd())
-                                .build();
+                        ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) && //intervallo destro
+                                item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
+                );
+                if (isValid) {
+                    // this.appointmentRepo.add(p);
+                    this.getAppointmentRepo().update(this.id, p);
 
-                      this.register(observerChanges);
-                      this.notifyObservers();
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Un altro appuntamento è già stato prenotato per quell'intervallo di tempo!");
+                    String emailOwner = this.getAppointmentRepo().searchEmailOwnerbyIdAppointment(this.id);
+                    ConcreteObserver observerChanges = new ConcreteObserver.Builder()
+                            .setEmailOwner(emailOwner) //passare email owner associatato alla prenotazione
+                            .setDataVisit(p.getLocalDate())
+                            .setTimeStartVisit(p.getLocalTimeStart())
+                            .setTimeEndVisit(p.getLocalTimeEnd())
+                            .build();
+
+                    this.register(observerChanges);
+                    this.notifyObservers();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Un altro appuntamento è già stato prenotato per quell'intervallo di tempo!");
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        "Nessuna modifica effettuata! La data e l'ora sono uguali a quelle già registrate!");
+                alert.setTitle("Nessuna modifica effettuata!");
+                alert.showAndWait();
             }
         }
-        else
-        {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    "Nessuna modifica effettuata! La data e l'ora sono uguali a quelle già registrate!");
-            alert.setTitle("Nessuna modifica effettuata!");
-            alert.showAndWait();
-        }
-    }
-
 }

@@ -3,7 +3,6 @@ package controller;
 import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -35,7 +34,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
 
     public TextField textSpecialitation;
     public ComboBox<String> textPet;
-    private ConcreteAppointmentDAO appointmentRepo;
+    private final ConcreteAppointmentDAO appointmentRepo;
     public Button btn;
     public List<LocalTime> heuresWorkDay;
     public List<Integer> minutes;
@@ -58,17 +57,16 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
     private String specializationDoctor;
     private List<Integer> minutesStart;
 
+    private  List<Object> fieldsText;
+    private List<ComboBox<?>> fieldsComboBox;
+
+
+
     public BookingAppointmentController() {
         this.listClient = new HashMap<>();
         this.listDoctor = new HashMap<>();
         this.listPets = new HashMap<>();
-        try {
-            //ConnectionDBH2 connection = new ConnectionDBH2();
-            this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-        }
+        this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
     }
 
     @Override
@@ -110,6 +108,14 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         addButtonSave();
         addActionButton();
 
+        //devono essere inizializzati
+        this.idDoctorSearched = "";
+        this.idOwnerSearched = "";
+        this.specializationDoctor ="";
+
+        this.fieldsText = List.of(this.idDoctorSearched,this.specializationDoctor,this.idOwnerSearched);
+        this.fieldsComboBox =  List.of(this.textPet, this.textTimeStart, this.textMinutesTimeStart, this.textTimeDuration);
+
     }
 
 
@@ -130,14 +136,18 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         return textTimeDuration;
     }
 
+    public List<Object> getFieldsText() {
+        return fieldsText;
+    }
 
-    public void registrationVisit(ActionEvent actionEvent) throws IllegalAccessException {
+    public List<ComboBox<?>> getFieldsComboBox() {
+        return fieldsComboBox;
+    }
+
+    public void registrationVisit() throws IllegalAccessException {
         // ricerca prenotazioni per quel dottore in quella data
-        Stream<Object> fieldsText;
-        fieldsText = Stream.of( this.idDoctorSearched,this.specializationDoctor,this.idOwnerSearched);
-        var fieldsComboBox =  Stream.of(this.textPet, this.textTimeStart, this.textMinutesTimeStart, this.textTimeDuration);
 
-        if(checkNull(fieldsText) || checkEmptyComboBox(fieldsComboBox)) {
+        if(checkNull(this.fieldsText.stream()) || checkEmptyComboBox(this.fieldsComboBox.stream())) {
             JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Devi riempire tutti i campi!");
         }else
         {
@@ -160,7 +170,6 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
 
     public Appointment createAppointment() {
         String idPetSearched = getKeyByValue(this.listPets, this.textPet.getValue());
-        //System.out.println(this.idPetSearched); ok
         LocalTime timeStartVisit = ((LocalTime) this.textTimeStart.getValue()).plusMinutes((Integer) this.textMinutesTimeStart.getValue());
         return new Appointment.Builder()
                 .setLocalDate(this.textdateVisit.getValue())
@@ -272,7 +281,6 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
     }
 
     public void addFieldPet() {
-        //List<String> empty = new ArrayList<>();
         this.textPet = new ComboBox<>(FXCollections.observableArrayList(new ArrayList<>()));
         this.textPet.setPromptText("Aggiungi animale");
         this.textPet.setPrefWidth(400);
@@ -354,7 +362,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
     public void addActionButton() {
         this.btn.setOnAction(actionEvent -> {
             try {
-                registrationVisit(actionEvent);
+                registrationVisit();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }

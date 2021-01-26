@@ -45,17 +45,26 @@ public class UpdateDoctorController extends RegistrationDoctorController{
    @Override
     public void addActionButton() {
        this.getSaveBtn().setOnAction(e -> {
-           //super.getDoctorRepo().update(id, d);
-           Doctor d = createDoctor();
-       if(super.getDoctorRepo().isNotDuplicate(d)){
-           try {
-               super.getDoctorRepo().update(id, d);
-           } catch (Exception ex) {
-               ex.printStackTrace();
+           if (!checkEmptyTextField(super.getFieldsText().stream()) &&
+                   !checkEmptyTextField(super.getFieldsTextDoctor().stream()) &&
+                   !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
+                   !checkifNotSecurePassword(super.getPasswordRealTime())
+           ) {
+               Doctor d = createDoctor();
+               if (super.getDoctorRepo().isNotDuplicate(d)) {
+                   try {
+                       super.getDoctorRepo().update(id, d);
+                   } catch (Exception ex) {
+                       ex.printStackTrace();
+                   }
+               } else {
+                   JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
+               }
+           }else
+           {
+               JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
            }
-       }else {
-           JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
-       }
+
        });
    }
 }

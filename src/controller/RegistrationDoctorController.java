@@ -22,6 +22,9 @@ public class RegistrationDoctorController extends ClientController{
     private Button saveBtn;
     private Label title;
     private final ConcreteDoctorDAO doctorRepo;
+    private List<TextField> fieldsTextDoctor;
+    private List<ComboBox<?>> fieldsComboBox;
+
 
     public RegistrationDoctorController() {
          this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
@@ -35,7 +38,7 @@ public class RegistrationDoctorController extends ClientController{
         title = (Label) super.pane_main_grid.lookup("#labelTitle");
         title.setText("Creazione Dottore");
         super.pane_main_grid.getChildren().remove(btn); //per rimuovere da pannello dinamicamente il bottone di salvataggio
-
+        this.rbM.setSelected(true); //default
 
         // menu a tendina per specializzazione
         addFieldSpecialization();
@@ -44,7 +47,18 @@ public class RegistrationDoctorController extends ClientController{
         addFieldPassword();
         addButtonSave();
         addActionButton();
+
     }
+
+
+    public List<TextField> getFieldsTextDoctor() {
+        return fieldsTextDoctor;
+    }
+
+    public List<ComboBox<?>> getFieldsComboBox() {
+        return fieldsComboBox;
+    }
+
     public void addFieldSpecialization()  {
         List<String> listSpecialization = this.getDoctorRepo().searchAllSpecialization();
         this.specialization = new ComboBox<>(FXCollections
@@ -54,6 +68,7 @@ public class RegistrationDoctorController extends ClientController{
         this.specialization.setTooltip(new Tooltip("Specializzazione in un tipo di visita"));
         this.specialization.setMaxWidth(MAX_SIZE);
         this.specialization.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        this.fieldsComboBox = List.of(this.specialization);
         super.pane_main_grid.getChildren().add(this.specialization);
     }
 
@@ -64,6 +79,7 @@ public class RegistrationDoctorController extends ClientController{
         this.username.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         this.username.setPromptText("Username");
         this.username.setTooltip(new Tooltip("Username"));
+        this.fieldsTextDoctor = List.of(this.username);
         super.pane_main_grid.getChildren().add(this.username);
     }
     //private TextField passwordRealtime;
@@ -73,6 +89,7 @@ public class RegistrationDoctorController extends ClientController{
         this.password.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         this.password.setTooltip(new Tooltip("Password"));
         this.password.setId("password");
+
         this.password.setPromptText("Inserisci password Utente");
         this.password.setOnKeyReleased( e-> {
             String checkPassword = this.password.getText();
@@ -82,7 +99,7 @@ public class RegistrationDoctorController extends ClientController{
                 passwordRealTime.setStyle("-fx-text-fill: red; -fx-font-size: 14px;");
             } else {
                 passwordRealTime.setText("Password mediamente sicura");
-                passwordRealTime.setStyle("-fx-text-fill: #b0511a;-fx-font-size: 14px;");
+                passwordRealTime.setStyle("-fx-text-fill: orange;-fx-font-size: 14px;");
             }
             if (checkPassword.length() >= 6 && checkPassword.matches(".*\\d.*")) {
                 passwordRealTime.setText("Password molto sicura");
@@ -105,21 +122,17 @@ public class RegistrationDoctorController extends ClientController{
         super.pane_main_grid.getChildren().add(this.saveBtn);
         }
 
-    public void addActionButton() {
+    public Label getPasswordRealTime() {
+        return passwordRealTime;
+    }
 
-           //controlli
+    public void addActionButton() {
+        //manca il controllo sulla password
             this.saveBtn.setOnAction(e -> {
-                if(!super.getTextName().getText().trim().isEmpty() &&
-                        !super.getTextSurname().getText().trim().isEmpty() &&
-                        !super.getTextAddress().getText().trim().isEmpty() &&
-                        !super.getTextCity().getText().trim().isEmpty() &&
-                        !super.getTextFiscalCode().getText().trim().isEmpty() &&
-                        !super.getTextTelephone().getText().trim().isEmpty() &&
-                        !super.getTextEmail().getText().trim().isEmpty() &&
-                        (this.rbM.isSelected() || rbF.isSelected()) &&
-                        !this.specialization.getValue().trim().isEmpty() &&
-                        !this.username.getText().trim().isEmpty() &&
-                        !this.password.getText().trim().isEmpty()
+                if(!checkEmptyTextField(super.getFieldsText().stream()) &&
+                        !checkEmptyTextField(this.fieldsTextDoctor.stream()) &&
+                        !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
+                        !checkifNotSecurePassword(this.passwordRealTime)
                 )
                 {
                 Doctor d = createDoctor();
@@ -134,10 +147,9 @@ public class RegistrationDoctorController extends ClientController{
                 }else {
                     JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
                 }
-
                }else
                 {
-                    JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi!");
+                    JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
                 }});
     }
 
