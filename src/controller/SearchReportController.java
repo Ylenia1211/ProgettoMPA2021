@@ -112,10 +112,7 @@ public class SearchReportController  implements Initializable {
                             Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
                             String id_appointment = appointmentRepo.search(ap);
                             if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
-                                //btn.disabledProperty();
-                                //this.getTableColumn().getTableView().getItems().remove(getIndex());
                                 setGraphic(btn);
-
                             } else {
                                 setGraphic(null);
                             }

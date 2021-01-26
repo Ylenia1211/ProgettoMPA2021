@@ -3,7 +3,6 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import model.Gender;
-import model.Owner;
 import model.Pet;
 
 import javax.swing.*;

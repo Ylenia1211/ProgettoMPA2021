@@ -29,12 +29,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
     public TableColumn<Appointment, String>  col_data;
     public TableColumn<Appointment, String>  col_timestart;
     public TableColumn<Appointment, String>  col_timeend;
-    //public TableColumn<Appointment, String>  col_doctor;
     public TableColumn<Appointment, String>  col_type;
-    //public TableColumn <Appointment, String> col_doctorName;
-    //public TableColumn <Appointment, String> col_doctorSurname;
-    //public TableColumn<Appointment, String>  col_owner;
-    //public TableColumn<Appointment, String>  col_pet;
     private ConcreteAppointmentDAO appointmentRepo;
     public ObservableList<Appointment> listItems;
     public TableColumn<Appointment, Void> colBtnCreateReport= new TableColumn("");
@@ -124,16 +119,11 @@ public class ShowSpecificBookingVisitController implements Initializable {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
-                            //System.out.println("Print idOwner prenotazione" + data.getId_owner());
                             Scene scene = this.getScene();
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return new CreateReportController(data, false);
-                                    }
-                                });
+                                loader.setControllerFactory(p -> new CreateReportController(data, false));
                                 borderPane.setCenter(loader.load());
 
                             } catch (IOException e) {
@@ -187,11 +177,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showInfoOwnerPet.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return new ShowInfoOwnerPetController(data);
-                                    }
-                                });
+                                loader.setControllerFactory(p -> new ShowInfoOwnerPetController(data));
                                 borderPane.setCenter(loader.load());
 
                             } catch (IOException e) {
@@ -226,9 +212,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
                 final TableCell<Appointment, Void> cell = new TableCell<>() {
-
                     private final Button btn = new Button("Modifica");
-
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
@@ -238,11 +222,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
 
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return new UpdateBookingAppointmentController(data);
-                                    }
-                                });
+                                loader.setControllerFactory(p -> new UpdateBookingAppointmentController(data));
                                 borderPane.setCenter(loader.load());
 
                             } catch (IOException e) {
@@ -256,15 +236,23 @@ public class ShowSpecificBookingVisitController implements Initializable {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
+
                         } else {
-                            setGraphic(btn);
+                            Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
+                            String id_appointment = appointmentRepo.search(ap);
+                            if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment) || getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now().plusDays(1))) {
+                                setGraphic(null);
+                            }
+                            //modifica button spunta solo quando un report non è stato ancora creato oppure se la data della visita non è gia passata
+                            else {
+                                setGraphic(btn);
+                            }
                         }
                     }
                 };
                 return cell;
             }
         };
-
         colBtn.setCellFactory(cellFactory);
         tableBookingVisit.getColumns().add(colBtn);
     }
