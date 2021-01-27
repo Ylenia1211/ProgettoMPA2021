@@ -2,9 +2,7 @@ package util.pdfutilities;
 import com.lowagie.text.DocumentException;
 import j2html.tags.ContainerTag;
 import j2html.tags.Tag;
-import javafx.scene.shape.Path;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -12,6 +10,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.h2.store.fs.FileUtils;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import javax.swing.*;
 import static j2html.TagCreator.*;
@@ -23,10 +22,6 @@ public class FacadePDFReportGenerator {
         //creazione del report in pdf
         String documentHtml = createHtml("Report Page",
                 div().with(
-                        //                 img().attr("src", "/resources/projectLogo.png")
-                        //                      .attr("class", "center")
-                        //                      .attr("width", 50)
-                        //                      .attr("height", 50),
                         h1("Vet Clinic Management Report")
                 ),
                 div().with(
@@ -36,7 +31,7 @@ public class FacadePDFReportGenerator {
                                                 table().with(
                                                         tr().with(
                                                                 td().attr("colspan", "2")
-                                                                    .attr("style", "text-align: center; background-color: #add8e6")
+                                                                    .attr("style", "text-align: center; background-color: #add8e6; font-size: 12;")
                                                                         .with(
                                                                                 span("Dati Cliente")
                                                                         )
@@ -44,7 +39,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Cognome: ")
+                                                                                span("Cognome")
                                                                         ),
                                                                 td().with(
                                                                         span(owner.getSurname())
@@ -53,7 +48,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Nome: ")
+                                                                                span("Nome")
                                                                         ),
                                                                 td().with(
                                                                         span(owner.getName())
@@ -62,7 +57,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Codice Fiscale: ")
+                                                                                span("Codice Fiscale")
                                                                         ),
                                                                 td().with(
                                                                         span(owner.getFiscalCode())
@@ -71,7 +66,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Data di Nascita: ")
+                                                                                span("Data di Nascita")
                                                                         ),
                                                                 td().with(
                                                                         span(owner.getDatebirth().toString())
@@ -83,7 +78,7 @@ public class FacadePDFReportGenerator {
                                                 table().with(
                                                         tr().with(
                                                                 td().attr("colspan", "2")
-                                                                        .attr("style", "text-align: center; background-color: #add8e6")
+                                                                        .attr("style", "text-align: center; background-color: #add8e6; font-size: 12;")
                                                                         .with(
                                                                                 span("Dati Paziente")
                                                                         )
@@ -91,7 +86,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Cognome: ")
+                                                                                span("Cognome")
                                                                         ),
                                                                 td().with(
                                                                         span(pet.getSurname())
@@ -100,7 +95,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Nome: ")
+                                                                                span("Nome")
                                                                         ),
                                                                 td().with(
                                                                         span(pet.getName())
@@ -109,7 +104,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Sesso: ")
+                                                                                span("Sesso")
                                                                         ),
                                                                 td().with(
                                                                         span(pet.getSex().toString())
@@ -118,7 +113,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Data di Nascita: ")
+                                                                                span("Data di Nascita")
                                                                         ),
                                                                 td().with(
                                                                         span(pet.getDatebirth().toString())
@@ -130,7 +125,7 @@ public class FacadePDFReportGenerator {
                                                 table().with(
                                                         tr().with(
                                                                 td().attr("colspan", "2")
-                                                                        .attr("style", "text-align: center; background-color: #add8e6")
+                                                                        .attr("style", "text-align: center; background-color: #add8e6; font-size: 12;")
                                                                         .with(
                                                                                 span("Dati Prenotazione")
                                                                         )
@@ -138,7 +133,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Tipologia di visita: ")
+                                                                                span("Tipologia di visita")
                                                                         ),
                                                                 td().with(
                                                                         span(appointment.getSpecialitation())
@@ -147,10 +142,10 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Nome: ")
+                                                                                span("Data")
                                                                         ),
                                                                 td().with(
-                                                                        span(appointment.getLocalTimeStart().toString())
+                                                                        span(appointment.getLocalDate().toString())
                                                                 )
                                                         )
                                                 )
@@ -159,7 +154,7 @@ public class FacadePDFReportGenerator {
                                                 table().with(
                                                         tr().with(
                                                                 td().attr("colspan", "2")
-                                                                        .attr("style", "text-align: center; background-color: #add8e6")
+                                                                        .attr("style", "text-align: center; background-color: #add8e6; font-size: 12;")
                                                                         .with(
                                                                                 span("Dati Medico")
                                                                         )
@@ -167,7 +162,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Cognome: ")
+                                                                                span("Cognome")
                                                                         ),
                                                                 td().with(
                                                                         span(doctor.getSurname())
@@ -176,7 +171,7 @@ public class FacadePDFReportGenerator {
                                                         tr().with(
                                                                 td().attr("style", "background-color: #a7c4c9")
                                                                         .with(
-                                                                                span("Nome: ")
+                                                                                span("Nome")
                                                                         ),
                                                                 td().with(
                                                                         span(doctor.getName())
@@ -214,16 +209,8 @@ public class FacadePDFReportGenerator {
         writer.newLine(); //this is not actually needed for html files - can make your code more readable though
         writer.close(); //make sure you close the writer object
                                        //data in cui è stata effettuata la visita
-
-        String outputFile = "./report/";
-        String directoryName = outputFile.concat(owner.getSurname() + owner.getName() + "_" + owner.getFiscalCode() + "/" + pet.getName());
         String fileName = appointment.getLocalDate() + "_"+ pet.getName().toUpperCase() + "_"+ pet.getSurname().toUpperCase()  +".pdf";
-
-        File directory = new File(directoryName);
-        if (!directory.exists())
-            directory.mkdirs();
-        outputFile = directoryName + "/" + fileName;
-
+        String outputFile = this.generateFolders(owner, pet, fileName, report.getPathFile());
         String externalPath = this.choosePDFSaveLocation(fileName);
         generatePDF(inputFile, outputFile);
         generatePDF(inputFile, externalPath);
@@ -246,6 +233,36 @@ public class FacadePDFReportGenerator {
 
         JOptionPane.showMessageDialog(null, "Pdf del report creato correttamente!\n (percorso: "+ outputFile +")");
 
+    }
+
+    private String generateFolders(Owner owner, Pet pet, String fileName, String attachment) throws IOException {
+        String outputFile = "./report/";
+
+        // Creazione cartelle utente e paziente dove mettere il report
+        String reportDirectoryName = outputFile.concat(owner.getSurname() + owner.getName() + "_" + owner.getFiscalCode() + "/" + pet.getName());
+        File reportDirectory = new File(reportDirectoryName);
+        if (!reportDirectory.exists())
+            reportDirectory.mkdirs();
+
+        // Creazione cartella in cui inserire tutti gli allegati del paziente
+        String attachmentDirectoryName = reportDirectoryName + "/allegati";
+        File attachmentDirectory = new File(attachmentDirectoryName);
+        if (!attachmentDirectory.exists())
+            attachmentDirectory.mkdirs();
+        this.copy(new File(attachment), new File(attachmentDirectoryName + "/" + attachment.substring(attachment.lastIndexOf("\\")+1)));
+
+        return reportDirectoryName + "/" + fileName;
+    }
+
+    private void copy(File src, File dest) throws IOException {
+        try (InputStream is = new FileInputStream(src); OutputStream os = new FileOutputStream(dest)) {
+            // buffer size 1K
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = is.read(buf)) > 0) {
+                os.write(buf, 0, bytesRead);
+            }
+        }
     }
 
     private void addAttachments(Report report, String outputFile, String attachmentPath) throws IOException {
@@ -287,6 +304,7 @@ public class FacadePDFReportGenerator {
                                     border-collapse: separate;
                                     border: 1px solid #3DA4E3;
                                     vertical-align: top;
+                                    font-size: 10;
                                 }
                                 tr {
                                     vertical-align: top;
@@ -303,6 +321,7 @@ public class FacadePDFReportGenerator {
         ).attr("lang", "it");
         return document().render() + html.render();
     }
+
     public static void generatePDF(String inputHtmlPath, String outputPdfPath) {
         String url;
         try {

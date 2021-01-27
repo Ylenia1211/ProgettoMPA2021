@@ -67,8 +67,8 @@ public class CreateReportController  implements Initializable {
         try {
             //ConnectionDBH2 connection = new ConnectionDBH2();
             this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-            this.labelDataVisit.setText("Data: " +this.appointment.getLocalDate().toString());
-            this.labelTimeStartEndVisit.setText("Durata: " + Common.humanReadableFormat(Duration.between(this.appointment.getLocalTimeStart(), this.appointment.getLocalTimeEnd())));
+            this.labelDataVisit.setText(this.appointment.getLocalDate().toString());
+            //this.labelTimeStartEndVisit.setText("Durata: " + Common.humanReadableFormat(Duration.between(this.appointment.getLocalTimeStart(), this.appointment.getLocalTimeEnd())));
             //ricerca di dei dati del owner
             Owner owner = this.appointmentRepo.searchOwnerById(idOwner);
             if (owner != null) {
@@ -112,9 +112,9 @@ public class CreateReportController  implements Initializable {
     }
 
     private void setFieldDataDoctor(Doctor doctor) {
-        labelDottoreName.setText("Nome: " + doctor.getName());
-        labelDottoreSurname.setText("Cognome: " + doctor.getSurname());
-        labelDottoreSpecialization.setText("Tipo visita: " + doctor.getSpecialization());
+        labelDottoreName.setText(doctor.getName());
+        labelDottoreSurname.setText(doctor.getSurname());
+        labelDottoreSpecialization.setText(doctor.getSpecialization());
     }
 
     private void setFieldDataPet(Pet pet) {

@@ -217,9 +217,9 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                     this.firstAttachment.setAlignment(Pos.CENTER);
                     this.deleteFirstAttachmentButton.setVisible(false);
                     this.textPath.clear();
-                    this.textPath.setText(filePath);
                 });
                 this.firstAttachment.setText(filePath);
+                this.textPath.setText(filePath);
             }
             else{
                 this.textPath.setAlignment(Pos.CENTER_LEFT);
