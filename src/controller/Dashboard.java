@@ -1,15 +1,12 @@
 package controller;
 
-import com.sun.tools.javac.Main;
 import controller.factorySidebar.SideBarAction;
 import controller.factorySidebar.SideBarFactory;
 import dao.ConcreteAdminDAO;
-import dao.ConcreteDoctorDAO;
+import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,26 +19,34 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Appointment;
 import model.User;
 import util.Common;
 import util.SessionUser;
+import util.email.ConcreteObserver;
+import util.email.Observer;
+import util.email.Subject;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 
-public class Dashboard implements Initializable, Common {
+public class Dashboard implements Initializable, Common, Subject {
     public BorderPane borderPane;
     public Label labelWelcome;
     public VBox sidebar;
     private String roleUserLogged;
+    private List<Observer> observers;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         setUserLogged(SessionUser.getUserLogged());
         //costruzione delle azioni della sideBar in base al Ruolo dell'utente loggato,  utilizzando il Pattern Factory
         SideBarAction sideBarByRole = SideBarFactory.createSideBar(this.roleUserLogged);  //mi serve il ruolo dell'utente loggato
@@ -222,7 +227,26 @@ public class Dashboard implements Initializable, Common {
                             }
                         }
                         case "Notifica" -> { // manda notifica email se cliccato a tutti gli utenti con prenotaizone il giorno dopo
-
+                            this.observers  = new ArrayList<>();
+                            ConcreteAppointmentDAO bookingDao = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
+                            List<Appointment> ownersBookingTomorrow = bookingDao.searchAppointmentsByDate((LocalDate.now().plusDays(1)).toString());
+                            //List<String> emailsOwners =new ArrayList<>();
+                            if(!ownersBookingTomorrow.isEmpty()) {
+                                ownersBookingTomorrow.forEach(booking -> {
+                                    // emailsOwners.add(bookingDao.searchOwnerById(booking.getId_owner()).getEmail()); //test
+                                    ConcreteObserver observerChanges = new ConcreteObserver.Builder()
+                                            .setEmailOwner(bookingDao.searchOwnerById(booking.getId_owner()).getEmail()) //passare email owner associatato alla prenotazione
+                                            .setDataVisit(booking.getLocalDate())
+                                            .setTimeStartVisit(booking.getLocalTimeStart())
+                                            .setTimeEndVisit(booking.getLocalTimeEnd())
+                                            .build();
+                                    this.register(observerChanges);
+                                });
+                                //emailsOwners.forEach(System.out::println);
+                                this.notifyObservers();
+                                JOptionPane.showMessageDialog(null, "Notifiche delle prenotazioni di domani mandate correttamente ai Clienti!");
+                            }else
+                                JOptionPane.showMessageDialog(null, "Nessuna prenotazione prevista per domani!");
                         }
                         case "Profilo" -> { //il profilo
                             try {
@@ -264,6 +288,22 @@ public class Dashboard implements Initializable, Common {
             vBox.getChildren().add(button);
         }
         vBox.setSpacing(3.0);
+    }
+    @Override
+    public void register(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void unregister(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(Observer obs: observers){
+            obs.update();
+        }
     }
 
 }

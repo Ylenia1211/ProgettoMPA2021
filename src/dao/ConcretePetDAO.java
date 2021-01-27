@@ -10,11 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ConcretePetDAO implements PetDAO {
-    private ConnectionDBH2 connection_db;
+    private final ConnectionDBH2 connection_db;
 
     public ConcretePetDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
@@ -50,7 +52,6 @@ public class ConcretePetDAO implements PetDAO {
              * Dobbiamo cercare il numero di pazienti (pet) associati al cliente (owner) e incrementare il numero di pazienti associati
              **/
             String sqlSearchNumAnimalOwner = "SELECT tot_animal FROM owner WHERE owner.id = ?";
-            ps = null;
             int number_pet = 0;
             try {
                 ps = connection_db.getConnectData().prepareStatement(sqlSearchNumAnimalOwner);
@@ -160,7 +161,7 @@ public class ConcretePetDAO implements PetDAO {
             ps = connection_db.getConnectData().prepareStatement(sqlSearchIdOwner);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
-            String id_searched = "";
+            String id_searched;
             if (rs.next()) {
                 id_searched = rs.getString("owner");
                 System.out.println(id_searched);
@@ -187,11 +188,11 @@ public class ConcretePetDAO implements PetDAO {
 
 
             //cancellazione animale
-            ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = " + "\'" + id + "\'");
+            ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = " + "'" + id + "'");
             ps.executeUpdate();
             System.out.println("Cancellati dati Anagrafica del Pet!");
 
-            ps = connection_db.getConnectData().prepareStatement("delete from PET where PET.id = " + "\'" + id + "\'");
+            ps = connection_db.getConnectData().prepareStatement("delete from PET where PET.id = " + "'" + id + "'");
             ps.executeUpdate();
             System.out.println("Cancellati dati Pet!");
             ps.clearParameters();
@@ -205,9 +206,7 @@ public class ConcretePetDAO implements PetDAO {
 
     @Override
     public List<String> searchAllRace() {
-        List<String> listRace = new ArrayList<String>();
-        PreparedStatement ps = null;
-        //String sqlSearchRace = "";
+        List<String> listRace = new ArrayList<>();
         String sqlSearchRace = "SELECT * FROM typepet";
 
         try {
@@ -229,14 +228,13 @@ public class ConcretePetDAO implements PetDAO {
     @Override
     public Map<String, String> searchAllClientByFiscalCod() {
         //List<String> list = new ArrayList<String>();
-        HashMap<String, Map<String, String>> linkedMap = new HashMap<>();
         Map<String, String> dictionary = new HashMap<>();  //<key,value>  both key and value are Strings
-        PreparedStatement ps = null;
-        String sqlSearch = "SELECT * FROM masterdata\n" +
-                "                  INNER JOIN person\n" +
-                "                             ON person.id = masterdata.id\n" +
-                "                  INNER JOIN owner\n" +
-                "                             ON  person.id = owner.id";
+        String sqlSearch = """
+                SELECT * FROM masterdata
+                                  INNER JOIN person
+                                             ON person.id = masterdata.id
+                                  INNER JOIN owner
+                                             ON  person.id = owner.id""";
 
         try {
             PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearch);
@@ -257,9 +255,10 @@ public class ConcretePetDAO implements PetDAO {
     @Override
     public List<Pet> searchByOwner(String id) {
         List<Pet> listPets = new ArrayList<>();
-        String sqlSearchById = " SELECT * FROM masterdata\n" +
-                "        INNER JOIN pet ON pet.id = masterdata.id\n" +
-                "        WHERE pet.OWNER = ?";
+        String sqlSearchById = """
+                SELECT * FROM masterdata
+                       INNER JOIN pet ON pet.id = masterdata.id
+                       WHERE pet.OWNER = ?""".indent(1);
         try {
             PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearchById);
             statement.setString(1, id);
@@ -287,7 +286,7 @@ public class ConcretePetDAO implements PetDAO {
 
     @Override
     public String search(Pet pet) {
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
                     "    INNER JOIN PET" +
@@ -319,7 +318,7 @@ public class ConcretePetDAO implements PetDAO {
 
     @Override
     public boolean isNotDuplicate(Pet pet) {
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
                     "    INNER JOIN PET" +
@@ -354,7 +353,7 @@ public class ConcretePetDAO implements PetDAO {
 
     @Override
     public void addPetToOwner(String id_owner) {
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         String sqlSearchNumAnimalOwner = "SELECT tot_animal FROM owner WHERE owner.id = ?";
         int number_pet = 0;
         try {
@@ -389,7 +388,7 @@ public class ConcretePetDAO implements PetDAO {
 
     @Override
     public void dropPetToOwner(String id_owner) {
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         String sqlSearchNumAnimalOwner = "SELECT tot_animal FROM owner WHERE owner.id = ?";
         int number_pet = 0;
         try {

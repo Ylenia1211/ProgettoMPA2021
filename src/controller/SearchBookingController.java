@@ -47,7 +47,7 @@ public class SearchBookingController implements Initializable {
         col_timestart.setCellValueFactory(new PropertyValueFactory<>("localTimeStart"));
         col_timeend.setCellValueFactory(new PropertyValueFactory<>("localTimeEnd"));
         col_type.setCellValueFactory(new PropertyValueFactory<>("specialitation"));
-        List<Appointment> listSuccAppointments = appointmentRepo.searchVisitAfterDate(LocalDate.now().plusDays(1));
+        List<Appointment> listSuccAppointments = appointmentRepo.searchVisitAfterDate(LocalDate.now()); //.plusDays(1));
         listItems = FXCollections.observableArrayList(listSuccAppointments); //devo visualuzzare solo le prenotaizoni non ancora passate
         tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
         addButtonViewInfoOwnerPet(); //#todo: fare il refactor su questi metodi

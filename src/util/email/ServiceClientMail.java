@@ -75,10 +75,11 @@ public class ServiceClientMail {
         try{
             // Progress ++;
             progressBar.setValue(66);
-            doing = "Invio email in corso... 66 %";
+            doing ="Invio email a" + email.getReceiver()  +" in corso... 66 %";
             progressBar.setString(doing);
             progressBar.paintImmediately(0,0,jfrProgress.getWidth(),jfrProgress.getHeight());
 
+            assert message != null;
             Transport.send(message);
 
             // Progress ++;
@@ -89,7 +90,7 @@ public class ServiceClientMail {
             jfrProgress.dispose();
             //JOptionPane.showMessageDialog(null ,"L'email è stata inviata correttamente!");
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    "Email Inviata!");
+                    "Email Inviata Correttamente all'indirizzo email: " + email.getReceiver());
             alert.setTitle("Email correttamente inviata");
             alert.showAndWait();
 
@@ -104,14 +105,14 @@ public class ServiceClientMail {
         try {
             // Progress ++;
             progressBar.setValue(33);
-            doing = "Invio email in corso... 33%";
+            doing = "Invio email a" + email.getReceiver()  +" in corso... 33%";
             progressBar.setString(doing);
             progressBar.paintImmediately(0,0,jfrProgress.getWidth(),jfrProgress.getHeight());
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(myAccountEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(email.getReceiver()));
-            message.setSubject("IMPORTANTE: Notifica Variazione");
-            message.setText("Volevamo avvisarti che ci sono stati cambiamenti: " +
+            message.setSubject("IMPORTANTE: Notifica ");
+            message.setText("Volevamo avvisarti che: " +
                     "\nLa visita programmata sarà giorno: " + email.getDataVisit().toString() +
                     "\ndalle " + email.getTimeStartVisit().toString() + " alle " + email.getTimeEndVisit().toString() +" (ora fine prevista)"+
                     "\nCordiali saluti, \nStaff VetClinicManagement");
