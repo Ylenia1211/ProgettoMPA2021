@@ -81,6 +81,7 @@ public class FullCalendarView {
             ap.getChildren().add(txt);
             dayLabels.add(ap, col++, 0);
         }
+
         // Create calendarTitle and buttons to change current month
         calendarTitle = new Label();
         calendarTitle.setFont(Font.font("Calibri",15));

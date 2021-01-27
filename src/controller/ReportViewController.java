@@ -1,11 +1,14 @@
 package controller;
 import dao.ConcreteReportDAO;
 import datasource.ConnectionDBH2;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -122,6 +125,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         this.savePDFReportButton.setOnAction(actionEvent -> {
             Report newReport = createNewReport();
             this.reportDAO.update(this.idBooking, newReport);
+            this.refreshPage();
         });
 
         // Creo il cancelButton
@@ -141,6 +145,17 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         });
     }
 
+    private void refreshPage() {
+        Scene scene = this.savePDFReportButton.getScene();
+        BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
+        loader.setControllerFactory(p -> new CreateReportController(this.appointment, true));
+        try {
+            borderPane.setCenter(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     private Report createNewReport() {
