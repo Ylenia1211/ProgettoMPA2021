@@ -331,4 +331,21 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             return false;
         }
     }
+
+    @Override
+    public void updatePassword(String id, String pwd){
+        String sqlSearch = "UPDATE DOCTOR" +
+                " SET DOCTOR.PASSWORD = ? WHERE DOCTOR.ID = ? ";
+        try {
+            PreparedStatement ps = connection_db.getConnectData().prepareStatement(sqlSearch);
+            ps.setString(1, pwd);
+            ps.setString(2, id);
+
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Password Aggiornata!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+        }
+    }
 }

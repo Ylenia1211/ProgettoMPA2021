@@ -15,4 +15,6 @@ public interface DoctorDAO extends Crud<Doctor>{
     Doctor searchByUsernameAndPassword(User user);
     Doctor searchById(String id);
     boolean isNotDuplicate(Doctor doctor); //fa controlli piu stretti rispetto al search
+
+    void updatePassword(String id, String pwd);
 }

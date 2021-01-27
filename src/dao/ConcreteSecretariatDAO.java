@@ -1,7 +1,6 @@
 package dao;
 
 import datasource.ConnectionDBH2;
-import model.Doctor;
 import model.Gender;
 import model.Secretariat;
 import model.User;
@@ -92,7 +91,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         String sqlMasterData = "UPDATE masterdata SET name = ?, surname = ?, sex = ?, datebirth = ? where masterdata.id = ?";
         String sqlPersonData = "UPDATE person SET address = ?, city = ?, telephone = ?, email = ?, fiscalcode = ? where person.id = ?";
         String sqlSecretariatData = "UPDATE SECRETARIAT SET  username = ?, password = ? where SECRETARIAT.id = ?";
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = connection_db.getConnectData().prepareStatement(sqlMasterData);
             ps.setString(1, secretariat.getName());
@@ -103,7 +102,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             ps.executeUpdate();
 
             System.out.println("Aggiornati dati Anagrafica del secretariat!");
-            ps = null;
+
             ps = connection_db.getConnectData().prepareStatement(sqlPersonData);
             ps.setString(1, secretariat.getAddress());
             ps.setString(2, secretariat.getCity());
@@ -114,7 +113,6 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             ps.executeUpdate();
             System.out.println("Aggiornati dati persona del secretariat!");
 
-            ps = null;
             ps = connection_db.getConnectData().prepareStatement(sqlSecretariatData);
             ps.setString(1, secretariat.getUsername());
             ps.setString(2, secretariat.getPassword());
@@ -133,19 +131,17 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
     public void delete(String id) {
         System.out.println("id da cancellare a cascata: " + id);
 
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = "+"\'"+ id +"\'" );
             ps.executeUpdate();
             System.out.println("Cancellati dati Anagrafica del secretariat!");
 
-            ps = null;
             ps = connection_db.getConnectData().prepareStatement("delete from person where person.id = "+"\'"+ id +"\'" );
 
             ps.executeUpdate();
             System.out.println("Cancellati dati civici del secretariat!");
 
-            ps = null;
             ps = connection_db.getConnectData().prepareStatement("delete from SECRETARIAT where SECRETARIAT.id = "+"\'"+ id +"\'" );
 
             ps.executeUpdate();
@@ -158,7 +154,6 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
 
     @Override
     public String search(Secretariat secretariat) {
-        PreparedStatement ps = null;
         try{
             PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
                     "    INNER JOIN person" +
@@ -176,13 +171,10 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             String id_searched ="";
             if(rs.next()){
                 id_searched  = rs.getString("id");
-                //System.out.println(rs.getString("name"));
-                //System.out.println(rs.getString("fiscalcode"));
-                return id_searched;
             }else{
                 JOptionPane.showMessageDialog(null, "Ricerca Vuota");
-                return id_searched;
             }
+            return id_searched;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -193,7 +185,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
 
     @Override
     public Secretariat searchByUsernameAndPassword(User userLogged) {
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         String sqlSearch = "SELECT * FROM masterdata" +
                 "    INNER JOIN person" +
                 "    ON person.id = masterdata.id" +
@@ -301,6 +293,23 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public void updatePassword(String id, String pwd) {
+        String sqlSearch = "UPDATE SECRETARIAT" +
+                " SET SECRETARIAT.PASSWORD = ? WHERE SECRETARIAT.ID = ? ";
+        try {
+            PreparedStatement ps = connection_db.getConnectData().prepareStatement(sqlSearch);
+            ps.setString(1, pwd);
+            ps.setString(2, id);
+
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Password Aggiornata!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
     }
 

@@ -6,12 +6,12 @@ import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Doctor;
@@ -25,7 +25,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PersonalProfileController implements Initializable {
@@ -51,12 +53,13 @@ public class PersonalProfileController implements Initializable {
     private final ConcreteSecretariatDAO secretariatRepo;
     private final ConcreteDoctorDAO doctorRepo;
     private Button saveBtn;
+    private Button saveBtnPwd;
     private Doctor doctor;
     private String id_doctor = "";
     private String id_secretariat = "";
     private Secretariat secretariat;
     public double MAX_SIZE = 1.7976931348623157E308;
-
+    public Button ok;
 
     public PersonalProfileController(String roleUserLogged) {
         this.secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
@@ -86,9 +89,13 @@ public class PersonalProfileController implements Initializable {
         } else if (secretariat != null) {
             setParamSecretariat(this.secretariat);
         }
+        this.password.setDisable(true);
+        addButtonChangePassword();
         addButtonSave();
+
         this.checkboxUpdate.setOnAction(actionEvent -> {
             if (!checkboxUpdate.isSelected()) {
+                this.saveBtnPwd.setDisable(true);
                 this.saveBtn.setDisable(true);
                 this.name.setEditable(false);
                 this.surname.setEditable(false);
@@ -102,10 +109,12 @@ public class PersonalProfileController implements Initializable {
                 this.rbF.setDisable(true);
                 this.username.setEditable(false);
                 this.password.setEditable(false);
+
                 if (doctor != null) {
                     this.specialization.setDisable(true);
                 }
-            }else {
+            } else {
+                this.saveBtnPwd.setDisable(false);
                 this.saveBtn.setDisable(false);
                 this.name.setEditable(true);
                 this.surname.setEditable(true);
@@ -121,32 +130,11 @@ public class PersonalProfileController implements Initializable {
                     this.specialization.setDisable(false);
                 }
                 this.username.setEditable(true);
-                this.password.setEditable(true);
+                this.password.setEditable(false);
+
+
             }
         });
-    }
-    public void changeProfilePic() throws FileNotFoundException {
-        final FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(new Stage());
-        if (file != null) {
-            String filePath = file.getAbsolutePath();
-            if (filePath.endsWith(".jpg") ||
-                    filePath.endsWith(".jpeg") ||
-                    filePath.endsWith(".png") ||
-                    filePath.endsWith(".gif")) {
-                InputStream stream = new FileInputStream(filePath);
-                try {
-                    stream = new FileInputStream("D:\\images\\elephant.jpg");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                Image image = new Image(stream);
-                //Setting image to the image view
-                this.picProfile.setImage(image);
-            } else
-                JOptionPane.showMessageDialog(null, "Inserire un'immagine valida");
-        } else
-            JOptionPane.showMessageDialog(null, "Inserire un'immagine valida");
     }
 
     public void updateProfile(ActionEvent actionEvent) {
@@ -276,4 +264,92 @@ public class PersonalProfileController implements Initializable {
         this.saveBtn.setOnAction(this::updateProfile);
         this.labelsFields.getChildren().add(this.saveBtn);
     }
+
+
+    public void addButtonChangePassword() {
+        this.saveBtnPwd = new Button("Cambia Password");
+        this.saveBtnPwd.setId("saveBtnPassword");
+        this.saveBtnPwd.setDisable(true);
+        this.saveBtnPwd.setMaxWidth(MAX_SIZE); //MAX_SIZE
+        this.saveBtnPwd.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        this.saveBtnPwd.setPrefHeight(30);
+        this.saveBtnPwd.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
+                " -fx-border-color: transparent; -fx-font-size: 16px; ");
+        this.saveBtnPwd.setOnAction(this::changePassword);
+        this.labelsFields.getChildren().add(this.saveBtnPwd);
+    }
+
+    private Dialog<VBox> createDialog(Label oldPasswordTitle, PasswordField password) {
+        VBox container = new VBox();
+        container.getChildren().add(oldPasswordTitle);
+        container.getChildren().add(password);
+        Dialog<VBox> dialog = new Dialog<>();
+        dialog.getDialogPane().setPrefSize(300, 100);
+        ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
+        dialog.getDialogPane().setContent(container);
+        return dialog;
+    }
+
+
+    private void changePassword(ActionEvent actionEvent) {
+        Label oldPasswordTitle = new Label("Inserisci vecchia password");
+        Label newPasswordTitle = new Label("Inserisci Nuova password");
+        this.password = new PasswordField();
+
+        Dialog<?> dialog1 = createDialog(oldPasswordTitle, this.password);
+        var result = dialog1.showAndWait();
+        if (result.isPresent()) {
+            if (result.get() == dialog1.getDialogPane().getButtonTypes().get(0)) {
+                if (doctor != null) {
+                    if (password.getText().equals(this.doctor.getPassword())) {
+                        PasswordField newPassword = new PasswordField();
+                        Dialog<?> dialog2 = createDialog(newPasswordTitle, newPassword);
+                        var result2 = dialog2.showAndWait();
+                        if (result2.get() == dialog2.getDialogPane().getButtonTypes().get(0)) {
+                            //cambia password in db
+                            doctorRepo.updatePassword(this.id_doctor, newPassword.getText());
+                            SessionUser.updateProfile(this.doctor);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Password Errata! Riprova!");
+                    }
+                } else if (secretariat != null) {
+                    if (password.getText().equals(this.secretariat.getPassword())) {
+                        PasswordField newPassword = new PasswordField();
+                        Dialog<?> dialog2 = createDialog(newPasswordTitle, newPassword);
+                        var result2 = dialog2.showAndWait();
+                        if (result2.get() == dialog2.getDialogPane().getButtonTypes().get(0)) {
+                            //cambia password in db
+                            secretariatRepo.updatePassword(this.id_secretariat, newPassword.getText());
+                            SessionUser.updateProfile(this.secretariat);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Password Errata! Riprova!");
+                    }
+                }
+
+
+            }
+
+        }
+    }
 }
+
+//fare controllo su ruolo
+        /*
+        if (doctor != null) {
+            if (password.getText().equals(this.doctor.getPassword())) {
+                miniWindow.getChildren().clear();
+                password.clear();
+                ok = JOptionPane.showConfirmDialog(null, miniWindow, "Inserisci nuova password ", JOptionPane.OK_CANCEL_OPTION);
+                if (ok == JOptionPane.OK_OPTION) {
+                    System.out.println(password.getText());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Errore! Password non corretta...");
+            }
+        }
+}*/
+
+

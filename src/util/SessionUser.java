@@ -21,8 +21,6 @@ public class SessionUser { //singleton per la connessione dell'utente
 
 
     private SessionUser() {
-        // user = LoginController.getUserLogged();
-
     }
 
     public  static void login(User user) {
