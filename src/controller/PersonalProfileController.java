@@ -1,38 +1,27 @@
 package controller;
-
 import dao.ConcreteDoctorDAO;
 import dao.ConcreteSecretariatDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import model.Doctor;
 import model.Gender;
 import model.Secretariat;
+import util.FieldVerifier;
 import util.SessionUser;
-
 import javax.swing.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class PersonalProfileController implements Initializable {
+public class PersonalProfileController implements Initializable , FieldVerifier{
     public ImageView picProfile;
-    public Button profilePicButton;
     public CheckBox checkboxUpdate;
     public TextField name;
     public TextField surname;
@@ -60,14 +49,14 @@ public class PersonalProfileController implements Initializable {
     private Secretariat secretariat;
     public double MAX_SIZE = 1.7976931348623157E308;
     public Button ok;
+    private List<TextField> fieldsControlRestrict;
 
-    public PersonalProfileController(String roleUserLogged) {
+    public PersonalProfileController(String roleUserLogged)  {
         this.secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
         this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
 
         switch (roleUserLogged) {
             case "Dottore" -> {
-                var debugSession = SessionUser.getDoctor();
                 this.id_doctor = this.doctorRepo.search(SessionUser.getDoctor());
                 this.doctor = this.doctorRepo.searchById(this.id_doctor);
             }
@@ -92,6 +81,11 @@ public class PersonalProfileController implements Initializable {
         this.password.setDisable(true);
         addButtonChangePassword();
         addButtonSave();
+
+        setListenerCriticalFields(this.fiscalCode, this.telephone, this.email);
+        this.fieldsControlRestrict = List.of(fiscalCode,
+               telephone,
+               email);
 
         this.checkboxUpdate.setOnAction(actionEvent -> {
             if (!checkboxUpdate.isSelected()) {
@@ -138,31 +132,36 @@ public class PersonalProfileController implements Initializable {
     }
 
     public void updateProfile(ActionEvent actionEvent) {
-        if (doctor != null) {
-            Doctor d = createDoctor();
-            if (this.doctorRepo.isNotDuplicate(d)) {
-                try {
-                    this.doctorRepo.update(this.id_doctor, d);
-                    SessionUser.updateProfile(d);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
-            }
-        } else if (secretariat != null) {
-            Secretariat s = createSecretariat();
-            if (this.secretariatRepo.isNotDuplicate(s)) {
-                try {
-                    this.secretariatRepo.update(this.id_secretariat, s);
-                    SessionUser.updateProfile(s);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Impossibile creare l'utente segreteria! Già esistente!");
-            }
-        }
+       if(!checkAllFieldWithControlRestricted(this.fieldsControlRestrict.stream())) {
+           if (doctor != null) {
+               Doctor d = createDoctor();
+               if (this.doctorRepo.isNotDuplicate(d)) {
+                   try {
+                       this.doctorRepo.update(this.id_doctor, d);
+                       SessionUser.updateProfile(d);
+                   } catch (Exception ex) {
+                       ex.printStackTrace();
+                   }
+               } else {
+                   JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
+               }
+           } else if (secretariat != null) {
+               Secretariat s = createSecretariat();
+               if (this.secretariatRepo.isNotDuplicate(s)) {
+                   try {
+                       this.secretariatRepo.update(this.id_secretariat, s);
+                       SessionUser.updateProfile(s);
+                   } catch (Exception ex) {
+                       ex.printStackTrace();
+                   }
+               } else {
+                   JOptionPane.showMessageDialog(null, "Impossibile creare l'utente segreteria! Già esistente!");
+               }
+           }
+       }else
+       {
+           JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
+       }
     }
 
 
@@ -334,6 +333,9 @@ public class PersonalProfileController implements Initializable {
 
         }
     }
+
+
+
 }
 
 //fare controllo su ruolo

@@ -44,4 +44,27 @@ public interface FieldVerifier {
     default boolean checkifNotSecurePassword(Label field) {
         return (field.getStyle().contains("-fx-text-fill: red") || field.getStyle().contains("-fx-text-fill: orange"));
     }
+
+
+    default void setListenerCriticalFields(TextField fiscalCode, TextField telephone, TextField email) {
+        fiscalCode.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
+            if (!fiscalCodeVerifier(newValueFC))
+                fiscalCode.setStyle("-fx-border-color: red; -fx-border-width: 2px");
+            else
+                fiscalCode.setStyle("-fx-border-color: lightgreen;  -fx-border-width: 2px");
+        });
+        telephone.textProperty().addListener((observableT, oldValueT, newValueT) -> {
+            if (!this.phoneNumberVerifier(newValueT))
+                telephone.setStyle("-fx-border-color: red;  -fx-border-width: 2px");
+            else
+                telephone.setStyle("-fx-border-color: lightgreen;  -fx-border-width: 2px");
+        });
+        email.textProperty().addListener((observableE, oldValueE, newValueE) -> {
+            if (!this.emailVerifier(newValueE))
+                email.setStyle("-fx-border-color: red;  -fx-border-width: 2px");
+            else
+                email.setStyle("-fx-border-color: lightgreen;  -fx-border-width: 2px");
+        });
+    }
+
 }

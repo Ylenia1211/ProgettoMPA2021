@@ -89,25 +89,7 @@ public class ClientController implements Initializable, FieldVerifier {
         this.textdateBirth.setValue( LocalDate.of(1980, 1,1));
         this.textdateBirth.setEditable(false);
 
-
-        this.textFiscalCode.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
-            if (!FieldVerifier.super.fiscalCodeVerifier(newValueFC))
-                this.textFiscalCode.setStyle("-fx-border-color: red; -fx-border-width: 2px");
-            else
-                this.textFiscalCode.setStyle("-fx-border-color: lightgreen;  -fx-border-width: 2px");
-        });
-        this.textTelephone.textProperty().addListener((observableT, oldValueT, newValueT) -> {
-            if (!FieldVerifier.super.phoneNumberVerifier(newValueT))
-                this.textTelephone.setStyle("-fx-border-color: red;  -fx-border-width: 2px");
-            else
-                this.textTelephone.setStyle("-fx-border-color: lightgreen;  -fx-border-width: 2px");
-        });
-        this.textEmail.textProperty().addListener((observableE, oldValueE, newValueE) -> {
-            if (!FieldVerifier.super.emailVerifier(newValueE))
-                this.textEmail.setStyle("-fx-border-color: red;  -fx-border-width: 2px");
-            else
-                this.textEmail.setStyle("-fx-border-color: lightgreen;  -fx-border-width: 2px");
-        });
+        setListenerCriticalFields(this.textFiscalCode, this.textTelephone, this.textEmail);
 
         this.fieldsText = List.of(this.textName,
                 this.textSurname,
@@ -120,6 +102,7 @@ public class ClientController implements Initializable, FieldVerifier {
                 this.textTelephone,
                 this.textEmail);
     }
+
 
     private void setTooltipOnField() {
         this.textName.setTooltip(new Tooltip("Nome"));
