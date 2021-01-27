@@ -100,18 +100,32 @@ public class Dashboard  implements Initializable {
                 try {
                     switch (button.getText()) {
                         case "Aggiungi" -> {  //segretaria
+                            if(SessionUser.getUserLogged().getRole().equals("Segreteria")){
                             Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
                             Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
                             loader.setControllerFactory(p -> new BookingAppointmentController());
                             Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
                             tabPane.getTabs().clear();
-
                             tabPane.getTabs().add(nuovoClient);
                             tabPane.getTabs().add(nuovoPaziente);
                             tabPane.getTabs().add(bookingVisits);
                             tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                             borderPane.setCenter(tabPane);
+                            }else{
+                                FXMLLoader loaderDoctor = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
+                                loaderDoctor.setControllerFactory(p -> new RegistrationDoctorController());
+                                Tab nuovoDottore = new Tab("Nuovo Dottore", loaderDoctor.load());
+                                FXMLLoader loaderSecretariat = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
+                                loaderSecretariat.setControllerFactory(p -> new RegistrationSecretariatController());
+                                Tab nuovaSegreteria = new Tab("Nuovo Segreteria", loaderSecretariat.load());
+                                tabPane.getTabs().clear();
+                                tabPane.getTabs().add(nuovoDottore);
+                                tabPane.getTabs().add(nuovaSegreteria);
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+                                borderPane.setCenter(tabPane);
+
+                            }
                         }
                         case "Clienti" -> {  //segretaria
                             Tab clienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showTableOwner.fxml")));
@@ -129,30 +143,28 @@ public class Dashboard  implements Initializable {
                             tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                             borderPane.setCenter(tabPane);
                         }
-                        case "Utenti" -> { //admin
+                        case "Dottori" -> { //admin
                             try {
-                                FXMLLoader loaderDoctor = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
-                                loaderDoctor.setControllerFactory(p -> new RegistrationDoctorController());
-                                Tab nuovoDottore = new Tab("Nuovo Dottore", loaderDoctor.load());
                                 Tab dottori = new Tab("Dottori", FXMLLoader.load(getClass().getResource("/view/showTableDoctor.fxml")));
-
-                                //segreteria
-                                FXMLLoader loaderSecretariat = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
-                                loaderSecretariat.setControllerFactory(p -> new RegistrationSecretariatController());
-                                Tab nuovaSegreteria = new Tab("Nuovo Segreteria", loaderSecretariat.load());
-                                Tab segreteria = new Tab("Segreteria", FXMLLoader.load(getClass().getResource("/view/showTableSecretariat.fxml")));
                                 tabPane.getTabs().clear();
-                                tabPane.getTabs().add(nuovoDottore);
                                 tabPane.getTabs().add(dottori);
-                                tabPane.getTabs().add(nuovaSegreteria);
-                                tabPane.getTabs().add(segreteria);
-                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
                                 tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
 
+                        }
+                        case "Segreteria" -> { //admin
+                            try {
+                                Tab segreteria = new Tab("Segreteria", FXMLLoader.load(getClass().getResource("/view/showTableSecretariat.fxml")));
+                                tabPane.getTabs().clear();
+                                tabPane.getTabs().add(segreteria);
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+                                borderPane.setCenter(tabPane);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                         case "Prenotazioni" -> { //segretaria
                             try {
