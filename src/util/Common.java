@@ -1,7 +1,7 @@
 package util;
 
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 import java.time.Duration;
@@ -36,5 +36,19 @@ public interface Common {
                 .substring(2)
                 .replaceAll("(\\d[HMS])(?!$)", "$1 ")
                 .toLowerCase();
+    }
+
+    static Dialog<VBox> createDialogText(Label title, TextField text, PasswordField psw) {
+        VBox container = new VBox();
+        container.getChildren().add(title);
+        container.getChildren().add(text);
+        container.getChildren().add(new Label("Inserisci Password Email"));
+        container.getChildren().add(psw);
+        Dialog<VBox> dialog = new Dialog<>();
+        dialog.getDialogPane().setPrefSize(300, 100);
+        ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
+        dialog.getDialogPane().setContent(container);
+        return dialog;
     }
 }

@@ -74,7 +74,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     @Override
     public void update(String id, Appointment appointment) {
         String sqlUpdateAppointment =  "UPDATE BOOKING SET DATE_VISIT = ?, TIME_START = ?, TIME_END = ? WHERE ID = ?";
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = connection_db.getConnectData().prepareStatement(sqlUpdateAppointment);
             ps.setString(1, appointment.getLocalDate().toString());
@@ -93,7 +93,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
     @Override
     public void delete(String id) {
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = connection_db.getConnectData().prepareStatement("delete from BOOKING where BOOKING.ID = "+"\'"+ id +"\'" );
             ps.executeUpdate();
@@ -106,9 +106,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
     @Override
     public Map<String, String> searchAllClientByFiscalCod() {
-        HashMap<String,Map<String, String>> linkedMap = new HashMap<>();
         Map<String, String> dictionary = new HashMap<>();  //<key,value>  both key and value are Strings
-        PreparedStatement ps = null;
         String sqlSearch = "SELECT * FROM masterdata" +
                 "                  INNER JOIN person" +
                 "                             ON person.id = masterdata.id" +
@@ -510,9 +508,10 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
     @Override
     public List<Appointment> findAllVisitPet(String name, String surname) {
-        String sqlSearchVisitsbyPet = "SELECT  *  FROM MASTERDATA INNER JOIN PET ON MASTERDATA.id = PET.id\n" +
-                "INNER JOIN BOOKING on PET.ID = BOOKING.ID_PET\n" +
-                "WHERE MASTERDATA.NAME = ? AND MASTERDATA.SURNAME = ?";
+        String sqlSearchVisitsbyPet = """
+                SELECT  *  FROM MASTERDATA INNER JOIN PET ON MASTERDATA.id = PET.id
+                INNER JOIN BOOKING on PET.ID = BOOKING.ID_PET
+                WHERE MASTERDATA.NAME = ? AND MASTERDATA.SURNAME = ?""";
         List<Appointment> listItems = new ArrayList<>();
         try {
             PreparedStatement statement = connection_db.getConnectData()

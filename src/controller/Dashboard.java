@@ -1,7 +1,9 @@
 package controller;
+
 import com.sun.tools.javac.Main;
 import controller.factorySidebar.SideBarAction;
 import controller.factorySidebar.SideBarFactory;
+import dao.ConcreteAdminDAO;
 import dao.ConcreteDoctorDAO;
 import datasource.ConnectionDBH2;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Lighting;
 import javafx.scene.input.MouseEvent;
@@ -24,8 +23,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.User;
+import util.Common;
 import util.SessionUser;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 
-public class Dashboard  implements Initializable {
+public class Dashboard implements Initializable, Common {
     public BorderPane borderPane;
     public Label labelWelcome;
     public VBox sidebar;
@@ -42,7 +43,7 @@ public class Dashboard  implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setUserLogged(SessionUser.getUserLogged());
-       //costruzione delle azioni della sideBar in base al Ruolo dell'utente loggato,  utilizzando il Pattern Factory
+        //costruzione delle azioni della sideBar in base al Ruolo dell'utente loggato,  utilizzando il Pattern Factory
         SideBarAction sideBarByRole = SideBarFactory.createSideBar(this.roleUserLogged);  //mi serve il ruolo dell'utente loggato
         try {
             this.setButtons(sidebar, sideBarByRole.getSpecificAction()); //costruzione specifica delle azioni dell'user loggato
@@ -57,21 +58,21 @@ public class Dashboard  implements Initializable {
         stage.close();
     }
 
-    public void setUserLogged(User user){
+    public void setUserLogged(User user) {
         this.roleUserLogged = user.getRole();
-        this.labelWelcome.setText("  Benvenuto "+ this.roleUserLogged + "!");
+        this.labelWelcome.setText("  Benvenuto " + this.roleUserLogged + "!");
     }
 
     public BorderPane getBorderPane() {
         return borderPane;
     }
 
-    public void setButtons (VBox vBox, List<Button> buttons) throws IOException {
+    public void setButtons(VBox vBox, List<Button> buttons) throws IOException {
         DropShadow shadow = new DropShadow();
         Lighting lighting = new Lighting();
         TabPane tabPane = new TabPane();
 
-        for (Button button: buttons) {
+        for (Button button : buttons) {
             //Adding the shadow when the mouse cursor is on
             button.addEventHandler(MouseEvent.MOUSE_ENTERED,
                     e -> button.setEffect(shadow));
@@ -91,7 +92,7 @@ public class Dashboard  implements Initializable {
             button.setPrefWidth(150.0);
             button.setPrefHeight(25.0);
             button.setTextFill(Paint.valueOf("WHITE"));
-            if (button.getText().equals("Logout")){
+            if (button.getText().equals("Logout")) {
                 button.setStyle("-fx-background-color: #fb4a4a; -fx-background-radius: 30px, 30px, 30px, 30px;");
 
             }
@@ -100,19 +101,19 @@ public class Dashboard  implements Initializable {
                 try {
                     switch (button.getText()) {
                         case "Aggiungi" -> {  //segretaria
-                            if(SessionUser.getUserLogged().getRole().equals("Segreteria")){
-                            Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
-                            Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
-                            loader.setControllerFactory(p -> new BookingAppointmentController());
-                            Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
-                            tabPane.getTabs().clear();
-                            tabPane.getTabs().add(nuovoClient);
-                            tabPane.getTabs().add(nuovoPaziente);
-                            tabPane.getTabs().add(bookingVisits);
-                            tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-                            borderPane.setCenter(tabPane);
-                            }else{
+                            if (SessionUser.getUserLogged().getRole().equals("Segreteria")) {
+                                Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
+                                Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
+                                loader.setControllerFactory(p -> new BookingAppointmentController());
+                                Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
+                                tabPane.getTabs().clear();
+                                tabPane.getTabs().add(nuovoClient);
+                                tabPane.getTabs().add(nuovoPaziente);
+                                tabPane.getTabs().add(bookingVisits);
+                                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+                                borderPane.setCenter(tabPane);
+                            } else {
                                 FXMLLoader loaderDoctor = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
                                 loaderDoctor.setControllerFactory(p -> new RegistrationDoctorController());
                                 Tab nuovoDottore = new Tab("Nuovo Dottore", loaderDoctor.load());
@@ -178,6 +179,33 @@ public class Dashboard  implements Initializable {
                                 ex.printStackTrace();
                             }
                         }
+                        case "Clinica" -> { //admin
+                            TextField oldEmailClinic = new TextField();
+                            PasswordField oldPassword = new PasswordField();
+                            ConcreteAdminDAO adminRepo = new ConcreteAdminDAO(ConnectionDBH2.getInstance());
+                            String emailDB = adminRepo.searchEmailClinic();
+                            String pswEmailDB = adminRepo.searchPasswordClinic();
+                            Dialog<?> dialog = Common.createDialogText(new Label("Inserisci Vecchia Email della Clinica"), oldEmailClinic, oldPassword);
+                            var result = dialog.showAndWait();
+                            if (result.isPresent()) {
+                                if (result.get() == dialog.getDialogPane().getButtonTypes().get(0)) {
+                                    if (oldEmailClinic.getText().equals(emailDB) && oldPassword.getText().equals(pswEmailDB)) {
+                                        TextField newEmailClinic = new TextField();
+                                        PasswordField newPassword = new PasswordField();
+                                        Dialog<?> dialog2 = Common.createDialogText(new Label("Inserisci Nuova Email della Clinica"), newEmailClinic,newPassword);
+                                        var result2 = dialog2.showAndWait();
+                                        if (result2.get() == dialog2.getDialogPane().getButtonTypes().get(0)) {
+                                            //cambia email in db
+                                            adminRepo.updateEmailClinic(newEmailClinic.getText());
+                                            //cambia psw email in db
+                                            adminRepo.updatePasswordClinic(newPassword.getText());
+                                        }
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Email e/o password non compatibile nel DB! Riprova!");
+                                    }
+                                }
+                            }
+                        }
                         case "Report" -> { //dottore
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/searchReportbyPet.fxml"));
@@ -185,7 +213,7 @@ public class Dashboard  implements Initializable {
                                 Tab bookingVisits = new Tab("Tutte le visite passate", loader.load());
                                 tabPane.getTabs().clear();
                                 tabPane.getTabs().add(bookingVisits);
-                                tabPane.getTabs().forEach(x-> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
+                                tabPane.getTabs().forEach(x -> x.setStyle("-fx-color:  #3DA4E3; -fx-text-base-color: #163754;"));
                                 tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
                                 borderPane.setCenter(tabPane);
 
@@ -206,7 +234,7 @@ public class Dashboard  implements Initializable {
                             }
 
                         }
-                        case "Logout" ->{
+                        case "Logout" -> {
                             Stage home = new Stage();
                             try {
                                 //cambia schermata --> login
@@ -218,10 +246,10 @@ public class Dashboard  implements Initializable {
                                 home.initStyle(StageStyle.TRANSPARENT); //per nascondere la barra in alto
                                 home.setResizable(false);
                                 home.show();
-                            }catch (IOException ex) {
+                            } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
-                       }
+                        }
                         default -> {
                             root = FXMLLoader.load(getClass().getResource("/view/" + button.getText().toLowerCase(Locale.ROOT) + ".fxml"));
                             borderPane.setCenter(root);
