@@ -221,14 +221,14 @@ public class Dashboard implements Initializable, Common {
                                 ex.printStackTrace();
                             }
                         }
-                        case "Profilo" -> { // Aggiunto solo per testare il profilo
+                        case "Notifica" -> { // manda notifica email se cliccato a tutti gli utenti con prenotaizone il giorno dopo
+
+                        }
+                        case "Profilo" -> { //il profilo
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/personalProfile.fxml"));
                                 loader.setControllerFactory(p -> new PersonalProfileController(this.roleUserLogged));
                                 borderPane.setCenter(loader.load());
-                                /*
-                                var profile = FXMLLoader.load(getClass().getResource("/view/personalProfile.fxml"));
-                                borderPane.setCenter((Node) profile);*/
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }

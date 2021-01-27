@@ -169,6 +169,23 @@ public class ConcretePetDAO implements PetDAO {
                 JOptionPane.showMessageDialog(null, "Ricerca Vuota");
             }
 
+            //se cancello l'animale prima devo cancellare le prenotazioni future (data di oggi compresa) a lui associate
+            ConcreteAppointmentDAO bookingDao = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
+            List<Appointment> futureBooking = bookingDao.findAllVisitPetAfterDateByID(id, LocalDate.now());
+            futureBooking.forEach(appointment -> {
+                String sqlDeleteBookingFuture = "DELETE FROM BOOKING WHERE ID_PET = ? AND DATE_VISIT = ?";
+                try {
+                    PreparedStatement st = connection_db.getConnectData().prepareStatement(sqlDeleteBookingFuture);
+                    st.setString(1, id);
+                    st.setString(2, appointment.getLocalDate().toString());
+                    st.executeUpdate();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            });
+            JOptionPane.showMessageDialog(null, "Prenotazioni future associate al paziente cancellate correttamente!");
+
+
             //cancellazione animale
             ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = " + "\'" + id + "\'");
             ps.executeUpdate();

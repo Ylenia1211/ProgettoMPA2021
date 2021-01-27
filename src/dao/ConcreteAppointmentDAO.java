@@ -565,4 +565,49 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return null;
         }
     }
+
+    @Override
+    public List<Appointment> findAllVisitPetByID(String id) {
+        String sqlSearchVisitsbyPet = """
+                SELECT  *  FROM MASTERDATA INNER JOIN PET ON MASTERDATA.id = PET.id
+                INNER JOIN BOOKING on PET.ID = BOOKING.ID_PET
+                WHERE MASTERDATA.ID = ?""";
+        List<Appointment> listItems = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection_db.getConnectData()
+                    .prepareStatement(sqlSearchVisitsbyPet);
+            statement.setString(1,id);
+            ResultSet r = statement.executeQuery();
+            while(r.next()) {
+                listItems.add(new Appointment.Builder()
+                        .setId_pet(r.getString("id_pet"))
+                        .setId_owner(r.getString("id_owner"))
+                        .setSpecialitation(r.getString("specialization"))
+                        .setId_doctor(r.getString("id_doctor"))
+                        .setLocalDate(LocalDate.parse(r.getString("date_visit")))
+                        .setLocalTimeStart(LocalTime.parse(r.getString("time_start")))
+                        .setLocalTimeEnd(LocalTime.parse(r.getString("time_end")))
+                        .build()
+                );
+            }
+            return listItems;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Appointment> findAllVisitPetAfterDateByID(String id, LocalDate date) {
+        List<Appointment> listAllAppointment = findAllVisitPetByID(id);
+        if(!listAllAppointment.isEmpty()) {
+            return listAllAppointment.stream()
+                    .filter(item -> (item.getLocalDate().isAfter(date) ||(item.getLocalDate().isEqual(date))))
+                    .collect(Collectors.toList());
+        } else{
+            JOptionPane.showMessageDialog(null, "La ricerca è vuota!");
+            return null;
+        }
+    }
 }

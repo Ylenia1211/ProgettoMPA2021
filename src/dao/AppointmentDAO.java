@@ -30,5 +30,8 @@ public interface AppointmentDAO extends Crud<Appointment> {
     List<Appointment> findAllVisitPetBeforeDate(String name, String surname, LocalDate date);
     List<Appointment> findAllVisitPetAfterDate(String name, String surname, LocalDate date);
 
+    List<Appointment> findAllVisitPetByID(String id);
+    List<Appointment> findAllVisitPetAfterDateByID(String id, LocalDate date);
+
 }
 
