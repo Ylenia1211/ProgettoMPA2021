@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static controller.RegistrationPetController.getKeyByValue;
@@ -147,17 +148,23 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
     public void registrationVisit() throws IllegalAccessException {
         // ricerca prenotazioni per quel dottore in quella data
 
-        if(checkNull(this.fieldsText.stream()) || checkEmptyComboBox(this.fieldsComboBox.stream())) {
+        if(checkNull(this.fieldsText.stream()) || checkEmptyComboBox(this.fieldsComboBox.stream()) || this.specializationDoctor.contains("Tipo di visita (automatico)")) {
             JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Devi riempire tutti i campi!");
         }else
         {
             Appointment p = createAppointment();
             List<Appointment> listAppointment = this.appointmentRepo.searchVisitbyDoctorAndDate(this.idDoctorSearched, this.textdateVisit.getValue().toString());
+           /* List<Appointment> listAppWithoutItself = listAppointment.stream().filter(item -> item.getId_owner().equals(p.getId_owner())
+            && item.getId_pet().equals(p.getId_pet())  && item.getLocalTimeStart().equals(p.getLocalTimeStart())
+                    &&  item.getLocalTimeEnd().equals(p.getLocalTimeEnd())
+                    && item.getId_doctor().equals(p.getId_doctor())  && item.getSpecialitation().equals(p.getSpecialitation())
+            ).collect(Collectors.toList());*/
             boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
                     (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) ||
 
                     ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) &&
                             item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
+
             );
             if (isValid) {
                 this.appointmentRepo.add(p);

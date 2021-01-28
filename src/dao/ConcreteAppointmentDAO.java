@@ -269,13 +269,15 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
     @Override
     public String search(Appointment appointment) {
-        PreparedStatement ps = null;
         try{
             PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM BOOKING" +
-                     "   WHERE BOOKING.DATE_VISIT =" +"\'"+ appointment.getLocalDate() +"\'"+
-                     "    AND BOOKING.TIME_START =" +"\'"+ appointment.getLocalTimeStart() +"\'"+
-                     "    AND BOOKING.TIME_END =" +"\'"+ appointment.getLocalTimeEnd() +"\'"+
-                     "    AND BOOKING.ID_PET =" +"\'"+ appointment.getId_pet() +"\'");
+                     "   WHERE BOOKING.DATE_VISIT =" + "'" + appointment.getLocalDate() + "'" +
+                     "    AND BOOKING.TIME_START =" + "'" + appointment.getLocalTimeStart() + "'" +
+                     "    AND BOOKING.TIME_END =" + "'" + appointment.getLocalTimeEnd() + "'" +
+                     "    AND BOOKING.ID_PET =" + "'" + appointment.getId_pet() + "'" +
+                     "    AND BOOKING.ID_DOCTOR =" + "'" + appointment.getId_doctor() + "'" +
+                    "    AND BOOKING.ID_OWNER =" + "'" + appointment.getId_owner() + "'"
+            );
 
             ResultSet rs = statement.executeQuery();
             String id_searched ="";
@@ -610,4 +612,29 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return null;
         }
     }
+/*
+    @Override
+    public boolean isItSelf(Appointment p) {
+        try {
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM BOOKING" +
+                    " WHERE BOOKING.DATE_VISIT = ?   AND BOOKING.ID_PET = ? AND BOOKING.ID_OWNER = ? AND BOOKING.SPECIALIZATION = ?" +
+                    "    AND BOOKING.ID_DOCTOR = ?");
+            statement.setString(1, p.getLocalDate().toString());
+            statement.setString(2, p.getId_pet());
+            statement.setString(3, p.getId_owner());
+            statement.setString(4, p.getSpecialitation());
+            statement.setString(5, p.getId_doctor());
+
+            ResultSet rs = statement.executeQuery();
+            String id_searched = "";
+            if (rs.next()) {
+                id_searched = rs.getString("id");
+            }
+            return !(id_searched.equals("")); //true --> è duplicato
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
+            return false;
+        }
+    }*/
 }

@@ -5,6 +5,7 @@ import controller.factorySidebar.SideBarFactory;
 import dao.ConcreteAdminDAO;
 import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -227,11 +228,11 @@ public class Dashboard implements Initializable, Common, Subject {
                             }
                         }
                         case "Notifica" -> { // manda notifica email se cliccato a tutti gli utenti con prenotaizone il giorno dopo
-                            this.observers  = new ArrayList<>();
+                            this.observers = new ArrayList<>();
                             ConcreteAppointmentDAO bookingDao = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
                             List<Appointment> ownersBookingTomorrow = bookingDao.searchAppointmentsByDate((LocalDate.now().plusDays(1)).toString());
                             //List<String> emailsOwners =new ArrayList<>();
-                            if(!ownersBookingTomorrow.isEmpty()) {
+                            if (!ownersBookingTomorrow.isEmpty()) {
                                 ownersBookingTomorrow.forEach(booking -> {
                                     // emailsOwners.add(bookingDao.searchOwnerById(booking.getId_owner()).getEmail()); //test
                                     ConcreteObserver observerChanges = new ConcreteObserver.Builder()
@@ -243,8 +244,19 @@ public class Dashboard implements Initializable, Common, Subject {
                                     this.register(observerChanges);
                                 });
                                 //emailsOwners.forEach(System.out::println);
-                                this.notifyObservers();
-                                JOptionPane.showMessageDialog(null, "Notifiche delle prenotazioni di domani mandate correttamente ai Clienti!");
+                               /* Platform.runLater(() -> new Thread(() -> {
+                                    while(true) {*/
+                                        notifyObservers();
+                                        JOptionPane.showMessageDialog(null, "Notifiche delle prenotazioni di domani mandate correttamente ai Clienti!");
+                                     /*   try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException interruptedException) {
+                                            interruptedException.printStackTrace();
+                                        }
+                                    }
+                                }).start());*/
+
+
                             }else
                                 JOptionPane.showMessageDialog(null, "Nessuna prenotazione prevista per domani!");
                         }

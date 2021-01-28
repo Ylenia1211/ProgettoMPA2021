@@ -1,6 +1,5 @@
 package util;
 
-import controller.LoginController;
 import dao.ConcreteDoctorDAO;
 import dao.ConcreteSecretariatDAO;
 import datasource.ConnectionDBH2;
@@ -10,7 +9,6 @@ import model.Secretariat;
 import model.User;
 
 import javax.swing.*;
-import java.util.Objects;
 
 public class SessionUser { //singleton per la connessione dell'utente
     private static SessionUser instance = new SessionUser();

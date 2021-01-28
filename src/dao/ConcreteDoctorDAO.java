@@ -324,7 +324,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
             if (rs.next()) {
                 id_searched = rs.getString("id");
             }
-            return id_searched.equals("");
+            return id_searched.equals(""); //true -->non è duplicato
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
