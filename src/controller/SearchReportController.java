@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
 import util.FieldVerifier;
+import util.gui.ButtonTable;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static util.gui.ButtonTable.addButtonDeleteToTable;
 
 //visualizza le prenotazioni gia effettutate con il riferimento ai report associati
 public class SearchReportController  implements Initializable {
@@ -48,11 +51,13 @@ public class SearchReportController  implements Initializable {
         col_type.setCellValueFactory(new PropertyValueFactory<>("specialitation"));
         appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
         List<Appointment> listPrecAppointments = appointmentRepo.searchVisitBeforeDate(LocalDate.now());
-
         listItems = FXCollections.observableArrayList(listPrecAppointments); //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
         tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
+
+        var colBtnDelete = ButtonTable.addButtonDeleteToTable(tableAllBookingVisit, Appointment.class);
+        tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);
+        //addButtonDeleteToTable();
         addButtonViewInfoOwnerPet();
-        addButtonDeleteToTable();
         addButtonCreateReport();
         addButtonViewReport();
         this.searchField.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
@@ -220,48 +225,4 @@ public class SearchReportController  implements Initializable {
         tableAllBookingVisit.getColumns().add(colBtn);
     }
 
-
-    private void addButtonDeleteToTable() {
-        TableColumn<Appointment, Void> colBtn = new TableColumn("");
-
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
-            @Override
-            public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<>() {
-                    private final Button btn = new Button("Cancella");
-
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Appointment data = getTableView().getItems().get(getIndex());
-                            JPanel pan = new JPanel();
-                            int ok = JOptionPane.showConfirmDialog(
-                                    null,
-                                    "Sei sicuro di voler cancellare?",
-                                    "Cancellazione Prenotazione",
-                                    JOptionPane.YES_NO_OPTION);
-                            if (ok == 0) { //cancella
-                                String id = appointmentRepo.search(data);
-                                appointmentRepo.delete(id);
-                                tableAllBookingVisit.getItems().remove(data); //elimina graficamente
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-
-        colBtn.setCellFactory(cellFactory);
-        tableAllBookingVisit.getColumns().add(colBtn);
-    }
 }

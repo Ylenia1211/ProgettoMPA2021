@@ -133,7 +133,6 @@ public class ButtonTable{
                                     clientRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
                                 }
-                                //#Todo: lo stesso per gli altri elementi
                             }
                         });
                     }

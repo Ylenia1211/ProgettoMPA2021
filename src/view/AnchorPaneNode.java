@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
+import util.SessionUser;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -41,10 +42,10 @@ public class AnchorPaneNode extends AnchorPane {
         this.setOnMouseClicked(e -> {
             System.out.println("Data cliccata: " + date);
             //deve spuntare la lista delle prenotazioni di quel giorno per l'utente loggato OK
-            /*String id_doctor = this.doctorRepo.search(SessionUser.getDoctor());
+            String id_doctor = this.doctorRepo.search(SessionUser.getDoctor());
             System.out.println("id_dottore loggato: " + id_doctor);
-            this.listAppointmentDay = this.appointmentRepo.searchVisitbyDoctorAndDate(id_doctor,date.toString());*/
-            this.listAppointmentDay =this.appointmentRepo.searchAppointmentsByDate(date.toString()); //questo è generale NON Cancellare
+            this.listAppointmentDay = this.appointmentRepo.searchVisitbyDoctorAndDate(id_doctor,date.toString());
+            //this.listAppointmentDay =this.appointmentRepo.searchAppointmentsByDate(date.toString()); //questo è generale NON Cancellare
             //this.listAppointmentDay.stream().map(Appointment::toString).forEach(System.out::println);
             //funziona fino a qui
 
@@ -53,22 +54,13 @@ public class AnchorPaneNode extends AnchorPane {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showSpecificBookingVisit.fxml"));
 
-                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                    public Object call(Class<?> p) {
-                        return new ShowSpecificBookingVisitController(listAppointmentDay);
-                    }
-                });
+                loader.setControllerFactory(p -> new ShowSpecificBookingVisitController(listAppointmentDay));
                 borderPane.setCenter(loader.load());
 
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            /*
-            try {
-                borderPane.setCenter(FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }*/
+
         });
     }
 

@@ -17,12 +17,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
+import model.Pet;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static util.gui.ButtonTable.addButtonDeleteToTable;
 
 public class ShowSpecificBookingVisitController implements Initializable {
     public TableView<Appointment> tableBookingVisit;
@@ -51,8 +55,11 @@ public class ShowSpecificBookingVisitController implements Initializable {
 
         appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
         tableBookingVisit.setItems(listItems);
-        addButtonUpdateToTable();
-        addButtonDeleteToTable();
+        addButtonUpdateToTable(); //non posso rifattorizzare cme gli altri (cambia l'update)
+
+        var colBtnDelete = addButtonDeleteToTable(tableBookingVisit, Appointment.class);
+        tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);
+
         addButtonViewInfoOwnerPet();
         addButtonCreateReport();
         addButtonViewReport();
@@ -257,47 +264,5 @@ public class ShowSpecificBookingVisitController implements Initializable {
         tableBookingVisit.getColumns().add(colBtn);
     }
 
-    private void addButtonDeleteToTable() {
-        TableColumn<Appointment, Void> colBtn = new TableColumn("");
 
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
-            @Override
-            public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<>() {
-                    private final Button btn = new Button("Cancella");
-
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Appointment data = getTableView().getItems().get(getIndex());
-                            JPanel pan = new JPanel();
-                            int ok = JOptionPane.showConfirmDialog(
-                                    null,
-                                    "Sei sicuro di voler cancellare?",
-                                    "Cancellazione Prenotazione",
-                                    JOptionPane.YES_NO_OPTION);
-                            if (ok == 0) { //cancella
-                                String id = appointmentRepo.search(data);
-                                appointmentRepo.delete(id);
-                                tableBookingVisit.getItems().remove(data); //elimina graficamente
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-
-        colBtn.setCellFactory(cellFactory);
-        tableBookingVisit.getColumns().add(colBtn);
-    }
 }
