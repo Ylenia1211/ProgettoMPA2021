@@ -154,24 +154,23 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         {
             Appointment p = createAppointment();
             List<Appointment> listAppointment = this.appointmentRepo.searchVisitbyDoctorAndDate(this.idDoctorSearched, this.textdateVisit.getValue().toString());
-           /* List<Appointment> listAppWithoutItself = listAppointment.stream().filter(item -> item.getId_owner().equals(p.getId_owner())
-            && item.getId_pet().equals(p.getId_pet())  && item.getLocalTimeStart().equals(p.getLocalTimeStart())
-                    &&  item.getLocalTimeEnd().equals(p.getLocalTimeEnd())
-                    && item.getId_doctor().equals(p.getId_doctor())  && item.getSpecialitation().equals(p.getSpecialitation())
-            ).collect(Collectors.toList());*/
             boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
                     (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) ||
-
                     ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) &&
                             item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
-
             );
-            if (isValid) {
-                this.appointmentRepo.add(p);
-            } else {
-                JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Un altro appuntamento è già stato prenotato per quell'intervallo di tempo!");
-            }
 
+            if(this.listDoctor.values().stream().anyMatch(option -> option.toUpperCase().contains(this.searchText2.getText().toUpperCase())) &&
+                    this.listClient.values().stream().anyMatch(option -> option.toUpperCase().contains(this.searchText.getText().toUpperCase()))
+            ) {
+                if (isValid) {
+                    this.appointmentRepo.add(p);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Un altro appuntamento è già stato prenotato per quell'intervallo di tempo!");
+                }
+            }else{
+            JOptionPane.showMessageDialog(null, "Impossibile trovare il riferimento! Per favore, seleziona un opzione del menu a tendina!");
+           }
         }
     }
 
@@ -227,9 +226,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
 
     public void addFieldDoctor() {
         this.listDoctor = this.appointmentRepo.searchAllDoctorByFiscalCod(); //ricerca per codice fiscale
-        //this.listDoctor.values().forEach(System.out::println);  //test ok
         this.container2 = new GridPane();
-
         HBox searchBox2 = new HBox();
         //searchBox2.setPrefWidth(400);
         this.searchText2 = new TextField();
