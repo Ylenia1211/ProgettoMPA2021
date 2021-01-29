@@ -487,7 +487,6 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return listAllAppointment.stream()
                     .filter(item -> (item.getLocalDate().isBefore(date)))
                     .collect(Collectors.toList());
-            //return null;
         } else{
             JOptionPane.showMessageDialog(null, "La ricerca è vuota!");
             return null;
@@ -499,9 +498,8 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         List<Appointment> listAllAppointment = findAll();
         if(!listAllAppointment.isEmpty()) {
             return listAllAppointment.stream()
-                    .filter( item -> item.getLocalDate().isAfter(date))
+                    .filter( item -> item.getLocalDate().isAfter(date) || item.getLocalDate().isEqual(date))
                     .collect(Collectors.toList());
-            //return null;
         } else{
             JOptionPane.showMessageDialog(null, "La ricerca è vuota!");
             return null;
