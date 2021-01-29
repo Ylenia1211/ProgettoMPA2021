@@ -307,9 +307,12 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
                         var result2 = dialog2.showAndWait();
                         if (result2.get() == dialog2.getDialogPane().getButtonTypes().get(0)) {
                             //cambia password in db
-                            //#Todo:controllo password
-                            doctorRepo.updatePassword(this.id_doctor, newPassword.getText());
-                            SessionUser.updateProfile(this.doctor);
+                            if ( !(newPassword.getText().length() >= 6 &&newPassword.getText().matches(".*\\d.*"))) {
+                                JOptionPane.showMessageDialog(null, "La password non è sicura: immetti una password lunga almeno 6 caratteri che contenga almeno una cifra");
+                            }else {
+                                doctorRepo.updatePassword(this.id_doctor, newPassword.getText());
+                                SessionUser.updateProfile(this.doctor);
+                            }
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Password Errata! Riprova!");
@@ -321,9 +324,12 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
                         var result2 = dialog2.showAndWait();
                         if (result2.get() == dialog2.getDialogPane().getButtonTypes().get(0)) {
                             //cambia password in db
-                            //#Todo:controllo password
-                            secretariatRepo.updatePassword(this.id_secretariat, newPassword.getText());
-                            SessionUser.updateProfile(this.secretariat);
+                            if ( !(newPassword.getText().length() >= 6 &&newPassword.getText().matches(".*\\d.*"))) {
+                                JOptionPane.showMessageDialog(null, "La password non è sicura: immetti una password lunga almeno 6 caratteri che contenga almeno una cifra");
+                            }else{
+                                secretariatRepo.updatePassword(this.id_secretariat, newPassword.getText());
+                                SessionUser.updateProfile(this.secretariat);
+                            }
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Password Errata! Riprova!");
