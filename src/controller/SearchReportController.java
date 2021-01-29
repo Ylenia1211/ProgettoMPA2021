@@ -4,20 +4,16 @@ import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.util.Callback;
 import model.Appointment;
 import util.gui.ButtonTable;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -55,8 +51,15 @@ public class SearchReportController  implements Initializable {
         //addButtonViewInfoOwnerPet();
         var colBtnView = ButtonTable.addButtonViewInfoOwnerPet(tableAllBookingVisit);
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnView);
-        addButtonCreateReport();
-        addButtonViewReport();
+        //addButtonCreateReport();
+
+        var colBtnCreateReport = ButtonTable.addButtonCreateReport(tableAllBookingVisit);
+        tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnCreateReport);
+
+        //addButtonViewReport();
+        var colBtnViewReport = ButtonTable.addButtonViewReport(tableAllBookingVisit);
+        tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>)  colBtnViewReport);
+
         this.searchField.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
             if ((newValueFC).matches(("[A-Za-z]*\s[A-Za-z]+"))){
 
@@ -74,107 +77,6 @@ public class SearchReportController  implements Initializable {
                     JOptionPane.showMessageDialog(null, "Impossibile effettuare la ricerca!\n Controlla di aver inserito almeno:\n 2 parole: nome cognome\n 1 spazio tra le due parole");
                 });
             }
-
         });
-
     }
-
-    private void addButtonViewReport() {
-        TableColumn<Appointment, Void> colBtn = new TableColumn("");
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
-            @Override
-            public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                return new TableCell<>() {
-                    private final Button btn = new Button("Report");
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Appointment data = getTableView().getItems().get(getIndex());
-                            //System.out.println("Print idOwner prenotazione" + data.getId_owner());
-                            Scene scene = this.getScene();
-                            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
-                            try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
-                                loader.setControllerFactory(p -> new CreateReportController(data, true));
-                                borderPane.setCenter(loader.load());
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
-                            String id_appointment = appointmentRepo.search(ap);
-                            if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
-                                setGraphic(btn);
-                            } else {
-                                setGraphic(null);
-                            }
-                        }
-                    }
-                };
-            }
-        };
-        colBtn.setCellFactory(cellFactory);
-        tableAllBookingVisit.getColumns().add(colBtn);
-    }
-
-    private void addButtonCreateReport() {
-
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
-            @Override
-            public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                return new TableCell<>() {
-                    private final Button btn = new Button("Crea Report");
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Appointment data = getTableView().getItems().get(getIndex());
-                            //System.out.println("Print idOwner prenotazione" + data.getId_owner());
-                            Scene scene = this.getScene();
-                            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
-                            try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
-                                loader.setControllerFactory(p -> new CreateReportController(data, false));
-                                borderPane.setCenter(loader.load());
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-
-                        } else {
-                            Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
-                            String id_appointment = appointmentRepo.search(ap);
-                            if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
-                                setGraphic(null);
-                            }
-                            //posso creare il report solo se la data della visita è precedente alla data di oggi  // data di oggi +1
-                            else if (getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now().plusDays(1))) {
-                                setGraphic(btn);
-                            } else {
-                                setGraphic(null);
-                            }
-                        }
-                    }
-                };
-            }
-        };
-        colBtnCreateReport.setCellFactory(cellFactory);
-        tableAllBookingVisit.getColumns().add(colBtnCreateReport);
-    }
-
 }
