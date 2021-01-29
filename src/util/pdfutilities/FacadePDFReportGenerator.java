@@ -26,7 +26,7 @@ public class FacadePDFReportGenerator {
                         h1("Vet Clinic Management Report")
                 ),
                 div().with(
-                        table().attr("style", "border: 1px solid #3DA4E3;").with(
+                        table().attr("style", "border: 1px solid transparent;").with(
                                 tr().with(
                                         td().with(
                                                 table().with(
@@ -121,7 +121,13 @@ public class FacadePDFReportGenerator {
                                                                 )
                                                         )
                                                 )
-                                        ),
+                                        )
+                                )
+                        )
+                ),
+                div().with(
+                        table().attr("style", "border: 1px solid transparent;").with(
+                                tr().with(
                                         td().with(
                                                 table().with(
                                                         tr().with(
@@ -269,7 +275,7 @@ public class FacadePDFReportGenerator {
                                     font-family: "Calibri",serif;
                                 }
                                 p {
-                                 text-align: center;
+                                 text-align: left;
                                 }
                                 table {
                                     border-collapse: separate;
