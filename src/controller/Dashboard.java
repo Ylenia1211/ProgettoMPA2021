@@ -6,6 +6,7 @@ import dao.ConcreteAdminDAO;
 import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -22,13 +23,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Appointment;
 import model.User;
-import util.Common;
+import util.gui.Common;
 import util.SessionUser;
 import util.email.ConcreteObserver;
 import util.email.Observer;
 import util.email.Subject;
 
 import javax.swing.*;
+import javax.xml.transform.Result;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -36,6 +38,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 public class Dashboard implements Initializable, Common, Subject {
@@ -135,7 +141,12 @@ public class Dashboard implements Initializable, Common, Subject {
                             }
                         }
                         case "Clienti" -> {  //segretaria
-                            Tab clienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showTableOwner.fxml")));
+                            Tab clienti = null;
+                            try {
+                                clienti = new Tab("Clienti", FXMLLoader.load(getClass().getResource("/view/showTableOwner.fxml")));
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
                             tabPane.getTabs().clear();
                             tabPane.getTabs().add(clienti);
                             tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -198,7 +209,7 @@ public class Dashboard implements Initializable, Common, Subject {
                                     if (oldEmailClinic.getText().equals(emailDB) && oldPassword.getText().equals(pswEmailDB)) {
                                         TextField newEmailClinic = new TextField();
                                         PasswordField newPassword = new PasswordField();
-                                        Dialog<?> dialog2 = Common.createDialogText(new Label("Inserisci Nuova Email della Clinica"), newEmailClinic,newPassword);
+                                        Dialog<?> dialog2 = Common.createDialogText(new Label("Inserisci Nuova Email della Clinica"), newEmailClinic, newPassword);
                                         var result2 = dialog2.showAndWait();
                                         if (result2.get() == dialog2.getDialogPane().getButtonTypes().get(0)) {
                                             //cambia email in db
@@ -231,10 +242,10 @@ public class Dashboard implements Initializable, Common, Subject {
                             this.observers = new ArrayList<>();
                             ConcreteAppointmentDAO bookingDao = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
                             List<Appointment> ownersBookingTomorrow = bookingDao.searchAppointmentsByDate((LocalDate.now().plusDays(1)).toString());
-                            //List<String> emailsOwners =new ArrayList<>();
+                           List<String> emailsOwners =new ArrayList<>();
                             if (!ownersBookingTomorrow.isEmpty()) {
                                 ownersBookingTomorrow.forEach(booking -> {
-                                    // emailsOwners.add(bookingDao.searchOwnerById(booking.getId_owner()).getEmail()); //test
+                                     emailsOwners.add(bookingDao.searchOwnerById(booking.getId_owner()).getEmail()); //test
                                     ConcreteObserver observerChanges = new ConcreteObserver.Builder()
                                             .setEmailOwner(bookingDao.searchOwnerById(booking.getId_owner()).getEmail()) //passare email owner associatato alla prenotazione
                                             .setDataVisit(booking.getLocalDate())
@@ -243,19 +254,10 @@ public class Dashboard implements Initializable, Common, Subject {
                                             .build();
                                     this.register(observerChanges);
                                 });
-                                //emailsOwners.forEach(System.out::println);
-                               /* Platform.runLater(() -> new Thread(() -> {
-                                    while(true) {*/
-                                        notifyObservers();
-                                        JOptionPane.showMessageDialog(null, "Notifiche delle prenotazioni di domani mandate correttamente ai Clienti!");
-                                     /* try {
-                                            Thread.sleep(1000);
-                                        } catch (InterruptedException interruptedException) {
-                                            interruptedException.printStackTrace();
-                                        }
-                                    }
-                                }).start());*/
+                                emailsOwners.forEach(System.out::println);
 
+                                notifyObservers();
+                                JOptionPane.showMessageDialog(null, "Notifiche delle prenotazioni di domani mandate correttamente ai Clienti!");
 
                             }else
                                 JOptionPane.showMessageDialog(null, "Nessuna prenotazione prevista per domani!");
@@ -301,6 +303,7 @@ public class Dashboard implements Initializable, Common, Subject {
         }
         vBox.setSpacing(3.0);
     }
+
     @Override
     public void register(Observer o) {
         observers.add(o);
@@ -313,7 +316,7 @@ public class Dashboard implements Initializable, Common, Subject {
 
     @Override
     public void notifyObservers() {
-        for(Observer obs: observers){
+        for (Observer obs : observers) {
             obs.update();
         }
     }

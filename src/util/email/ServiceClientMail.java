@@ -75,7 +75,7 @@ public class ServiceClientMail {
         try{
             // Progress ++;
             progressBar.setValue(66);
-            doing ="Invio email a" + email.getReceiver()  +" in corso... 66 %";
+            doing ="Invio email a " + email.getReceiver()  +" in corso... 66 %";
             progressBar.setString(doing);
             progressBar.paintImmediately(0,0,jfrProgress.getWidth(),jfrProgress.getHeight());
 
@@ -105,7 +105,7 @@ public class ServiceClientMail {
         try {
             // Progress ++;
             progressBar.setValue(33);
-            doing = "Invio email a" + email.getReceiver()  +" in corso... 33%";
+            doing = "Invio email a " + email.getReceiver()  +" in corso... 33%";
             progressBar.setString(doing);
             progressBar.paintImmediately(0,0,jfrProgress.getWidth(),jfrProgress.getHeight());
             Message message = new MimeMessage(session);

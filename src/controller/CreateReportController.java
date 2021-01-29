@@ -2,25 +2,19 @@ package controller;
 
 import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Appointment;
 import model.Doctor;
 import model.Owner;
 import model.Pet;
-import util.Common;
+import util.gui.Common;
 
 import javax.swing.*;
 import java.net.URL;
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 //ha lo stesso file fxml di ShowInfoOwnerPetController

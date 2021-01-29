@@ -42,14 +42,14 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
     public double MAX_SIZE = 1.7976931348623157E308;
     //servono per il campo ricerca
     private GridPane container;
-    private  HBox searchBox;
+    private HBox searchBox;
     private TextField searchText;
     private VBox dropDownMenu;
     private List<TextField> fieldsTextPet;
     private List<ComboBox<?>> fieldsComboBox;
 
     public RegistrationPetController() {
-        this.listClient  = new HashMap<>();
+        this.listClient = new HashMap<>();
         this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
         this.rbF = new RadioButton(Gender.F.getDeclaringClass().descriptorString());
         this.petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
@@ -73,9 +73,10 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
                 this.textSurname,
                 this.textParticularSign,
                 this.searchText);
-       this.fieldsComboBox = List.of(this.textPetRace);
+        this.fieldsComboBox = List.of(this.textPetRace);
     }
-    public  void addButtonSave()  {
+
+    public void addButtonSave() {
         this.btn = new Button("Salva");
         this.btn.setId("btn");
         this.btn.setMaxWidth(MAX_SIZE); //MAX_SIZE
@@ -91,7 +92,13 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
     }
 
     public void registrationPet(ActionEvent actionEvent) {
-        if ( !checkEmptyTextField(this.fieldsTextPet.stream()) && !checkEmptyComboBox(this.fieldsComboBox.stream())) {
+        //String text = this.searchText.getText();
+        //boolean b =   checkSearchFieldIsCorrect(this.listClient.values(), this.searchText.getText());
+        if(
+                checkSearchFieldIsCorrect(this.listClient.values(), this.searchText.getText()) &&
+                        !checkEmptyTextField(this.fieldsTextPet.stream())
+                        && !checkEmptyComboBox(this.fieldsComboBox.stream())
+           ) {
             Pet p = createPet();
             if (this.petRepo.isNotDuplicate(p)) {
                 try {
@@ -110,10 +117,10 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
         }
     }
 
-    public Pet createPet(){
-        RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
+    public Pet createPet() {
+        RadioButton chk = (RadioButton) this.genderGroup.getSelectedToggle();
         System.out.println(chk.getText());
-        String idOwnerSearched = getKeyByValue(listClient,this.searchText.getText());
+        String idOwnerSearched = getKeyByValue(listClient, this.searchText.getText());
         System.out.println(idOwnerSearched);
         return new Pet.Builder<>()
                 .addName(this.textName.getText().toUpperCase())
@@ -122,7 +129,7 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
                 .addDateBirth(this.textdateBirth.getValue())
                 .setId_petRace((String) this.textPetRace.getValue())
                 .setId_owner(idOwnerSearched)
-                .setParticularSign( this.textParticularSign.getText().toUpperCase())
+                .setParticularSign(this.textParticularSign.getText().toUpperCase())
                 .build();
     }
 
@@ -141,13 +148,11 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElse(null);
-                //.collect(Collectors.toSet());
+        //.collect(Collectors.toSet());
     }
 
 
-
-
-    public void addFieldOwner()  {
+    public void addFieldOwner() {
         this.listClient = this.petRepo.searchAllClientByFiscalCod(); //ricerca per codice fiscale
         this.container = new GridPane();
         this.searchBox = new HBox();
@@ -171,10 +176,10 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
         clean.setPrefWidth(100);
         clean.setStyle("-fx-text-fill: white; -fx-background-color: #3da4e3");
         clean.setOnMouseClicked((e) -> {
-           this.searchText.clear();
-           if(this.dropDownMenu != null) { // necessario senno NUllPointer exception
-               this.dropDownMenu.getChildren().clear();
-           }
+            this.searchText.clear();
+            if (this.dropDownMenu != null) { // necessario senno NUllPointer exception
+                this.dropDownMenu.getChildren().clear();
+            }
         });
         this.searchBox.getChildren().addAll(this.searchText, clean); //, search);
         // add the search box to first row
@@ -207,8 +212,8 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
         return dropDownMenu; // alla fine restituire il VBox (cioè il menu a tendina)
     }
 
-    public void addFieldRace()  {
-        List<String> listRace =this.petRepo.searchAllRace();
+    public void addFieldRace() {
+        List<String> listRace = this.petRepo.searchAllRace();
         this.textPetRace = new ComboBox<>(FXCollections
                 .observableArrayList(listRace));
         this.textPetRace.setId("petRace");

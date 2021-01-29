@@ -8,8 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.w3c.dom.Text;
-import util.Common;
+import util.gui.Common;
 import util.FieldVerifier;
 import model.Gender;
 import model.Owner;
@@ -17,12 +16,8 @@ import model.Owner;
 import javax.swing.*;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ClientController implements Initializable, FieldVerifier {
     @FXML

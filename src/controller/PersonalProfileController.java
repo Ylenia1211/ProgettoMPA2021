@@ -307,6 +307,7 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
                         var result2 = dialog2.showAndWait();
                         if (result2.get() == dialog2.getDialogPane().getButtonTypes().get(0)) {
                             //cambia password in db
+                            //#Todo:controllo password
                             doctorRepo.updatePassword(this.id_doctor, newPassword.getText());
                             SessionUser.updateProfile(this.doctor);
                         }
@@ -320,6 +321,7 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
                         var result2 = dialog2.showAndWait();
                         if (result2.get() == dialog2.getDialogPane().getButtonTypes().get(0)) {
                             //cambia password in db
+                            //#Todo:controllo password
                             secretariatRepo.updatePassword(this.id_secretariat, newPassword.getText());
                             SessionUser.updateProfile(this.secretariat);
                         }

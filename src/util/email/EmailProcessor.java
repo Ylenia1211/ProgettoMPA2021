@@ -1,5 +1,7 @@
 package util.email;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -13,7 +15,8 @@ public class EmailProcessor {
 
     public static Consumer<Communication> gMailHandler = email -> {if (email.getMyAccountEmail().endsWith("gmail.com")) {
         ServiceClientMail.sendMail(email, "smtp.gmail.com");
-        System.out.println("Invio email da un account gmail");}};
+        System.out.println("Invio email da un account gmail");}
+    };
 
     public static Consumer<Communication> initialHandler = email ->   System.out.println("Prepazione invio email in corso...");
 

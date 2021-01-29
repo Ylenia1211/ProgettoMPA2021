@@ -160,9 +160,10 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
                             item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
             );
 
-            if(this.listDoctor.values().stream().anyMatch(option -> option.toUpperCase().contains(this.searchText2.getText().toUpperCase())) &&
-                    this.listClient.values().stream().anyMatch(option -> option.toUpperCase().contains(this.searchText.getText().toUpperCase()))
-            ) {
+
+            if(checkSearchFieldIsCorrect(this.listDoctor.values(),this.searchText2.getText()) &&
+                    checkSearchFieldIsCorrect(this.listClient.values(),this.searchText.getText()))
+            {
                 if (isValid) {
                     this.appointmentRepo.add(p);
                 } else {
@@ -173,6 +174,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
            }
         }
     }
+
 
     public Appointment createAppointment() {
         String idPetSearched = getKeyByValue(this.listPets, this.textPet.getValue());

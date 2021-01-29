@@ -1,4 +1,4 @@
-package util;
+package util.gui;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;

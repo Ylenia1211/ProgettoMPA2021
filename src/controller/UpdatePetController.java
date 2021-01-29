@@ -51,7 +51,7 @@ public class UpdatePetController extends  RegistrationPetController implements I
     }
     @Override
     public void registrationPet(ActionEvent actionEvent){
-        if ( !checkEmptyTextField(super.getFieldsTextPet().stream()) && !checkEmptyComboBox(super.getFieldsComboBox().stream())) {
+        if (checkSearchFieldIsCorrect(super.getListClient().values(), super.getSearchText().getText()) && !checkEmptyTextField(super.getFieldsTextPet().stream()) && !checkEmptyComboBox(super.getFieldsComboBox().stream())) {
         Pet pet = createPet();
         if (this.getPetRepo().isNotDuplicate(pet)) {
             try {

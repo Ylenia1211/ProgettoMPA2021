@@ -5,6 +5,7 @@ import datasource.ConnectionDBH2;
 import model.Appointment;
 import model.Gender;
 import model.Owner;
+import model.Pet;
 
 import javax.swing.*;
 import java.sql.Date;
@@ -128,22 +129,21 @@ public class ConcreteOwnerDAO implements OwnerDAO{
     @Override
     public void delete(String id) {
         System.out.println("id da cancellare a cascata: " + id);
+        List<Pet> pets;
+        PreparedStatement ps;
+            try {
+              //prima di cancellare il l'owner devo cancellare anche tutti gli animali a lui associati
+            ConcretePetDAO petDao = new ConcretePetDAO(ConnectionDBH2.getInstance());
+            pets = petDao.searchByOwner(id);
+            pets.forEach(pet-> { petDao.delete(petDao.search(pet));});
 
-        PreparedStatement ps = null;
-        try {
             ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = "+"\'"+ id +"\'" );
             ps.executeUpdate();
             System.out.println("Cancellati dati Anagrafica del Owner!");
-
-            ps = null;
             ps = connection_db.getConnectData().prepareStatement("delete from person where person.id = "+"\'"+ id +"\'" );
-
             ps.executeUpdate();
             System.out.println("Cancellati dati civici del Owner!");
-
-            ps = null;
             ps = connection_db.getConnectData().prepareStatement("delete from owner where owner.id = "+"\'"+ id +"\'" );
-
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cancellato correttamente!");
         } catch (SQLException e) {
