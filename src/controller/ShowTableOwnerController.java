@@ -7,26 +7,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.util.Callback;
-
-import model.Gender;
 import model.Owner;
-
+import util.gui.ButtonTable;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-
-import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
+
 public class ShowTableOwnerController implements Initializable {
 
     public TableView<Owner> tableClient;
@@ -55,17 +48,16 @@ public class ShowTableOwnerController implements Initializable {
         col_tel.setCellValueFactory(new PropertyValueFactory<>("telephone"));
         col_email.setCellValueFactory(new PropertyValueFactory<>("email"));
         col_animal.setCellValueFactory(new PropertyValueFactory<>("tot_animal"));
-
         clientRepo = new ConcreteOwnerDAO(ConnectionDBH2.getInstance());
         listItems.addAll(clientRepo.findAll());
         tableClient.setItems(listItems);
-        addButtonUpdateToTable();
-        addButtonDeleteToTable();
+        var colBtnUpdate = ButtonTable.addButtonUpdateToTable("/view/registrationClient.fxml", tableClient, 2);
+        tableClient.getColumns().add((TableColumn<Owner, ?>) colBtnUpdate);
+        var colBtnDelete = ButtonTable.addButtonDeleteToTable(tableClient, Owner.class);
+        tableClient.getColumns().add((TableColumn<Owner, ?>)colBtnDelete);
         //listener sulla riga della tabella
         addListenerToTable();
-
     }
-
 
     private void addListenerToTable() {
         this.tableClient.setRowFactory( tv -> {
@@ -87,104 +79,5 @@ public class ShowTableOwnerController implements Initializable {
             return row ;
         });
     }
-
-    private void addButtonUpdateToTable() {
-        TableColumn<Owner, Void> colBtn = new TableColumn("");
-
-        Callback<TableColumn<Owner, Void>, TableCell<Owner, Void>> cellFactory = new Callback<TableColumn<Owner, Void>, TableCell<Owner, Void>>() {
-            @Override
-            public TableCell<Owner, Void> call(final TableColumn<Owner, Void> param) {
-                final TableCell<Owner, Void> cell = new TableCell<Owner, Void>() {
-
-                    private final Button btn = new Button("Modifica");
-
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Owner data = getTableView().getItems().get(getIndex());
-
-                            Scene scene = this.getScene();
-                            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
-
-                            try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registrationClient.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return  new UpdateClientController(data);
-                                    }
-                                });
-                                borderPane.setCenter(loader.load());
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            };
-
-                            System.out.println("selectedData: " + data.getId() + " " + data.getName());
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-
-        colBtn.setCellFactory(cellFactory);
-        tableClient.getColumns().add(colBtn);
-    }
-
-    private void addButtonDeleteToTable() {
-        TableColumn<Owner, Void> colBtn = new TableColumn("");
-
-        Callback<TableColumn<Owner, Void>, TableCell<Owner, Void>> cellFactory = new Callback<TableColumn<Owner, Void>, TableCell<Owner, Void>>() {
-            @Override
-            public TableCell<Owner, Void> call(final TableColumn<Owner, Void> param) {
-                final TableCell<Owner, Void> cell = new TableCell<Owner, Void>() {
-                    private final Button btn = new Button("Cancella");
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Owner data = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + data);
-                            JPanel pan = new JPanel();
-                            int ok = JOptionPane.showConfirmDialog(
-                                    null,
-                                    "Sei sicuro di voler cancellare?",
-                                    "Cancellazione Cliente",
-                                    JOptionPane.YES_NO_OPTION);
-                            if(ok ==0) { //cancella
-                                String id = clientRepo.search(data);
-                                clientRepo.delete(id);
-                                tableClient.getItems().remove(data); //elimina graficamente
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-
-        colBtn.setCellFactory(cellFactory);
-        tableClient.getColumns().add(colBtn);
-    }
-
-
 }
 

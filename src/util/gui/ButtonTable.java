@@ -1,13 +1,7 @@
 package util.gui;
 
-import controller.UpdateBookingAppointmentController;
-import controller.UpdateDoctorController;
-import controller.UpdatePetController;
-import controller.UpdateSecretariatController;
-import dao.ConcreteAppointmentDAO;
-import dao.ConcreteDoctorDAO;
-import dao.ConcretePetDAO;
-import dao.ConcreteSecretariatDAO;
+import controller.*;
+import dao.*;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -18,10 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
-import model.Appointment;
-import model.Doctor;
-import model.Pet;
-import model.Secretariat;
+import model.*;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -40,7 +31,7 @@ public class ButtonTable{
                             var data = getTableView().getItems().get(getIndex());
                             Scene scene = this.getScene();
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
-                            try { //#Todo: (aggiungere switch) in base all'elemento fxml mi prendo il controller giusto
+                            try { //# in base all'elemento fxml mi prendo il controller giusto
                                 switch (resourceFxml) {
                                     case "/view/registrationPet.fxml" -> {
                                         FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
@@ -63,6 +54,9 @@ public class ButtonTable{
                                            }
                                            case 2 -> {
                                                // faccio l'update dell' owner
+                                               FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
+                                               loader.setControllerFactory(p -> new UpdateClientController((Owner) data));
+                                               borderPane.setCenter(loader.load());
                                            }
                                        }
                                     }
@@ -114,7 +108,6 @@ public class ButtonTable{
                                 if(object.equals(Pet.class)){
                                     var petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
                                     String id = petRepo.search((Pet) data);
-                                    //#todo: dovrei cancellare anche le prenotazioni a suo carico con data >= a quella di oggi
                                     petRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
                                 }else if (object.equals(Doctor.class)){
@@ -132,6 +125,12 @@ public class ButtonTable{
                                     var appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
                                     String id = appointmentRepo.search((Appointment) data);
                                     appointmentRepo.delete(id);
+                                    tableView.getItems().remove(data); //elimina graficamente
+                                }
+                                else if(object.equals((Owner.class))){
+                                    var clientRepo = new ConcreteOwnerDAO(ConnectionDBH2.getInstance());
+                                    String id = clientRepo.search((Owner) data);
+                                    clientRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
                                 }
                                 //#Todo: lo stesso per gli altri elementi
