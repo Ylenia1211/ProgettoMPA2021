@@ -13,8 +13,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.*;
 import util.pdfutilities.FacadePDFReportGenerator;
-import java.io.File;
-import java.io.IOException;
+
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -91,6 +91,12 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         this.buttons.setSpacing(20);
         this.pane_main_grid.getChildren().add(buttons);
         this.addCreateAndDeleteButtonsPDFReport();
+
+        try {
+            this.generateFolders(this.owner, this.pet, this.textPath.getText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setButtons(){
@@ -165,6 +171,28 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 .setTreatments(this.textTerapia.getText())
                 .setPathFile(this.textPath.getText())
                 .build();
+    }
+
+    //String outputFile = this.generateFolders(owner, pet, fileName, report.getPathFile());
+
+    private void generateFolders(Owner owner, Pet pet, String attachment) throws IOException {
+        String outputFile = "./report/";
+
+        // Creazione cartelle utente e paziente dove mettere il report
+        String reportDirectoryName = outputFile.concat(owner.getSurname() + owner.getName() + "_" + owner.getFiscalCode() + "/" + pet.getName());
+        File reportDirectory = new File(reportDirectoryName);
+        if (!reportDirectory.exists())
+            reportDirectory.mkdirs();
+
+        // Creazione cartella in cui inserire tutti gli allegati del paziente
+        String attachmentDirectoryName = reportDirectoryName + "/allegati";
+        File attachmentDirectory = new File(attachmentDirectoryName);
+        if (!attachmentDirectory.exists())
+            attachmentDirectory.mkdirs();
+        pathfile = attachmentDirectoryName + "/" + attachment.substring(attachment.lastIndexOf("\\")+1);
+        //this.copy(new File(attachment), new File(pathfile));
+
+//        return reportDirectoryName + "/" + fileName;
     }
 
     private void addCreateAndDeleteButtonsPDFReport() {

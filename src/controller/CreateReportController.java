@@ -93,13 +93,16 @@ public class CreateReportController  implements Initializable {
                 JOptionPane.showMessageDialog(null,"Errore nel caricamento dei dati del Dottore");
             }
             //view estesa con un'altra
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml")); //ok stesso file fxml
+
             if(!typeView){
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml")); //ok stesso file fxml
-                loader.setControllerFactory(p -> new ReportAddDataController(appointment));//estendo con la creazione del report
+                loader.setControllerFactory(p -> new ReportAddDataController(appointment, this.surnameOwner.getText(),
+                                                                                          this.nameOwner.getText(),
+                                                                                          this.namePet.getText(),
+                                                                                          this.codFiscalOwner.getText()));//estendo con la creazione del report
                 VBox mainPane = loader.load();
                 vbox_main.getChildren().add(mainPane);
             }else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/reportView.fxml"));//ok stesso file fxml
                 loader.setControllerFactory(p -> new ReportViewController(appointment, owner, pet, doctor));//estendo con la visualizzazione del report
                 VBox mainPane = loader.load();
                 vbox_main.getChildren().add(mainPane);

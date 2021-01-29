@@ -1,4 +1,5 @@
 package util.pdfutilities;
+
 import com.lowagie.text.DocumentException;
 import j2html.tags.ContainerTag;
 import j2html.tags.Tag;
@@ -10,13 +11,13 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-import org.h2.store.fs.FileUtils;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import javax.swing.*;
 import static j2html.TagCreator.*;
 import java.io.*;
 
 public class FacadePDFReportGenerator {
+    public static String pathfile;
 
     public void creaReport(Report report, Appointment appointment, Owner owner, Pet pet, Doctor doctor)  throws IOException {
         //creazione del report in pdf
@@ -209,60 +210,30 @@ public class FacadePDFReportGenerator {
         writer.newLine(); //this is not actually needed for html files - can make your code more readable though
         writer.close(); //make sure you close the writer object
                                        //data in cui è stata effettuata la visita
-        String fileName = appointment.getLocalDate() + "_"+ pet.getName().toUpperCase() + "_"+ pet.getSurname().toUpperCase()  +".pdf";
-        String outputFile = this.generateFolders(owner, pet, fileName, report.getPathFile());
+        String fileName = appointment.getLocalDate() + "_"+ pet.getName().toUpperCase() + "_" +
+                          pet.getSurname().toUpperCase()  +".pdf";
+        String outputFile = "./report/".concat(owner.getSurname() + owner.getName() + "_" + owner.getFiscalCode() +
+                                               "/" + pet.getName()) + "/" + fileName;
         String externalPath = this.choosePDFSaveLocation(fileName);
         generatePDF(inputFile, outputFile);
         generatePDF(inputFile, externalPath);
 
         if(!report.getPathFile().trim().isEmpty()) {
-            this.addAttachments(report, outputFile, report.getPathFile().trim());
-            this.addAttachments(report, externalPath, report.getPathFile().trim());
+            this.addAttachments(report, outputFile, report.getPathFile());
+            this.addAttachments(report, externalPath, report.getPathFile());
         }
 
         //per cancellare il file html di supporto creato visto che non ci serve
         File file = new File(inputFile);
-        if(file.delete())
-        {
+        if(file.delete()) {
             System.out.println("File html cancellato");
         }
-        else
-        {
+        else {
             System.out.println("File NON cancellato");
         }
 
-        JOptionPane.showMessageDialog(null, "Pdf del report creato correttamente!\n (percorso: "+ outputFile +")");
-
-    }
-
-    private String generateFolders(Owner owner, Pet pet, String fileName, String attachment) throws IOException {
-        String outputFile = "./report/";
-
-        // Creazione cartelle utente e paziente dove mettere il report
-        String reportDirectoryName = outputFile.concat(owner.getSurname() + owner.getName() + "_" + owner.getFiscalCode() + "/" + pet.getName());
-        File reportDirectory = new File(reportDirectoryName);
-        if (!reportDirectory.exists())
-            reportDirectory.mkdirs();
-
-        // Creazione cartella in cui inserire tutti gli allegati del paziente
-        String attachmentDirectoryName = reportDirectoryName + "/allegati";
-        File attachmentDirectory = new File(attachmentDirectoryName);
-        if (!attachmentDirectory.exists())
-            attachmentDirectory.mkdirs();
-        this.copy(new File(attachment), new File(attachmentDirectoryName + "/" + attachment.substring(attachment.lastIndexOf("\\")+1)));
-
-        return reportDirectoryName + "/" + fileName;
-    }
-
-    private void copy(File src, File dest) throws IOException {
-        try (InputStream is = new FileInputStream(src); OutputStream os = new FileOutputStream(dest)) {
-            // buffer size 1K
-            byte[] buf = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = is.read(buf)) > 0) {
-                os.write(buf, 0, bytesRead);
-            }
-        }
+        JOptionPane.showMessageDialog(null, "Pdf del report creato correttamente!\n" +
+                                                                  " (percorso: "+ externalPath +")");
     }
 
     private void addAttachments(Report report, String outputFile, String attachmentPath) throws IOException {
@@ -350,11 +321,8 @@ public class FacadePDFReportGenerator {
 //        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
 //        chooser.getExtensionFilters().add(extFilter);
         File file = chooser.showDialog(saveStage);
-        if (file != null) {
+        if (file != null)
             filepath = file.getAbsolutePath() + "/" + fileName;
-            JOptionPane.showMessageDialog(null, "Report generato correttamente " +
-                    "in PDF nella cartella " + filepath);
-        }
         else
             saveStage.close();
         return filepath;
