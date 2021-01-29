@@ -612,6 +612,8 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return null;
         }
     }
+
+
 /*
     @Override
     public boolean isItSelf(Appointment p) {

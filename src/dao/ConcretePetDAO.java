@@ -172,7 +172,7 @@ public class ConcretePetDAO implements PetDAO {
 
             //se cancello l'animale prima devo cancellare le prenotazioni future (data di oggi compresa) a lui associate
             ConcreteAppointmentDAO bookingDao = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-            List<Appointment> futureBooking = bookingDao.findAllVisitPetAfterDateByID(id, LocalDate.now());
+           /* List<Appointment> futureBooking = bookingDao.findAllVisitPetAfterDateByID(id, LocalDate.now());
             futureBooking.forEach(appointment -> {
                 String sqlDeleteBookingFuture = "DELETE FROM BOOKING WHERE ID_PET = ? AND DATE_VISIT = ?";
                 try {
@@ -184,7 +184,20 @@ public class ConcretePetDAO implements PetDAO {
                     throwables.printStackTrace();
                 }
             });
-            JOptionPane.showMessageDialog(null, "Prenotazioni future associate al paziente cancellate correttamente!");
+            JOptionPane.showMessageDialog(null, "Prenotazioni future associate al paziente cancellate correttamente!");*/
+            List<Appointment> allBooking = bookingDao.findAllVisitPetByID(id);
+            allBooking.forEach(appointment -> {
+                String sqlDeleteBooking = "DELETE FROM BOOKING WHERE ID_PET = ?";
+                try {
+                    PreparedStatement st = connection_db.getConnectData().prepareStatement(sqlDeleteBooking);
+                    st.setString(1, id);
+                    st.executeUpdate();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            });
+            JOptionPane.showMessageDialog(null, "Prenotazioni associate al paziente cancellate correttamente!");
+
 
 
             //cancellazione animale

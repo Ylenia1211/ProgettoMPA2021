@@ -248,7 +248,7 @@ public class Dashboard implements Initializable, Common, Subject {
                                     while(true) {*/
                                         notifyObservers();
                                         JOptionPane.showMessageDialog(null, "Notifiche delle prenotazioni di domani mandate correttamente ai Clienti!");
-                                     /*   try {
+                                     /* try {
                                             Thread.sleep(1000);
                                         } catch (InterruptedException interruptedException) {
                                             interruptedException.printStackTrace();
