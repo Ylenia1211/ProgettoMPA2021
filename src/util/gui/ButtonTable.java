@@ -93,7 +93,7 @@ public class ButtonTable{
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
-                final TableCell<Object, Object> cell = new TableCell<>() {
+                return new TableCell<>() {
                     private final Button btn = new Button("Cancella");
                     {
                              btn.setOnAction((ActionEvent event) -> {
@@ -147,11 +147,51 @@ public class ButtonTable{
                         }
                     }
                 };
-                return cell;
             }
         };
         colBtn.setCellFactory(cellFactory);
         return colBtn;
     }
+
+    public static TableColumn<?, ?> addButtonViewInfoOwnerPet(TableView<?> tableView)  {
+        var colBtn = new TableColumn<>("");
+        Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
+                return new TableCell<>() {
+                    private final Button btn = new Button("Dettagli");
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            var data = getTableView().getItems().get(getIndex());
+                            Scene scene = this.getScene();
+                            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showInfoOwnerPet.fxml"));
+                                loader.setControllerFactory(p -> new ShowInfoOwnerPetController((Appointment) data));
+                                borderPane.setCenter(loader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Object item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        return colBtn;
+    }
+
 
 }

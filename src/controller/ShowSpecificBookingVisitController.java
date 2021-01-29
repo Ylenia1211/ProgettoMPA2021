@@ -18,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
 import model.Pet;
+import util.gui.ButtonTable;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -57,7 +58,10 @@ public class ShowSpecificBookingVisitController implements Initializable {
         var colBtnDelete = addButtonDeleteToTable(tableBookingVisit, Appointment.class);
         tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);
 
-        addButtonViewInfoOwnerPet();
+        //addButtonViewInfoOwnerPet();
+        var colBtnView = ButtonTable.addButtonViewInfoOwnerPet(tableBookingVisit);
+        tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnView);
+
         addButtonCreateReport();
         addButtonViewReport();
     }
@@ -160,50 +164,6 @@ public class ShowSpecificBookingVisitController implements Initializable {
         };
         colBtnCreateReport.setCellFactory(cellFactory);
         tableBookingVisit.getColumns().add(colBtnCreateReport);
-    }
-
-    private void addButtonViewInfoOwnerPet() {
-        TableColumn<Appointment, Void> colBtn = new TableColumn("");
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
-            @Override
-            public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<>() {
-                    private final Button btn = new Button("Dettagli");
-
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Appointment data = getTableView().getItems().get(getIndex());
-                            //System.out.println("Print idOwner prenotazione" + data.getId_owner());
-                            Scene scene = this.getScene();
-                            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
-                            try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showInfoOwnerPet.fxml"));
-                                loader.setControllerFactory(p -> new ShowInfoOwnerPetController(data));
-                                borderPane.setCenter(loader.load());
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            ;
-                            System.out.println("selectedData: " + data.getId() + " " + data.getLocalTimeStart());
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-        colBtn.setCellFactory(cellFactory);
-        tableBookingVisit.getColumns().add(colBtn);
     }
 
 

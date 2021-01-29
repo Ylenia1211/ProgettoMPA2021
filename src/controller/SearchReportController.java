@@ -52,7 +52,9 @@ public class SearchReportController  implements Initializable {
         var colBtnDelete = ButtonTable.addButtonDeleteToTable(tableAllBookingVisit, Appointment.class);
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);
         //addButtonDeleteToTable();
-        addButtonViewInfoOwnerPet();
+        //addButtonViewInfoOwnerPet();
+        var colBtnView = ButtonTable.addButtonViewInfoOwnerPet(tableAllBookingVisit);
+        tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnView);
         addButtonCreateReport();
         addButtonViewReport();
         this.searchField.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
@@ -173,44 +175,6 @@ public class SearchReportController  implements Initializable {
         };
         colBtnCreateReport.setCellFactory(cellFactory);
         tableAllBookingVisit.getColumns().add(colBtnCreateReport);
-    }
-
-    private void addButtonViewInfoOwnerPet() {
-        TableColumn<Appointment, Void> colBtn = new TableColumn("");
-        Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
-            @Override
-            public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                return new TableCell<>() {
-                    private final Button btn = new Button("Dettagli");
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Appointment data = getTableView().getItems().get(getIndex());
-                            Scene scene = this.getScene();
-                            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
-                            try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/showInfoOwnerPet.fxml"));
-                                loader.setControllerFactory(p -> new ShowInfoOwnerPetController(data));
-                                borderPane.setCenter(loader.load());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-            }
-        };
-        colBtn.setCellFactory(cellFactory);
-        tableAllBookingVisit.getColumns().add(colBtn);
     }
 
 }
