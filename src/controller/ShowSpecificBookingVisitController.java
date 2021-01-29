@@ -48,14 +48,11 @@ public class ShowSpecificBookingVisitController implements Initializable {
         col_data.setCellValueFactory(new PropertyValueFactory<>("localDate"));
         col_timestart.setCellValueFactory(new PropertyValueFactory<>("localTimeStart"));
         col_timeend.setCellValueFactory(new PropertyValueFactory<>("localTimeEnd"));
-        //col_doctor.setCellValueFactory(new PropertyValueFactory<>("id_doctor"));  //questo si toglie visto che la vista deve essere specifica
-                                                                                     //in base al doctor che visualizza
-
         col_type.setCellValueFactory(new PropertyValueFactory<>("specialitation"));  //nome dell'attributo nella classe
-
         appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
+
         tableBookingVisit.setItems(listItems);
-        addButtonUpdateToTable(); //non posso rifattorizzare cme gli altri (cambia l'update)
+        addButtonUpdateVisitToTable(); //non posso rifattorizzare cme gli altri (cambia l'update)
 
         var colBtnDelete = addButtonDeleteToTable(tableBookingVisit, Appointment.class);
         tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);
@@ -75,7 +72,6 @@ public class ShowSpecificBookingVisitController implements Initializable {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
-                            //System.out.println("Print idOwner prenotazione" + data.getId_owner());
                             Scene scene = this.getScene();
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
                             try {
@@ -99,8 +95,6 @@ public class ShowSpecificBookingVisitController implements Initializable {
                             Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
                             String id_appointment = appointmentRepo.search(ap);
                             if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
-                                //btn.disabledProperty();
-                                //this.getTableColumn().getTableView().getItems().remove(getIndex());
                                 setGraphic(btn);
 
                             } else {
@@ -213,7 +207,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
     }
 
 
-    private void addButtonUpdateToTable() {
+    private void addButtonUpdateVisitToTable() {
         TableColumn<Appointment, Void> colBtn = new TableColumn("");
         Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override

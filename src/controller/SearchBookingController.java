@@ -14,13 +14,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
-import model.Pet;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
 import static util.gui.ButtonTable.addButtonDeleteToTable;
 import static util.gui.ButtonTable.addButtonUpdateToTable;
@@ -51,6 +53,7 @@ public class SearchBookingController implements Initializable {
         listItems = FXCollections.observableArrayList(listSuccAppointments); //devo visualuzzare solo le prenotaizoni non ancora passate
         tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
         addButtonViewInfoOwnerPet(); //#todo: fare il refactor su questi metodi
+
         var colBtnUpdate =  addButtonUpdateToTable("/view/bookingAppointment.fxml",  tableAllBookingVisit,-1);
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnUpdate);
         var colBtnDelete = addButtonDeleteToTable(tableAllBookingVisit, Appointment.class);
@@ -65,9 +68,7 @@ public class SearchBookingController implements Initializable {
                 });
             }
             else{
-                searchbtn.setOnMouseClicked(event -> {
-                    JOptionPane.showMessageDialog(null, "Impossibile effettuare la ricerca!\n Controlla di aver inserito almeno:\n 2 parole: nome cognome\n 1 spazio tra le due parole");
-                });
+                searchbtn.setOnMouseClicked(event -> JOptionPane.showMessageDialog(null, "Impossibile effettuare la ricerca!\n Controlla di aver inserito almeno:\n 2 parole: nome cognome\n 1 spazio tra le due parole"));
             }
         });
 
@@ -79,7 +80,7 @@ public class SearchBookingController implements Initializable {
         Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<>() {
+                return new TableCell<>() {
                     private final Button btn = new Button("Dettagli");
                     {
                         btn.setOnAction((ActionEvent event) -> {
@@ -106,7 +107,6 @@ public class SearchBookingController implements Initializable {
                         }
                     }
                 };
-                return cell;
             }
         };
         colBtn.setCellFactory(cellFactory);

@@ -5,18 +5,15 @@ import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
-import util.FieldVerifier;
 import util.gui.ButtonTable;
 
 import javax.swing.*;
@@ -27,8 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
-import static util.gui.ButtonTable.addButtonDeleteToTable;
 
 //visualizza le prenotazioni gia effettutate con il riferimento ai report associati
 public class SearchReportController  implements Initializable {
@@ -87,7 +82,7 @@ public class SearchReportController  implements Initializable {
         Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<>() {
+                return new TableCell<>() {
                     private final Button btn = new Button("Report");
                     {
                         btn.setOnAction((ActionEvent event) -> {
@@ -123,7 +118,6 @@ public class SearchReportController  implements Initializable {
                         }
                     }
                 };
-                return cell;
             }
         };
         colBtn.setCellFactory(cellFactory);
@@ -135,7 +129,7 @@ public class SearchReportController  implements Initializable {
         Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<>() {
+                return new TableCell<>() {
                     private final Button btn = new Button("Crea Report");
                     {
                         btn.setOnAction((ActionEvent event) -> {
@@ -145,11 +139,7 @@ public class SearchReportController  implements Initializable {
                             BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/createReport.fxml"));
-                                loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                                    public Object call(Class<?> p) {
-                                        return new CreateReportController(data, false);
-                                    }
-                                });
+                                loader.setControllerFactory(p -> new CreateReportController(data, false));
                                 borderPane.setCenter(loader.load());
 
                             } catch (IOException e) {
@@ -179,7 +169,6 @@ public class SearchReportController  implements Initializable {
                         }
                     }
                 };
-                return cell;
             }
         };
         colBtnCreateReport.setCellFactory(cellFactory);
@@ -191,7 +180,7 @@ public class SearchReportController  implements Initializable {
         Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<>() {
+                return new TableCell<>() {
                     private final Button btn = new Button("Dettagli");
                     {
                         btn.setOnAction((ActionEvent event) -> {
@@ -218,7 +207,6 @@ public class SearchReportController  implements Initializable {
                         }
                     }
                 };
-                return cell;
             }
         };
         colBtn.setCellFactory(cellFactory);
