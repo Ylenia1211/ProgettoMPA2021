@@ -335,31 +335,9 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
                         JOptionPane.showMessageDialog(null, "Password Errata! Riprova!");
                     }
                 }
-
-
             }
-
         }
     }
-
-
-
 }
-
-//fare controllo su ruolo
-        /*
-        if (doctor != null) {
-            if (password.getText().equals(this.doctor.getPassword())) {
-                miniWindow.getChildren().clear();
-                password.clear();
-                ok = JOptionPane.showConfirmDialog(null, miniWindow, "Inserisci nuova password ", JOptionPane.OK_CANCEL_OPTION);
-                if (ok == JOptionPane.OK_OPTION) {
-                    System.out.println(password.getText());
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Errore! Password non corretta...");
-            }
-        }
-}*/
 
 
