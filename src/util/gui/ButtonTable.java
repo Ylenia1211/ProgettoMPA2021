@@ -17,6 +17,7 @@ import model.*;
 import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class ButtonTable{
     public static double MAX_SIZE = 1.7976931348623157E308;
@@ -271,8 +272,12 @@ public class ButtonTable{
                             if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
                                 setGraphic(null);
                             }
-                            //posso creare il report solo se la data della visita è precedente alla data di oggi  // data di oggi +1
-                            else if (((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getLocalDate().isBefore(LocalDate.now().plusDays(1))) {
+                            //posso creare il report solo se la data della visita è precedente alla data di oggi  /o uguale e la visita sia già passata
+                            else if ( (((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getLocalDate().isBefore(LocalDate.now()) ||
+                                    ((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getLocalDate().isEqual(LocalDate.now()))
+                                    &&
+                                   ((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getLocalTimeEnd().isBefore(LocalTime.now())
+                            ) {
                                 setGraphic(btn);
                             } else {
                                 setGraphic(null);
