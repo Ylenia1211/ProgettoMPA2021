@@ -480,12 +480,12 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     }
 
     @Override
-    public List<Appointment> searchVisitBeforeDate(LocalDate date) {
+    public List<Appointment> searchVisitBeforeDate(LocalDate date, LocalTime time) {
         List<Appointment> listAllAppointment = findAll();
         //listAllAppointment.forEach(System.out::println); ok
         if(!listAllAppointment.isEmpty()) {
             return listAllAppointment.stream()
-                    .filter(item -> (item.getLocalDate().isBefore(date)))
+                    .filter(item -> (item.getLocalDate().isBefore(date) || (item.getLocalDate().isEqual(date) && item.getLocalTimeEnd().isBefore(time))))
                     .collect(Collectors.toList());
         } else{
             JOptionPane.showMessageDialog(null, "La ricerca è vuota!");
@@ -494,11 +494,11 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     }
 
     @Override
-    public List<Appointment> searchVisitAfterDate(LocalDate date) {
+    public List<Appointment> searchVisitAfterDate(LocalDate date, LocalTime time) {
         List<Appointment> listAllAppointment = findAll();
         if(!listAllAppointment.isEmpty()) {
             return listAllAppointment.stream()
-                    .filter( item -> item.getLocalDate().isAfter(date) || item.getLocalDate().isEqual(date))
+                    .filter( item -> (item.getLocalDate().isAfter(date) || (item.getLocalDate().isEqual(date) && item.getLocalTimeEnd().isAfter(time) )))
                     .collect(Collectors.toList());
         } else{
             JOptionPane.showMessageDialog(null, "La ricerca è vuota!");

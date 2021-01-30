@@ -16,6 +16,7 @@ import util.gui.ButtonTable;
 import javax.swing.*;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -41,7 +42,7 @@ public class SearchReportController  implements Initializable {
         col_timeend.setCellValueFactory(new PropertyValueFactory<>("localTimeEnd"));
         col_type.setCellValueFactory(new PropertyValueFactory<>("specialitation"));
         appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-        List<Appointment> listPrecAppointments = appointmentRepo.searchVisitBeforeDate(LocalDate.now());
+        List<Appointment> listPrecAppointments = appointmentRepo.searchVisitBeforeDate(LocalDate.now(), LocalTime.now());
         listItems = FXCollections.observableArrayList(Objects.requireNonNullElseGet(listPrecAppointments, ArrayList::new)); //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
         tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
 
