@@ -5,6 +5,7 @@ import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -74,6 +75,7 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
                 this.textParticularSign,
                 this.searchText);
         this.fieldsComboBox = List.of(this.textPetRace);
+        this.textPetRace.setBackground(new Background(new BackgroundFill(Color.valueOf("#94D6F1"), CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     public void addButtonSave() {
@@ -84,6 +86,7 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
         this.btn.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
                 " -fx-border-color: transparent; -fx-font-size: 14px; ");
         this.pane_main_grid.getChildren().add(this.btn);
+        VBox.setMargin(btn, new Insets(0, 100, 0, 100));
     }
 
 

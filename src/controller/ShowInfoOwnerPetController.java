@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -102,9 +103,9 @@ public class ShowInfoOwnerPetController implements Initializable {
 
     private void setFieldDataDoctor(Doctor doctor) {
 
-        labelDottoreName.setText("Nome: " + doctor.getName());
-        labelDottoreSurname.setText("Cognome: " + doctor.getSurname());
-        labelDottoreSpecialization.setText("Tipo visita: " + doctor.getSpecialization());
+        labelDottoreName.setText(doctor.getName());
+        labelDottoreSurname.setText(doctor.getSurname());
+//        labelDottoreSpecialization.setText("Tipo visita: " + doctor.getSpecialization());
     }
 
 
@@ -118,14 +119,17 @@ public class ShowInfoOwnerPetController implements Initializable {
     }
 
     private void setFieldDataOwner(Owner owner) {
-        nameOwner.setText(owner.getName());
-        surnameOwner.setText(owner.getSurname());
-        sexOwner.setText(owner.getSex().toString());
-        datebirthOwner.setText(owner.getDatebirth().toString());
-        addressOwner.setText(owner.getAddress());
-        cityOwner.setText(owner.getCity());
-        codFiscalOwner.setText(owner.getFiscalCode());
-        emailOwner.setText(owner.getEmail());
+        this.nameOwner.setText(owner.getName());
+        this.surnameOwner.setText(owner.getSurname());
+        this.sexOwner.setText(owner.getSex().toString());
+        this.datebirthOwner.setText(owner.getDatebirth().toString());
+        this.addressOwner.setText(owner.getAddress());
+        this.addressOwner.setTooltip(new Tooltip(this.addressOwner.getText()));
+        this.cityOwner.setText(owner.getCity());
+        this.cityOwner.setTooltip(new Tooltip(this.cityOwner.getText()));
+        this.codFiscalOwner.setText(owner.getFiscalCode());
+        this.emailOwner.setText(owner.getEmail());
+        this.emailOwner.setTooltip(new Tooltip(this.emailOwner.getText()));
     }
 
     public String getIdOwner() {
