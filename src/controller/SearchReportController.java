@@ -42,7 +42,7 @@ public class SearchReportController  implements Initializable {
         col_type.setCellValueFactory(new PropertyValueFactory<>("specialitation"));
         appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
         List<Appointment> listPrecAppointments = appointmentRepo.searchVisitBeforeDate(LocalDate.now());
-        listItems = FXCollections.observableArrayList(listPrecAppointments); //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
+        listItems = FXCollections.observableArrayList(Objects.requireNonNullElseGet(listPrecAppointments, ArrayList::new)); //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
         tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
 
         var colBtnDelete = ButtonTable.addButtonDeleteToTable(tableAllBookingVisit, Appointment.class);
