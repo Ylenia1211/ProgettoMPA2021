@@ -5,6 +5,7 @@ import datasource.ConnectionDBH2;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import model.Appointment;
 import model.Doctor;
@@ -58,6 +59,9 @@ public class CreateReportController  implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.emailOwner.setTooltip(new Tooltip(this.emailOwner.getText()));
+        this.cityOwner.setTooltip(new Tooltip(this.cityOwner.getText()));
+        this.addressOwner.setTooltip(new Tooltip(this.addressOwner.getText()));
         try {
 
             this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());

@@ -100,13 +100,13 @@
                     <TextField fx:id="name" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="185.0" />
                     <TextField fx:id="surname" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     <HBox fx:id="gender" alignment="CENTER" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" spacing="15.0">
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Sesso:" textFill="white" />
-                        <RadioButton fx:id="rbM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="M" textFill="white">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Sesso:" />
+                        <RadioButton fx:id="rbM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="M">
                             <toggleGroup>
                                 <ToggleGroup fx:id="genderGroup" />
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="rbF" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="F" textFill="white" toggleGroup="$genderGroup">
+                        <RadioButton fx:id="rbF" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="F" toggleGroup="$genderGroup">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>

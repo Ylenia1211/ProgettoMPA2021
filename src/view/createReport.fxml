@@ -181,7 +181,7 @@
         </VBox>
         <Line startY="150.0" stroke="#cbeaf5" strokeWidth="2.0" />
         <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
-            <VBox alignment="TOP_CENTER" prefWidth="300.0">
+            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="300.0">
                 <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3DA4E3;" text="Dottore" textFill="WHITE">
                     <font>
                         <Font size="18.0" />
@@ -215,27 +215,54 @@
                 </HBox>
             </VBox>
             <Line endX="100.0" startX="-100.0" stroke="#cbeaf5" strokeWidth="2.0" />
-            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0">
+            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="300.0">
                 <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3DA4E3;" text="Prenotazione" textFill="WHITE">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Label fx:id="labelDottoreSpecialization" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="visita">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <Label fx:id="labelDataVisit" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Giorno">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <Label fx:id="labelTimeStartEndVisit" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Ora">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0">
+               <children>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Ora">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="Tipo di visita">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Giorno">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0">
+                     <children>
+                            <Label fx:id="labelTimeStartEndVisit" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Ora">
+                                <font>
+                                    <Font size="14.0" />
+                                </font>
+                            </Label>
+                            <Label fx:id="labelDottoreSpecialization" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #cbeaf5;" text="visita">
+                                <font>
+                                    <Font size="14.0" />
+                                </font>
+                            </Label>
+                            <Label fx:id="labelDataVisit" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Giorno">
+                                <font>
+                                    <Font size="14.0" />
+                                </font>
+                            </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
             </VBox>
         </VBox>
     </HBox>
