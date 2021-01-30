@@ -26,6 +26,7 @@ public class ClientController implements Initializable, FieldVerifier {
     public Label labelTitle;
     @FXML
     public TextField textFiscalCode;
+    public VBox primary_grid;
     @FXML
     private TextField textName;
     @FXML

@@ -3,8 +3,10 @@ package controller;
 import dao.ConcreteDoctorDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import model.Doctor;
 import model.Gender;
 
@@ -35,7 +37,7 @@ public class RegistrationDoctorController extends ClientController{
 
         super.initialize(url, resourceBundle);
 
-        title = (Label) super.pane_main_grid.lookup("#labelTitle");
+        title = (Label) super.primary_grid.lookup("#labelTitle");
         title.setText("Creazione Dottore");
         super.pane_main_grid.getChildren().remove(btn); //per rimuovere da pannello dinamicamente il bottone di salvataggio
         this.rbM.setSelected(true); //default
@@ -68,6 +70,7 @@ public class RegistrationDoctorController extends ClientController{
         this.specialization.setTooltip(new Tooltip("Specializzazione in un tipo di visita"));
         this.specialization.setMaxWidth(MAX_SIZE);
         this.specialization.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        this.specialization.setBackground(new Background(new BackgroundFill(Color.valueOf("#94D6F1"), CornerRadii.EMPTY, Insets.EMPTY)));
         this.fieldsComboBox = List.of(this.specialization);
         super.pane_main_grid.getChildren().add(this.specialization);
     }
@@ -89,7 +92,6 @@ public class RegistrationDoctorController extends ClientController{
         this.password.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         this.password.setTooltip(new Tooltip("Password"));
         this.password.setId("password");
-
         this.password.setPromptText("Inserisci password Utente");
         this.password.setOnKeyReleased( e-> {
             String checkPassword = this.password.getText();
@@ -105,7 +107,6 @@ public class RegistrationDoctorController extends ClientController{
                 passwordRealTime.setText("Password molto sicura");
                 passwordRealTime.setStyle("-fx-text-fill: green;-fx-font-size: 14px;");
             }
-
         });
         super.pane_main_grid.getChildren().add(this.password);
         super.pane_main_grid.getChildren().add(this.passwordRealTime);
@@ -117,8 +118,9 @@ public class RegistrationDoctorController extends ClientController{
         this.saveBtn.setMaxWidth(MAX_SIZE); //MAX_SIZE
         this.saveBtn.setPrefWidth(Region.USE_COMPUTED_SIZE);
         this.saveBtn.setPrefHeight(30);
-        this.saveBtn.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
-                " -fx-border-color: transparent; -fx-font-size: 16px; ");
+        VBox.setMargin(saveBtn, new Insets(0, 100, 0, 100));
+        this.saveBtn.setStyle("-fx-background-color: #3da4e3; -fx-text-fill: white;" +
+                              "-fx-border-color: transparent; -fx-font-size: 16px;");
         super.pane_main_grid.getChildren().add(this.saveBtn);
         }
 
@@ -130,27 +132,24 @@ public class RegistrationDoctorController extends ClientController{
         //manca il controllo sulla password
             this.saveBtn.setOnAction(e -> {
                 if(!checkEmptyTextField(super.getFieldsText().stream()) &&
-                        !checkEmptyTextField(this.fieldsTextDoctor.stream()) &&
-                        !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
-                        !checkifNotSecurePassword(this.passwordRealTime)
-                )
-                {
-                Doctor d = createDoctor();
-                if(this.doctorRepo.isNotDuplicate(d)){
-                    try {
-                        this.doctorRepo.add(d);
+                   !checkEmptyTextField(this.fieldsTextDoctor.stream()) &&
+                   !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
+                   !checkifNotSecurePassword(this.passwordRealTime)){
+                    Doctor d = createDoctor();
+                    if (this.doctorRepo.isNotDuplicate(d)){
+                        try {
+                            this.doctorRepo.add(d);
 
-                    }catch (Exception ex) {
-                        ex.printStackTrace();
+                        } catch(Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
                     }
-
-                }else {
-                    JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
-                }
-               }else
-                {
+               } else{
                     JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
-                }});
+                }
+            });
     }
 
     public ConcreteDoctorDAO getDoctorRepo() {
