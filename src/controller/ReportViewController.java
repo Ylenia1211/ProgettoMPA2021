@@ -112,8 +112,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
         this.creaPDFReportButton.setOnAction(actionEvent -> {
             try {
-                creaReport(this.report, this.appointment, this.owner, this.pet, this.doctor);
-
+                 creaReport(this.report, this.appointment, this.owner, this.pet, this.doctor);
             } catch (IOException e) {
                 e.printStackTrace();
             }
