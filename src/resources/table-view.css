@@ -6,11 +6,15 @@
 .table-cell {
     -fx-padding: 0.1em;
     -fx-border-color: transparent -fx-box-border transparent transparent;
-    -fx-font: 15px "Calibri";
+    -fx-font: 13px "Calibri";
     -fx-text-fill: #212121;
 }
 
-
+.table-row-cell .button{
+    -fx-background-color: #75c5fc;
+    -fx-font: 15px "Calibri";
+    -fx-text-fill: #16375f;
+}
 .table-view {
     -fx-table-header-border-color: #bce5fc;
     -fx-table-cell-border-color: -fx-box-border;

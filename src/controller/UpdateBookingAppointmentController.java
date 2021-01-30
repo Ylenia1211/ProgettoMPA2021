@@ -40,11 +40,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.initialize(url, resourceBundle);
-        //super.labelTitle.setText("Modifica Data/Ora Prenotazione");
-        Label labelView = new Label("Modifica Data/Ora Prenotazione");
-        labelView.setTextFill(Paint.valueOf("a6a6a6"));
-        labelView.setFont(Font.font("Calibri", 30));
-
+        super.getLabelTitle().setText("Modifica Data/Ora Prenotazione");
 
         this.dataVisit = new DatePicker();
         //posso selezionare solo le date a partire da Oggi
@@ -58,8 +54,11 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
 
         //voglio modificare solo la data e/0 l'ora quindi elimino gli altri campi
         super.pane_main_grid.getChildren().clear();
-        super.pane_main_grid.getChildren().add(labelView);
+        //super.pane_main_grid.getChildren().add(labelView);
+        //super.pane_main_grid.getChildren().add(this.dataVisit);
+        //this.dataVisit = super.getTextdateVisit();
         super.pane_main_grid.getChildren().add(this.dataVisit);
+        super.getTextdateVisit().setValue(this.appointment.getLocalDate());
         super.addFieldTimeStart();
         super.addFieldMinutesTimeStart();
         super.addFieldTimeDuration();
@@ -102,7 +101,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
         //creo un oggetto appuntamento tale da modificare solo data e/o ora
        // var timeStartVisit = LocalTime.of((Integer)this.getTextTimeStart().getValue(),(Integer) this.getTextMinutesTimeStart().getValue());
         LocalTime timeStartVisit = ((LocalTime) this.getTextTimeStart().getValue()).plusMinutes((Integer) this.getTextMinutesTimeStart().getValue());
-        System.out.println(timeStartVisit);
+        System.out.println(this.dataVisit.getValue());
         System.out.println((timeStartVisit).plusMinutes((Integer)super.getTextTimeDuration().getValue())); //fine
         Appointment p = new Appointment.Builder()
                 .setLocalDate(this.dataVisit.getValue())
@@ -125,7 +124,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
             if (!(p.getLocalDate().isEqual(this.appointment.getLocalDate())) ||
                     ((p.getLocalTimeStart().compareTo(this.appointment.getLocalTimeStart())) != 0) ||
                     ((p.getLocalTimeEnd().compareTo(this.appointment.getLocalTimeEnd())) != 0)) {
-                List<Appointment> listAppointment = this.getAppointmentRepo().searchVisitbyDoctorAndDate(this.appointment.getId_doctor(), this.appointment.getLocalDate().toString());
+                List<Appointment> listAppointment = this.getAppointmentRepo().searchVisitbyDoctorAndDate(this.appointment.getId_doctor(), p.getLocalDate().toString());
                 boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
                         (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) || //intervallo sinistro
 

@@ -110,7 +110,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
                             if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment) || getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now().plusDays(1))) {
                                 setGraphic(null);
                             }
-                            //modifica button spunta solo quando un report non è stato ancora creato oppure se la data della visita non è gia passata
+                            //modifica button spunta solo quando un report non è stato ancora creato oppure se la data della visita non è gia passata //#todo ok ma devo controllare anche l'orario
                             else {
                                 setGraphic(btn);
                             }

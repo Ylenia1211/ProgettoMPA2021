@@ -4,11 +4,14 @@ import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.Appointment;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static controller.RegistrationPetController.getKeyByValue;
+import static util.gui.ButtonTable.MAX_SIZE;
 
 public class BookingAppointmentController implements Initializable, FieldVerifier {
     public VBox pane_main_grid;
@@ -192,36 +196,46 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
 
     public void addFieldTimeStart() {
         HBox timeStartBox = new HBox();
+        timeStartBox.setPrefWidth(800);
         timeStartBox.setAlignment(Pos.CENTER);
         Label labelTimeStart = new Label("Ora Inizio: ");
-        labelTimeStart.setStyle("-fx-text-fill: white");
+        labelTimeStart.setPrefWidth(200);
+        labelTimeStart.setStyle("-fx-text-fill: #163754; -fx-font-size: 14px");
         this.textTimeStart = new ComboBox<>(FXCollections.observableArrayList(this.heuresWorkDay));
         this.textTimeStart.setId("textTimeStart");
         this.textTimeStart.setPromptText("Seleziona Orario");
+        this.textTimeStart.setPrefWidth(600);
         timeStartBox.getChildren().addAll(labelTimeStart, textTimeStart);
         this.pane_main_grid.getChildren().add(timeStartBox);
     }
 
     public void addFieldMinutesTimeStart() {
         HBox minutesStartBox = new HBox();
+        minutesStartBox.setPrefWidth(800);
         minutesStartBox.setAlignment(Pos.CENTER);
         Label labelMinutesStart = new Label("Minuti Inizio: ");
-        labelMinutesStart.setStyle("-fx-text-fill: white");
+        labelMinutesStart.setPrefWidth(200);
+        labelMinutesStart.setStyle("-fx-text-fill: #163754; -fx-font-size: 14px");
         this.textMinutesTimeStart = new ComboBox<>(FXCollections.observableArrayList(this.minutesStart));
         this.textMinutesTimeStart.setId("textMinutesTimeStart");
         this.textMinutesTimeStart.setPromptText("Seleziona minuti");
+        this.textMinutesTimeStart.setPrefWidth(600);
         minutesStartBox.getChildren().addAll(labelMinutesStart, textMinutesTimeStart);
         this.pane_main_grid.getChildren().add(minutesStartBox);
     }
 
     public void addFieldTimeDuration() {
         HBox durationBox = new HBox();
+        durationBox.setPrefWidth(800);
         durationBox.setAlignment(Pos.CENTER);
         Label labelMinutes = new Label("Durata (prevista): ");
-        labelMinutes.setStyle("-fx-text-fill: white");
+        labelMinutes.setStyle("-fx-text-fill: #163754; -fx-font-size: 14px");
+        labelMinutes.setPrefWidth(200);
         this.textTimeDuration = new ComboBox<>(FXCollections.observableArrayList(this.minutes));
         this.textTimeDuration.setId("textTimeDuration");
         this.textTimeDuration.setPromptText("Seleziona Durata");
+        this.textTimeDuration.setPrefWidth(600);
+
         durationBox.getChildren().addAll(labelMinutes, textTimeDuration);
         this.pane_main_grid.getChildren().add(durationBox);
     }
@@ -230,10 +244,12 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         this.listDoctor = this.appointmentRepo.searchAllDoctorByFiscalCod(); //ricerca per codice fiscale
         this.container2 = new GridPane();
         HBox searchBox2 = new HBox();
-        //searchBox2.setPrefWidth(400);
+
         this.searchText2 = new TextField();
+        this.searchText2.setPrefWidth(800);
         this.container2.setAlignment(Pos.CENTER);
-        this.searchText2.setPromptText("Inserisci Codice Fiscale Dottore");  //#todo:per ora è surname
+        this.searchText2.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
+        this.searchText2.setPromptText("Inserisci Codice Fiscale Dottore");
         // aggiungere un ascoltatore per ascoltare le modifiche nel campo di testo
         this.searchText2.textProperty().addListener((observable, oldValue, newValue) -> {
             if (container2.getChildren().size() > 1) { // if already contains a drop-down menu -> remove it
@@ -241,7 +257,14 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
             }
             container2.add(populateDropDownMenuDoctor(newValue, this.listDoctor.values()), 0, 1); //  quindi aggiungere il menu a tendina popolato alla seconda riga del riquadro della griglia
         });
-        Button clean = new Button("Cancella");
+        //Button clean = new Button("Cancella");
+        final ImageView imageView = new ImageView(
+                new Image("./delete.png")
+        );
+        imageView.setFitHeight(18);
+        imageView.setFitWidth(18);
+        Button clean = new Button("",imageView);
+        clean.setStyle("-fx-text-fill: white; -fx-background-color: #3da4e3");
         clean.setOnMouseClicked((e) -> {
             this.searchText2.clear();
             if (this.dropDownMenu != null) { // necessario senno NUllPointer exception
@@ -280,7 +303,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
 
     public void addFieldSpecialization() {
         this.textSpecialitation = new TextField();
-        this.textSpecialitation.setMaxWidth(400);
+        //this.textSpecialitation.setMaxWidth(400);
         this.textSpecialitation.setText("Tipo di visita (automatico)");
         this.textSpecialitation.setEditable(false);
         this.pane_main_grid.getChildren().add(this.textSpecialitation);
@@ -289,7 +312,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
     public void addFieldPet() {
         this.textPet = new ComboBox<>(FXCollections.observableArrayList(new ArrayList<>()));
         this.textPet.setPromptText("Aggiungi animale");
-        this.textPet.setPrefWidth(400);
+        this.textPet.setPrefWidth(800);
         this.pane_main_grid.getChildren().add(this.textPet);
     }
 
@@ -298,8 +321,10 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         this.container = new GridPane();
         HBox searchBox = new HBox();
         this.searchText = new TextField();
+
+        this.searchText.setPrefWidth(800);
         this.container.setAlignment(Pos.CENTER);
-        //this.container.setPrefWidth(400);
+        this.searchText.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         this.searchText.setPromptText("Inserisci Codice Fiscale Cliente");
         // aaggiungere un ascoltatore per ascoltare le modifiche nel campo di testo
         this.searchText.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -308,8 +333,14 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
             }
             container.add(populateDropDownMenu(newValue, this.listClient.values()), 0, 1); //  quindi aggiungere il menu a tendina popolato alla seconda riga del riquadro della griglia
         });
-
-        Button clean = new Button("Cancella");
+        //Button clean = new Button("Cancella");
+        final ImageView imageView = new ImageView(
+                new Image("./delete.png")
+        );
+        imageView.setFitHeight(18);
+        imageView.setFitWidth(18);
+        Button clean = new Button("",imageView);
+        clean.setStyle("-fx-text-fill: white; -fx-background-color: #3da4e3");
         clean.setOnMouseClicked((e) -> {
             this.searchText.clear();
             if (this.dropDownMenu != null) { // necessario senno NUllPointer exception
@@ -321,7 +352,6 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         searchBox.getChildren().addAll(this.searchText, clean); //, search);
         // add the search box to first row
         this.container.add(searchBox, 0, 0);
-
         //this.root.getChildren().add(this.container);
         this.pane_main_grid.getChildren().add(this.container); //aggiunge drop-menu a view
         this.container.setId("searchtextOwner");
@@ -358,10 +388,11 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
     public void addButtonSave() {
         this.btn = new Button("Salva");
         this.btn.setId("btn");
-        this.btn.setPrefWidth(400);
-        this.btn.setPrefHeight(30);
-        this.btn.setStyle("-fx-background-color: #3DA4E3;-fx-text-fill: white;" +
-                " -fx-border-color: transparent; -fx-font-size: 14px; ");
+        this.btn.setMaxWidth(MAX_SIZE); //MAX_SIZE
+        this.btn.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        VBox.setMargin(btn, new Insets(0, 100, 0, 100));
+        this.btn.setStyle("-fx-background-color: #3da4e3; -fx-text-fill: white;" +
+                "-fx-border-color: transparent; -fx-font-size: 14px;");
         this.pane_main_grid.getChildren().add(this.btn);
     }
 
@@ -375,5 +406,11 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         });
     }
 
+    public Label getLabelTitle() {
+        return labelTitle;
+    }
 
+    public DatePicker getTextdateVisit() {
+        return textdateVisit;
+    }
 }

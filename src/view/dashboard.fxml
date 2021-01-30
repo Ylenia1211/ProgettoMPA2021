@@ -55,7 +55,7 @@
 
     </top>
     <center>
-        <Pane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #d9f3fc;" BorderPane.alignment="CENTER"> </Pane>
+        <Pane prefHeight="700.0" prefWidth="1024.0" style="-fx-background-color: #d9f3fc;" BorderPane.alignment="CENTER"> </Pane>
 
     </center>
 </BorderPane>

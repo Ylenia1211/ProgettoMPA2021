@@ -4,13 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<VBox fx:id="pane_main_grid" style="-fx-background-color: #d9f3fc;" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" spacing="10.0"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingAppointmentController">
-   <!-- <Label fx:id="labelTitle" alignment="CENTER" contentDisplay="TEXT_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Prenotazione Visita " textAlignment="CENTER" textFill="#a6a6a6">
-        <font>
-            <Font name="Calibri" size="29.0" />
-        </font>
-    </Label>-->
+<VBox fx:id="primary_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #d9f3fc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingAppointmentController">
     <Label fx:id="labelTitle" alignment="TOP_CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308"
            maxWidth="1.7976931348623157E308" style="-fx-background-color: #3da4e3;" text="Prenotazione Visita"
            textFill="WHITE">
@@ -21,19 +15,12 @@
             <Insets bottom="20.0"/>
         </VBox.margin>
     </Label>
+    <VBox fx:id="pane_main_grid" style="-fx-background-color: #d9f3fc;" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" spacing="10.0"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
 
-    <DatePicker fx:id="textdateVisit" prefWidth="400" promptText="Seleziona Data Visita" showWeekNumbers="true" />
-  <!-- <padding>
-      <Insets top="50.0" />
-   </padding>-->
-    <!--<ComboBox fx:id="textTimeStart" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Seleziona Orario Inizio" />-->
-    <!--<ComboBox fx:id="textTimeDuration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Seleziona Durata"/>
-        <ComboBox fx:id="textDoctor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Dottore" /> -->
-    <!--<TextField fx:id="textSpecialitation" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Tipo di Visita" />-->
-   <!-- <ComboBox fx:id="textOwner" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Cliente" /> -->
-   <!-- <ComboBox fx:id="textPet" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Paziente" /> -->
-   <!-- <Button fx:id="btn" alignment="CENTER" contentDisplay="BOTTOM" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#registerAppointment" prefHeight="37.0" prefWidth="246.0" text="Salva" />
-    <padding>
-        <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
-    </padding> -->
+    <DatePicker fx:id="textdateVisit" style ="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754; -fx-pref-width: 800"  promptText="Seleziona Data Visita" showWeekNumbers="true" />
+        <padding>
+            <Insets bottom="20.0" left="200.0" right="200.0" top="20.0" />
+        </padding>
+</VBox>
+
 </VBox>

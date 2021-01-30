@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.Gender;
@@ -171,9 +173,13 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
             }
             container.add(populateDropDownMenu(newValue, this.listClient.values()), 0, 1); //  quindi aggiungere il menu a tendina popolato alla seconda riga del riquadro della griglia
         });
-
-        Button clean = new Button("Cancella");
-        clean.setPrefWidth(100);
+        final ImageView imageView = new ImageView(
+                new Image("./delete.png")
+        );
+        imageView.setFitHeight(18);
+        imageView.setFitWidth(18);
+        Button clean = new Button("",imageView);
+        //clean.setPrefWidth(100);
         clean.setStyle("-fx-text-fill: white; -fx-background-color: #3da4e3");
         clean.setOnMouseClicked((e) -> {
             this.searchText.clear();

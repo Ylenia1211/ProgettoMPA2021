@@ -5,11 +5,11 @@ import dao.*;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.*;
@@ -19,15 +19,28 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class ButtonTable{
-
+    public static double MAX_SIZE = 1.7976931348623157E308;
     public static TableColumn<?, ?> addButtonUpdateToTable(String resourceFxml, TableView<?> tableView, int controlView) {
         var colBtn = new TableColumn<>("");
+
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
                 final TableCell<Object, Object> cell = new TableCell<>() {
-                    private final Button btn = new Button("Modifica");
+
+                    //private final Button btn = new Button("Modifica");
+                    final ImageView imageView = new ImageView(
+                            new Image("./edit.png")
+                    );
+
+                    private final  Button btn = new Button("",imageView);
                     {
+                        //btn.setAlignment(Pos.CENTER);
+                        btn.setMaxWidth(ButtonTable.MAX_SIZE);
+                        btn.setTooltip(new Tooltip("Modifica"));
+                        imageView.setFitWidth(18);
+                        imageView.setFitHeight(18);
+
                         btn.setOnAction((ActionEvent event) -> {
                             var data = getTableView().getItems().get(getIndex());
                             Scene scene = this.getScene();
@@ -91,12 +104,23 @@ public class ButtonTable{
 
     public static TableColumn<?, ?> addButtonDeleteToTable(TableView<?> tableView, Class object)  {
         var colBtn = new TableColumn<>("");
+
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
                 return new TableCell<>() {
-                    private final Button btn = new Button("Cancella");
+                    //private final Button btn = new Button("Cancella");
+                    final ImageView imageView = new ImageView(
+                            new Image("./delete.png")
+                    );
+
+                    private final  Button btn = new Button("",imageView);
                     {
+                        btn.setMaxWidth(ButtonTable.MAX_SIZE);
+                        imageView.setFitWidth(18);
+                        imageView.setFitHeight(18);
+                        btn.setTooltip(new Tooltip("Cancella"));
+
                              btn.setOnAction((ActionEvent event) -> {
                                  var data = getTableView().getItems().get(getIndex());
                                  JPanel pan = new JPanel();
@@ -161,8 +185,17 @@ public class ButtonTable{
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
                 return new TableCell<>() {
                     private final Button btn = new Button("Dettagli");
+                    /*final ImageView imageView = new ImageView(
+                            new Image("./details.png")
+                    );*/
 
+                    // private final  Button btn = new Button("",imageView);
                     {
+                        btn.setMaxWidth(ButtonTable.MAX_SIZE);
+                        /*imageView.setFitWidth(18);
+                        imageView.setFitHeight(18);
+                        btn.setTooltip(new Tooltip("Dettagli"));*/
+
                         btn.setOnAction((ActionEvent event) -> {
                             var data = getTableView().getItems().get(getIndex());
                             Scene scene = this.getScene();
@@ -201,7 +234,16 @@ public class ButtonTable{
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
                 return new TableCell<Object, Object>() {
                     private final Button btn = new Button("Crea Report");
+                    /*final ImageView imageView = new ImageView(
+                            new Image("./create_report.png")
+                    );*/
+
+                   // private final  Button btn = new Button("",imageView);
                     {
+                        btn.setMaxWidth(ButtonTable.MAX_SIZE);
+                       /* imageView.setFitWidth(18);
+                        imageView.setFitHeight(18);
+                        btn.setTooltip(new Tooltip("Cre Report"));*/
                         btn.setOnAction((ActionEvent event) -> {
                             var data = getTableView().getItems().get(getIndex());
                             Scene scene = this.getScene();
@@ -251,7 +293,17 @@ public class ButtonTable{
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
                 return new TableCell<Object, Object>() {
                     private final Button btn = new Button("Report");
+                  /* final ImageView imageView = new ImageView(
+                           new Image("./report.png")
+                   );*/
+
+                    //private final  Button btn = new Button("",imageView);
                     {
+                        btn.setMaxWidth(ButtonTable.MAX_SIZE);
+                       /* imageView.setFitWidth(18);
+                        imageView.setFitHeight(18);
+                        btn.setTooltip(new Tooltip("Report"));*/
+
                         btn.setOnAction((ActionEvent event) -> {
                             var data = getTableView().getItems().get(getIndex());
                             Scene scene = this.getScene();
