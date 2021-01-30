@@ -112,7 +112,7 @@ public class Dashboard implements Initializable, Common, Subject {
                 Parent root;
                 try {
                     switch (button.getText()) {
-                        case "Aggiungi" -> {  //segretaria
+                        case "Aggiungi" -> {  //segreteria
                             if (SessionUser.getUserLogged().getRole().equals("Segreteria")) {
                                 Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
                                 Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
@@ -238,7 +238,7 @@ public class Dashboard implements Initializable, Common, Subject {
                                 ex.printStackTrace();
                             }
                         }
-                        case "Notifica" -> { // manda notifica email se cliccato a tutti gli utenti con prenotaizone il giorno dopo
+                        case "Notifica" -> { // manda notifica email se cliccato a tutti gli utenti con prenotazione il giorno dopo
                             this.observers = new ArrayList<>();
                             ConcreteAppointmentDAO bookingDao = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
                             List<Appointment> ownersBookingTomorrow = bookingDao.searchAppointmentsByDate((LocalDate.now().plusDays(1)).toString());
