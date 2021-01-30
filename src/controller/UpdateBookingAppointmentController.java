@@ -2,11 +2,6 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
 import model.Appointment;
 import util.email.ConcreteObserver;
 import util.email.Observer;
@@ -15,7 +10,6 @@ import util.email.Subject;
 import javax.swing.*;
 import java.net.URL;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +17,6 @@ import java.util.ResourceBundle;
 
 public class UpdateBookingAppointmentController extends BookingAppointmentController implements Subject {
     private final Appointment appointment;
-    private DatePicker dataVisit;
     private final String id;  //mi serve per l'update nel dao
 
     private final List<Observer> observers;
@@ -42,22 +35,10 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
         super.initialize(url, resourceBundle);
         super.getLabelTitle().setText("Modifica Data/Ora Prenotazione");
 
-        this.dataVisit = new DatePicker();
-        //posso selezionare solo le date a partire da Oggi
-        this.dataVisit.setDayCellFactory(picker -> new DateCell() {
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                LocalDate today = LocalDate.now();
-                setDisable(empty || date.compareTo(today) < 0 || (date.getDayOfWeek().getValue() == 7));//disabilita le domeniche;
-            }
-        });
 
         //voglio modificare solo la data e/0 l'ora quindi elimino gli altri campi
         super.pane_main_grid.getChildren().clear();
-        //super.pane_main_grid.getChildren().add(labelView);
-        //super.pane_main_grid.getChildren().add(this.dataVisit);
-        //this.dataVisit = super.getTextdateVisit();
-        super.pane_main_grid.getChildren().add(this.dataVisit);
+        super.pane_main_grid.getChildren().add( super.getTextdateVisit());
         super.getTextdateVisit().setValue(this.appointment.getLocalDate());
         super.addFieldTimeStart();
         super.addFieldMinutesTimeStart();
@@ -69,7 +50,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
 
     //mi serve per settare i parametri di modifica con i dati precedentementi salvati
     private void setParam(Appointment appointment) {
-        this.dataVisit.setValue(appointment.getLocalDate());
+        super.getTextdateVisit().setValue(appointment.getLocalDate());
         super.getTextTimeStart().setValue(appointment.getLocalTimeStart().minusMinutes(appointment.getLocalTimeStart().getMinute()));
         super.getTextMinutesTimeStart().setValue(appointment.getLocalTimeStart().getMinute());
         super.getTextTimeDuration().setValue((int) Duration.between(appointment.getLocalTimeStart(), appointment.getLocalTimeEnd()).toMinutes());
@@ -101,10 +82,10 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
         //creo un oggetto appuntamento tale da modificare solo data e/o ora
        // var timeStartVisit = LocalTime.of((Integer)this.getTextTimeStart().getValue(),(Integer) this.getTextMinutesTimeStart().getValue());
         LocalTime timeStartVisit = ((LocalTime) this.getTextTimeStart().getValue()).plusMinutes((Integer) this.getTextMinutesTimeStart().getValue());
-        System.out.println(this.dataVisit.getValue());
-        System.out.println((timeStartVisit).plusMinutes((Integer)super.getTextTimeDuration().getValue())); //fine
-        Appointment p = new Appointment.Builder()
-                .setLocalDate(this.dataVisit.getValue())
+        //System.out.println(this.dataVisit.getValue());
+        //System.out.println((timeStartVisit).plusMinutes((Integer)super.getTextTimeDuration().getValue())); //fine
+        return new Appointment.Builder()
+                .setLocalDate(super.getTextdateVisit().getValue())
                 .setLocalTimeStart(timeStartVisit)
                 .setLocalTimeEnd((timeStartVisit).plusMinutes((Integer)super.getTextTimeDuration().getValue()))
                 .setId_doctor(this.appointment.getId_doctor())
@@ -112,7 +93,6 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
                 .setId_owner(this.appointment.getId_owner())
                 .setId_pet(this.appointment.getId_pet())
                 .build();
-        return p;
 
 
     }
@@ -132,9 +112,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
                                 item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
                 );
                 if (isValid) {
-                    // this.appointmentRepo.add(p);
                     this.getAppointmentRepo().update(this.id, p);
-
                     String emailOwner = this.getAppointmentRepo().searchEmailOwnerbyIdAppointment(this.id);
                     ConcreteObserver observerChanges = new ConcreteObserver.Builder()
                             .setEmailOwner(emailOwner) //passare email owner associatato alla prenotazione

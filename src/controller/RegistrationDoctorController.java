@@ -134,7 +134,9 @@ public class RegistrationDoctorController extends ClientController{
                 if(!checkEmptyTextField(super.getFieldsText().stream()) &&
                    !checkEmptyTextField(this.fieldsTextDoctor.stream()) &&
                    !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
-                   !checkifNotSecurePassword(this.passwordRealTime)){
+                   !checkifNotSecurePassword(this.passwordRealTime) &&
+                   !checkEmptyComboBox(this.fieldsComboBox.stream())
+                ){
                     Doctor d = createDoctor();
                     if (this.doctorRepo.isNotDuplicate(d)){
                         try {

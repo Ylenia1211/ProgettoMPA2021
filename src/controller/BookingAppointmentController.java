@@ -205,6 +205,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         this.textTimeStart.setId("textTimeStart");
         this.textTimeStart.setPromptText("Seleziona Orario");
         this.textTimeStart.setPrefWidth(600);
+        this.textTimeStart.setBackground(new Background(new BackgroundFill(Color.valueOf("#94D6F1"), CornerRadii.EMPTY, Insets.EMPTY)));
         timeStartBox.getChildren().addAll(labelTimeStart, textTimeStart);
         this.pane_main_grid.getChildren().add(timeStartBox);
     }
@@ -220,6 +221,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         this.textMinutesTimeStart.setId("textMinutesTimeStart");
         this.textMinutesTimeStart.setPromptText("Seleziona minuti");
         this.textMinutesTimeStart.setPrefWidth(600);
+        this.textMinutesTimeStart.setBackground(new Background(new BackgroundFill(Color.valueOf("#94D6F1"), CornerRadii.EMPTY, Insets.EMPTY)));
         minutesStartBox.getChildren().addAll(labelMinutesStart, textMinutesTimeStart);
         this.pane_main_grid.getChildren().add(minutesStartBox);
     }
@@ -235,7 +237,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         this.textTimeDuration.setId("textTimeDuration");
         this.textTimeDuration.setPromptText("Seleziona Durata");
         this.textTimeDuration.setPrefWidth(600);
-
+        this.textTimeDuration.setBackground(new Background(new BackgroundFill(Color.valueOf("#94D6F1"), CornerRadii.EMPTY, Insets.EMPTY)));
         durationBox.getChildren().addAll(labelMinutes, textTimeDuration);
         this.pane_main_grid.getChildren().add(durationBox);
     }
@@ -312,6 +314,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
     public void addFieldPet() {
         this.textPet = new ComboBox<>(FXCollections.observableArrayList(new ArrayList<>()));
         this.textPet.setPromptText("Aggiungi animale");
+        this.textPet.setBackground(new Background(new BackgroundFill(Color.valueOf("#94D6F1"), CornerRadii.EMPTY, Insets.EMPTY)));
         this.textPet.setPrefWidth(800);
         this.pane_main_grid.getChildren().add(this.textPet);
     }
