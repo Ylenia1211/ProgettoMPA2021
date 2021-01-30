@@ -1,6 +1,7 @@
 package controller;
 
 import dao.ConcreteAppointmentDAO;
+import dao.ConcreteDoctorDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
+import util.SessionUser;
 import util.gui.ButtonTable;
 
 import javax.swing.*;
@@ -42,6 +44,7 @@ public class SearchBookingController implements Initializable {
 
     public SearchBookingController() {
         this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
+
     }
 
     @Override
@@ -51,7 +54,9 @@ public class SearchBookingController implements Initializable {
         col_timestart.setCellValueFactory(new PropertyValueFactory<>("localTimeStart"));
         col_timeend.setCellValueFactory(new PropertyValueFactory<>("localTimeEnd"));
         col_type.setCellValueFactory(new PropertyValueFactory<>("specialitation"));
-        List<Appointment> listSuccAppointments = appointmentRepo.searchVisitAfterDate(LocalDate.now(), LocalTime.now()); //.plusDays(1));
+
+        List<Appointment> listSuccAppointments = appointmentRepo.searchVisitAfterDate(LocalDate.now(), LocalTime.now());
+
         listItems = FXCollections.observableArrayList(Objects.requireNonNullElseGet(listSuccAppointments, ArrayList::new)); //devo visualuzzare solo le prenotaizoni non ancora passate
         tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
        // addButtonViewInfoOwnerPet(); //#todo: fare il refactor su questi metodi

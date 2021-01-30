@@ -507,6 +507,20 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     }
 
     @Override
+    public List<Appointment> searchVisitByDoctorBeforeDate(LocalDate date, LocalTime now, String id_doctor) {
+        List<Appointment> listAllAppointment = searchVisitbyDoctorAndDate(id_doctor,date.toString());
+        //listAllAppointment.forEach(System.out::println); ok
+        if(!listAllAppointment.isEmpty()) {
+            return listAllAppointment.stream()
+                    .filter(item -> (item.getLocalDate().isBefore(date) || (item.getLocalDate().isEqual(date) && item.getLocalTimeEnd().isBefore(now))))
+                    .collect(Collectors.toList());
+        } else{
+            JOptionPane.showMessageDialog(null, "La ricerca è vuota!");
+            return null;
+        }
+    }
+
+    @Override
     public List<Appointment> findAllVisitPet(String name, String surname) {
         String sqlSearchVisitsbyPet = """
                 SELECT  *  FROM MASTERDATA INNER JOIN PET ON MASTERDATA.id = PET.id

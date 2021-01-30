@@ -31,9 +31,13 @@ public class SearchReportController  implements Initializable {
     public TableColumn<Appointment, String> col_timeend;
     public TableColumn<Appointment, String> col_type;
     public ImageView searchbtn;
-    private ConcreteAppointmentDAO appointmentRepo;
+    private final ConcreteAppointmentDAO appointmentRepo;
     public ObservableList<Appointment> listItems;
-    public TableColumn<Appointment, Void> colBtnCreateReport= new TableColumn("");
+
+    public SearchReportController() {
+        this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableAllBookingVisit.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -41,8 +45,10 @@ public class SearchReportController  implements Initializable {
         col_timestart.setCellValueFactory(new PropertyValueFactory<>("localTimeStart"));
         col_timeend.setCellValueFactory(new PropertyValueFactory<>("localTimeEnd"));
         col_type.setCellValueFactory(new PropertyValueFactory<>("specialitation"));
-        appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-        List<Appointment> listPrecAppointments = appointmentRepo.searchVisitBeforeDate(LocalDate.now(), LocalTime.now());
+
+
+        List<Appointment> listPrecAppointments = appointmentRepo.searchVisitBeforeDate(LocalDate.now(), LocalTime.now()); //generale
+       // List<Appointment> listPrecAppointments = appointmentRepo.searchVisitByDoctorBeforeDate(LocalDate.now(), LocalTime.now(), id_doctor); //specifico per dottore
         listItems = FXCollections.observableArrayList(Objects.requireNonNullElseGet(listPrecAppointments, ArrayList::new)); //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
         tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
 

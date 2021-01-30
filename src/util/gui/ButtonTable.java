@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.*;
+import util.SessionUser;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -266,9 +267,12 @@ public class ButtonTable{
                         if (empty) {
                             setGraphic(null);
                         } else {
+                            var doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
+                            String id_doctor = doctorRepo.search(SessionUser.getDoctor());
                             var ap = getTableColumn().getTableView().getItems().get(getIndex());
                             var appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
                             String id_appointment = appointmentRepo.search((Appointment)ap);
+
                             if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
                                 setGraphic(null);
                             }
@@ -277,6 +281,7 @@ public class ButtonTable{
                                     ((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getLocalDate().isEqual(LocalDate.now()))
                                     &&
                                    ((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getLocalTimeEnd().isBefore(LocalTime.now())
+                                    && ((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getId_doctor().equals(id_doctor)
                             ) {
                                 setGraphic(btn);
                             } else {
