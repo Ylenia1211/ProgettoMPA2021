@@ -37,7 +37,6 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     public ArrayList<String> attachments = new ArrayList<>();
     public Label firstAttachment;
     public ImageView deleteFirstAttachmentButton;
-    public VBox allegati;
     public VBox pane_main_grid;
     public HBox lastHbox;
     public HBox buttons = new HBox();
@@ -200,7 +199,6 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 .build();
     }
 
-    //String outputFile = this.generateFolders(owner, pet, fileName, report.getPathFile());
 
     private void generateFolders(Owner owner, Pet pet, String attachment) throws IOException {
         String outputFile = "./report/";
@@ -217,9 +215,6 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         if (!attachmentDirectory.exists())
             attachmentDirectory.mkdirs();
         pathfile = attachmentDirectoryName + "/" + attachment.substring(attachment.lastIndexOf("\\")+1);
-        //this.copy(new File(attachment), new File(pathfile));
-
-//        return reportDirectoryName + "/" + fileName;
     }
 
     private void addCreateAndDeleteButtonsPDFReport() {
@@ -234,7 +229,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
 
     private void addEnableModifyCheckBox(){
         this.enableModify = new CheckBox("Abilita modifiche");
-        this.enableModify.setStyle("-fx-font-size: 14px; -fx-text-fill: white");
+        this.enableModify.setStyle("-fx-font-size: 14px; -fx-text-fill: #163754;");
         this.enableModify.setId("enableModify");
         this.enableModify.setOnAction(actionEvent -> {
             if (!enableModify.isSelected()) {
