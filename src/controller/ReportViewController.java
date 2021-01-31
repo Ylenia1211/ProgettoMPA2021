@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ConcreteDoctorDAO;
 import dao.ConcreteReportDAO;
 import datasource.ConnectionDBH2;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.*;
+import util.SessionUser;
 import util.pdfutilities.FacadePDFReportGenerator;
 
 import java.io.*;
@@ -49,7 +51,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     private final Owner owner;
     private final Pet pet;
     private final Doctor doctor;
-
+    private final ConcreteDoctorDAO doctorRepo;
 
     public ReportViewController(Appointment appointment, Owner owner, Pet pet, Doctor doctor) {
         this.appointment = appointment;
@@ -58,6 +60,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         this.owner = owner;
         this.pet = pet;
         this.doctor = doctor;
+        this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
     }
 
     @Override
@@ -89,7 +92,12 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         }
 
         this.setButtons();
-        this.addEnableModifyCheckBox();
+        String id_doctorSession = this.doctorRepo.search(SessionUser.getDoctor());
+        String id_doctorReport = this.doctorRepo.search(this.doctor);
+
+        if(id_doctorReport.equals(id_doctorSession)) {
+            this.addEnableModifyCheckBox();
+        }
         this.buttons.setAlignment(Pos.CENTER);
         this.buttons.setSpacing(20);
         this.pane_main_grid.getChildren().add(buttons);

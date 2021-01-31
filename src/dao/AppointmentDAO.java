@@ -22,15 +22,14 @@ public interface AppointmentDAO extends Crud<Appointment> {
     Pet searchPetById(String id);
     Owner searchOwnerById(String id);
     boolean searchIfExistAppointmentInReport(String id);
-    List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date); //mi serve per il controllo delle sovrapposizioni
+    List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date); //mi serve per l'agenda
     Doctor searchDoctorById(String id);
     Integer countAppointmentsByDateAndDoctor(String date, String id_doctor); //mi serve
     List<Appointment> searchVisitBeforeDate(LocalDate date, LocalTime now); // mi serve per prendere tutte le visite precedenti a una data (vista condivisa dottori)
     List<Appointment> searchVisitAfterDate(LocalDate date,  LocalTime now); // mi serve per prendere tutte le visite successive o uguali a una data
-
     List<Appointment> searchVisitByDoctorBeforeDate(LocalDate date, LocalTime now, String id_doctor); // mi serve per prendere tutte le visite precedenti a una data (vista condivisa dottori)
-
-    List<Appointment> findAllVisitPet(String name, String surname);
+    List<Appointment> searchVisitbyDoctorOrPetAndDate(String idDoctorSearched,String id_pet, String date); //mi serve per il controllo delle sovrapposizioni
+   List<Appointment> findAllVisitPet(String name, String surname);
     List<Appointment> findAllVisitPetBeforeDate(String name, String surname, LocalDate date);
     List<Appointment> findAllVisitPetAfterDate(String name, String surname, LocalDate date);
 

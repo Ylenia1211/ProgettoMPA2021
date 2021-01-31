@@ -10,20 +10,22 @@ import util.email.Subject;
 import javax.swing.*;
 import java.net.URL;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class UpdateBookingAppointmentController extends BookingAppointmentController implements Subject {
-    private final Appointment appointment;
-    private final String id;  //mi serve per l'update nel dao
+    private Appointment appointment;
+    private String id;  //mi serve per l'update nel dao
 
     private final List<Observer> observers;
 
     public UpdateBookingAppointmentController(Appointment appointment) {
         super();
-        this.observers  = new ArrayList<>();
+        this.observers = new ArrayList<>();
         this.appointment = appointment;
         this.id = super.getAppointmentRepo().search(appointment);
 
@@ -38,7 +40,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
 
         //voglio modificare solo la data e/0 l'ora quindi elimino gli altri campi
         super.pane_main_grid.getChildren().clear();
-        super.pane_main_grid.getChildren().add( super.getTextdateVisit());
+        super.pane_main_grid.getChildren().add(super.getTextdateVisit());
         super.getTextdateVisit().setValue(this.appointment.getLocalDate());
         super.addFieldTimeStart();
         super.addFieldMinutesTimeStart();
@@ -63,31 +65,31 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
 
     @Override
     public void register(Observer o) {
-         observers.add(o);
+        observers.add(o);
     }
 
     @Override
     public void unregister(Observer o) {
-         observers.remove(o);
+        observers.remove(o);
     }
 
     @Override
     public void notifyObservers() {
-        for(Observer obs: observers){
+        for (Observer obs : observers) {
             obs.update();
         }
     }
 
-    private Appointment createAppointmentForUpdate(){
+    private Appointment createAppointmentForUpdate() {
         //creo un oggetto appuntamento tale da modificare solo data e/o ora
-       // var timeStartVisit = LocalTime.of((Integer)this.getTextTimeStart().getValue(),(Integer) this.getTextMinutesTimeStart().getValue());
+        // var timeStartVisit = LocalTime.of((Integer)this.getTextTimeStart().getValue(),(Integer) this.getTextMinutesTimeStart().getValue());
         LocalTime timeStartVisit = ((LocalTime) this.getTextTimeStart().getValue()).plusMinutes((Integer) this.getTextMinutesTimeStart().getValue());
         //System.out.println(this.dataVisit.getValue());
         //System.out.println((timeStartVisit).plusMinutes((Integer)super.getTextTimeDuration().getValue())); //fine
         return new Appointment.Builder()
                 .setLocalDate(super.getTextdateVisit().getValue())
                 .setLocalTimeStart(timeStartVisit)
-                .setLocalTimeEnd((timeStartVisit).plusMinutes((Integer)super.getTextTimeDuration().getValue()))
+                .setLocalTimeEnd((timeStartVisit).plusMinutes((Integer) super.getTextTimeDuration().getValue()))
                 .setId_doctor(this.appointment.getId_doctor())
                 .setSpecialitation(this.appointment.getSpecialitation())
                 .setId_owner(this.appointment.getId_owner())
@@ -99,13 +101,23 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
 
     private void updateVisit(ActionEvent actionEvent) {
 
-            Appointment p = createAppointmentForUpdate();
-
+        Appointment p = createAppointmentForUpdate();
+        //if ((p.getLocalTimeStart().isAfter(LocalTime.now()) && p.getLocalDate().isEqual(LocalDate.now())) || p.getLocalDate().isAfter(LocalDate.now())) {
+        if ((p.getLocalTimeStart().isBefore(LocalTime.now()) && p.getLocalDate().isEqual(LocalDate.now())) ) {
+            JOptionPane.showMessageDialog(null, "Impossibile inserire prenotazione: l'orario deve essere successivo all'orario attuale!");
+        }
+        else{
             if (!(p.getLocalDate().isEqual(this.appointment.getLocalDate())) ||
                     ((p.getLocalTimeStart().compareTo(this.appointment.getLocalTimeStart())) != 0) ||
                     ((p.getLocalTimeEnd().compareTo(this.appointment.getLocalTimeEnd())) != 0)) {
+
+
                 List<Appointment> listAppointment = this.getAppointmentRepo().searchVisitbyDoctorAndDate(this.appointment.getId_doctor(), p.getLocalDate().toString());
-                boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
+                List<Appointment> listWithoutItSelf = listAppointment.stream().filter(
+                        item -> !item.getId_owner().equals(this.appointment.getId_owner()) &&
+                                !item.getId_pet().equals(this.appointment.getId_pet())).collect(Collectors.toList());
+
+                boolean isValid = listWithoutItSelf.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
                         (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) || //intervallo sinistro
 
                         ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) && //intervallo destro
@@ -113,6 +125,8 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
                 );
                 if (isValid) {
                     this.getAppointmentRepo().update(this.id, p);
+                    this.appointment = p; //per aggiornare l'appuntamento nella view
+
                     String emailOwner = this.getAppointmentRepo().searchEmailOwnerbyIdAppointment(this.id);
                     ConcreteObserver observerChanges = new ConcreteObserver.Builder()
                             .setEmailOwner(emailOwner) //passare email owner associatato alla prenotazione
@@ -133,4 +147,6 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
                 alert.showAndWait();
             }
         }
+
+    }
 }

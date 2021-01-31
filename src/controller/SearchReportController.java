@@ -51,9 +51,9 @@ public class SearchReportController  implements Initializable {
        // List<Appointment> listPrecAppointments = appointmentRepo.searchVisitByDoctorBeforeDate(LocalDate.now(), LocalTime.now(), id_doctor); //specifico per dottore
         listItems = FXCollections.observableArrayList(Objects.requireNonNullElseGet(listPrecAppointments, ArrayList::new)); //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
         tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
-
+         /*
         var colBtnDelete = ButtonTable.addButtonDeleteToTable(tableAllBookingVisit, Appointment.class);
-        tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);
+        tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);*/
         //addButtonDeleteToTable();
         //addButtonViewInfoOwnerPet();
         var colBtnView = ButtonTable.addButtonViewInfoOwnerPet(tableAllBookingVisit);

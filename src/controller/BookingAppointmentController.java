@@ -81,7 +81,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
-                setDisable(empty || date.compareTo(today) < 0 || (date.getDayOfWeek().getValue() == 7));//disabilita le domeniche
+                setDisable((empty || date.compareTo(today) < 0) || (date.getDayOfWeek().getValue() == 7));//disabilita le domeniche
             }
         });
         this.textdateVisit.setValue(LocalDate.now());
@@ -157,25 +157,33 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         }else
         {
             Appointment p = createAppointment();
-            List<Appointment> listAppointment = this.appointmentRepo.searchVisitbyDoctorAndDate(this.idDoctorSearched, this.textdateVisit.getValue().toString());
-            boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
-                    (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) ||
-                    ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) &&
-                            item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
-            );
+            if ((p.getLocalTimeStart().isBefore(LocalTime.now()) && p.getLocalDate().isEqual(LocalDate.now())) ) {
+                JOptionPane.showMessageDialog(null, "Impossibile inserire prenotazione: l'orario deve essere successivo all'orario attuale!");
+            }
+            else{
+
+                List<Appointment> listAppointment = this.appointmentRepo.searchVisitbyDoctorOrPetAndDate(this.idDoctorSearched, p.getId_pet(), this.textdateVisit.getValue().toString());
+                boolean isValid = listAppointment.stream().allMatch(item -> (item.getLocalTimeStart().isAfter(p.getLocalTimeStart()) &&
+                        (item.getLocalTimeStart().isAfter(p.getLocalTimeEnd()) || item.getLocalTimeStart().equals(p.getLocalTimeEnd()))) ||
+                        ((item.getLocalTimeEnd().isBefore(p.getLocalTimeStart()) || item.getLocalTimeEnd().equals(p.getLocalTimeStart())) &&
+                                item.getLocalTimeEnd().isBefore(p.getLocalTimeEnd()))
+                );
 
 
-            if(checkSearchFieldIsCorrect(this.listDoctor.values(),this.searchText2.getText()) &&
-                    checkSearchFieldIsCorrect(this.listClient.values(),this.searchText.getText()))
-            {
-                if (isValid) {
-                    this.appointmentRepo.add(p);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Un altro appuntamento è già stato prenotato per quell'intervallo di tempo!");
+                if(checkSearchFieldIsCorrect(this.listDoctor.values(),this.searchText2.getText()) &&
+                        checkSearchFieldIsCorrect(this.listClient.values(),this.searchText.getText()))
+                {
+                    if (isValid) {
+                        this.appointmentRepo.add(p);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Impossibile inserire la prenotazione. Un altro appuntamento è già stato prenotato per quell'intervallo di tempo!");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Impossibile trovare il riferimento! Per favore, seleziona un opzione del menu a tendina!");
                 }
-            }else{
-            JOptionPane.showMessageDialog(null, "Impossibile trovare il riferimento! Per favore, seleziona un opzione del menu a tendina!");
-           }
+
+            }
+
         }
     }
 

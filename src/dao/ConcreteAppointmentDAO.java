@@ -521,6 +521,35 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     }
 
     @Override
+    public List<Appointment> searchVisitbyDoctorOrPetAndDate(String idDoctorSearched, String id_pet, String date) {
+        String sqlSearch = "SELECT * From BOOKING Where (ID_DOCTOR = ? OR ID_PET = ?) AND DATE_VISIT = ?";
+        List<Appointment> listAppointment = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection_db.getConnectData().prepareStatement(sqlSearch);
+            statement.setString(1, idDoctorSearched);
+            statement.setString(2, id_pet);
+            statement.setString(3, date);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                Appointment p = new Appointment.Builder()
+                        .setLocalDate(LocalDate.parse(rs.getString("date_visit")))
+                        .setLocalTimeStart(LocalTime.parse(rs.getString("time_start")))
+                        .setLocalTimeEnd(LocalTime.parse(rs.getString("time_end")))
+                        .setId_doctor(rs.getString("id_doctor"))
+                        .setSpecialitation(rs.getString("specialization"))
+                        .setId_owner(rs.getString("id_owner"))
+                        .setId_pet(rs.getString("id_pet"))
+                        .build();
+                listAppointment.add(p);
+            }
+            return listAppointment;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return listAppointment;
+        }
+    }
+
+    @Override
     public List<Appointment> findAllVisitPet(String name, String surname) {
         String sqlSearchVisitsbyPet = """
                 SELECT  *  FROM MASTERDATA INNER JOIN PET ON MASTERDATA.id = PET.id
@@ -626,29 +655,5 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     }
 
 
-/*
-    @Override
-    public boolean isItSelf(Appointment p) {
-        try {
-            PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM BOOKING" +
-                    " WHERE BOOKING.DATE_VISIT = ?   AND BOOKING.ID_PET = ? AND BOOKING.ID_OWNER = ? AND BOOKING.SPECIALIZATION = ?" +
-                    "    AND BOOKING.ID_DOCTOR = ?");
-            statement.setString(1, p.getLocalDate().toString());
-            statement.setString(2, p.getId_pet());
-            statement.setString(3, p.getId_owner());
-            statement.setString(4, p.getSpecialitation());
-            statement.setString(5, p.getId_doctor());
 
-            ResultSet rs = statement.executeQuery();
-            String id_searched = "";
-            if (rs.next()) {
-                id_searched = rs.getString("id");
-            }
-            return !(id_searched.equals("")); //true --> è duplicato
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
-            return false;
-        }
-    }*/
 }
