@@ -44,8 +44,9 @@ public class LoginController implements Initializable {
 
     }
 
-
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

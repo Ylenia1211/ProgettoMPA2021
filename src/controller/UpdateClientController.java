@@ -19,7 +19,9 @@ public class UpdateClientController extends ClientController{
         this.id = super.getClientRepo().search(client);
        }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
            super.initialize(url, resourceBundle);

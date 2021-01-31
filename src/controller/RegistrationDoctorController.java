@@ -32,6 +32,9 @@ public class RegistrationDoctorController extends ClientController{
          this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

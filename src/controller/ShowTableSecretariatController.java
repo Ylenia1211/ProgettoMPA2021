@@ -37,6 +37,10 @@ public class ShowTableSecretariatController implements Initializable {
     public ShowTableSecretariatController() {
         this.secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableSecretariat.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

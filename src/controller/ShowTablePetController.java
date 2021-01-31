@@ -34,6 +34,9 @@ public class ShowTablePetController  implements Initializable {
         this.petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableSpecificPets.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

@@ -40,6 +40,9 @@ public class DoctorDashboard implements Initializable{
     private static final int reportID = 0;
     public Pane borderPanePane;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {

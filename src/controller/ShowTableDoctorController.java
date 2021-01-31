@@ -34,6 +34,9 @@ public class ShowTableDoctorController implements Initializable {
         this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableDoctor.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

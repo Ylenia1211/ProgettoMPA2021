@@ -63,6 +63,9 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.reportDAO = new ConcreteReportDAO(ConnectionDBH2.getInstance());

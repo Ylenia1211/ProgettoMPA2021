@@ -25,6 +25,10 @@ public class RegistrationSecretariatController extends ClientController{
     public RegistrationSecretariatController() {
         this.secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

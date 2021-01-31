@@ -66,11 +66,7 @@ public class ReportAddDataController implements Initializable {
     }
 
     /**
-     * Chiamato per inizializzare un controller dopo che il suo elemento parente è stato completamente elaborato.
-     * Aggiunge i valori della prenotazione alla vista
-     *
-     * @param url La posizione usata per risolvere i percorsi relativi per l'oggetto root, o null se la posizione non è nota.
-     * @param resourceBundle Le risorse usate per localizzare l'oggetto root, o null se l'oggetto root non è stato localizzato.
+     * {@inheritDoc}
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

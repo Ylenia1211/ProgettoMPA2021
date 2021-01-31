@@ -12,15 +12,16 @@ import model.Doctor;
 import model.Owner;
 import model.Pet;
 import util.gui.Common;
-
 import javax.swing.*;
 import java.net.URL;
 import java.time.Duration;
 import java.util.ResourceBundle;
 
-//ha lo stesso file fxml di ShowInfoOwnerPetController
+/**
+ * La classe CreateReportController serve a controllare la view createReport.fxml inserendo nelle tabelle i dati del
+ * report che verra' generato dalla stessa
+ */
 public class CreateReportController  implements Initializable {
-
     public Label nameOwner;
     public Label surnameOwner;
     public Label sexOwner;
@@ -42,14 +43,20 @@ public class CreateReportController  implements Initializable {
     private final String idPet;
     private final String idDoctor;
     public VBox vbox_main;
-    public VBox vboxLabel;
+//    public VBox vboxLabel; //non usata
     public Label labelDataVisit;
     public Label labelTimeStartEndVisit;
     private ConcreteAppointmentDAO appointmentRepo;
     private Appointment appointment;
     private boolean typeView;
 
-    public CreateReportController(Appointment appointment, boolean typeView) { //il booleano mi serve per indicare il tipo di view da estendere
+    /**
+     * Costruttore della classe, inizializza gli attributi che verranno stampati sulle tabelle della view
+     *
+     * @param appointment L'oggetto Appointment contenente le informazioni della visita
+     * @param typeView Variabile booleana usata per indicare il tipo di view da estendere
+     */
+    public CreateReportController(Appointment appointment, boolean typeView) {
         this.appointment = appointment;
         this.idOwner = appointment.getId_owner();
         this.idPet = appointment.getId_pet();
@@ -57,6 +64,9 @@ public class CreateReportController  implements Initializable {
         this.typeView = typeView;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.emailOwner.setTooltip(new Tooltip(this.emailOwner.getText()));
@@ -113,12 +123,22 @@ public class CreateReportController  implements Initializable {
         }
     }
 
+    /**
+     * Inserisce i dati del medico che ha effettuato la visita nella tabella del report
+     *
+     * @param doctor L'oggetto Doctor da cui prendere i valori da settare nella tabella
+     */
     private void setFieldDataDoctor(Doctor doctor) {
         labelDottoreName.setText(doctor.getName());
         labelDottoreSurname.setText(doctor.getSurname());
         labelDottoreSpecialization.setText(doctor.getSpecialization());
     }
 
+    /**
+     * Inserisce i dati del paziente visitato nella tabella del report
+     *
+     * @param pet L'oggetto Pet da cui prendere i valori da settare nella tabella
+     */
     private void setFieldDataPet(Pet pet) {
         namePet.setText(pet.getName());
         surnamePet.setText(pet.getSurname());
@@ -128,6 +148,11 @@ public class CreateReportController  implements Initializable {
         particularSignPet.setText(pet.getParticularSign());
     }
 
+    /**
+     * Inserisce i dati del proprietario del paziente visitato nella tabella del report
+     *
+     * @param owner L'oggetto Owner da cui prendere i valori da settare nella tabella
+     */
     private void setFieldDataOwner(Owner owner) {
         nameOwner.setText(owner.getName());
         surnameOwner.setText(owner.getSurname());
@@ -139,12 +164,21 @@ public class CreateReportController  implements Initializable {
         emailOwner.setText(owner.getEmail());
     }
 
+    /**
+     * Getter dell'attributo {@link CreateReportController#idOwner}
+     *
+     * @return L'id del proprietario
+     */
     public String getIdOwner() {
         return idOwner;
     }
 
+    /**
+     * Getter dell'attributo {@link CreateReportController#idPet}
+     *
+     * @return L'id del paziente
+     */
     public String getIdPet() {
         return idPet;
     }
-
 }
