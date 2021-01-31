@@ -54,7 +54,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
 
         tableBookingVisit.setItems(listItems);
         addButtonUpdateVisitToTable(); //non posso rifattorizzare cme gli altri (cambia l'update)
-
+        //#todo, togliere il bottone di cancellazione della prenotazione per i dottori
         var colBtnDelete = addButtonDeleteToTable(tableBookingVisit, Appointment.class);
         tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);
 
@@ -107,6 +107,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
                         } else {
                             Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
                             String id_appointment = appointmentRepo.search(ap);
+                            //todo modifica solo se è il dottore loggato lo stesso della prenotazione
                             if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment) || getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now().plusDays(1))) {
                                 setGraphic(null);
                             }

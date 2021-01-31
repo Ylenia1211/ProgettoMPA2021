@@ -1,5 +1,4 @@
 package controller;
-
 import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
@@ -7,24 +6,17 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.Appointment;
 import util.FieldVerifier;
-
 import javax.swing.*;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static controller.RegistrationPetController.getKeyByValue;
 import static util.gui.ButtonTable.MAX_SIZE;
@@ -33,6 +25,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
     public VBox pane_main_grid;
     public Label labelTitle;
     public DatePicker textdateVisit;
+    public VBox primary_grid;
     private ComboBox<Object> textTimeStart;
     private ComboBox<Object> textMinutesTimeStart;
     private ComboBox<Object> textTimeDuration;
@@ -124,30 +117,6 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
     }
 
 
-    public ComboBox<Object> getTextMinutesTimeStart() {
-        return textMinutesTimeStart;
-    }
-
-
-    public ConcreteAppointmentDAO getAppointmentRepo() {
-        return appointmentRepo;
-    }
-
-    public ComboBox<Object> getTextTimeStart() {
-        return textTimeStart;
-    }
-
-    public ComboBox<Object> getTextTimeDuration() {
-        return textTimeDuration;
-    }
-
-    public List<Object> getFieldsText() {
-        return fieldsText;
-    }
-
-    public List<ComboBox<?>> getFieldsComboBox() {
-        return fieldsComboBox;
-    }
 
     public void registrationVisit() throws IllegalAccessException {
         // ricerca prenotazioni per quel dottore in quella data
@@ -181,9 +150,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
                 }else{
                     JOptionPane.showMessageDialog(null, "Impossibile trovare il riferimento! Per favore, seleziona un opzione del menu a tendina!");
                 }
-
             }
-
         }
     }
 
@@ -423,5 +390,30 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
 
     public DatePicker getTextdateVisit() {
         return textdateVisit;
+    }
+
+    public ComboBox<Object> getTextMinutesTimeStart() {
+        return textMinutesTimeStart;
+    }
+
+
+    public ConcreteAppointmentDAO getAppointmentRepo() {
+        return appointmentRepo;
+    }
+
+    public ComboBox<Object> getTextTimeStart() {
+        return textTimeStart;
+    }
+
+    public ComboBox<Object> getTextTimeDuration() {
+        return textTimeDuration;
+    }
+
+    public List<Object> getFieldsText() {
+        return fieldsText;
+    }
+
+    public List<ComboBox<?>> getFieldsComboBox() {
+        return fieldsComboBox;
     }
 }

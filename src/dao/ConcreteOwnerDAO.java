@@ -1,45 +1,50 @@
 package dao;
-
-import controller.ClientController;
 import datasource.ConnectionDBH2;
-import model.Appointment;
 import model.Gender;
 import model.Owner;
 import model.Pet;
-
 import javax.swing.*;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-
+/**
+ *
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ *
+ * Classe che implementa i metodi dell'interfaccia 'OwnerDAO': {@link OwnerDAO}  Data Access Object.
+ * Serve a dialogare concretamente con il database.
+ *
+ */
 public class ConcreteOwnerDAO implements OwnerDAO{
     private final ConnectionDBH2 connection_db;
     public  ConcreteOwnerDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
     }
 
+/**
+ * Metodo ereditato dall'interfaccia 'OwnerDAO': {@link OwnerDAO}  Data Access Object, permette di aggiungere un nuovo Owner nel database.
+ * @param owner oggetto di tipo Owner {@link Owner} da aggiungere nel database.
+ */
     @Override
     public void add(Owner owner) {
 
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = connection_db.getConnectData().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
             ps.setString(1, owner.getId());
             ps.setString(2, owner.getName());
             ps.setString(3, owner.getSurname());
             ps.setString(4, owner.getSex().toString());
-            //LocalDate ld = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(owner.getDatebirth()));
             ps.setString(5, owner.getDatebirth().toString());
             ps.executeUpdate();
             System.out.println("Anagrafica Owner aggiunta al DB!");
 
-
-            ps = null;
             ps = connection_db.getConnectData().prepareStatement("insert into person(id, address, city, telephone, email, fiscalcode) values(?,?,?,?,?,?)");
             ps.setString(1, owner.getId());
             ps.setString(2, owner.getAddress());
@@ -50,12 +55,11 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             ps.executeUpdate();
             System.out.println("Dati civici Owner aggiunti al DB!");
 
-            ps = null;
             ps = connection_db.getConnectData().prepareStatement("insert into owner(id, tot_animal) values(?,?)");
             ps.setString(1, owner.getId());
             ps.setInt(2, owner.getTot_animal());
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Owner aggiunto correttamente!");
+            JOptionPane.showMessageDialog(null, "Cliente aggiunto correttamente!");
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
@@ -64,6 +68,10 @@ public class ConcreteOwnerDAO implements OwnerDAO{
 
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'OwnerDAO': {@link OwnerDAO}  Data Access Object, permette di ricercare tutti gli Owner presenti nel database.
+     * @return Lista di oggetti di tipo Owner {@link Owner} presenti nel database.
+     */
     @Override
     public List<Owner> findAll() {
        List<Owner> listItems = new ArrayList<>();
@@ -92,12 +100,17 @@ public class ConcreteOwnerDAO implements OwnerDAO{
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'OwnerDAO': {@link OwnerDAO}  Data Access Object, permette di aggiornare l'Owner presente nel database.
+     * @param id dell'Owner {@link Owner} da modificare nel database.
+     * @param client Owner che contiene i campi aggiornati da modificare nel database.
+     */
     @Override
     public void update(String id, Owner client) {
         String sqlMasterData = "UPDATE masterdata SET name = ?, surname = ?, sex = ?, datebirth = ? where masterdata.id = ?";
         String sqlPersonData = "UPDATE person SET address = ?, city = ?, telephone = ?, email = ?, fiscalcode = ? where person.id = ?";
 
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = connection_db.getConnectData().prepareStatement(sqlMasterData);
             ps.setString(1, client.getName());
@@ -108,7 +121,7 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             ps.executeUpdate();
 
             System.out.println("Aggiornati dati Anagrafica del Owner!");
-            ps = null;
+
             ps = connection_db.getConnectData().prepareStatement(sqlPersonData);
             ps.setString(1, client.getAddress());
             ps.setString(2, client.getCity());
@@ -118,14 +131,19 @@ public class ConcreteOwnerDAO implements OwnerDAO{
             ps.setString(6, id);
             ps.executeUpdate();
             System.out.println("Aggiornati dati persona del Owner!");
-            JOptionPane.showMessageDialog(null, "Modificato correttamente!");
+            JOptionPane.showMessageDialog(null, "Cliente Modificato correttamente!");
 
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
     }
-
+    /**
+     * Metodo ereditato dall'interfaccia 'OwnerDAO': {@link OwnerDAO}  Data Access Object, permette di cancellare l'Owner presente nel database,
+     * e a cascata tutti  i Pet {@link Pet} e gli Appointment associati {@link model.Appointment}, richiamando il metodo delete del ConcretePetDao {@link ConcretePetDAO}.
+     * @param id dell'Owner {@link Owner} da cancellare nel database.
+     *
+     */
     @Override
     public void delete(String id) {
         System.out.println("id da cancellare a cascata: " + id);
@@ -135,26 +153,31 @@ public class ConcreteOwnerDAO implements OwnerDAO{
               //prima di cancellare il l'owner devo cancellare anche tutti gli animali a lui associati
             ConcretePetDAO petDao = new ConcretePetDAO(ConnectionDBH2.getInstance());
             pets = petDao.searchByOwner(id);
-            pets.forEach(pet-> { petDao.delete(petDao.search(pet));});
+            pets.forEach(pet-> petDao.delete(petDao.search(pet)));
 
-            ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = "+"\'"+ id +"\'" );
+            ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = "+ "'" + id + "'");
             ps.executeUpdate();
             System.out.println("Cancellati dati Anagrafica del Owner!");
-            ps = connection_db.getConnectData().prepareStatement("delete from person where person.id = "+"\'"+ id +"\'" );
+            ps = connection_db.getConnectData().prepareStatement("delete from person where person.id = "+ "'" + id + "'");
             ps.executeUpdate();
             System.out.println("Cancellati dati civici del Owner!");
-            ps = connection_db.getConnectData().prepareStatement("delete from owner where owner.id = "+"\'"+ id +"\'" );
+            ps = connection_db.getConnectData().prepareStatement("delete from owner where owner.id = "+ "'" + id + "'");
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Cancellato correttamente!");
+
+            JOptionPane.showMessageDialog(null, "Cliente Cancellato correttamente!");
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
     }
-
+    /**
+     * Metodo ereditato dall'interfaccia 'OwnerDAO': {@link OwnerDAO}  Data Access Object, permette di ricercare
+     * l'Owner se presente nel database, e ritorna l'id dell'Owner ricercato. Se non è presente ritorna una stringa vuota id="".
+     * @param client l'Owner {@link Owner} da ricercare nel database.
+     * @return id dell'Owner ricercato. Se non è presente ritorna una stringa vuota id="".
+     */
     @Override
     public String search(Owner client) {
-        PreparedStatement ps = null;
         try{
             PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
                     "    INNER JOIN person" +
@@ -185,6 +208,12 @@ public class ConcreteOwnerDAO implements OwnerDAO{
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'OwnerDAO': {@link OwnerDAO}  Data Access Object, permette di controllare se l'oggetto Owner passato a parametro non è duplicato nel database.
+     * Se non è duplicato restituisce True, altrimenti False.
+     * @param owner l'Owner {@link Owner} da ricercare nel database.
+     * @return true se l'oggetto owner non è duplicato, false altrimenti.
+     */
     @Override
     public boolean isNotDuplicate(Owner owner) {
         try {
