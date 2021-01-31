@@ -6,10 +6,10 @@ import java.util.List;
 
 public class DoctorSideBar implements SideBarAction {
     //bottoni per la sidebar del dottore
-    private Button agenda = new Button("Agenda");
-    public Button report = new Button("Report");
-    public Button profilo = new Button("Profilo");
-    public Button logout = new Button("Logout");
+    private final Button agenda = new Button("Agenda");
+    private final Button report = new Button("Report");
+    private final Button profilo = new Button("Profilo");
+    private final Button logout = new Button("Logout");
 
 
     @Override

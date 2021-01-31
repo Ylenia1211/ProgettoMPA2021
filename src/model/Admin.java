@@ -1,5 +1,13 @@
 package model;
-
+/**
+ *
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ *
+ * Classe utilizzata per creare un oggetto 'Admin':{@link Admin}
+ */
 public class Admin {
     private String id;
     private String username;

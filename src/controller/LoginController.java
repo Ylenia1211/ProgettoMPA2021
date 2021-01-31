@@ -32,16 +32,11 @@ public class LoginController implements Initializable {
     public Pane pane;
     @FXML
     private ComboBox<String> textRoleUser;
-    private ConcreteLoginDAO loginRepo;
+    private final ConcreteLoginDAO loginRepo;
     private User userLogged;
-    //private static LoginController instance; // Singleton: mi serve per prendere l'utente loggato
 
-    // Quando il client deve usare l’oggetto, lo può richiamare invocando
-                                                                          //il metodo getInstance
     public LoginController() {
-        //instance = this;
         this.loginRepo = new ConcreteLoginDAO(ConnectionDBH2.getInstance());
-
     }
 
     /**
