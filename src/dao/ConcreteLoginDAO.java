@@ -1,29 +1,33 @@
 package dao;
 
 import datasource.ConnectionDBH2;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import model.Doctor;
-import model.Gender;
 import model.User;
+import util.gui.Common;
 
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Locale;
 
 
-public class ConcreteLoginDAO{
-     private final ConnectionDBH2 connection_db;
-     public  ConcreteLoginDAO(ConnectionDBH2 connection_db) {
+public class ConcreteLoginDAO implements Common {
+    private final ConnectionDBH2 connection_db;
+    private PreparedStatement ps;
+
+    /**
+     * Metodo costruttore
+     *
+     * @param connection_db instanza della connessione al database.
+     */
+    public ConcreteLoginDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
     }
 
-   /* //
-    * Metodo che mi ricerca in base all'utente loggato se la password e l'username sono esistenti e corretti
-    */
+    /**
+     * Metodo che ricerca il tipo di controllo da effettuare sul database, in base all'utente loggato.
+     *
+     * @param userLogged oggetto di tipo User {@link User}
+     */
     public boolean searchUser(User userLogged) {
         switch (userLogged.getRole()) {
             case "Dottore" -> {
@@ -33,31 +37,32 @@ public class ConcreteLoginDAO{
                 return this.searchUserNamePasswordSecretariat(userLogged);
             }
             case "Amministratore" -> {
-                return  this.searchUserNamePasswordAdmin(userLogged);
+                return this.searchUserNamePasswordAdmin(userLogged);
             }
             default -> throw new IllegalStateException("Unexpected value: " + userLogged.getRole());
         }
     }
 
+    /**
+     * Metodo che ricerca in base all'utente loggato ADMIN ricerca nel database se la password e l'username sono esistenti e corretti.
+     *
+     * @param userLogged oggetto di tipo User {@link User}
+     */
     private boolean searchUserNamePasswordAdmin(User userLogged) {
         String sqlSearch = "Select USERNAME, PASSWORD from ADMIN WHERE USERNAME = ? AND PASSWORD = ?";
-        PreparedStatement ps = null;
         String username;
         String password;
         try {
-            //ps = connection_db.dbConnection().prepareStatement(sqlSearch);
-
             ps = connection_db.getConnectData().prepareStatement(sqlSearch);
             ps.setString(1, userLogged.getUsername());
             ps.setString(2, userLogged.getPassword());
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                username  = rs.getString("username");
-                password =  rs.getString("password");
-                System.out.println( "Trovati: Username = " + username + "\nPassword = "+ password);
+            if (rs.next()) {
+                username = rs.getString("username");
+                password = rs.getString("password");
+                System.out.println("Trovati: Username = " + username + "\nPassword = " + password);
                 return true;
-            }else{
-                //JOptionPane.showMessageDialog(null, "Ricerca Vuota");
+            } else {
                 searchEmpty();
                 return false;
             }
@@ -70,9 +75,13 @@ public class ConcreteLoginDAO{
 
     }
 
+    /**
+     * Metodo che ricerca in base all'utente loggato SECRETARIAT ricerca nel database se la password e l'username sono esistenti e corretti.
+     *
+     * @param userLogged oggetto di tipo User {@link User}
+     */
     private boolean searchUserNamePasswordSecretariat(User userLogged) {
         String sqlSearch = "Select USERNAME, PASSWORD from SECRETARIAT WHERE USERNAME = ? AND PASSWORD = ?";
-        PreparedStatement ps = null;
         String username;
         String password;
         try {
@@ -80,13 +89,12 @@ public class ConcreteLoginDAO{
             ps.setString(1, userLogged.getUsername());
             ps.setString(2, userLogged.getPassword());
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                username  = rs.getString("username");
-                password =  rs.getString("password");
-                System.out.println( "Trovati: Username = " + username + "\nPassword = "+ password);
+            if (rs.next()) {
+                username = rs.getString("username");
+                password = rs.getString("password");
+                System.out.println("Trovati: Username = " + username + "\nPassword = " + password);
                 return true;
-            }else{
-                //JOptionPane.showMessageDialog(null, "Ricerca Vuota");
+            } else {
                 searchEmpty();
                 return false;
             }
@@ -98,9 +106,14 @@ public class ConcreteLoginDAO{
         }
     }
 
-    public boolean searchUserNamePasswordDoctor(User userLogged){
+    /**
+     * Metodo che ricerca in base all'utente loggato DOCTOR ricerca nel database se la password e l'username sono esistenti e corretti.
+     *
+     * @param userLogged oggetto di tipo User {@link User}
+     */
+    public boolean searchUserNamePasswordDoctor(User userLogged) {
         String sqlSearch = "Select USERNAME, PASSWORD from DOCTOR WHERE USERNAME = ? AND PASSWORD = ?";
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         String username;
         String password;
         try {
@@ -108,13 +121,12 @@ public class ConcreteLoginDAO{
             ps.setString(1, userLogged.getUsername());
             ps.setString(2, userLogged.getPassword());
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                username  = rs.getString("username");
-                password =  rs.getString("password");
-                System.out.println( "Trovati: Username = " + username + "\nPassword = "+ password);
+            if (rs.next()) {
+                username = rs.getString("username");
+                password = rs.getString("password");
+                System.out.println("Trovati: Username = " + username + "\nPassword = " + password);
                 return true;
-            }else{
-                //JOptionPane.showMessageDialog(null, "Ricerca Vuota");
+            } else {
                 searchEmpty();
                 return false;
             }
@@ -126,11 +138,5 @@ public class ConcreteLoginDAO{
         }
     }
 
-    public static void searchEmpty(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setTitle("Ricerca Vuota");
-        alert.setContentText("Nessun Utente trovato con queste credenziali! Riprova.");
-        alert.showAndWait();
-    }
+
 }

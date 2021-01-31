@@ -2,6 +2,7 @@ package dao;
 
 import datasource.ConnectionDBH2;
 import model.*;
+import util.gui.Common;
 
 import javax.swing.*;
 import java.sql.PreparedStatement;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConcreteDoctorDAO implements DoctorDAO {
+public class ConcreteDoctorDAO implements DoctorDAO, Common {
     private final ConnectionDBH2 connection_db;
 
     public ConcreteDoctorDAO(ConnectionDBH2 connection_db) {
@@ -247,7 +248,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
                         .addPassword(r.getString("password"))
                         .build();
             }else{
-                ConcreteLoginDAO.searchEmpty();
+                searchEmpty();
                 return null;
             }
 
@@ -285,7 +286,7 @@ public class ConcreteDoctorDAO implements DoctorDAO {
                         .addPassword(r.getString("password"))
                         .build();
             }else{
-                ConcreteLoginDAO.searchEmpty();
+                searchEmpty();
                 return null;
             }
 

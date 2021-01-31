@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public interface Common {
 
-   static void restrictDatePicker(DatePicker datePicker, LocalDate minDate, LocalDate maxDate) {
+    static void restrictDatePicker(DatePicker datePicker, LocalDate minDate, LocalDate maxDate) {
         final Callback<DatePicker, DateCell> dayCellFactory = new Callback<>() {
             @Override
             public DateCell call(final DatePicker datePicker) {
@@ -31,7 +31,7 @@ public interface Common {
         datePicker.setDayCellFactory(dayCellFactory);
     }
 
-     static String humanReadableFormat(Duration duration) {
+    static String humanReadableFormat(Duration duration) {
         return duration.toString()
                 .substring(2)
                 .replaceAll("(\\d[HMS])(?!$)", "$1 ")
@@ -50,5 +50,13 @@ public interface Common {
         dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
         dialog.getDialogPane().setContent(container);
         return dialog;
+    }
+
+    default void searchEmpty() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Ricerca Vuota");
+        alert.setContentText("Nessun Utente trovato con queste credenziali! Riprova.");
+        alert.showAndWait();
     }
 }

@@ -1,10 +1,7 @@
 package dao;
-
 import datasource.ConnectionDBH2;
-import model.Gender;
-import model.Secretariat;
-import model.User;
-
+import model.*;
+import util.gui.Common;
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,17 +10,38 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConcreteSecretariatDAO implements SecretariatDAO {
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Classe che implementa i metodi dell'interfaccia 'SecretariatDAO': {@link SecretariatDAO}  Data Access Object.
+ * Serve a dialogare concretamente con il database.
+ */
+public class ConcreteSecretariatDAO implements SecretariatDAO, Common {
+
     private final ConnectionDBH2 connection_db;
+
+    /**
+     * Metodo costruttore
+     *
+     * @param connection_db instanza della connessione al database.
+     */
     public ConcreteSecretariatDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'SecretariatDAO': {@link SecretariatDAO}  Data Access Object, permette di aggiungere un nuovo membro Secretariat nel database.
+     *
+     * @param secretariat oggetto di tipo Secretariat {@link Secretariat} da aggiungere nel database.
+     */
     @Override
     public void add(Secretariat secretariat) {
         PreparedStatement ps;
         try {
-            ps =connection_db.getConnectData().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
+            ps = connection_db.getConnectData().prepareStatement("insert into masterdata(id, name, surname,sex, datebirth) values(?,?,?,?,?)");
             ps.setString(1, secretariat.getId());
             ps.setString(2, secretariat.getName());
             ps.setString(3, secretariat.getSurname());
@@ -32,7 +50,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             ps.executeUpdate();
             System.out.println("Anagrafica secretariat aggiunta al DB!");
 
-            ps =connection_db.getConnectData().prepareStatement("insert into person(id, address, city, telephone, email, FISCALCODE) values(?,?,?,?,?,?)");
+            ps = connection_db.getConnectData().prepareStatement("insert into person(id, address, city, telephone, email, FISCALCODE) values(?,?,?,?,?,?)");
             ps.setString(1, secretariat.getId());
             ps.setString(2, secretariat.getAddress());
             ps.setString(3, secretariat.getCity());
@@ -54,6 +72,11 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'SecretariatDAO': {@link SecretariatDAO}  Data Access Object, permette di ricercare tutti i membri Secretariat presenti nel database.
+     *
+     * @return Lista di oggetti di tipo Secretariat {@link Secretariat} presenti nel database.
+     */
     @Override
     public List<Secretariat> findAll() {
         List<Secretariat> listItems = new ArrayList<>();
@@ -61,7 +84,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             PreparedStatement statement = connection_db.getConnectData()
                     .prepareStatement(" SELECT * FROM masterdata INNER JOIN person ON person.id = masterdata.id INNER JOIN SECRETARIAT ON  person.id = SECRETARIAT.id ");
             ResultSet r = statement.executeQuery();
-            while(r.next()) {
+            while (r.next()) {
                 listItems.add(new Secretariat.Builder<>()
                         .addName(r.getString("name"))
                         .addSurname(r.getString("surname"))
@@ -86,6 +109,12 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'SecretariatDAO': {@link SecretariatDAO}  Data Access Object, permette di aggiornare il membro Secretariat presente nel database.
+     *
+     * @param id          dell'oggetto Secretariat {@link Secretariat} da modificare nel database.
+     * @param secretariat oggetto Secretariat che contiene i campi aggiornati da modificare nel database.
+     */
     @Override
     public void update(String id, Secretariat secretariat) {
         String sqlMasterData = "UPDATE masterdata SET name = ?, surname = ?, sex = ?, datebirth = ? where masterdata.id = ?";
@@ -127,23 +156,25 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'SecretariatDAO': {@link SecretariatDAO}  Data Access Object, permette di cancellare il membro Secretariat presente nel database,
+     *
+     * @param id del membro Secretariat {@link Secretariat} da cancellare nel database.
+     */
     @Override
     public void delete(String id) {
-        System.out.println("id da cancellare a cascata: " + id);
-
+        //System.out.println("id da cancellare a cascata: " + id);
         PreparedStatement ps;
         try {
-            ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = "+"\'"+ id +"\'" );
+            ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = " + "'" + id + "'");
             ps.executeUpdate();
             System.out.println("Cancellati dati Anagrafica del secretariat!");
-
-            ps = connection_db.getConnectData().prepareStatement("delete from person where person.id = "+"\'"+ id +"\'" );
+            ps = connection_db.getConnectData().prepareStatement("delete from person where person.id = " + "'" + id + "'");
 
             ps.executeUpdate();
             System.out.println("Cancellati dati civici del secretariat!");
 
-            ps = connection_db.getConnectData().prepareStatement("delete from SECRETARIAT where SECRETARIAT.id = "+"\'"+ id +"\'" );
-
+            ps = connection_db.getConnectData().prepareStatement("delete from SECRETARIAT where SECRETARIAT.id = " + "'" + id + "'");
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cancellato correttamente!");
         } catch (SQLException e) {
@@ -152,15 +183,22 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'SecretariatDAO': {@link SecretariatDAO}  Data Access Object, permette di ricercare
+     * il membro Secretariat, se presente nel database, e ritorna l'id del membro Secretatiat ricercato. Se non è presente ritorna una stringa vuota id="".
+     *
+     * @param secretariat il membro Secretariat {@link Secretariat} da ricercare nel database.
+     * @return id del membro Secretariat ricercato. Se non è presente ritorna una stringa vuota id="".
+     */
     @Override
     public String search(Secretariat secretariat) {
-        try{
+        try {
             PreparedStatement statement = connection_db.getConnectData().prepareStatement("SELECT * FROM masterdata" +
                     "    INNER JOIN person" +
                     "    ON person.id = masterdata.id" +
                     "    INNER JOIN SECRETARIAT  " +
                     "    ON  person.id = SECRETARIAT.id WHERE masterdata.name = ? AND masterdata.surname = ? " +
-                    "    AND masterdata.sex = ?"+
+                    "    AND masterdata.sex = ?" +
                     "    AND masterdata.datebirth = ? AND PERSON.FISCALCODE = ?");
             statement.setString(1, secretariat.getName());
             statement.setString(2, secretariat.getSurname());
@@ -168,10 +206,10 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             statement.setString(4, secretariat.getDatebirth().toString());
             statement.setString(5, secretariat.getFiscalCode());
             ResultSet rs = statement.executeQuery();
-            String id_searched ="";
-            if(rs.next()){
-                id_searched  = rs.getString("id");
-            }else{
+            String id_searched = "";
+            if (rs.next()) {
+                id_searched = rs.getString("id");
+            } else {
                 JOptionPane.showMessageDialog(null, "Ricerca Vuota");
             }
             return id_searched;
@@ -183,6 +221,13 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'SecretariatDAO': {@link SecretariatDAO}  Data Access Object, permette di ricercare
+     * il membro Secretariat, a partire dall'username e password, se presente nel database, e ritorna l'oggetto Secretatiat ricercato. Se non è presente ritorna null.
+     *
+     * @param userLogged utente loggato di tipo {@link User} da ricercare nel database.
+     * @return oggetto di tipo Secretariat {@link Secretariat} ricercato. Se non è presente ritorna null.
+     */
     @Override
     public Secretariat searchByUsernameAndPassword(User userLogged) {
         PreparedStatement ps;
@@ -196,7 +241,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             ps.setString(1, userLogged.getUsername());
             ps.setString(2, userLogged.getPassword());
             ResultSet r = ps.executeQuery();
-            if(r.next()){
+            if (r.next()) {
                 return new Secretariat.Builder<>()
                         .addName(r.getString("name"))
                         .addSurname(r.getString("surname"))
@@ -210,8 +255,8 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
                         .addUsername(r.getString("username"))
                         .addPassword(r.getString("password"))
                         .build();
-            }else{
-                ConcreteLoginDAO.searchEmpty();
+            } else {
+                searchEmpty();
                 return null;
             }
 
@@ -222,6 +267,13 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'SecretariatDAO': {@link SecretariatDAO}  Data Access Object, permette di controllare se l'oggetto Secretariat passato a parametro non è duplicato nel database.
+     * Se non è duplicato restituisce True, altrimenti False.
+     *
+     * @param secretariat oggetto Secretariat {@link Secretariat} da ricercare nel database.
+     * @return true se l'oggetto secretariat non è duplicato, false altrimenti.
+     */
     @Override
     public boolean isNotDuplicate(Secretariat secretariat) {
         try {
@@ -243,7 +295,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             statement.setString(7, secretariat.getCity());
             statement.setString(8, secretariat.getAddress());
             statement.setString(9, secretariat.getEmail());
-            statement.setString(10,secretariat.getUsername());
+            statement.setString(10, secretariat.getUsername());
 
 
             ResultSet rs = statement.executeQuery();
@@ -259,6 +311,13 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'SecretariatDAO': {@link SecretariatDAO}  Data Access Object, permette di ricercare
+     * i dati del membro Secretariat, a partire dall'id, se presente nel database, e ritorna l'oggetto Secretatiat ricercato. Se non è presente ritorna null.
+     *
+     * @param id del membro Secretariat {@link Secretariat} da ricercare nel database.
+     * @return oggetto di tipo Secretariat {@link Secretariat} ricercato. Se non è presente ritorna null.
+     */
     @Override
     public Secretariat searchById(String id) {
         String sqlSearch = "SELECT * FROM masterdata" +
@@ -270,7 +329,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
             PreparedStatement ps = connection_db.getConnectData().prepareStatement(sqlSearch);
             ps.setString(1, id);
             ResultSet r = ps.executeQuery();
-            if(r.next()){
+            if (r.next()) {
                 return new Secretariat.Builder<>()
                         .addName(r.getString("name"))
                         .addSurname(r.getString("surname"))
@@ -284,8 +343,8 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
                         .addUsername(r.getString("username"))
                         .addPassword(r.getString("password"))
                         .build();
-            }else{
-                ConcreteLoginDAO.searchEmpty();
+            } else {
+                searchEmpty();
                 return null;
             }
 
@@ -296,6 +355,12 @@ public class ConcreteSecretariatDAO implements SecretariatDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'SecretariatDAO': {@link SecretariatDAO}  Data Access Object, permette di aggiornare la password dell'utente Secretariat.
+     *
+     * @param id  del membro Secretariat {@link Secretariat} da ricercare nel database, e di cui aggiornare la password.
+     * @param pwd nuova password del membro Secretariat {@link Secretariat} da aggiornare nel database.
+     */
     @Override
     public void updatePassword(String id, String pwd) {
         String sqlSearch = "UPDATE SECRETARIAT" +
