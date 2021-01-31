@@ -32,6 +32,9 @@ public class ShowTableOwnerController implements Initializable {
     private ConcreteOwnerDAO clientRepo;
     public ObservableList<Owner> listItems = FXCollections.observableArrayList();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));

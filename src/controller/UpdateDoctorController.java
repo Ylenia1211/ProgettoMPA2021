@@ -11,11 +11,16 @@ import java.util.ResourceBundle;
 public class UpdateDoctorController extends RegistrationDoctorController{
     private final String id;
     private final Doctor doctor;
+
     public UpdateDoctorController(Doctor doctor) {
         super();
         this.doctor = doctor;
         this.id = super.getDoctorRepo().search(doctor);
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.initialize(url, resourceBundle);

@@ -17,6 +17,9 @@ public class UpdateSecretariatController extends RegistrationSecretariatControll
         this.id = super.getSecretariatRepo().search(secretariat);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.initialize(url, resourceBundle);

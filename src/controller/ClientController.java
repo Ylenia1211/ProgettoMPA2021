@@ -1,4 +1,5 @@
 package controller;
+
 import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
@@ -12,13 +13,16 @@ import util.gui.Common;
 import util.FieldVerifier;
 import model.Gender;
 import model.Owner;
-
 import javax.swing.*;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * La classe ClientController serve a gestire i dati del proprietario per inserirli nei campi relativi al prorietario.
+ * Essa e' il controller primario della view {@link view/registrationClient.fxml}
+ */
 public class ClientController implements Initializable, FieldVerifier {
     @FXML
     public VBox pane_main_grid;
@@ -26,7 +30,6 @@ public class ClientController implements Initializable, FieldVerifier {
     public Label labelTitle;
     @FXML
     public TextField textFiscalCode;
-    public VBox primary_grid;
     @FXML
     private TextField textName;
     @FXML
@@ -42,6 +45,7 @@ public class ClientController implements Initializable, FieldVerifier {
     @FXML
     public DatePicker textdateBirth;
     @FXML
+    public VBox primary_grid;
     public Button btn;
     public RadioButton rbM;
     public RadioButton rbF;
@@ -52,7 +56,10 @@ public class ClientController implements Initializable, FieldVerifier {
     private List<TextField> fieldsText;
     private List<TextField> fieldsControlRestrict;
 
-
+    /**
+     * Il costruttore della classe ClientController, inizializza tutti i campi relativi al proprietario e li salva nel
+     * database
+     */
     public ClientController() {
         this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
         this.rbF = new RadioButton(Gender.F.getDeclaringClass().descriptorString());
@@ -68,6 +75,12 @@ public class ClientController implements Initializable, FieldVerifier {
         this.clientRepo = new ConcreteOwnerDAO(ConnectionDBH2.getInstance());
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Setta i campi del proprietario ed effettua controlli sull'eta' del proprietario per verificare che sia
+     * maggiorenne
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setTooltipOnField(); //serve a mettere le etichette su i textfield quando ci si passa sopra con il mouse
@@ -99,7 +112,9 @@ public class ClientController implements Initializable, FieldVerifier {
                 this.textEmail);
     }
 
-
+    /**
+     * Funzione che setta i tooltip sui campi
+     */
     private void setTooltipOnField() {
         this.textName.setTooltip(new Tooltip("Nome"));
         this.textSurname.setTooltip(new Tooltip("Cognome"));
@@ -110,6 +125,11 @@ public class ClientController implements Initializable, FieldVerifier {
         this.textEmail.setTooltip(new Tooltip("Email"));
     }
 
+    /**
+     * Verifica se non si stia inserendo un utente già registrato e lo assegna all'attributo {@link ClientController#clientRepo}
+     *
+     * @param actionEvent L'evento registrato, in questo caso il click sul bottone
+     */
     public void registerClient(ActionEvent actionEvent) {
 
         if(!checkEmptyTextField(this.fieldsText.stream()) && !checkAllFieldWithControlRestricted(this.fieldsControlRestrict.stream()))
@@ -132,6 +152,11 @@ public class ClientController implements Initializable, FieldVerifier {
         }
     }
 
+    /**
+     * Crea un oggetto di tipo Owner con i parametri inseriti grazie al Builder
+     *
+     * @return Un oggetto di tipo Owner
+     */
     public Owner createOwner(){
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
         System.out.println(chk.getText());
@@ -150,46 +175,101 @@ public class ClientController implements Initializable, FieldVerifier {
                 .build();
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#fieldsText}
+     *
+     * @return La lista con i valori inseriti nei campi
+     */
     public List<TextField> getFieldsText() {
         return fieldsText;
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#fieldsControlRestrict}
+     *
+     * @return La lista con i campi che necessitano un template particolare
+     */
     public List<TextField> getFieldsControlRestrict() {
         return fieldsControlRestrict;
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#clientRepo}
+     *
+     * @return Un oggetto ConcreteOwnerDAO con i dati del proprietario
+     */
     public ConcreteOwnerDAO getClientRepo() {
         return this.clientRepo;
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#textName}
+     *
+     * @return Il campo {@link ClientController#textName}
+     */
     public TextField getTextName() {
         return this.textName;
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#textSurname}
+     *
+     * @return Il campo {@link ClientController#textSurname}
+     */
     public TextField getTextSurname() {
         return textSurname;
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#textAddress}
+     *
+     * @return Il campo {@link ClientController#textAddress}
+     */
     public TextField getTextAddress() {
         return textAddress;
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#textCity}
+     *
+     * @return Il campo {@link ClientController#textCity}
+     */
     public TextField getTextCity() {
         return textCity;
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#textTelephone}
+     *
+     * @return Il campo {@link ClientController#textTelephone}
+     */
     public TextField getTextTelephone() {
         return textTelephone;
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#textEmail}
+     *
+     * @return Il campo {@link ClientController#textEmail}
+     */
     public TextField getTextEmail() {
         return textEmail;
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#textdateBirth}
+     *
+     * @return Il campo {@link ClientController#textdateBirth}
+     */
     public DatePicker getTextdateBirth() {
         return textdateBirth;
     }
 
+    /**
+     * Getter dell'attributo {@link ClientController#textFiscalCode}
+     *
+     * @return Il campo {@link ClientController#textFiscalCode}
+     */
     public TextField getTextFiscalCode() {
         return textFiscalCode;
     }

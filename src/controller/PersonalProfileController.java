@@ -69,7 +69,9 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
 
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (doctor != null) {

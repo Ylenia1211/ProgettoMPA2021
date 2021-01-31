@@ -51,6 +51,9 @@ public class Dashboard implements Initializable, Common, Subject {
     private String roleUserLogged;
     private List<Observer> observers;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

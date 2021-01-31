@@ -62,6 +62,9 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
         return petRepo;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

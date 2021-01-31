@@ -59,6 +59,9 @@ public class ShowInfoOwnerPetController implements Initializable {
         this.idDoctor = appointment.getId_doctor();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

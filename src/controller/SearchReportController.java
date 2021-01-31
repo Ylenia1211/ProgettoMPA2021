@@ -38,6 +38,9 @@ public class SearchReportController  implements Initializable {
         this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableAllBookingVisit.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
