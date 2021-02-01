@@ -151,6 +151,7 @@ public class Appointment {
          * Metodo che permette l'inserimento del campo 'localdate' all'interno dell'Appointment.
          *
          * @param localDate data della visita da aggiungere all'Appointment.
+         * @return Builder per la costruzione dell'oggetto Appointment
          */
         public Builder setLocalDate(LocalDate localDate) {
             this.localDate = localDate;
@@ -161,6 +162,7 @@ public class Appointment {
          * Metodo che permette l'inserimento del campo 'localTimeStart' all'interno dell'Appointment.
          *
          * @param localTimeStart orario di inizio della visita da aggiungere all'Appointment.
+         * @return Builder per la costruzione dell'oggetto Appointment
          */
         public Builder setLocalTimeStart(LocalTime localTimeStart) {
             this.localTimeStart = localTimeStart;
@@ -171,6 +173,7 @@ public class Appointment {
          * Metodo che permette l'inserimento del campo 'localTimeEnd' all'interno dell'Appointment.
          *
          * @param localTimeEnd orario di fine della visita (prevista) da aggiungere all'Appointment.
+         * @return Builder per la costruzione dell'oggetto Appointment
          */
         public Builder setLocalTimeEnd(LocalTime localTimeEnd) {
             this.localTimeEnd = localTimeEnd;
@@ -181,6 +184,7 @@ public class Appointment {
          * Metodo che permette l'inserimento del campo 'id_doctor' all'interno dell'Appointment.
          *
          * @param id_doctor id del doctor da aggiungere all'Appointment.
+         * @return Builder per la costruzione dell'oggetto Appointment
          */
         public Builder setId_doctor(String id_doctor) {
             this.id_doctor = id_doctor;
@@ -191,6 +195,7 @@ public class Appointment {
          * Metodo che permette l'inserimento del campo 'specialization' all'interno dell'Appointment.
          *
          * @param specialitation specializzazione del dottore associato alla visita da aggiungere all'Appointment.
+         * @return Builder per la costruzione dell'oggetto Appointment
          */
         public Builder setSpecialitation(String specialitation) {
             this.specialitation = specialitation;
@@ -201,6 +206,7 @@ public class Appointment {
          * Metodo che permette l'inserimento del campo 'id_owner' all'interno dell'Appointment.
          *
          * @param id_owner id dell'owner da aggiungere all'Appointment.
+         * @return Builder per la costruzione dell'oggetto Appointment
          */
         public Builder setId_owner(String id_owner) {
             this.id_owner = id_owner;
@@ -211,6 +217,7 @@ public class Appointment {
          * Metodo che permette l'inserimento del campo 'id_pet' all'interno dell'Appointment.
          *
          * @param id_pet id del Pet da aggiungere all'Appointment.
+         * @return Builder per la costruzione dell'oggetto Appointment
          */
         public Builder setId_pet(String id_pet) {
             this.id_pet = id_pet;
