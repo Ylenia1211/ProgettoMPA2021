@@ -9,10 +9,28 @@ import java.io.IOException;
 
 import static j2html.TagCreator.*;
 
-
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Classe utilizzata per creare un oggetto 'HTMLReport':{@link HTMLReport}
+ * il quale contiene i metodi utili per la creazione di un report in HTML.
+ */
 public class HTMLReport {
-   private final HTMLcreator htmLcreator = new HTMLcreator();
+    private final HTMLCreator htmLcreator = new HTMLCreator();
 
+    /**
+     * Metodo che crea la pagina HTML con i tags.
+     *
+     * @param report      oggetto report {@link Report} di cui vogliamo creare il PDF.
+     * @param appointment oggetto Appointment che contiene dati utili della visita da immagazinare nel PDF del Report
+     * @param owner       oggetto Owner che contiene dati utili della visita da immagazinare nel PDF del Report
+     * @param pet         oggetto Pet che contiene dati utili della visita da immagazinare nel PDF del Report.
+     * @param doctor      oggetto Doctor che contiene dati utili della visita da immagazinare nel PDF del Report
+     * @return un documento HTML
+     */
     public String generatePageHtml(Report report, Appointment appointment, Owner owner, Pet pet, Doctor doctor) {
         return htmLcreator.createHtml("Report Page",
                 div().with(
@@ -201,6 +219,17 @@ public class HTMLReport {
         );
     }
 
+    /**
+     * Metodo che genera il file HTML del Report.
+     * Richiama il metodo generatePageHTML() di {@link HTMLReport}
+     *
+     * @param report      oggetto report {@link Report} di cui vogliamo creare il PDF.
+     * @param appointment oggetto Appointment che contiene dati utili della visita da immagazinare nel PDF del Report
+     * @param owner       oggetto Owner che contiene dati utili della visita da immagazinare nel PDF del Report
+     * @param pet         oggetto Pet che contiene dati utili della visita da immagazinare nel PDF del Report.
+     * @param doctor      oggetto Doctor che contiene dati utili della visita da immagazinare nel PDF del Report
+     * @return il path dove è stato salvato il file Html del report.
+     */
     public String savePageHtml(Report report, Appointment appointment, Owner owner, Pet pet, Doctor doctor) throws IOException {
         FileWriter fWriter;
         BufferedWriter writer;
@@ -213,14 +242,18 @@ public class HTMLReport {
         return inputFile;
     }
 
-    public void deletePageHtml(String inputFile){
+    /**
+     * Metodo che cancella il file HTML del Report.
+     *
+     * @param inputFile path del file html generato nella prima fase di costruzione del file per il report.
+     */
+    public void deletePageHtml(String inputFile) {
 
         //per cancellare il file html di supporto creato visto che non ci serve
         File file = new File(inputFile);
-        if(file.delete()) {
+        if (file.delete()) {
             System.out.println("File html cancellato");
-        }
-        else {
+        } else {
             System.out.println("File NON cancellato");
         }
 

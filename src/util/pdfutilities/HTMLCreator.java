@@ -5,8 +5,24 @@ import j2html.tags.Tag;
 
 import static j2html.TagCreator.*;
 
-public class HTMLcreator {
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Classe utilizzata per creare un oggetto 'HTMLCreator':{@link HTMLCreator}
+ * il quale contiene i metodi utili per la creazione di un template e struttura di un file HTML.
+ */
+public class HTMLCreator {
 
+    /**
+     * Metodo che crea la struttura di un file HTML.
+     *
+     * @param pageTitle titolo da assegnare alla pagina Html
+     * @param tags      tags da inserire all'interno della struttura HTML
+     * @return un documento HTML
+     */
     public String createHtml(String pageTitle, Tag... tags) {
         ContainerTag html = html(
                 head

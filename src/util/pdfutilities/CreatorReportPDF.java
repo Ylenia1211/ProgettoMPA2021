@@ -3,7 +3,7 @@ package util.pdfutilities;
 import com.lowagie.text.DocumentException;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import model.*;
+import model.Report;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -16,10 +16,26 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Classe utilizzata per creare un oggetto 'CreatorReportPDF':{@link CreatorReportPDF}
+ * il quale contiene i metodi utili per la creazione di un pdf con allegati.
+ */
 public class CreatorReportPDF {
 
-   public void addAttachments(Report report, String outputFile, String attachmentPath) throws IOException {
-        if(!report.getPathFile().trim().isEmpty()){
+    /**
+     * Metodo che aggiunge allegati al report creato.
+     *
+     * @param report         oggetto report {@link Report} a cui vogliamo aggiungere un allegato.
+     * @param outputFile     path del report a cui vogliamo aggiungere l'allegato.
+     * @param attachmentPath path dell'allegato.
+     */
+    public void addAttachments(Report report, String outputFile, String attachmentPath) throws IOException {
+        if (!report.getPathFile().trim().isEmpty()) {
             File file = new File(outputFile);
             PDDocument document = PDDocument.load(file);
             PDPage attachmentPage = new PDPage();
@@ -40,6 +56,12 @@ public class CreatorReportPDF {
         }
     }
 
+    /**
+     * Metodo che genera il pdf del Report.
+     *
+     * @param inputHtmlPath path del file html generato nella prima fase di costruzione del file per il report.
+     * @param outputPdfPath path dove verrà salvato di default il  pdf del report.
+     */
     public void generatePDF(String inputHtmlPath, String outputPdfPath) {
         String url;
         try {
@@ -59,11 +81,17 @@ public class CreatorReportPDF {
         }
     }
 
-    public String choosePDFSaveLocation(String fileName){
+    /**
+     * Metodo che genera il pdf del Report in un path a scelta dell'utente (inizialmente cartella Download).
+     *
+     * @param fileName path a scelta dove verrà salvato il  pdf del report.
+     */
+    public String choosePDFSaveLocation(String fileName) {
         String filepath = null;
         Stage saveStage = new Stage();
         DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads/"));;
+        chooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads/"));
+        ;
         File file = chooser.showDialog(saveStage);
         if (file != null)
             filepath = file.getAbsolutePath() + "/" + fileName;
