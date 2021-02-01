@@ -16,6 +16,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Gestisce la tabella con i dati dei proprietari
+ */
 public class ShowTableOwnerController implements Initializable {
 
     public TableView<Owner> tableClient;
@@ -33,6 +41,9 @@ public class ShowTableOwnerController implements Initializable {
     public ObservableList<Owner> listItems = FXCollections.observableArrayList();
 
     /**
+     * Genera la tabella con tutti gli attributi dei proprietari e vi aggiunge bottoni per modificarli e cancellarli e
+     * aggiunge un listener alla tabella.
+     *
      * {@inheritDoc}
      */
     @Override
@@ -58,6 +69,10 @@ public class ShowTableOwnerController implements Initializable {
         addListenerToTable();
     }
 
+    /**
+     * Aggiunge alla tabella {@link ShowTableOwnerController#tableClient} un listener che permette, cliccando sulla riga
+     * di un proprietario, un redirect verso una tabella contenente i pazienti ad esso collegati
+     */
     private void addListenerToTable() {
         this.tableClient.setRowFactory( tv -> {
             TableRow<Owner> row = new TableRow<>();

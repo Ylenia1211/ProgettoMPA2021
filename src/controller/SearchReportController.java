@@ -22,7 +22,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-//visualizza le prenotazioni gia effettutate con il riferimento ai report associati
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Questa classe visualizza le prenotazioni gia effettutate con il riferimento ai report associati
+ */
 public class SearchReportController  implements Initializable {
     public TextField searchField;
     public TableView<Appointment> tableAllBookingVisit;
@@ -34,11 +41,17 @@ public class SearchReportController  implements Initializable {
     private final ConcreteAppointmentDAO appointmentRepo;
     public ObservableList<Appointment> listItems;
 
+    /**
+     * Costruttore della classe, setta l'attributo {@link SearchReportController#appointmentRepo} con una nuova istanta
+     * di {@link ConcreteAppointmentDAO}
+     */
     public SearchReportController() {
         this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
     }
 
     /**
+     * Visualizza i risultati della ricerca.
+     *
      * {@inheritDoc}
      */
     @Override

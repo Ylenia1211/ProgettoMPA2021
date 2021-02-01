@@ -119,7 +119,7 @@ public class RegistrationDoctorController extends ClientController{
 
     /**
      * Aggiunge il {@link PasswordField} {@link RegistrationDoctorController#password} alla view della registrazione del
-     * dottore e ne controlla la validità
+     * dottore e ne controlla la sicurezza
      */
     public  void addFieldPassword()  {
         this.passwordRealTime = new Label();

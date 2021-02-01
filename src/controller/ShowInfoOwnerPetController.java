@@ -24,6 +24,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * #Todo: da rivedere
+ */
 public class ShowInfoOwnerPetController implements Initializable {
 
     public Label nameOwner;
@@ -45,7 +53,6 @@ public class ShowInfoOwnerPetController implements Initializable {
     private final String idDoctor;
     public VBox vbox_main;
     public VBox vboxLabel;
-
     public Label labelDottoreName;
     public Label labelDottoreSurname;
     public Label labelDottoreSpecialization;

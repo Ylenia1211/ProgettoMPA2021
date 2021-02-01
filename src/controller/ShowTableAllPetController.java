@@ -15,6 +15,14 @@ import java.util.ResourceBundle;
 import static util.gui.ButtonTable.addButtonDeleteToTable;
 import static util.gui.ButtonTable.addButtonUpdateToTable;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Gestisce la tabella con i dati dei pazienti
+ */
 public class ShowTableAllPetController implements Initializable {
     public TableColumn<Pet, String> col_name;
     public TableColumn<Pet, String> col_surname;
@@ -26,11 +34,17 @@ public class ShowTableAllPetController implements Initializable {
     private final ConcretePetDAO petRepo;
     public ObservableList<Pet> listItems = FXCollections.observableArrayList();
 
+    /**
+     * Il costruttore della classe, assegna all'attributo {@link ShowTableAllPetController#petRepo} una nuova istanza di
+     * {@link ConcretePetDAO}
+     */
     public ShowTableAllPetController() {
         this.petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
     }
 
     /**
+     * Genera la tabella con tutti gli attributi dei pazienti e vi aggiunge bottoni per modificarli e cancellarli
+     *
      * {@inheritDoc}
      */
     @Override

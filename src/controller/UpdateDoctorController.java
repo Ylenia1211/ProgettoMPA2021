@@ -8,10 +8,23 @@ import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Gestisce l'update dei dati di un dottore, estende la classe {@link RegistrationDoctorController}
+ */
 public class UpdateDoctorController extends RegistrationDoctorController{
     private final String id;
     private final Doctor doctor;
 
+    /**
+     * Costruttore della classe, richiama il costruttore della superclasse {@link RegistrationDoctorController} setta gli
+     * attributi {@link UpdateDoctorController#doctor} e {@link UpdateDoctorController#id}
+     * @param doctor Il dottore
+     */
     public UpdateDoctorController(Doctor doctor) {
         super();
         this.doctor = doctor;
@@ -19,6 +32,9 @@ public class UpdateDoctorController extends RegistrationDoctorController{
     }
 
     /**
+     * Richiama la funzione {@link RegistrationDoctorController#initialize(URL, ResourceBundle)} della superclasse e
+     * setta i parametri grazie alla funzione {@link UpdateDoctorController#setParam(Doctor)}
+     *
      * {@inheritDoc}
      */
     @Override
@@ -27,6 +43,11 @@ public class UpdateDoctorController extends RegistrationDoctorController{
         setParam(doctor);
     }
 
+    /**
+     * Inserisce i dati del dottore negli appositi campi
+     *
+     * @param data L'oggetto di tipo {@link Doctor}
+     */
     public void setParam(Doctor data) {
         super.getTitle().setText("Modifica Dati Dottore");
         super.getTextName().setText(data.getName().trim());
@@ -47,14 +68,18 @@ public class UpdateDoctorController extends RegistrationDoctorController{
         }
     }
 
-   @Override
+    /**
+     * Assegna al bottone della superclasse saveBtn la funzione di verificare se non si stia inserendo un dottore già
+     * registrato e crea un nuovo dottore solo se tutti i campi sono stati compilati correttamente
+     */
+    @Override
     public void addActionButton() {
        this.getSaveBtn().setOnAction(e -> {
            if (!checkEmptyTextField(super.getFieldsText().stream()) &&
-                   !checkEmptyTextField(super.getFieldsTextDoctor().stream()) &&
-                   !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
-                   !checkifNotSecurePassword(super.getPasswordRealTime())
-           ) {
+               !checkEmptyTextField(super.getFieldsTextDoctor().stream()) &&
+               !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
+               !checkifNotSecurePassword(super.getPasswordRealTime()))
+           {
                Doctor d = createDoctor();
                if (super.getDoctorRepo().isNotDuplicate(d)) {
                    try {
@@ -65,11 +90,9 @@ public class UpdateDoctorController extends RegistrationDoctorController{
                } else {
                    JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
                }
-           }else
-           {
+           }else {
                JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
            }
-
        });
    }
 }

@@ -1,6 +1,8 @@
 package controller;
 
+import dao.ConcretePetDAO;
 import javafx.event.ActionEvent;
+import model.Doctor;
 import model.Gender;
 import model.Owner;
 
@@ -8,18 +10,35 @@ import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Gestisce l'update dei dati di un proprietario, estende la classe {@link ClientController}
+ */
 public class UpdateClientController extends ClientController{
     private final String id;
     private final Owner own;
 
-
-    public  UpdateClientController(Owner client) {
+    /**
+     * Il costruttore della classe, assegna a {@link UpdateClientController#own} il proprietario passato a parametro, ed
+     * a {@link UpdateClientController#id} l'id del proprietario usando la funzione della superclasse
+     * {@link ClientController#getClientRepo()}
+     *
+     * @param client Il proprietario
+     */
+    public UpdateClientController(Owner client) {
         super();
         this.own = client;
         this.id = super.getClientRepo().search(client);
        }
 
     /**
+     * Richiama la funzione {@link ClientController#initialize(URL, ResourceBundle)} della superclasse e setta i
+     * parametri grazie alla funzione {@link UpdateClientController#setParam(Owner)}
+     *
      * {@inheritDoc}
      */
     @Override
@@ -28,6 +47,12 @@ public class UpdateClientController extends ClientController{
            setParam(own);
     }
 
+    /**
+     * Verifica se non si stia inserendo un utente già registrato e crea un nuovo proprietario solo se tutti i campi
+     * sono stati compilati correttamente
+     *
+     * @param actionEvent L'evento registrato, in questo caso il click sul bottone
+     */
     @Override
     public void registerClient(ActionEvent actionEvent){
         if(!checkEmptyTextField(super.getFieldsText().stream()) && !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream())) {
@@ -48,6 +73,11 @@ public class UpdateClientController extends ClientController{
 
     }
 
+    /**
+     * Inserisce i dati del proprietario negli appositi campi
+     *
+     * @param data L'oggetto di tipo {@link Owner}
+     */
     public void setParam(Owner data) {
         super.getTextName().setText(data.getName().trim());
         super.getTextSurname().setText(data.getSurname().trim());

@@ -24,7 +24,19 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Controlla la parte inferiore della view del report, comprendente i campi {@link ReportViewController#textDiagnosi},
+ * {@link ReportViewController#textTerapia}, {@link ReportViewController#lastHbox} contenente i campi per la
+ * visualizzazione del percorso degli allegati e un bottone per l'inserimento degli allegati, i 4 bottoni
+ * {@link ReportViewController#savePDFReportButton}, {@link ReportViewController#cancelReportButton},
+ * {@link ReportViewController#deleteReportButton} e {@link ReportViewController#creaPDFReportButton}, e infine la
+ * {@link CheckBox} {@link ReportViewController#enableModify} per abilitare la modifica
+ */
 public class ReportViewController extends FacadePDFReportGenerator implements Initializable {
     public Button creaPDFReportButton;
     public Button deleteReportButton;
@@ -52,6 +64,14 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     private final Doctor doctor;
     private final ConcreteDoctorDAO doctorRepo;
 
+    /**
+     * Costruttore della classe, setta gli attributi necessari per la generazione di un report della visita
+     *
+     * @param appointment Lo specifico appuntamento
+     * @param owner Il proprietario
+     * @param pet Il paziente
+     * @param doctor Il medico che ha effettuato la visita
+     */
     public ReportViewController(Appointment appointment, Owner owner, Pet pet, Doctor doctor) {
         this.appointment = appointment;
         this.idOwner = appointment.getId_owner();
@@ -63,6 +83,8 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     }
 
     /**
+     * Setta i campi della view recuperandoli da un istanza di {@link ConcreteDoctorDAO}
+     *
      * {@inheritDoc}
      */
     @Override
@@ -112,6 +134,10 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         }
     }
 
+    /**
+     * Assegna la grafica ai bottoni per le operazioni sul report e assegna loro delle funzioni che permettono di
+     * effettuare operazioni di creazione, eliminazione, modifica e annullamento modifiche sul report
+     */
     private void setButtons(){
         // Creo il createButton
         this.creaPDFReportButton = new Button("Crea PDF");
@@ -178,6 +204,9 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         });
     }
 
+    /**
+     * Aggiorna la view per effettuare il refresh dei dati per la creazione del report in pdf aggiornato
+     */
     private void refreshPage() {
         Scene scene = this.savePDFReportButton.getScene();
         BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
@@ -190,7 +219,11 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         }
     }
 
-
+    /**
+     * Crea un nuovo oggetto di tipo {@link Report} grazie al Builder
+     *
+     * @return Un oggetto di tipo {@link Report}
+     */
     private Report createNewReport() {
         return new Report.Builder()
                 .setDiagnosis(this.textDiagnosi.getText())
@@ -199,17 +232,27 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 .build();
     }
 
-
+    /**
+     * Questa funzione permette di generare le cartelle dove verranno memorizzate delle copie di report generati con i
+     * loro allegati, usando i parametri inseriti per customizzare i nomi di cartelle e file, e usando il codice fiscale
+     * come chiave primaria della cartella in caso di omonimie
+     *
+     * @param owner Il proprietario
+     * @param pet Il paziente
+     * @param attachment Percorso dell'allegato
+     * @throws IOException Genera un'eccezione nel caso in cui non si trovi il file
+     */
     private void generateFolders(Owner owner, Pet pet, String attachment) throws IOException {
         String outputFile = "./report/";
 
-        // Creazione cartelle utente e paziente dove mettere il report
-        String reportDirectoryName = outputFile.concat(owner.getSurname() + owner.getName() + "_" + owner.getFiscalCode() + "/" + pet.getName());
+        // Se non presenti, creazione cartelle utente e paziente dove mettere il report
+        String reportDirectoryName = outputFile.concat(owner.getSurname() + owner.getName() + "_" +
+                                                       owner.getFiscalCode() + "/" + pet.getName());
         File reportDirectory = new File(reportDirectoryName);
         if (!reportDirectory.exists())
             reportDirectory.mkdirs();
 
-        // Creazione cartella in cui inserire tutti gli allegati del paziente
+        // Se non presenti, creazione cartella in cui inserire tutti gli allegati del paziente
         String attachmentDirectoryName = reportDirectoryName + "/allegati";
         File attachmentDirectory = new File(attachmentDirectoryName);
         if (!attachmentDirectory.exists())
@@ -217,16 +260,27 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         pathfile = attachmentDirectoryName + "/" + attachment.substring(attachment.lastIndexOf("\\")+1);
     }
 
+    /**
+     * Assegna ai due bottoni nell'{@link HBox} {@link ReportViewController#buttons} le funzioni di creazione report e
+     * cancellazione
+     */
     private void addCreateAndDeleteButtonsPDFReport() {
         this.buttons.getChildren().add(0, this.creaPDFReportButton);
         this.buttons.getChildren().add(1, this.deleteReportButton);
     }
 
+    /**
+     * Assegna ai due bottoni nell'{@link HBox} {@link ReportViewController#buttons} le funzioni di salvataggio report e
+     * annullamento modifiche
+     */
     private void addSaveAndCancelButtonsPDFReport() {
         this.buttons.getChildren().add(0, this.savePDFReportButton);
         this.buttons.getChildren().add(1, this.cancelReportButton);
     }
 
+    /**
+     * Gestisce l'abilitazione delle modifiche controllando le funzioni dei bottoni e abilitando o disabilitando i campi
+     */
     private void addEnableModifyCheckBox(){
         this.enableModify = new CheckBox("Abilita modifiche");
         this.enableModify.setStyle("-fx-font-size: 14px; -fx-text-fill: #163754;");
@@ -255,6 +309,9 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         this.lastHbox.getChildren().add(0, enableModify);
     }
 
+    /**
+     * Gestisce l'aggiunzione delle immagini allegate
+     */
     public void findAttachment() {
         final FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());

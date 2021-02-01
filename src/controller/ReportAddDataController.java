@@ -20,7 +20,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Classe che permette di registrare nel database i dati del report
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Il controller della view {@link view/reportView.fxml}
  */
 public class ReportAddDataController implements Initializable {
     private final String ownerSurname;
@@ -66,6 +71,8 @@ public class ReportAddDataController implements Initializable {
     }
 
     /**
+     * Setta i campi della view e vi inserisce nuovi elementi
+     *
      * {@inheritDoc}
      */
     @Override
@@ -78,7 +85,8 @@ public class ReportAddDataController implements Initializable {
     }
 
     /**
-     * Funzione che crea un oggetto report con i parametri inseriti tramite Builder e lo registra nel database
+     * Funzione che crea un oggetto report con i parametri inseriti tramite Builder e assegna a
+     * {@link ReportAddDataController#reportDAO} il nuovo oggetto di tipo {@link Report} generato grazie al Builder
      *
      * @param actionEvent L'evento registrato, in questo caso il click sul bottone "Salva"
      */

@@ -1,5 +1,6 @@
 package controller;
 import dao.ConcreteDoctorDAO;
+import dao.ConcretePetDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,14 @@ import java.util.ResourceBundle;
 import static util.gui.ButtonTable.addButtonDeleteToTable;
 import static util.gui.ButtonTable.addButtonUpdateToTable;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Gestisce la tabella con i dati dei dottori
+ */
 public class ShowTableDoctorController implements Initializable {
     public TableView<Doctor> tableDoctor;
     public TableColumn<Doctor, String> col_name;
@@ -30,11 +39,17 @@ public class ShowTableDoctorController implements Initializable {
     private final ConcreteDoctorDAO doctorRepo;
     public ObservableList<Doctor> listItems = FXCollections.observableArrayList();
 
+    /**
+     * Il costruttore della classe, assegna all'attributo {@link ShowTableDoctorController#doctorRepo} una nuova istanza di
+     * {@link ConcreteDoctorDAO}
+     */
     public ShowTableDoctorController() {
         this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
     }
 
     /**
+     * Genera la tabella con tutti gli attributi dei dottori e vi aggiunge bottoni per modificarli e cancellarli
+     *
      * {@inheritDoc}
      */
     @Override
@@ -60,6 +75,5 @@ public class ShowTableDoctorController implements Initializable {
         var colBtnDelete = addButtonDeleteToTable(tableDoctor, Doctor.class);
         tableDoctor.getColumns().add((TableColumn<Doctor, ?>)colBtnDelete);
     }
-
  }
 
