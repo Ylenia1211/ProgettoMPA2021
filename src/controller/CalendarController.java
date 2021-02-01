@@ -2,7 +2,7 @@ package controller;
 
 import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
-import view.FullCalendarView;
+import view.AgendaView;
 
 import java.net.URL;
 import java.time.YearMonth;
@@ -20,6 +20,6 @@ public class CalendarController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        calendarPane.getChildren().add(new FullCalendarView(YearMonth.now()).getView());
+        calendarPane.getChildren().add(new AgendaView(YearMonth.now()).getView());
     }
 }

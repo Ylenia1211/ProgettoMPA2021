@@ -8,7 +8,15 @@ import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Classe che richiama i metodi dell'interfaccia 'Common': {@link Common}.
+ * Serve a dialogare concretamente con il database.
+ */
 
 public class ConcreteLoginDAO implements Common {
     private final ConnectionDBH2 connection_db;

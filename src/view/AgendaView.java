@@ -32,7 +32,7 @@ import static javafx.scene.layout.AnchorPane.*;
  * <p>
  * Classe utilizzata per la generazione di un agenda, viene richiamata dal Controller {@link controller.CalendarController}.
  */
-public class FullCalendarView {
+public class AgendaView {
 
     private final ArrayList<AnchorPaneNode> allCalendarDays = new ArrayList<>(35);
     private final VBox view;
@@ -46,7 +46,7 @@ public class FullCalendarView {
      *
      * @param yearMonth mese e anno settati in {@link controller.CalendarController}
      */
-    public FullCalendarView(YearMonth yearMonth) {
+    public AgendaView(YearMonth yearMonth) {
 
         this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
         this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());

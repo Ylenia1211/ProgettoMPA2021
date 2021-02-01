@@ -75,7 +75,7 @@ public class AnchorPaneNode extends AnchorPane {
         return date;
     }
     /**
-     * Metodo per settare la data di una cella dell'Agenda utilizzato in {@link FullCalendarView}
+     * Metodo per settare la data di una cella dell'Agenda utilizzato in {@link AgendaView}
      *
      * @param date corrispondente
      */
