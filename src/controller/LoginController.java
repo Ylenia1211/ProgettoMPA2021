@@ -24,6 +24,15 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Il controller dell'interfaccia di login, setta i valori nella {@link LoginController#textRoleUser} e controlla gli
+ * accessi degli utenti
+ */
 public class LoginController implements Initializable {
     public BorderPane borderPane;
     public Button btnLogin;
@@ -35,16 +44,20 @@ public class LoginController implements Initializable {
     private final ConcreteLoginDAO loginRepo;
     private User userLogged;
 
+    /**
+     * Inizializza il campo {@link LoginController#loginRepo} con un nuovo oggetto {@link ConcreteLoginDAO}
+     */
     public LoginController() {
         this.loginRepo = new ConcreteLoginDAO(ConnectionDBH2.getInstance());
     }
 
     /**
+     * Setta i campi del {@link LoginController#textRoleUser} con le tipologie di accesso utente
+     *
      * {@inheritDoc}
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         ObservableList<String> roles = FXCollections.observableArrayList("Dottore", "Segreteria", "Amministratore");
         this.textRoleUser = new ComboBox<>(roles);
         this.textRoleUser.setLayoutX(194.0);
@@ -55,11 +68,20 @@ public class LoginController implements Initializable {
         this.pane.getChildren().add(this.textRoleUser);
     }
 
+    /**
+     * Permette la chiusura dell'interfaccia utente
+     */
     public void close() {
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * La funzione associata al bottone di login {@link LoginController#btnLogin}, verifica il corretto accesso
+     * dell'utente
+     *
+     * @param actionEvent L'evento rilevato (es. click del mouse)
+     */
     public void loginAction(ActionEvent actionEvent)  {
         if (textRoleUser.getValue() != null) { //se è stato settato il valore della combobox
             this.userLogged = createUser();
@@ -110,7 +132,12 @@ public class LoginController implements Initializable {
         }
     }
 
-
+    /**
+     * Crea un nuovo oggetto di tipo {@link User} usando i valori inseriti nei campi {@link LoginController#textUsername}
+     * e {@link LoginController#textPassword}
+     *
+     * @return Un oggetto di tipo {@link User}
+     */
     public User createUser(){
         return new User.Builder()
                 .setUsername(textUsername.getText())

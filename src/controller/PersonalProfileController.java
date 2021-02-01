@@ -1,4 +1,5 @@
 package controller;
+
 import dao.ConcreteDoctorDAO;
 import dao.ConcreteSecretariatDAO;
 import datasource.ConnectionDBH2;
@@ -20,7 +21,16 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class PersonalProfileController implements Initializable , FieldVerifier{
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Il controller del profilo personale dell'utente, setta i campi, permette l'aggiornamento del profilo e il cambio
+ * password
+ */
+public class PersonalProfileController implements Initializable, FieldVerifier{
     public ImageView picProfile;
     public CheckBox checkboxUpdate;
     public TextField name;
@@ -51,7 +61,14 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
     public Button ok;
     private List<TextField> fieldsControlRestrict;
 
-    public PersonalProfileController(String roleUserLogged)  {
+    /**
+     * Il costruttore della classe, in base al tipo di utente passato a parametro e assegna i dati del Dottore o della
+     * Segreteria rispettivamente negli attributi {@link PersonalProfileController#doctor} e
+     * {@link PersonalProfileController#secretariat}
+     *
+     * @param roleUserLogged La tipologia di utente
+     */
+    public PersonalProfileController(String roleUserLogged) {
         this.secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
         this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
 
@@ -66,10 +83,12 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
             }
             default -> throw new IllegalStateException("Unexpected value");
         }
-
     }
 
     /**
+     * Setta i dati dell'utente nei rispettivi campi e inizializza le funzioni del checkBox
+     * {@link PersonalProfileController#checkboxUpdate}
+     *
      * {@inheritDoc}
      */
     @Override
@@ -85,9 +104,7 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
         addButtonSave();
 
         setListenerCriticalFields(this.fiscalCode, this.telephone, this.email);
-        this.fieldsControlRestrict = List.of(fiscalCode,
-               telephone,
-               email);
+        this.fieldsControlRestrict = List.of(fiscalCode, telephone, email);
 
         this.checkboxUpdate.setOnAction(actionEvent -> {
             if (!checkboxUpdate.isSelected()) {
@@ -127,12 +144,15 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
                 }
                 this.username.setEditable(true);
                 this.password.setEditable(false);
-
-
             }
         });
     }
 
+    /**
+     * La funzione associata al bottone {@link PersonalProfileController#saveBtn}, effettua l'update del profilo utente
+     *
+     * @param actionEvent L'evento rilevato (il click del mouse)
+     */
     public void updateProfile(ActionEvent actionEvent) {
        if(!checkAllFieldWithControlRestricted(this.fieldsControlRestrict.stream())) {
            if (doctor != null) {
@@ -160,13 +180,16 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
                    JOptionPane.showMessageDialog(null, "Impossibile creare l'utente segreteria! Già esistente!");
                }
            }
-       }else
-       {
+       }else{
            JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
        }
     }
 
-
+    /**
+     * Inserisce i dati del dottore negli appositi campi
+     *
+     * @param data L'oggetto di tipo {@link Doctor}
+     */
     public void setParamDoctor(Doctor data) {
         this.name.setText(data.getName().trim());
         this.surname.setText(data.getSurname().trim());
@@ -185,6 +208,11 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
         this.password.setText(data.getPassword().trim());
     }
 
+    /**
+     * Inserisce i dati della segreteria negli appositi campi
+     *
+     * @param data L'oggetto di tipo {@link Secretariat}
+     */
     public void setParamSecretariat(Secretariat data) {
         this.name.setText(data.getName().trim());
         this.surname.setText(data.getSurname().trim());
@@ -203,6 +231,11 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
         this.password.setText(data.getPassword().trim());
     }
 
+    /**
+     * Aggiunge la {@link ComboBox} {@link PersonalProfileController#specialization} alla view del profilo
+     *
+     * @param specialization La specializzazione del dottore
+     */
     public void addFieldSpecialization(String specialization) {
         this.specialization = new ComboBox<>();
         this.specialization.setId("specialization");
@@ -218,6 +251,11 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
         this.labelsFields.getChildren().add(this.specialization);
     }
 
+    /**
+     * Crea un oggetto di tipo {@link Doctor} con i valori inseriti nei campi della view del profilo
+     *
+     * @return Un nuovo oggetto di tipo {@link Doctor}
+     */
     public Doctor createDoctor() {
         RadioButton chk = (RadioButton) this.genderGroup.getSelectedToggle();
         return new Doctor.Builder<>()
@@ -236,6 +274,11 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
                 .build();
     }
 
+    /**
+     * Crea un oggetto di tipo {@link Secretariat} con i valori inseriti nei campi della view del profilo
+     *
+     * @return Un nuovo oggetto di tipo {@link Secretariat}
+     */
     public Secretariat createSecretariat() {
         RadioButton chk = (RadioButton) this.genderGroup.getSelectedToggle();
         return new Secretariat.Builder<>()
@@ -253,6 +296,10 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
                 .build();
     }
 
+    /**
+     * Assegna al bottone {@link PersonalProfileController#saveBtn} un nuovo bottone "Salva", gli assegna uno stile e
+     * una funzione, {@link PersonalProfileController#updateProfile(ActionEvent)}
+     */
     public void addButtonSave() {
         this.saveBtn = new Button("Salva");
         this.saveBtn.setId("saveBtn");
@@ -266,7 +313,10 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
         this.labelsFields.getChildren().add(this.saveBtn);
     }
 
-
+    /**
+     * Assegna al bottone {@link PersonalProfileController#saveBtnPwd} un nuovo bottone "Cambia Password", gli assegna
+     * uno stile e una funzione, {@link PersonalProfileController#changePassword(ActionEvent)}
+     */
     public void addButtonChangePassword() {
         this.saveBtnPwd = new Button("Cambia Password");
         this.saveBtnPwd.setId("saveBtnPassword");
@@ -280,6 +330,13 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
         this.labelsFields.getChildren().add(this.saveBtnPwd);
     }
 
+    /** #Todo: da rivedere
+     * Questa non ho capito che fa
+     *
+     * @param oldPasswordTitle
+     * @param password
+     * @return
+     */
     private Dialog<VBox> createDialog(Label oldPasswordTitle, PasswordField password) {
         VBox container = new VBox();
         container.getChildren().add(oldPasswordTitle);
@@ -292,7 +349,11 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
         return dialog;
     }
 
-
+    /**
+     * Funzione associata al bottone {@link PersonalProfileController#saveBtnPwd}. Effettua l'aggiornamento della password
+     *
+     * @param actionEvent L'evento registrato, il click sul bottone {@link PersonalProfileController#saveBtnPwd}
+     */
     private void changePassword(ActionEvent actionEvent) {
         Label oldPasswordTitle = new Label("Inserisci vecchia password");
         Label newPasswordTitle = new Label("Inserisci Nuova password");
@@ -341,5 +402,3 @@ public class PersonalProfileController implements Initializable , FieldVerifier{
         }
     }
 }
-
-

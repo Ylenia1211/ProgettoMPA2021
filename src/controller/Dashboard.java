@@ -43,7 +43,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * La classe di controllo della dashboard principale. La personalizza in base al tipo di utente che effettua l'accesso
+ */
 public class Dashboard implements Initializable, Common, Subject {
     public BorderPane borderPane;
     public Label labelWelcome;
@@ -52,6 +59,8 @@ public class Dashboard implements Initializable, Common, Subject {
     private List<Observer> observers;
 
     /**
+     * Inizializza la sidebar personalizzandola in base ai privilegi di accesso dell'utente
+     *
      * {@inheritDoc}
      */
     @Override
@@ -68,20 +77,41 @@ public class Dashboard implements Initializable, Common, Subject {
         }
     }
 
+    /**
+     * Permette la chiusura dell'interfaccia utente
+     */
     public void close() {
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Setta la label {@link Dashboard#labelWelcome} con il tipo di accesso effettuato (Dottore, Segreteria, Amministatore..)
+     *
+     * @param user L'utente che effettua l'accesso
+     */
     public void setUserLogged(User user) {
         this.roleUserLogged = user.getRole();
         this.labelWelcome.setText("  Benvenuto " + this.roleUserLogged + "!");
     }
 
+    /**
+     * Getter dell'attributo {@link Dashboard#borderPane}
+     *
+     * @return Il border pane della dashboard
+     */
     public BorderPane getBorderPane() {
         return borderPane;
     }
 
+    /**
+     * Personalizza i bottoni che verranno visualizzati nella sideboard e assegna loro delle funzioni che permettono il
+     * redirect verso le loro rispettive view
+     *
+     * @param vBox Il vBox in cui inserire i bottoni
+     * @param buttons La lista dei bottoni da inserire
+     * @throws IOException Lancia un eccezione se non trova la view richiesta
+     */
     public void setButtons(VBox vBox, List<Button> buttons) throws IOException {
         DropShadow shadow = new DropShadow();
         Lighting lighting = new Lighting();
@@ -245,10 +275,10 @@ public class Dashboard implements Initializable, Common, Subject {
                             this.observers = new ArrayList<>();
                             ConcreteAppointmentDAO bookingDao = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
                             List<Appointment> ownersBookingTomorrow = bookingDao.searchAppointmentsByDate((LocalDate.now().plusDays(1)).toString());
-                           List<String> emailsOwners =new ArrayList<>();
+                            List<String> emailsOwners =new ArrayList<>();
                             if (!ownersBookingTomorrow.isEmpty()) {
                                 ownersBookingTomorrow.forEach(booking -> {
-                                     emailsOwners.add(bookingDao.searchOwnerById(booking.getId_owner()).getEmail()); //test
+                                    emailsOwners.add(bookingDao.searchOwnerById(booking.getId_owner()).getEmail()); //test
                                     ConcreteObserver observerChanges = new ConcreteObserver.Builder()
                                             .setEmailOwner(bookingDao.searchOwnerById(booking.getId_owner()).getEmail()) //passare email owner associatato alla prenotazione
                                             .setDataVisit(booking.getLocalDate())
@@ -307,21 +337,33 @@ public class Dashboard implements Initializable, Common, Subject {
         vBox.setSpacing(3.0);
     }
 
+    /** #Todo: Da verificare
+     * Aggiunge un oggetto di tipo Observer passato a parametro alla lista {@link Dashboard#observers}
+     *
+     * @param o L'oggetto di tipo Observer da aggiungere alla lista
+     */
     @Override
     public void register(Observer o) {
         observers.add(o);
     }
 
+    /** #Todo: Da verificare
+     * Rimuove l'oggetto di tipo Observer passato a parametro alla lista {@link Dashboard#observers}
+     *
+     * @param o L'oggetto di tipo Observer da aggiungere alla lista
+     */
     @Override
     public void unregister(Observer o) {
         observers.remove(o);
     }
 
+    /** #Todo: Da verificare
+     * Effettua l'update di tutti gli oggetti Observer inseriti nella lista {@link Dashboard#observers}
+     */
     @Override
     public void notifyObservers() {
         for (Observer obs : observers) {
             obs.update();
         }
     }
-
 }

@@ -15,11 +15,17 @@ import java.sql.SQLException;
  * <p>
  * Classe che implementa i metodi dell'interfaccia 'AdminDAO': {@link AdminDAO}  Data Access Object.
  * Serve a dialogare concretamente con il database.
+ *
  */
-
 public class ConcreteAdminDAO implements AdminDAO {
     private final ConnectionDBH2 connection_db;
 
+    /**
+     * Il costruttore della classe, inizializza il parametro {@link ConcreteAdminDAO#connection_db} con un'istanza del
+     * database
+     *
+     * @param connection_db L'istanza del database
+     */
     public ConcreteAdminDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
     }
@@ -111,5 +117,4 @@ public class ConcreteAdminDAO implements AdminDAO {
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
     }
-
 }

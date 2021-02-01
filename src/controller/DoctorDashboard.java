@@ -21,14 +21,21 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * La classe di controllo della dashboard del dottore.
+ */
 public class DoctorDashboard implements Initializable{
-    private static BorderPane staticBorderPane;
+//    private static BorderPane staticBorderPane;
     public VBox sidebar;
     public Button pazienti = new Button("Pazienti");
     public Button agenda = new Button("Agenda");
@@ -41,6 +48,7 @@ public class DoctorDashboard implements Initializable{
     public Pane borderPanePane;
 
     /**
+     * Inizializza la dashboard del dottore
      * {@inheritDoc}
      */
     @Override
@@ -65,6 +73,14 @@ public class DoctorDashboard implements Initializable{
 //        return staticBorderPane;
 //    }
 
+    /**
+     * Assegna la grafica ai bottoni per le operazioni del dottore che verranno visualizzati nella sideboard e assegna
+     * loro delle funzioni che permettono il redirect verso le loro rispettive view
+     *
+     * @param vBox Il vBox in cui inserire i bottoni
+     * @param buttons La lista dei bottoni da inserire
+     * @throws IOException Lancia un eccezione se non trova la view richiesta
+     */
     public void setButtons (VBox vBox, Button... buttons) throws IOException {
         DropShadow shadow = new DropShadow();
         Lighting lighting = new Lighting();
@@ -189,6 +205,9 @@ public class DoctorDashboard implements Initializable{
         vBox.setSpacing(3.0);
     }
 
+    /**
+     * Permette la chiusura dell'interfaccia utente
+     */
     public void close() {
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();

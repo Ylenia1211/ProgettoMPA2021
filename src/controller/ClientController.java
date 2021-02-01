@@ -20,6 +20,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
  * La classe ClientController serve a gestire i dati del proprietario per inserirli nei campi relativi al prorietario.
  * Essa e' il controller primario della view {@link view/registrationClient.fxml}
  */
@@ -57,8 +62,8 @@ public class ClientController implements Initializable, FieldVerifier {
     private List<TextField> fieldsControlRestrict;
 
     /**
-     * Il costruttore della classe ClientController, inizializza tutti i campi relativi al proprietario e li salva nel
-     * database
+     * Il costruttore della classe ClientController, inizializza tutti i campi relativi al proprietario e istanzia in
+     * {@link ClientController#clientRepo} un oggetto di tipo {@link ConcreteOwnerDAO}
      */
     public ClientController() {
         this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());

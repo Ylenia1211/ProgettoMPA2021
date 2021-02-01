@@ -18,6 +18,11 @@ import java.time.Duration;
 import java.util.ResourceBundle;
 
 /**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
  * La classe CreateReportController serve a controllare la view createReport.fxml inserendo nelle tabelle i dati del
  * report che verra' generato dalla stessa
  */
@@ -65,6 +70,9 @@ public class CreateReportController  implements Initializable {
     }
 
     /**
+     * Assegna dei Tooltip ai campi con lunghezza superiore della grandezza della tabella per permetterne la
+     * visualizzazione completa.
+     *
      * {@inheritDoc}
      */
     @Override
