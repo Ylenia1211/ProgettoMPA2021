@@ -48,7 +48,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO, Common {
             ps.setString(4, secretariat.getSex().toString());
             ps.setString(5, secretariat.getDatebirth().toString());
             ps.executeUpdate();
-            System.out.println("Anagrafica secretariat aggiunta al DB!");
+            //System.out.println("Anagrafica secretariat aggiunta al DB!");
 
             ps = connection_db.getConnectData().prepareStatement("insert into person(id, address, city, telephone, email, FISCALCODE) values(?,?,?,?,?,?)");
             ps.setString(1, secretariat.getId());
@@ -58,14 +58,14 @@ public class ConcreteSecretariatDAO implements SecretariatDAO, Common {
             ps.setString(5, secretariat.getEmail());
             ps.setString(6, secretariat.getFiscalCode());
             ps.executeUpdate();
-            System.out.println("Dati civici secretariat aggiunti al DB!");
+            //System.out.println("Dati civici secretariat aggiunti al DB!");
 
             ps = connection_db.getConnectData().prepareStatement("insert into SECRETARIAT(id, username, password) values(?,?,?)");
             ps.setString(1, secretariat.getId());
             ps.setString(2, secretariat.getUsername());
             ps.setString(3, secretariat.getPassword());
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "secretariat aggiunto correttamente!");
+            JOptionPane.showMessageDialog(null, "Segretario/a aggiunto/a correttamente!");
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
@@ -130,7 +130,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO, Common {
             ps.setString(5, id);
             ps.executeUpdate();
 
-            System.out.println("Aggiornati dati Anagrafica del secretariat!");
+            //System.out.println("Aggiornati dati Anagrafica del secretariat!");
 
             ps = connection_db.getConnectData().prepareStatement(sqlPersonData);
             ps.setString(1, secretariat.getAddress());
@@ -140,7 +140,7 @@ public class ConcreteSecretariatDAO implements SecretariatDAO, Common {
             ps.setString(5, secretariat.getFiscalCode());
             ps.setString(6, id);
             ps.executeUpdate();
-            System.out.println("Aggiornati dati persona del secretariat!");
+            //System.out.println("Aggiornati dati persona del secretariat!");
 
             ps = connection_db.getConnectData().prepareStatement(sqlSecretariatData);
             ps.setString(1, secretariat.getUsername());
@@ -168,11 +168,11 @@ public class ConcreteSecretariatDAO implements SecretariatDAO, Common {
         try {
             ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = " + "'" + id + "'");
             ps.executeUpdate();
-            System.out.println("Cancellati dati Anagrafica del secretariat!");
+            //System.out.println("Cancellati dati Anagrafica del secretariat!");
             ps = connection_db.getConnectData().prepareStatement("delete from person where person.id = " + "'" + id + "'");
 
             ps.executeUpdate();
-            System.out.println("Cancellati dati civici del secretariat!");
+            //System.out.println("Cancellati dati civici del secretariat!");
 
             ps = connection_db.getConnectData().prepareStatement("delete from SECRETARIAT where SECRETARIAT.id = " + "'" + id + "'");
             ps.executeUpdate();

@@ -195,8 +195,8 @@ public class ConcreteReportDAO implements ReportDAO {
                         .setDiagnosis(rs.getString("diagnosis"))
                         .setTreatments(rs.getString("treatments"))
                         .setPathFile(rs.getString("pathfile")).build();
-                System.out.println(report.toString());
-                JOptionPane.showMessageDialog(null, "dati report presi correttamente!");
+                //System.out.println(report.toString());
+                //JOptionPane.showMessageDialog(null, "dati report presi correttamente!");
                 return report;
             } else {
                 JOptionPane.showMessageDialog(null, "Ricerca Vuota");

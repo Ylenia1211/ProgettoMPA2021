@@ -112,7 +112,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             ps.setString(3, appointment.getLocalTimeEnd().toString());
             ps.setString(4, id);
             ps.executeUpdate();
-            System.out.println("Aggiornati Data/ora Prenotazione!");
+            //System.out.println("Aggiornati Data/ora Prenotazione!");
             JOptionPane.showMessageDialog(null, "Aggiornati Data/ora Prenotazione!");
 
         } catch (SQLException e) {
@@ -138,6 +138,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
     }
+
     /**
      * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare le le coppie (id,fiscalcode) associate a un Owner presenti nel database.
      *
@@ -166,9 +167,11 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return null;
         }
     }
+
     /**
      * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare in base a un Owner, le coppie (id,name) associate a un Pet presenti nel database.
-     * @param  id di un Owner
+     *
+     * @param id di un Owner
      * @return una mappa di coppie (id, name) dei Pet presenti nel database in base all'owner associato.
      */
     @Override
@@ -219,10 +222,12 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             return null;
         }
     }
+
     /**
      * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la specializzazione di un Doctor presente nel database.
      *
-     * @return la specializzazione di un Doctor presente nel database.
+     * @param idDoctorSearched id del Doctor
+     * @return la specializzazione del Doctor presente nel database in base all'id passato a parametro.
      */
     @Override
     public String searchSpecializationByDoctor(String idDoctorSearched) {
@@ -248,6 +253,12 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment presenti nel database, in base a una certa data passata a parametro.
+     *
+     * @param date data di cui ricercare la lista di Appointment
+     * @return la lista di Appointment presenti nel database in base a una certa data passata a parametro.
+     */
     @Override
     public List<Appointment> searchAppointmentsByDate(String date) {
         List<Appointment> listAppointment = new ArrayList<>();
@@ -278,6 +289,12 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di contare la lista degli Appointment presenti nel database, in base a una certa data passata a parametro.
+     *
+     * @param date data di cui ricercare la lista di Appointment
+     * @return il numero di Appointment presenti nel database in base a una certa data passata a parametro.
+     */
     @Override
     public Integer countAppointmentsByDate(String date) {
         Integer countDayVisits = 0;
@@ -298,11 +315,14 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
-    /**
-     * Prende come argomento un appuntamento
-     * e deve ritornare l'id memorizzato nel db dell'appuntamento
-     */
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object,  permette di ricercare
+     * l'Appointment se presente nel database, e ritorna l'id dell'Appointment ricercato. Se non è presente ritorna una stringa vuota id="".
+     *
+     * @param appointment {@link Appointment} da ricercare nel database.
+     * @return id dell'Appointment. Se non è presente ritorna una stringa vuota id="".
+     */
     @Override
     public String search(Appointment appointment) {
         try {
@@ -332,6 +352,12 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare l'email di un Owner presente nel database, in base a una certa prenotazione.
+     *
+     * @param id id dell'Appointment
+     * @return l'email dell'Owner associato all'Appointment ricercato.
+     */
     @Override
     public String searchEmailOwnerbyIdAppointment(String id) {
         try {
@@ -359,6 +385,13 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare
+     * i dati del Pet, a partire dall'id, se presente nel database, e ritorna l'oggetto Pet ricercato. Se non è presente ritorna null.
+     *
+     * @param id del Pet {@link Pet} da ricercare nel database.
+     * @return oggetto di tipo Pet {@link Pet} ricercato. Se non è presente ritorna null.
+     */
     @Override
     public Pet searchPetById(String id) {
         Pet pet = null;
@@ -390,6 +423,13 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare
+     * i dati del Owner, a partire dall'id, se presente nel database, e ritorna l'oggetto Owner ricercato. Se non è presente ritorna null.
+     *
+     * @param id del Owner {@link Owner} da ricercare nel database.
+     * @return oggetto di tipo Owner {@link Owner} ricercato. Se non è presente ritorna null.
+     */
     @Override
     public Owner searchOwnerById(String id) {
         Owner owner = null;
@@ -425,6 +465,13 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare
+     * i dati del Report, a partire dall'id di un Appointment associato, se presente nel database. Se non è presente ritorna true, false altrimenti.
+     *
+     * @param id del Appointment {@link Appointment} da ricercare nella tabella dei Report nel database.
+     * @return boolean in base all'esito della ricerca. Se non è presente ritorna true, false altrimenti.
+     */
     @Override
     public boolean searchIfExistAppointmentInReport(String id) {
         String sqlSearch = "SELECT * FROM REPORT WHERE ID_BOOKING = ? ";
@@ -439,7 +486,13 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
-
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment presenti nel database, in base a l'id del dottore associato e a una certa data passata a parametro.
+     *
+     * @param idDoctorSearched id del dottore associato alla visita
+     * @param date             data di cui ricercare la lista di Appointment
+     * @return la lista di Appointment presenti nel database in base al dottore e a una certa data passata a parametro.
+     */
     @Override
     public List<Appointment> searchVisitbyDoctorAndDate(String idDoctorSearched, String date) {
         String sqlSearch = "SELECT * From BOOKING Where ID_DOCTOR = ? AND DATE_VISIT = ?";
@@ -468,6 +521,13 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare
+     * i dati del Doctor, a partire dall'id, se presente nel database, e ritorna l'oggetto Doctor ricercato. Se non è presente ritorna null.
+     *
+     * @param id del Doctor {@link Doctor} da ricercare nel database.
+     * @return oggetto di tipo Doctor {@link Doctor} ricercato. Se non è presente ritorna null.
+     */
     @Override
     public Doctor searchDoctorById(String id) {
         Doctor doctor = null;
@@ -505,12 +565,26 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di contare la lista degli Appointment presenti nel database, in base al dottore e a una certa data passata a parametro.
+     *
+     * @param date      data di cui ricercare la lista di Appointment
+     * @param id_doctor dottore associato all'Appointment
+     * @return il numero di Appointment presenti nel database in base a un dottore e una certa data passata a parametro.
+     */
     @Override
     public Integer countAppointmentsByDateAndDoctor(String date, String id_doctor) {
         List<Appointment> listAppointment = searchVisitbyDoctorAndDate(id_doctor, date);
         return listAppointment.size();
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment presenti nel database, antecedenti a un certo orario e una certa data passata a parametro.
+     *
+     * @param date data di cui ricercare la lista di Appointment
+     * @param time un certo orario
+     * @return la lista di Appointment presenti nel database antecedenti a un certo orario e una certa data passata a parametro.
+     */
     @Override
     public List<Appointment> searchVisitBeforeDate(LocalDate date, LocalTime time) {
         List<Appointment> listAllAppointment = findAll();
@@ -525,6 +599,13 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment presenti nel database, successivi a un certo orario e una certa data passata a parametro.
+     *
+     * @param date data di cui ricercare la lista di Appointment
+     * @param time un certo orario
+     * @return la lista di Appointment presenti nel database, successivi a un certo orario e una certa data passata a parametro.
+     */
     @Override
     public List<Appointment> searchVisitAfterDate(LocalDate date, LocalTime time) {
         List<Appointment> listAllAppointment = findAll();
@@ -538,6 +619,14 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment presenti nel database associati a un Doctor, antecedenti a un certo orario e una certa data passata a parametro.
+     *
+     * @param date      data di cui ricercare la lista di Appointment
+     * @param now       un certo orario (orario attuale)
+     * @param id_doctor id del dottore associato agli Appointment.
+     * @return la lista di Appointment, associati a un Doctor, presenti nel database, antecedenti a un certo orario e una certa data passata a parametro.
+     */
     @Override
     public List<Appointment> searchVisitByDoctorBeforeDate(LocalDate date, LocalTime now, String id_doctor) {
         List<Appointment> listAllAppointment = searchVisitbyDoctorAndDate(id_doctor, date.toString());
@@ -552,6 +641,14 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment presenti nel database associati a un Doctor e un Pet in una certa data passata a parametro.
+     *
+     * @param idDoctorSearched id del dottore associato agli Appointment
+     * @param id_pet           id del Pet associato agli Appointment
+     * @param date             data di cui ricercare la lista di Appointment
+     * @return la lista di  Appointment presenti nel database associati a un Doctor e un Pet in una certa data.
+     */
     @Override
     public List<Appointment> searchVisitbyDoctorOrPetAndDate(String idDoctorSearched, String id_pet, String date) {
         String sqlSearch = "SELECT * From BOOKING Where (ID_DOCTOR = ? OR ID_PET = ?) AND DATE_VISIT = ?";
@@ -581,6 +678,13 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment presenti nel database a un Pet con un certo name e surname.
+     *
+     * @param name    nome del Pet associato alla Appointment
+     * @param surname cognnome del Pet associato alla Appointment
+     * @return la lista degli Appointment presenti nel database a un Pet con un certo name e surname.
+     */
     @Override
     public List<Appointment> findAllVisitPet(String name, String surname) {
         String sqlSearchVisitsbyPet = """
@@ -615,6 +719,14 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment la lista degli Appointment presenti nel database associati a un Pet con un certo name e surname, antecedenti a una certa data.
+     *
+     * @param name    nome del Pet associato alla Appointment
+     * @param surname cognome del Pet associato alla Appointment
+     * @param date    una certa data passata a parametro (data odierna)
+     * @return la lista degli Appointment presenti nel database associati a un Pet con un certo name e surname, antecedenti a una certa data.
+     */
     @Override
     public List<Appointment> findAllVisitPetBeforeDate(String name, String surname, LocalDate date) {
         List<Appointment> listAllAppointment = findAllVisitPet(name, surname);
@@ -628,6 +740,14 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment la lista degli Appointment presenti nel database associati a un Pet con un certo name e surname, successivi o uguali a una certa data.
+     *
+     * @param name    nome del Pet associato alla Appointment
+     * @param surname cognome del Pet associato alla Appointment
+     * @param date    una certa data passata a parametro (data odierna)
+     * @return la lista degli Appointment presenti nel database associati a un Pet con un certo name e surname, successivi o uguali a una certa data.
+     */
     @Override
     public List<Appointment> findAllVisitPetAfterDate(String name, String surname, LocalDate date) {
         List<Appointment> listAllAppointment = findAllVisitPet(name, surname);
@@ -641,6 +761,12 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment presenti nel database in base a l'id Pet.
+     *
+     * @param id id del Pet associato alla Appointment
+     * @return la lista degli Appointment presenti nel database a un Pet.
+     */
     @Override
     public List<Appointment> findAllVisitPetByID(String id) {
         String sqlSearchVisitsbyPet = """
@@ -673,6 +799,13 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'AppointmentDAO': {@link AppointmentDAO}  Data Access Object, permette di ricercare la lista degli Appointment la lista degli Appointment presenti nel database associati a un Pet  con un certo id, successivi o uguali a una certa data.
+     *
+     * @param id   id del Pet associato all' Appointment
+     * @param date una certa data passata a parametro (data odierna)
+     * @return la lista degli Appointment presenti nel database associati a un Pet con un certo id, successivi o uguali a una certa data.
+     */
     @Override
     public List<Appointment> findAllVisitPetAfterDateByID(String id, LocalDate date) {
         List<Appointment> listAllAppointment = findAllVisitPetByID(id);

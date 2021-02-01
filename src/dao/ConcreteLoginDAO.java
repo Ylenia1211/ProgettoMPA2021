@@ -14,11 +14,12 @@ import java.sql.SQLException;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Classe che implementa i metodi dell'interfaccia 'LoginDAO': {@link LoginDAO}  Data Access Object.
  * Classe che richiama i metodi dell'interfaccia 'Common': {@link Common}.
  * Serve a dialogare concretamente con il database.
  */
 
-public class ConcreteLoginDAO implements Common {
+public class ConcreteLoginDAO implements LoginDAO, Common {
     private final ConnectionDBH2 connection_db;
     private PreparedStatement ps;
 
@@ -56,7 +57,7 @@ public class ConcreteLoginDAO implements Common {
      *
      * @param userLogged oggetto di tipo User {@link User}
      */
-    private boolean searchUserNamePasswordAdmin(User userLogged) {
+    public boolean searchUserNamePasswordAdmin(User userLogged) {
         String sqlSearch = "Select USERNAME, PASSWORD from ADMIN WHERE USERNAME = ? AND PASSWORD = ?";
         String username;
         String password;
@@ -88,7 +89,7 @@ public class ConcreteLoginDAO implements Common {
      *
      * @param userLogged oggetto di tipo User {@link User}
      */
-    private boolean searchUserNamePasswordSecretariat(User userLogged) {
+    public boolean searchUserNamePasswordSecretariat(User userLogged) {
         String sqlSearch = "Select USERNAME, PASSWORD from SECRETARIAT WHERE USERNAME = ? AND PASSWORD = ?";
         String username;
         String password;

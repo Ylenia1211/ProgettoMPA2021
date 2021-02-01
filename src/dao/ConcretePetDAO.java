@@ -15,13 +15,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Classe che implementa i metodi dell'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object.
+ * Serve a dialogare concretamente con il database.
+ */
 public class ConcretePetDAO implements PetDAO {
     private final ConnectionDBH2 connection_db;
 
+    /**
+     * Metodo costruttore
+     *
+     * @param connection_db instanza della connessione al database.
+     */
     public ConcretePetDAO(ConnectionDBH2 connection_db) {
         this.connection_db = connection_db;
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object, permette di aggiungere un nuovo Pet nel database.
+     *
+     * @param pet oggetto di tipo Pet {@link Pet} da aggiungere nel database.
+     */
     @Override
     public void add(Pet pet) {
 
@@ -31,10 +50,9 @@ public class ConcretePetDAO implements PetDAO {
             ps.setString(2, pet.getName());
             ps.setString(3, pet.getSurname());
             ps.setString(4, pet.getSex().toString());
-            //LocalDate ld = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(owner.getDatebirth()));
             ps.setString(5, pet.getDatebirth().toString());
             ps.executeUpdate();
-            System.out.println("Anagrafica Pet aggiunta al DB!");
+            //System.out.println("Anagrafica Pet aggiunta al DB!");
 
 
             ps = connection_db.getConnectData().prepareStatement("insert into pet(id, typepet, owner, particularsign) values(?,?,?,?)");
@@ -44,13 +62,11 @@ public class ConcretePetDAO implements PetDAO {
             ps.setString(4, pet.getParticularSign());
 
             ps.executeUpdate();
-            System.out.println("Dati personali Pet aggiunti al DB!");
-            JOptionPane.showMessageDialog(null, "Pet aggiunto correttamente!");
+            //System.out.println("Dati personali Pet aggiunti al DB!");
+            JOptionPane.showMessageDialog(null, "Paziente aggiunto correttamente!");
 
 
-            /**
-             * Dobbiamo cercare il numero di pazienti (pet) associati al cliente (owner) e incrementare il numero di pazienti associati
-             **/
+            //Dobbiamo cercare il numero di pazienti (pet) associati al cliente (owner) e incrementare il numero di pazienti associati
             String sqlSearchNumAnimalOwner = "SELECT tot_animal FROM owner WHERE owner.id = ?";
             int number_pet = 0;
             try {
@@ -69,8 +85,8 @@ public class ConcretePetDAO implements PetDAO {
                     ps.setInt(1, number_pet);
                     ps.setString(2, pet.getId_owner());
                     ps.executeUpdate();
-                    System.out.println(" Pet associato a Owner correttamente nel DB!");
-                    JOptionPane.showMessageDialog(null, "Pet associato a Owner correttamente nel DB");
+                    //System.out.println(" Pet associato a Owner correttamente nel DB!");
+                    JOptionPane.showMessageDialog(null, "Paziente associato a Proprietario correttamente nel DB");
 
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -89,6 +105,11 @@ public class ConcretePetDAO implements PetDAO {
 
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object, permette di ricercare tutti i Pet presenti nel database.
+     *
+     * @return Lista di oggetti di tipo Pet {@link Pet} presenti nel database.
+     */
     @Override
     public List<Pet> findAll() {
         List<Pet> listItems = new ArrayList<>();
@@ -96,7 +117,7 @@ public class ConcretePetDAO implements PetDAO {
             PreparedStatement statement = connection_db.getConnectData()
                     .prepareStatement("SELECT * FROM masterdata INNER JOIN PET ON PET.id = masterdata.id");
             ResultSet r = statement.executeQuery();
-            while(r.next()) {
+            while (r.next()) {
                 listItems.add(new Pet.Builder<>()
                         .addName(r.getString("name"))
                         .addSurname(r.getString("surname"))
@@ -117,19 +138,25 @@ public class ConcretePetDAO implements PetDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object, permette di aggiornare l'Owner presente nel database.
+     *
+     * @param id  del Pet {@link Pet} da modificare nel database.
+     * @param pet Pet che contiene i campi aggiornati da modificare nel database.
+     */
     @Override
     public void update(String id, Pet pet) {
         String sqlMasterData = "UPDATE masterdata SET name = ?, surname = ?, sex = ?, datebirth = ? where masterdata.id = ?";
         String sqlPetData = "UPDATE pet SET typepet = ?, owner = ?, particularsign = ? where pet.id = ?";
         try {
-            PreparedStatement ps  = connection_db.getConnectData().prepareStatement(sqlMasterData);
+            PreparedStatement ps = connection_db.getConnectData().prepareStatement(sqlMasterData);
             ps.setString(1, pet.getName());
             ps.setString(2, pet.getSurname());
             ps.setString(3, pet.getSex().toString());
             ps.setString(4, pet.getDatebirth().toString());
             ps.setString(5, id);
             ps.executeUpdate();
-            System.out.println("Anagrafica Pet aggiornata  DB!");
+            //System.out.println("Anagrafica Pet aggiornata  DB!");
 
             ps = connection_db.getConnectData().prepareStatement(sqlPetData);
             ps.setString(1, pet.getId_petRace());
@@ -138,7 +165,7 @@ public class ConcretePetDAO implements PetDAO {
             ps.setString(4, id);
             ps.executeUpdate();
 
-            System.out.println("Dati personali Pet aggiornati al DB!");
+            //System.out.println("Dati personali Pet aggiornati al DB!");
             JOptionPane.showMessageDialog(null, "Modificato correttamente!");
 
         } catch (SQLException e) {
@@ -149,12 +176,17 @@ public class ConcretePetDAO implements PetDAO {
 
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'OwnerDAO': {@link OwnerDAO}  Data Access Object, permette di cancellare il Pet presente nel database,
+     * e a cascata tutti  gli Appointment associati {@link model.Appointment}, richiamando il metodo delete del ConcreteAppointmentDao {@link ConcreteAppointmentDAO}.
+     *
+     * @param id del Pet {@link Pet} da cancellare nel database.
+     */
     @Override
     public void delete(String id) {
-        System.out.println("id da cancellare a cascata: " + id);
+        //System.out.println("id da cancellare a cascata: " + id);
         PreparedStatement ps;
         try {
-
             //quando cancella l'animale devo aggiornare il numero di animali assocati all'owner
             //operazione da fare PRIMA della cancellazione sennò non trova il riferimento!
             String sqlSearchIdOwner = "SELECT OWNER from PET Where PET.ID = ? ";
@@ -199,15 +231,14 @@ public class ConcretePetDAO implements PetDAO {
             JOptionPane.showMessageDialog(null, "Prenotazioni associate al paziente cancellate correttamente!");
 
 
-
             //cancellazione animale
             ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = " + "'" + id + "'");
             ps.executeUpdate();
-            System.out.println("Cancellati dati Anagrafica del Pet!");
+            //System.out.println("Cancellati dati Anagrafica del Paziente!");
 
             ps = connection_db.getConnectData().prepareStatement("delete from PET where PET.id = " + "'" + id + "'");
             ps.executeUpdate();
-            System.out.println("Cancellati dati Pet!");
+            //System.out.println("Cancellati dati Paziente!");
             ps.clearParameters();
 
             JOptionPane.showMessageDialog(null, "Cancellato correttamente!");
@@ -217,6 +248,12 @@ public class ConcretePetDAO implements PetDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object, permette di ricercare
+     * tutte le "razze" di animali presenti sul database.
+     *
+     * @return lista di tutte le "razze" di animali presenti sul database.
+     */
     @Override
     public List<String> searchAllRace() {
         List<String> listRace = new ArrayList<>();
@@ -237,11 +274,14 @@ public class ConcretePetDAO implements PetDAO {
         }
     }
 
-
+    /**
+     * Metodo ereditato dall'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object, permette di ricercare le le coppie (id,fiscalcode) associate a un Owner presenti nel database.
+     *
+     * @return una mappa di coppie (id, fiscalcode) degli Owner presenti nel database.
+     */
     @Override
     public Map<String, String> searchAllClientByFiscalCod() {
-        //List<String> list = new ArrayList<String>();
-        Map<String, String> dictionary = new HashMap<>();  //<key,value>  both key and value are Strings
+        Map<String, String> dictionary = new HashMap<>();  //<key,value>
         String sqlSearch = """
                 SELECT * FROM masterdata
                                   INNER JOIN person
@@ -255,7 +295,6 @@ public class ConcretePetDAO implements PetDAO {
             while (rs.next()) {
                 dictionary.put(rs.getString("id"), rs.getString("fiscalcode"));
             }
-
             //dictionary.entrySet().forEach(System.out::println);
             return dictionary;
 
@@ -265,6 +304,12 @@ public class ConcretePetDAO implements PetDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object, permette di ricercare la lista di Pet associati a un Owner.
+     *
+     * @param id id del Owner
+     * @return la lista di Pets associati a un Owner.
+     */
     @Override
     public List<Pet> searchByOwner(String id) {
         List<Pet> listPets = new ArrayList<>();
@@ -297,6 +342,13 @@ public class ConcretePetDAO implements PetDAO {
 
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object, permette di ricercare
+     * il Pet se presente nel database, e ritorna l'id del Pet ricercato. Se non è presente ritorna una stringa vuota id="".
+     *
+     * @param pet il Pet {@link Pet} da ricercare nel database.
+     * @return id del Pet ricercato. Se non è presente ritorna una stringa vuota id="".
+     */
     @Override
     public String search(Pet pet) {
         PreparedStatement ps;
@@ -329,6 +381,13 @@ public class ConcretePetDAO implements PetDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object, permette di controllare se l'oggetto Pet passato a parametro non è duplicato nel database.
+     * Se non è duplicato restituisce True, altrimenti False.
+     *
+     * @param pet Pet {@link Pet} da ricercare nel database.
+     * @return true se l'oggetto pet non è duplicato, false altrimenti.
+     */
     @Override
     public boolean isNotDuplicate(Pet pet) {
         PreparedStatement ps;
@@ -364,6 +423,11 @@ public class ConcretePetDAO implements PetDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object, permette di ricercare l'Owner e di aumentare il numero di occorrenze di animali a suo carico.
+     *
+     * @param id_owner id del Owner
+     */
     @Override
     public void addPetToOwner(String id_owner) {
         PreparedStatement ps;
@@ -385,8 +449,8 @@ public class ConcretePetDAO implements PetDAO {
                 ps.setInt(1, number_pet);
                 ps.setString(2, id_owner);
                 ps.executeUpdate();
-                System.out.println(" Pet associato a Owner correttamente nel DB!");
-                JOptionPane.showMessageDialog(null, "Pet associato a Owner correttamente nel DB");
+                //System.out.println(" Pet associato a Owner correttamente nel DB!");
+                JOptionPane.showMessageDialog(null, "Paziente associato al Proprietario correttamente nel DB");
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -399,6 +463,11 @@ public class ConcretePetDAO implements PetDAO {
         }
     }
 
+    /**
+     * Metodo ereditato dall'interfaccia 'PetDAO': {@link PetDAO}  Data Access Object, permette di ricercare l'Owner e di decrementare il numero di occorrenze di animali a suo carico.
+     *
+     * @param id_owner id del Owner
+     */
     @Override
     public void dropPetToOwner(String id_owner) {
         PreparedStatement ps;
@@ -420,8 +489,8 @@ public class ConcretePetDAO implements PetDAO {
                 ps.setInt(1, number_pet);
                 ps.setString(2, id_owner);
                 ps.executeUpdate();
-                System.out.println(" Pet cancellato a Owner correttamente nel DB!");
-                JOptionPane.showMessageDialog(null, "Pet cancellato a Owner correttamente nel DB");
+                //System.out.println(" Pet cancellato a Owner correttamente nel DB!");
+                JOptionPane.showMessageDialog(null, "Cancellata associazione tra Paziente e Proprietario correttamente nel DB");
 
             } catch (SQLException e) {
                 e.printStackTrace();

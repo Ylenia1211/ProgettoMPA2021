@@ -51,7 +51,7 @@ public class ConcreteOwnerDAO implements OwnerDAO {
             ps.setString(4, owner.getSex().toString());
             ps.setString(5, owner.getDatebirth().toString());
             ps.executeUpdate();
-            System.out.println("Anagrafica Owner aggiunta al DB!");
+            //System.out.println("Anagrafica Owner aggiunta al DB!");
 
             ps = connection_db.getConnectData().prepareStatement("insert into person(id, address, city, telephone, email, fiscalcode) values(?,?,?,?,?,?)");
             ps.setString(1, owner.getId());
@@ -61,7 +61,7 @@ public class ConcreteOwnerDAO implements OwnerDAO {
             ps.setString(5, owner.getEmail());
             ps.setString(6, owner.getFiscalCode());
             ps.executeUpdate();
-            System.out.println("Dati civici Owner aggiunti al DB!");
+            //System.out.println("Dati civici Owner aggiunti al DB!");
 
             ps = connection_db.getConnectData().prepareStatement("insert into owner(id, tot_animal) values(?,?)");
             ps.setString(1, owner.getId());
@@ -130,7 +130,7 @@ public class ConcreteOwnerDAO implements OwnerDAO {
             ps.setString(5, id);
             ps.executeUpdate();
 
-            System.out.println("Aggiornati dati Anagrafica del Owner!");
+            //System.out.println("Aggiornati dati Anagrafica del Owner!");
 
             ps = connection_db.getConnectData().prepareStatement(sqlPersonData);
             ps.setString(1, client.getAddress());
@@ -140,7 +140,7 @@ public class ConcreteOwnerDAO implements OwnerDAO {
             ps.setString(5, client.getFiscalCode());
             ps.setString(6, id);
             ps.executeUpdate();
-            System.out.println("Aggiornati dati persona del Owner!");
+            //System.out.println("Aggiornati dati persona del Owner!");
             JOptionPane.showMessageDialog(null, "Cliente Modificato correttamente!");
 
         } catch (SQLException e) {
@@ -168,10 +168,10 @@ public class ConcreteOwnerDAO implements OwnerDAO {
 
             ps = connection_db.getConnectData().prepareStatement("delete from masterdata where masterdata.id = " + "'" + id + "'");
             ps.executeUpdate();
-            System.out.println("Cancellati dati Anagrafica del Owner!");
+            //System.out.println("Cancellati dati Anagrafica del Owner!");
             ps = connection_db.getConnectData().prepareStatement("delete from person where person.id = " + "'" + id + "'");
             ps.executeUpdate();
-            System.out.println("Cancellati dati civici del Owner!");
+            //System.out.println("Cancellati dati civici del Owner!");
             ps = connection_db.getConnectData().prepareStatement("delete from owner where owner.id = " + "'" + id + "'");
             ps.executeUpdate();
 
