@@ -165,6 +165,7 @@ public class ShowInfoOwnerPetController implements Initializable {
         this.codFiscalOwner.setText(owner.getFiscalCode());
         this.emailOwner.setText(owner.getEmail());
         this.emailOwner.setTooltip(new Tooltip(this.emailOwner.getText()));
+        this.particularSignPet.setTooltip(new Tooltip(this.particularSignPet.getText()));
     }
 
     /**

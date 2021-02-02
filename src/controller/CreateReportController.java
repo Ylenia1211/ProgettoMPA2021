@@ -77,14 +77,11 @@ public class CreateReportController  implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.emailOwner.setTooltip(new Tooltip(this.emailOwner.getText()));
-        this.cityOwner.setTooltip(new Tooltip(this.cityOwner.getText()));
-        this.addressOwner.setTooltip(new Tooltip(this.addressOwner.getText()));
         try {
 
             this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-            this.labelDataVisit.setText(this.appointment.getLocalDate().toString());
-            this.labelTimeStartEndVisit.setText("Durata: " + Common.humanReadableFormat(Duration.between(this.appointment.getLocalTimeStart(), this.appointment.getLocalTimeEnd())));
+            this.labelDataVisit.setText(this.appointment.getLocalDate().toString() + ", " + this.appointment.getLocalTimeStart());
+            this.labelTimeStartEndVisit.setText(Common.humanReadableFormat(Duration.between(this.appointment.getLocalTimeStart(), this.appointment.getLocalTimeEnd())));
 
             //ricerca di dei dati del owner
             Owner owner = this.appointmentRepo.searchOwnerById(idOwner);
@@ -129,6 +126,11 @@ public class CreateReportController  implements Initializable {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error" + e.getMessage());
         }
+
+        this.emailOwner.setTooltip(new Tooltip(this.emailOwner.getText()));
+        this.cityOwner.setTooltip(new Tooltip(this.cityOwner.getText()));
+        this.addressOwner.setTooltip(new Tooltip(this.addressOwner.getText()));
+        this.particularSignPet.setTooltip(new Tooltip(this.particularSignPet.getText()));
     }
 
     /**
