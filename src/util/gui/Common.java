@@ -13,8 +13,7 @@ import java.time.LocalDate;
  * @version 1.0
  * @since 1.0
  * <p>
- * Classe utilizzata per richiamare metodi comuni a più classi, soprattutto per quanto riguarda l'aspetto grafico.
- *
+ * Interfaccia utilizzata per richiamare metodi comuni a più classi, soprattutto per quanto riguarda l'aspetto grafico.
  */
 public interface Common {
     /**
