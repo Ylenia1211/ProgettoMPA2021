@@ -25,8 +25,11 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
- * La classe ClientController serve a gestire i dati del proprietario per inserirli nei campi relativi al prorietario.
+ * La classe ClientController serve a regisatrare i dati di una persona.
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Essa e' il controller primario della view {@link view/registrationClient.fxml}
+ *
+ * Implementa 'FieldVerifier' {@link FieldVerifier} per richiamare i metodi di controllo sui campi della registrazione.
  */
 public class ClientController implements Initializable, FieldVerifier {
     @FXML
@@ -62,8 +65,8 @@ public class ClientController implements Initializable, FieldVerifier {
     private List<TextField> fieldsControlRestrict;
 
     /**
-     * Il costruttore della classe ClientController, inizializza tutti i campi relativi al proprietario e istanzia in
-     * {@link ClientController#clientRepo} un oggetto di tipo {@link ConcreteOwnerDAO}
+     * Il costruttore della classe ClientController, inizializza tutti i campi relativi a una persona e crea
+     * {@link ClientController#clientRepo} un oggetto di tipo {@link ConcreteOwnerDAO} richimando la Connessione singleton {@link ConnectionDBH2} del database.
      */
     public ClientController() {
         this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());
@@ -83,8 +86,7 @@ public class ClientController implements Initializable, FieldVerifier {
     /**
      * {@inheritDoc}
      *
-     * Setta i campi del proprietario ed effettua controlli sull'eta' del proprietario per verificare che sia
-     * maggiorenne
+     * Inizializza i campi della view in modo appropriato.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -131,7 +133,7 @@ public class ClientController implements Initializable, FieldVerifier {
     }
 
     /**
-     * Verifica se non si stia inserendo un utente già registrato e lo assegna all'attributo {@link ClientController#clientRepo}
+     * Registra una persona facendo controlli che non si stia inserendo un duplicato nel database e  richiama i metodi di registrazione dell'oggetto dao {@link ClientController#clientRepo}
      *
      * @param actionEvent L'evento registrato, in questo caso il click sul bottone
      */
@@ -201,7 +203,7 @@ public class ClientController implements Initializable, FieldVerifier {
     /**
      * Getter dell'attributo {@link ClientController#clientRepo}
      *
-     * @return Un oggetto ConcreteOwnerDAO con i dati del proprietario
+     * @return Un oggetto ConcreteOwnerDAO che consente il dialogo con il database.
      */
     public ConcreteOwnerDAO getClientRepo() {
         return this.clientRepo;

@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
- * La classe CalendarController inizializza la vista dell'agenda
+ * La classe CalendarController inizializza la vista dell'agenda implementando i metodi di 'Inizializable' {@link Initializable}
  */
 public class CalendarController implements Initializable {
 

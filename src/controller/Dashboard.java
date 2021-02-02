@@ -5,8 +5,6 @@ import controller.factorySidebar.SideBarFactory;
 import dao.ConcreteAdminDAO;
 import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -23,14 +21,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Appointment;
 import model.User;
-import util.gui.Common;
 import util.SessionUser;
 import util.email.ConcreteObserver;
 import util.email.Observer;
 import util.email.Subject;
+import util.gui.Common;
 
 import javax.swing.*;
-import javax.xml.transform.Result;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -38,10 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * @author Ylenia Galluzzo
@@ -50,6 +43,8 @@ import java.util.concurrent.Future;
  * @since 1.0
  * <p>
  * La classe di controllo della dashboard principale. La personalizza in base al tipo di utente che effettua l'accesso
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata (view dashboard.fxml).
+ * Implementa inoltre le interfacce {@link Subject} per inserire un observer sul bottone 'notifica' nel caso di accesso dell'utente Secretariat, e {@link Common}.
  */
 public class Dashboard implements Initializable, Common, Subject {
     public BorderPane borderPane;
@@ -59,8 +54,8 @@ public class Dashboard implements Initializable, Common, Subject {
     private List<Observer> observers;
 
     /**
-     * Inizializza la sidebar personalizzandola in base ai privilegi di accesso dell'utente
-     *
+     * Inizializza i campi della view in modo appropriato e la sidebar personalizzandola in base ai privilegi di accesso dell'utente.
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -86,13 +81,13 @@ public class Dashboard implements Initializable, Common, Subject {
     }
 
     /**
-     * Setta la label {@link Dashboard#labelWelcome} con il tipo di accesso effettuato (Dottore, Segreteria, Amministatore..)
+     * Setta la label {@link Dashboard#labelWelcome} con il tipo di accesso effettuato (Dottore, Segreteria, Amministratore..)
      *
      * @param user L'utente che effettua l'accesso
      */
     public void setUserLogged(User user) {
         this.roleUserLogged = user.getRole();
-        this.labelWelcome.setText("  Benvenuto " + this.roleUserLogged + "!");
+        this.labelWelcome.setText("  Benvenuto/a " + this.roleUserLogged + "!");
     }
 
     /**
@@ -108,7 +103,7 @@ public class Dashboard implements Initializable, Common, Subject {
      * Personalizza i bottoni che verranno visualizzati nella sideboard e assegna loro delle funzioni che permettono il
      * redirect verso le loro rispettive view
      *
-     * @param vBox Il vBox in cui inserire i bottoni
+     * @param vBox    Il vBox in cui inserire i bottoni
      * @param buttons La lista dei bottoni da inserire
      * @throws IOException Lancia un eccezione se non trova la view richiesta
      */
@@ -118,10 +113,10 @@ public class Dashboard implements Initializable, Common, Subject {
         TabPane tabPane = new TabPane();
 
         for (Button button : buttons) {
-            //Adding the shadow when the mouse cursor is on
+
             button.addEventHandler(MouseEvent.MOUSE_ENTERED,
                     e -> button.setEffect(shadow));
-            //Removing the shadow when the mouse cursor is off
+
             button.addEventHandler(MouseEvent.MOUSE_EXITED,
                     e -> button.setEffect(null));
 
@@ -275,7 +270,7 @@ public class Dashboard implements Initializable, Common, Subject {
                             this.observers = new ArrayList<>();
                             ConcreteAppointmentDAO bookingDao = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
                             List<Appointment> ownersBookingTomorrow = bookingDao.searchAppointmentsByDate((LocalDate.now().plusDays(1)).toString());
-                            List<String> emailsOwners =new ArrayList<>();
+                            List<String> emailsOwners = new ArrayList<>();
                             if (!ownersBookingTomorrow.isEmpty()) {
                                 ownersBookingTomorrow.forEach(booking -> {
                                     emailsOwners.add(bookingDao.searchOwnerById(booking.getId_owner()).getEmail()); //test
@@ -292,7 +287,7 @@ public class Dashboard implements Initializable, Common, Subject {
                                 notifyObservers();
                                 JOptionPane.showMessageDialog(null, "Notifiche delle prenotazioni di domani mandate correttamente ai Clienti!");
 
-                            }else
+                            } else
                                 JOptionPane.showMessageDialog(null, "Nessuna prenotazione prevista per domani!");
                         }
                         case "Profilo" -> { //il profilo
@@ -337,7 +332,7 @@ public class Dashboard implements Initializable, Common, Subject {
         vBox.setSpacing(3.0);
     }
 
-    /** #Todo: Da verificare
+    /**
      * Aggiunge un oggetto di tipo Observer passato a parametro alla lista {@link Dashboard#observers}
      *
      * @param o L'oggetto di tipo Observer da aggiungere alla lista
@@ -347,7 +342,7 @@ public class Dashboard implements Initializable, Common, Subject {
         observers.add(o);
     }
 
-    /** #Todo: Da verificare
+    /**
      * Rimuove l'oggetto di tipo Observer passato a parametro alla lista {@link Dashboard#observers}
      *
      * @param o L'oggetto di tipo Observer da aggiungere alla lista
@@ -357,8 +352,8 @@ public class Dashboard implements Initializable, Common, Subject {
         observers.remove(o);
     }
 
-    /** #Todo: Da verificare
-     * Effettua l'update di tutti gli oggetti Observer inseriti nella lista {@link Dashboard#observers}
+    /**
+     * Richiama il metodo update su tutti gli oggetti Observer inseriti nella lista {@link Dashboard#observers}
      */
     @Override
     public void notifyObservers() {

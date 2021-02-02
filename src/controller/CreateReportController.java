@@ -23,8 +23,9 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
- * La classe CreateReportController serve a controllare la view createReport.fxml inserendo nelle tabelle i dati del
- * report che verra' generato dalla stessa
+ * La classe CreateReportController serve a controllare la view createReport.fxml inserendo nei componenti grafici i dati del
+ * report che verra' generato dalla stessa.
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  */
 public class CreateReportController  implements Initializable {
     public Label nameOwner;
@@ -48,15 +49,14 @@ public class CreateReportController  implements Initializable {
     private final String idPet;
     private final String idDoctor;
     public VBox vbox_main;
-//    public VBox vboxLabel; //non usata
     public Label labelDataVisit;
     public Label labelTimeStartEndVisit;
     private ConcreteAppointmentDAO appointmentRepo;
-    private Appointment appointment;
-    private boolean typeView;
+    private final Appointment appointment;
+    private final boolean typeView;
 
     /**
-     * Costruttore della classe, inizializza gli attributi che verranno stampati sulle tabelle della view
+     * Costruttore della classe, inizializza gli attributi necessari per ricavare i dati da rappresentare nella view.
      *
      * @param appointment L'oggetto Appointment contenente le informazioni della visita
      * @param typeView Variabile booleana usata per indicare il tipo di view da estendere
@@ -70,10 +70,9 @@ public class CreateReportController  implements Initializable {
     }
 
     /**
-     * Assegna dei Tooltip ai campi con lunghezza superiore della grandezza della tabella per permetterne la
-     * visualizzazione completa.
-     *
      * {@inheritDoc}
+     *
+     * Inizializza i campi della view in modo appropriato, ed estende la view, in modo appropriato, in base all'attributo {@link CreateReportController#typeView}.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
