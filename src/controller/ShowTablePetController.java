@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ConcreteDoctorDAO;
 import dao.ConcretePetDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
@@ -9,14 +10,20 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Pet;
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import static util.gui.ButtonTable.addButtonDeleteToTable;
 import static util.gui.ButtonTable.addButtonUpdateToTable;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Gestisce la tabella con i dati dei pazienti
+ */
 public class ShowTablePetController  implements Initializable {
     public TableColumn<Pet, String> col_name;
     public TableColumn<Pet, String> col_surname;
@@ -29,12 +36,19 @@ public class ShowTablePetController  implements Initializable {
     public ObservableList<Pet> listItems = FXCollections.observableArrayList();
     private final String id_owner;
 
+    /**
+     * Il costruttore della classe, assegna a {@link ShowTablePetController#id_owner} l'id del proprietario passato a
+     * parametro, ed a {@link ShowTablePetController#id_owner} una nuova istanza di {@link ConcretePetDAO}
+     * @param idOwner
+     */
     public ShowTablePetController(String idOwner) {
         this.id_owner = idOwner;
         this.petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
     }
 
     /**
+     * Genera la tabella con tutti gli attributi dei pazienti e vi aggiunge bottoni per modificarli e cancellarli
+     *
      * {@inheritDoc}
      */
     @Override
@@ -57,7 +71,4 @@ public class ShowTablePetController  implements Initializable {
         var colBtnDelete = addButtonDeleteToTable(tableSpecificPets, Pet.class);
         tableSpecificPets.getColumns().add((TableColumn<Pet, ?>)colBtnDelete);
     }
-
-
-
 }

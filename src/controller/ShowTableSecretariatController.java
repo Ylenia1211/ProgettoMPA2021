@@ -11,13 +11,19 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Doctor;
 import model.Secretariat;
-
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import static util.gui.ButtonTable.addButtonDeleteToTable;
 import static util.gui.ButtonTable.addButtonUpdateToTable;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Gestisce la tabella con i dati della segreteria
+ */
 public class ShowTableSecretariatController implements Initializable {
     public TableView<Secretariat> tableSecretariat;
     public TableColumn<Secretariat, String> col_name;
@@ -34,11 +40,17 @@ public class ShowTableSecretariatController implements Initializable {
     private final ConcreteSecretariatDAO secretariatRepo;
     public ObservableList<Secretariat> listItems = FXCollections.observableArrayList();
 
+    /**
+     * Il costruttore della classe, assegna all'attributo {@link ShowTableSecretariatController#secretariatRepo} una nuova istanza di
+     * {@link ConcreteSecretariatDAO}
+     */
     public ShowTableSecretariatController() {
         this.secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
     }
 
     /**
+     * Genera la tabella con tutti gli attributi della segreteria e vi aggiunge bottoni per modificarla e cancellarla
+     *
      * {@inheritDoc}
      */
     @Override

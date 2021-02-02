@@ -9,6 +9,11 @@ import java.time.YearMonth;
 import java.util.ResourceBundle;
 
 /**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
  * La classe CalendarController inizializza la vista dell'agenda
  */
 public class CalendarController implements Initializable {

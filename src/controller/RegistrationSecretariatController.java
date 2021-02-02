@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import model.Doctor;
 import model.Gender;
 import model.Secretariat;
 
@@ -13,6 +14,14 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Il controller per la registrazione di una nuova segreteria.
+ */
 public class RegistrationSecretariatController extends ClientController{
     private TextField username;
     private PasswordField password;
@@ -22,11 +31,16 @@ public class RegistrationSecretariatController extends ClientController{
     private final ConcreteSecretariatDAO secretariatRepo;
     private List<TextField> fieldsTextSecretariat;
 
+    /**
+     * Il costruttore della classe, inizializza alcuni parametri necessari per la registrazione
+     */
     public RegistrationSecretariatController() {
         this.secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
     }
 
     /**
+     * Setta i campi della view e vi inserisce nuovi elementi
+     *
      * {@inheritDoc}
      */
     @Override
@@ -45,6 +59,10 @@ public class RegistrationSecretariatController extends ClientController{
         addActionButton();
     }
 
+    /**
+     * Aggiunge il {@link TextField} {@link RegistrationSecretariatController#username} alla view della registrazione
+     * della segreteria
+     */
     public void addFieldUsername()  {
         this.username = new TextField();
         this.username.setId("username");
@@ -55,7 +73,10 @@ public class RegistrationSecretariatController extends ClientController{
         super.pane_main_grid.getChildren().add(this.username);
     }
 
-
+    /**
+     * Aggiunge il {@link PasswordField} {@link RegistrationSecretariatController#password} alla view della registrazione
+     * della segreteria e ne controlla la sicurezza
+     */
     public  void addFieldPassword()  {
         this.password = new PasswordField();
         this.passwordRealTime = new Label();
@@ -83,9 +104,19 @@ public class RegistrationSecretariatController extends ClientController{
         super.pane_main_grid.getChildren().add(this.passwordRealTime);
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationSecretariatController#passwordRealTime}
+     *
+     * @return Il campo {@link RegistrationSecretariatController#passwordRealTime}
+     */
     public Label getPasswordRealTime() {
         return passwordRealTime;
     }
+
+    /**
+     * Aggiunge il {@link Button} {@link RegistrationSecretariatController#saveBtn} alla view della registrazione della
+     * segreteria
+     */
     public  void addButtonSave()  {
         this.saveBtn = new Button("Salva");
         this.saveBtn.setId("saveBtn");
@@ -98,17 +129,25 @@ public class RegistrationSecretariatController extends ClientController{
         super.pane_main_grid.getChildren().add(this.saveBtn);
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationSecretariatController#fieldsTextSecretariat}
+     *
+     * @return Il campo {@link RegistrationSecretariatController#fieldsTextSecretariat}
+     */
     public List<TextField> getFieldsTextSecretariat() {
         return fieldsTextSecretariat;
     }
 
+    /**
+     * Aggiunge al {@link Button} {@link RegistrationSecretariatController#saveBtn} la funzione di creare una nuova
+     * segreteria se non esiste già, solo dopo aver compilato tutti i campi
+     */
     public void addActionButton() {
         this.saveBtn.setOnAction(e -> {
             if(!checkEmptyTextField(super.getFieldsText().stream()) &&
-                    !checkEmptyTextField(this.fieldsTextSecretariat.stream()) &&
-                    !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
-                    !checkifNotSecurePassword(this.passwordRealTime)
-            )
+               !checkEmptyTextField(this.fieldsTextSecretariat.stream()) &&
+               !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
+               !checkifNotSecurePassword(this.passwordRealTime))
             {
                 Secretariat secretariat = createSecretariat();
                 if(this.secretariatRepo.isNotDuplicate(secretariat)){
@@ -129,6 +168,11 @@ public class RegistrationSecretariatController extends ClientController{
             }});
     }
 
+    /**
+     * Crea un nuovo oggetto di tipo {@link Doctor} grazie al Builder
+     *
+     * @return Un oggetto di tipo {@link Secretariat}
+     */
     public Secretariat createSecretariat(){
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
         return new Secretariat.Builder<>()
@@ -146,22 +190,47 @@ public class RegistrationSecretariatController extends ClientController{
                 .build();
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationSecretariatController#username}
+     *
+     * @return Il campo {@link RegistrationSecretariatController#username}
+     */
     public TextField getUsername() {
         return username;
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationSecretariatController#password}
+     *
+     * @return Il campo {@link RegistrationSecretariatController#password}
+     */
     public PasswordField getPassword() {
         return password;
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationSecretariatController#saveBtn}
+     *
+     * @return Il campo {@link RegistrationSecretariatController#saveBtn}
+     */
     public Button getSaveBtn() {
         return saveBtn;
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationSecretariatController#title}
+     *
+     * @return Il campo {@link RegistrationSecretariatController#title}
+     */
     public Label getTitle() {
         return title;
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationSecretariatController#secretariatRepo}
+     *
+     * @return Il campo {@link RegistrationSecretariatController#secretariatRepo}
+     */
     public ConcreteSecretariatDAO getSecretariatRepo() {
         return secretariatRepo;
     }

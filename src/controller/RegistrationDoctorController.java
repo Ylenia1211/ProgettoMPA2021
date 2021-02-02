@@ -15,7 +15,15 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-//uso la stessa view di registrazione dell'owner, registrationClient.fxml
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Il controller per la registrazione di un nuovo dottore. Usa la stessa view di registrazione dell'owner,
+ * registrationClient.fxml
+ */
 public class RegistrationDoctorController extends ClientController{
     private TextField username;
     private PasswordField password;
@@ -27,12 +35,16 @@ public class RegistrationDoctorController extends ClientController{
     private List<TextField> fieldsTextDoctor;
     private List<ComboBox<?>> fieldsComboBox;
 
-
+    /**
+     * Assegna a {@link RegistrationDoctorController#doctorRepo} una nuova istanza di {@link ConcreteDoctorDAO}
+     */
     public RegistrationDoctorController() {
          this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
     }
 
     /**
+     * Crea nuovi elementi nella view e setta il titolo in "Creazione Dottore"
+     *
      * {@inheritDoc}
      */
     @Override
@@ -52,18 +64,30 @@ public class RegistrationDoctorController extends ClientController{
         addFieldPassword();
         addButtonSave();
         addActionButton();
-
     }
 
-
+    /**
+     * Getter dell'attributo {@link RegistrationDoctorController#fieldsTextDoctor}
+     *
+     * @return Il campo {@link RegistrationDoctorController#fieldsTextDoctor}
+     */
     public List<TextField> getFieldsTextDoctor() {
         return fieldsTextDoctor;
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationDoctorController#fieldsComboBox}
+     *
+     * @return Il campo {@link RegistrationDoctorController#fieldsComboBox}
+     */
     public List<ComboBox<?>> getFieldsComboBox() {
         return fieldsComboBox;
     }
 
+    /**
+     * Aggiunge la {@link ComboBox} {@link RegistrationDoctorController#specialization} alla view della registrazione
+     * del dottore
+     */
     public void addFieldSpecialization()  {
         List<String> listSpecialization = this.getDoctorRepo().searchAllSpecialization();
         this.specialization = new ComboBox<>(FXCollections
@@ -78,7 +102,10 @@ public class RegistrationDoctorController extends ClientController{
         super.pane_main_grid.getChildren().add(this.specialization);
     }
 
-
+    /**
+     * Aggiunge il {@link TextField} {@link RegistrationDoctorController#username} alla view della registrazione
+     * del dottore
+     */
     public void addFieldUsername()  {
         this.username = new TextField();
         this.username.setId("username");
@@ -89,6 +116,11 @@ public class RegistrationDoctorController extends ClientController{
         super.pane_main_grid.getChildren().add(this.username);
     }
     //private TextField passwordRealtime;
+
+    /**
+     * Aggiunge il {@link PasswordField} {@link RegistrationDoctorController#password} alla view della registrazione del
+     * dottore e ne controlla la sicurezza
+     */
     public  void addFieldPassword()  {
         this.passwordRealTime = new Label();
         this.password = new PasswordField();
@@ -115,6 +147,10 @@ public class RegistrationDoctorController extends ClientController{
         super.pane_main_grid.getChildren().add(this.passwordRealTime);
     }
 
+    /**
+     * Aggiunge il {@link Button} {@link RegistrationDoctorController#saveBtn} alla view della registrazione del
+     * dottore
+     */
     public  void addButtonSave()  {
         this.saveBtn = new Button("Salva");
         this.saveBtn.setId("saveBtn");
@@ -127,10 +163,19 @@ public class RegistrationDoctorController extends ClientController{
         super.pane_main_grid.getChildren().add(this.saveBtn);
         }
 
+    /**
+     * Getter dell'attributo {@link RegistrationDoctorController#fieldsComboBox}
+     *
+     * @return Il campo {@link RegistrationDoctorController#fieldsComboBox}
+     */
     public Label getPasswordRealTime() {
         return passwordRealTime;
     }
 
+    /**
+     * Aggiunge al {@link Button} {@link RegistrationDoctorController#saveBtn} la funzione di creare un nuovo dottore se
+     * non esiste già, solo dopo aver compilato tutti i campi
+     */
     public void addActionButton() {
         //manca il controllo sulla password
             this.saveBtn.setOnAction(e -> {
@@ -144,7 +189,6 @@ public class RegistrationDoctorController extends ClientController{
                     if (this.doctorRepo.isNotDuplicate(d)){
                         try {
                             this.doctorRepo.add(d);
-
                         } catch(Exception ex) {
                             ex.printStackTrace();
                         }
@@ -157,10 +201,20 @@ public class RegistrationDoctorController extends ClientController{
             });
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationDoctorController#fieldsComboBox}
+     *
+     * @return Il campo {@link RegistrationDoctorController#fieldsComboBox}
+     */
     public ConcreteDoctorDAO getDoctorRepo() {
         return doctorRepo;
     }
 
+    /**
+     * Crea un nuovo oggetto di tipo {@link Doctor} grazie al Builder
+     *
+     * @return Un oggetto di tipo {@link Doctor}
+     */
     public Doctor createDoctor(){
         RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
         return new Doctor.Builder<>()
@@ -178,22 +232,48 @@ public class RegistrationDoctorController extends ClientController{
                 .addPassword( this.password.getText())
                 .build();
     }
+
+    /**
+     * Getter dell'attributo {@link RegistrationDoctorController#username}
+     *
+     * @return Il campo {@link RegistrationDoctorController#username}
+     */
     public TextField getUsername() {
         return username;
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationDoctorController#password}
+     *
+     * @return Il campo {@link RegistrationDoctorController#password}
+     */
     public PasswordField getPassword() {
         return password;
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationDoctorController#specialization}
+     *
+     * @return Il campo {@link RegistrationDoctorController#specialization}
+     */
     public ComboBox<String> getSpecialization() {
         return specialization;
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationDoctorController#saveBtn}
+     *
+     * @return Il campo {@link RegistrationDoctorController#saveBtn}
+     */
     public Button getSaveBtn() {
         return saveBtn;
     }
 
+    /**
+     * Getter dell'attributo {@link RegistrationDoctorController#title}
+     *
+     * @return Il campo {@link RegistrationDoctorController#title}
+     */
     public Label getTitle() {
         return title;
     }
