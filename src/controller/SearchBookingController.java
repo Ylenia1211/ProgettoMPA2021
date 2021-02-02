@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import model.Appointment;
 import util.gui.ButtonTable;
+
 import javax.swing.*;
 import java.net.URL;
 import java.time.LocalDate;
@@ -24,6 +25,15 @@ import java.util.ResourceBundle;
 import static util.gui.ButtonTable.addButtonDeleteToTable;
 import static util.gui.ButtonTable.addButtonUpdateToTable;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
+ * Questa classe visualizza le prenotazioni future con la possibilità di cancellare, modificare, e visualizzare i dettagli delle prenotazioni.
+ */
 public class SearchBookingController implements Initializable {
     public TextField searchField;
     public TableView<Appointment> tableAllBookingVisit;
@@ -35,10 +45,20 @@ public class SearchBookingController implements Initializable {
     private final ConcreteAppointmentDAO appointmentRepo;
     public ObservableList<Appointment> listItems;
 
+    /**
+     * Costruttore della classe, setta l'attributo {@link SearchBookingController#appointmentRepo} con una nuova istanza
+     * di {@link ConcreteAppointmentDAO} richiamando la Connessione singleton {@link ConnectionDBH2} del database.
+     */
     public SearchBookingController() {
         this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
     }
 
+    /**
+     * Inizializza i campi della view in modo appropriato.
+     * Visualizza i risultati della ricerca.
+     * <p>
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableAllBookingVisit.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

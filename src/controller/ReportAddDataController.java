@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Il controller della view {@link view/reportView.fxml}
  */
 public class ReportAddDataController implements Initializable {
@@ -36,15 +37,12 @@ public class ReportAddDataController implements Initializable {
     public TextArea textTerapia;
     public TextField textPath;
     public ImageView attachmentImage;
-//    public ArrayList<String> attachments = new ArrayList<>();
     public Label firstAttachment;
     public VBox allegati;
-//    public Button creaReportButton;
-//    public Button btnSaveReport;
     public VBox pane_main_grid;
     public ImageView deleteFirstAttachmentButton;
     private ConcreteReportDAO reportDAO;
-    private Appointment appointment;
+    private final Appointment appointment;
     private final String idOwner;
     private final String idPet;
     private String idBooking;
@@ -71,7 +69,8 @@ public class ReportAddDataController implements Initializable {
     }
 
     /**
-     * Setta i campi della view e vi inserisce nuovi elementi
+     * Inizializza i campi della view in modo appropriato.
+     * Setta i campi della view e vi inserisce nuovi elementi.
      *
      * {@inheritDoc}
      */
@@ -101,11 +100,7 @@ public class ReportAddDataController implements Initializable {
                 .build();
         this.reportDAO.add(newReport);  //creazione oggetto Report e salvataggio in DB
         System.out.println(newReport.toString());
-        try {
-            this.generateFolders(ownerSurname, ownerName, ownerFiscalCode, petName, this.textPath.getText());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.generateFolders(ownerSurname, ownerName, ownerFiscalCode, petName, this.textPath.getText());
     }
 
     /**
@@ -113,9 +108,9 @@ public class ReportAddDataController implements Initializable {
      *
      * @param src Percorso del file sorgente da copiare
      * @param dest Percorso di dove si vuole copiare il file
-     * @throws IOException Genera un'eccezione nel caso in cui non si trovi il file da copiare
+     * Genera un'eccezione nel caso in cui non si trovi il file da copiare
      */
-    private void copy(File src, File dest) throws IOException {
+    private void copy(File src, File dest)  {
         try (InputStream is = new FileInputStream(src); OutputStream os = new FileOutputStream(dest)) {
             // buffer size 1K
             byte[] buf = new byte[1024];
@@ -123,6 +118,8 @@ public class ReportAddDataController implements Initializable {
             while ((bytesRead = is.read(buf)) > 0) {
                 os.write(buf, 0, bytesRead);
             }
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -136,9 +133,8 @@ public class ReportAddDataController implements Initializable {
      * @param ownerFiscalCode Codice fiscale del proprietario
      * @param petName Nome dell'animale
      * @param attachment Percorso dell'allegato
-     * @throws IOException Genera un'eccezione nel caso in cui non si trovi il file
      */
-    private void generateFolders(String ownerSurname, String ownerName, String ownerFiscalCode, String petName, String attachment) throws IOException {
+    private void generateFolders(String ownerSurname, String ownerName, String ownerFiscalCode, String petName, String attachment) {
         String outputFile = "./report/";
 
         // Creazione cartelle utente e paziente dove mettere il report
@@ -157,6 +153,7 @@ public class ReportAddDataController implements Initializable {
         // altro pc
         String pathfile = attachmentDirectoryName + "/" + attachment.substring(attachment.lastIndexOf("\\")+1);
         this.copy(new File(attachment), new File(pathfile));
+
     }
 
     /**

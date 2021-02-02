@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Controlla la parte inferiore della view del report, comprendente i campi {@link ReportViewController#textDiagnosi},
  * {@link ReportViewController#textTerapia}, {@link ReportViewController#lastHbox} contenente i campi per la
  * visualizzazione del percorso degli allegati e un bottone per l'inserimento degli allegati, i 4 bottoni
@@ -65,12 +66,13 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     private final ConcreteDoctorDAO doctorRepo;
 
     /**
-     * Costruttore della classe, setta gli attributi necessari per la generazione di un report della visita
+     * Costruttore della classe, setta gli attributi necessari per la generazione di un report della visita. Setta l'attributo {@link ReportViewController#doctorRepo} con una nuova istanza
+     * di {@link ConcreteDoctorDAO} richiamando la Connessione singleton {@link ConnectionDBH2} del database.
      *
      * @param appointment Lo specifico appuntamento
-     * @param owner Il proprietario
-     * @param pet Il paziente
-     * @param doctor Il medico che ha effettuato la visita
+     * @param owner       Il proprietario
+     * @param pet         Il paziente
+     * @param doctor      Il medico che ha effettuato la visita
      */
     public ReportViewController(Appointment appointment, Owner owner, Pet pet, Doctor doctor) {
         this.appointment = appointment;
@@ -83,8 +85,9 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     }
 
     /**
+     * Inizializza i campi della view in modo appropriato.
      * Setta i campi della view recuperandoli da un istanza di {@link ConcreteDoctorDAO}
-     *
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -119,7 +122,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         String id_doctorSession = this.doctorRepo.search(SessionUser.getDoctor());
         String id_doctorReport = this.doctorRepo.search(this.doctor);
 
-        if(id_doctorReport.equals(id_doctorSession)) {
+        if (id_doctorReport.equals(id_doctorSession)) {
             this.addEnableModifyCheckBox();
         }
         this.buttons.setAlignment(Pos.CENTER);
@@ -138,7 +141,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
      * Assegna la grafica ai bottoni per le operazioni sul report e assegna loro delle funzioni che permettono di
      * effettuare operazioni di creazione, eliminazione, modifica e annullamento modifiche sul report
      */
-    private void setButtons(){
+    private void setButtons() {
         // Creo il createButton
         this.creaPDFReportButton = new Button("Crea PDF");
         this.creaPDFReportButton.setId("createPDF");
@@ -148,7 +151,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
         this.creaPDFReportButton.setOnAction(actionEvent -> {
             try {
-                 creaReport(this.report, this.appointment, this.owner, this.pet, this.doctor);
+                creaReport(this.report, this.appointment, this.owner, this.pet, this.doctor);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -191,10 +194,10 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
             this.enableModify.setSelected(false);
             this.attachmentImage.setDisable(true);
             this.buttons.getChildren().clear();
-            if (this.report.getPathFile().trim().isEmpty()){
+            if (this.report.getPathFile().trim().isEmpty()) {
                 this.firstAttachment.setText("Nessuno");
                 this.deleteFirstAttachmentButton.setVisible(false);
-            }else {
+            } else {
                 this.firstAttachment.setText(this.report.getPathFile());
                 this.deleteFirstAttachmentButton.setVisible(true);
                 this.deleteFirstAttachmentButton.setDisable(true);
@@ -237,8 +240,8 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
      * loro allegati, usando i parametri inseriti per customizzare i nomi di cartelle e file, e usando il codice fiscale
      * come chiave primaria della cartella in caso di omonimie
      *
-     * @param owner Il proprietario
-     * @param pet Il paziente
+     * @param owner      Il proprietario
+     * @param pet        Il paziente
      * @param attachment Percorso dell'allegato
      * @throws IOException Genera un'eccezione nel caso in cui non si trovi il file
      */
@@ -247,7 +250,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
 
         // Se non presenti, creazione cartelle utente e paziente dove mettere il report
         String reportDirectoryName = outputFile.concat(owner.getSurname() + owner.getName() + "_" +
-                                                       owner.getFiscalCode() + "/" + pet.getName());
+                owner.getFiscalCode() + "/" + pet.getName());
         File reportDirectory = new File(reportDirectoryName);
         if (!reportDirectory.exists())
             reportDirectory.mkdirs();
@@ -257,7 +260,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         File attachmentDirectory = new File(attachmentDirectoryName);
         if (!attachmentDirectory.exists())
             attachmentDirectory.mkdirs();
-        pathfile = attachmentDirectoryName + "/" + attachment.substring(attachment.lastIndexOf("\\")+1);
+        pathfile = attachmentDirectoryName + "/" + attachment.substring(attachment.lastIndexOf("\\") + 1);
     }
 
     /**
@@ -281,7 +284,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     /**
      * Gestisce l'abilitazione delle modifiche controllando le funzioni dei bottoni e abilitando o disabilitando i campi
      */
-    private void addEnableModifyCheckBox(){
+    private void addEnableModifyCheckBox() {
         this.enableModify = new CheckBox("Abilita modifiche");
         this.enableModify.setStyle("-fx-font-size: 14px; -fx-text-fill: #163754;");
         this.enableModify.setId("enableModify");
@@ -295,7 +298,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 this.attachmentImage.setDisable(true);
                 this.deleteFirstAttachmentButton.setDisable(true);
 
-            }else {
+            } else {
                 this.buttons.getChildren().clear();
                 this.addSaveAndCancelButtonsPDFReport();
                 textDiagnosi.setEditable(true);
@@ -330,8 +333,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 });
                 this.firstAttachment.setText(filePath);
                 this.textPath.setText(filePath);
-            }
-            else{
+            } else {
                 this.textPath.setAlignment(Pos.CENTER_LEFT);
                 this.textPath.setText(filePath);
             }

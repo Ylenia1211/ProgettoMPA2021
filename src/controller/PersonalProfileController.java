@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Il controller del profilo personale dell'utente, setta i campi, permette l'aggiornamento del profilo e il cambio
  * password
  */
@@ -62,10 +63,12 @@ public class PersonalProfileController implements Initializable, FieldVerifier{
     private List<TextField> fieldsControlRestrict;
 
     /**
-     * Il costruttore della classe, in base al tipo di utente passato a parametro e assegna i dati del Dottore o della
+     * Il costruttore della classe, in base al tipo di utente passato a parametro  assegna i dati del Dottore o della
      * Segreteria rispettivamente negli attributi {@link PersonalProfileController#doctor} e
-     * {@link PersonalProfileController#secretariat}
-     *
+     * {@link PersonalProfileController#secretariat}.
+     * Crea un oggetto {@link PersonalProfileController#doctorRepo} tipo {@link ConcreteDoctorDAO} e
+     * un  oggetto {@link PersonalProfileController#secretariatRepo} tipo {@link ConcreteSecretariatDAO}
+     * richiamando la Connessione singleton {@link ConnectionDBH2} del database.
      * @param roleUserLogged La tipologia di utente
      */
     public PersonalProfileController(String roleUserLogged) {
@@ -86,6 +89,8 @@ public class PersonalProfileController implements Initializable, FieldVerifier{
     }
 
     /**
+     *
+     * Inizializza i campi della view in modo appropriato.
      * Setta i dati dell'utente nei rispettivi campi e inizializza le funzioni del checkBox
      * {@link PersonalProfileController#checkboxUpdate}
      *
@@ -186,7 +191,7 @@ public class PersonalProfileController implements Initializable, FieldVerifier{
     }
 
     /**
-     * Inserisce i dati del dottore negli appositi campi
+     * Setta i dati del dottore negli appositi campi
      *
      * @param data L'oggetto di tipo {@link Doctor}
      */
@@ -209,7 +214,7 @@ public class PersonalProfileController implements Initializable, FieldVerifier{
     }
 
     /**
-     * Inserisce i dati della segreteria negli appositi campi
+     * Setta i dati della segreteria negli appositi campi
      *
      * @param data L'oggetto di tipo {@link Secretariat}
      */
@@ -330,12 +335,12 @@ public class PersonalProfileController implements Initializable, FieldVerifier{
         this.labelsFields.getChildren().add(this.saveBtnPwd);
     }
 
-    /** #Todo: da rivedere
-     * Questa non ho capito che fa
+    /**
+     * Metodo per la creazione di un mini Dialog  {@link Dialog} per l'inserimento di Email e password.
      *
-     * @param oldPasswordTitle
-     * @param password
-     * @return
+     * @param oldPasswordTitle titolo assegnato a una Label.
+     * @param password   campo di tipo 'PasswordField' {@link PasswordField} dove inserire la password.
+     *
      */
     private Dialog<VBox> createDialog(Label oldPasswordTitle, PasswordField password) {
         VBox container = new VBox();

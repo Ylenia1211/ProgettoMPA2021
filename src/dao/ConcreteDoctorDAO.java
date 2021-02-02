@@ -208,7 +208,7 @@ public class ConcreteDoctorDAO implements DoctorDAO, Common {
             PreparedStatement statement = this.connection_db.getConnectData().prepareStatement(sqlSearchSpecialization);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getString("name"));
+               //System.out.println(rs.getString("name"));
                 listSpecialization.add(rs.getString("name"));
             }
             return listSpecialization;

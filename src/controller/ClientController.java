@@ -66,7 +66,7 @@ public class ClientController implements Initializable, FieldVerifier {
 
     /**
      * Il costruttore della classe ClientController, inizializza tutti i campi relativi a una persona e crea
-     * {@link ClientController#clientRepo} un oggetto di tipo {@link ConcreteOwnerDAO} richimando la Connessione singleton {@link ConnectionDBH2} del database.
+     * {@link ClientController#clientRepo} un oggetto di tipo {@link ConcreteOwnerDAO} richiamando la Connessione singleton {@link ConnectionDBH2} del database.
      */
     public ClientController() {
         this.rbM = new RadioButton(Gender.M.getDeclaringClass().descriptorString());

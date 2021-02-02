@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,13 +14,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.Gender;
 import model.Pet;
-import model.Secretariat;
 import util.FieldVerifier;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
@@ -32,7 +27,9 @@ import java.util.*;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Il controller per la registrazione di un nuovo paziente.
+ * Implementa 'FieldVerifier' {@link FieldVerifier} per richiamare i metodi di controllo sui campi della registrazione.
  */
 public class RegistrationPetController implements Initializable, FieldVerifier {
     public VBox pane_main_grid;
@@ -45,10 +42,9 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
     public RadioButton rbF;
     public DatePicker textdateBirth;
     public ComboBox<String> textPetRace;
-    //public ComboBox textOwner;
     public TextField textParticularSign;
     public Button btn;
-    private ConcretePetDAO petRepo;
+    private final ConcretePetDAO petRepo;
     private Map<String, String> listClient;
     public double MAX_SIZE = 1.7976931348623157E308;
     //servono per il campo ricerca
@@ -60,7 +56,8 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
     private List<ComboBox<?>> fieldsComboBox;
 
     /**
-     * Il costruttore della classe, inizializza alcuni parametri necessari per la registrazione
+     * Il costruttore della classe, inizializza alcuni parametri necessari per la registrazione e crea
+     * {@link  RegistrationPetController#petRepo} un oggetto di tipo {@link ConcretePetDAO} richiamando la Connessione singleton {@link ConnectionDBH2} del database.
      */
     public RegistrationPetController() {
         this.listClient = new HashMap<>();
@@ -70,17 +67,17 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
     }
 
     /**
-     * Getter dell'attributo {@link RegistrationPetController#fieldsComboBox}
+     * Getter dell'attributo {@link RegistrationPetController#petRepo}
      *
-     * @return Il campo {@link RegistrationPetController#fieldsComboBox}
+     * @return oggetto di tipo {@link ConcretePetDAO}
      */
     public ConcretePetDAO getPetRepo() {
         return petRepo;
     }
 
     /**
-     * Setta i campi della view e vi inserisce nuovi elementi
-     *
+     * Setta i campi della view e vi inserisce nuovi elementi grafici
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -103,7 +100,7 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
 
     /**
      * Aggiunge il {@link Button} {@link RegistrationPetController#btn} alla view della registrazione
-     * del dottore
+     * del  pet
      */
     public void addButtonSave() {
         this.btn = new Button("Salva");
@@ -124,18 +121,16 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
         this.btn.setOnAction(this::registrationPet);
     }
 
-    /** #Todo: da rivedere
+    /**
      * Funzione associata al {@link Button} {@link RegistrationPetController#btn}, registra un nuovo paziente se non
      * esiste già
      *
      * @param actionEvent L'evento registrato, il click sul {@link Button} {@link RegistrationPetController#btn}
      */
     public void registrationPet(ActionEvent actionEvent) {
-        //String text = this.searchText.getText();
-        //boolean b =   checkSearchFieldIsCorrect(this.listClient.values(), this.searchText.getText());
-        if(checkSearchFieldIsCorrect(this.listClient.values(), this.searchText.getText()) &&
-           !checkEmptyTextField(this.fieldsTextPet.stream()) &&
-           !checkEmptyComboBox(this.fieldsComboBox.stream())) {
+        if (checkSearchFieldIsCorrect(this.listClient.values(), this.searchText.getText()) &&
+                !checkEmptyTextField(this.fieldsTextPet.stream()) &&
+                !checkEmptyComboBox(this.fieldsComboBox.stream())) {
             Pet p = createPet();
             if (this.petRepo.isNotDuplicate(p)) {
                 try {
@@ -173,9 +168,9 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
     }
 
     /**
-     * Getter dell'attributo {@link RegistrationPetController#fieldsComboBox}
+     * Getter dell'attributo {@link RegistrationPetController#fieldsTextPet}
      *
-     * @return Il campo {@link RegistrationPetController#fieldsComboBox}
+     * @return la lista di campi testuali della view {@link RegistrationPetController#fieldsTextPet}
      */
     public List<TextField> getFieldsTextPet() {
         return fieldsTextPet;
@@ -190,13 +185,12 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
         return fieldsComboBox;
     }
 
-    /** #Todo: da rivedere
+    /**
+     * Metodo che ricerca a partire da una mappa e una chiave. Restituisce la coppia (chiave,valore) grazie alla ricerca sul valore passato a parametro.
      *
-     * @param map
-     * @param value
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param map   mappa <key,value> in cui effettuare la ricerca
+     * @param value valore da ricercare nella mappa
+     * @return una mappa di un solo elemento (ricercato) di tipo (key, value)
      */
     public static <T, E> String getKeyByValue(Map<String, String> map, Object value) {
         return map.entrySet()
@@ -209,15 +203,13 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
     }
 
     /**
-     * Aggiunge alla view i parametri relativi al proprietario del paziente
+     * Aggiunge alla view il componente grafico per la ricerca dei dati relativi al proprietario del paziente
      */
     public void addFieldOwner() {
         this.listClient = this.petRepo.searchAllClientByFiscalCod(); //ricerca per codice fiscale
         this.container = new GridPane();
         this.searchBox = new HBox();
         this.searchText = new TextField("");
-
-        //this.container.setGridLinesVisible(true);
         this.searchText.setPrefWidth(800);
         this.container.setAlignment(Pos.CENTER);
         this.searchText.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
@@ -225,7 +217,7 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
         //System.out.println(this.container.getAlignment().name());
         // aaggiungere un ascoltatore per ascoltare le modifiche nel campo di testo
         this.searchText.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (container.getChildren().size() > 1) { // if already contains a drop-down menu -> remove it
+            if (container.getChildren().size() > 1) { //se gia contiene drop-down menu -> rimuovi
                 container.getChildren().remove(1);
             }
             container.add(populateDropDownMenu(newValue, this.listClient.values()), 0, 1); //  quindi aggiungere il menu a tendina popolato alla seconda riga del riquadro della griglia
@@ -235,17 +227,17 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
         );
         imageView.setFitHeight(18);
         imageView.setFitWidth(18);
-        Button clean = new Button("",imageView);
+        Button clean = new Button("", imageView);
         //clean.setPrefWidth(100);
         clean.setStyle("-fx-text-fill: white; -fx-background-color: #3da4e3");
         clean.setOnMouseClicked((e) -> {
             this.searchText.clear();
-            if (this.dropDownMenu != null) { // necessario senno NUllPointer exception
+            if (this.dropDownMenu != null) { // necessario sennò NUllPointer exception
                 this.dropDownMenu.getChildren().clear();
             }
         });
         this.searchBox.getChildren().addAll(this.searchText, clean); //, search);
-        // add the search box to first row
+        //aggiunge il campo di ricerca
         this.container.add(this.searchBox, 0, 0);
         //this.root.getChildren().add(this.container);
         this.pane_main_grid.getChildren().add(this.container); //aggiunge drop-menu a view
@@ -255,7 +247,7 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
      * Questo metodo cerca un dato testo in una collection di stringhe (cioè le opzioni del menu) poi restituisce un
      * {@link VBox} contenente tutti i match
      *
-     * @param text La stringa da ricercare
+     * @param text    La stringa da ricercare
      * @param options La collection in cui effettuare la ricerca
      * @return Il {@link VBox} con tutti i match
      */
@@ -281,7 +273,7 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
     }
 
     /**
-     * Aggiunge alla view i parametri relativi alla tipologia di paziente
+     * Aggiunge alla view il componente grafico relativo alla tipologia di paziente
      */
     public void addFieldRace() {
         List<String> listRace = this.petRepo.searchAllRace();
@@ -387,7 +379,7 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
     /**
      * Getter dell'attributo {@link RegistrationPetController#listClient}
      *
-     * @return Il campo {@link RegistrationPetController#listClient}
+     * @return Il campo {@link RegistrationPetController#listClient} ovvero la mappa con la lista dei Clienti memorizzati nel db.
      */
     public Map<String, String> getListClient() {
         return listClient;

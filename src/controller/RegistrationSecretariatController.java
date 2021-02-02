@@ -1,11 +1,12 @@
 package controller;
+
 import dao.ConcreteSecretariatDAO;
 import datasource.ConnectionDBH2;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import model.Doctor;
 import model.Gender;
 import model.Secretariat;
 
@@ -20,9 +21,10 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
- * Il controller per la registrazione di una nuova segreteria.
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
+ * Il controller per la registrazione di una nuova segreteria, estende la classe {@link ClientController} e ne eredita i campi della view associata.
  */
-public class RegistrationSecretariatController extends ClientController{
+public class RegistrationSecretariatController extends ClientController {
     private TextField username;
     private PasswordField password;
     private Label passwordRealTime;
@@ -32,7 +34,8 @@ public class RegistrationSecretariatController extends ClientController{
     private List<TextField> fieldsTextSecretariat;
 
     /**
-     * Il costruttore della classe, inizializza alcuni parametri necessari per la registrazione
+     * Il costruttore della classe crea
+     * {@link RegistrationSecretariatController#secretariatRepo} un oggetto di tipo {@link ConcreteSecretariatDAO} richiamando la Connessione singleton {@link ConnectionDBH2} del database.
      */
     public RegistrationSecretariatController() {
         this.secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
@@ -40,7 +43,7 @@ public class RegistrationSecretariatController extends ClientController{
 
     /**
      * Setta i campi della view e vi inserisce nuovi elementi
-     *
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -63,7 +66,7 @@ public class RegistrationSecretariatController extends ClientController{
      * Aggiunge il {@link TextField} {@link RegistrationSecretariatController#username} alla view della registrazione
      * della segreteria
      */
-    public void addFieldUsername()  {
+    public void addFieldUsername() {
         this.username = new TextField();
         this.username.setId("username");
         this.username.setPromptText("Username");
@@ -75,16 +78,16 @@ public class RegistrationSecretariatController extends ClientController{
 
     /**
      * Aggiunge il {@link PasswordField} {@link RegistrationSecretariatController#password} alla view della registrazione
-     * della segreteria e ne controlla la sicurezza
+     * della segreteria e ne controlla la sicurezza.
      */
-    public  void addFieldPassword()  {
+    public void addFieldPassword() {
         this.password = new PasswordField();
         this.passwordRealTime = new Label();
         this.password.setTooltip(new Tooltip("Password"));
         this.password.setId("password");
         this.password.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         this.password.setPromptText("Inserisci password Utente");
-        this.password.setOnKeyReleased( e-> {
+        this.password.setOnKeyReleased(e -> {
             String checkPassword = this.password.getText();
             System.out.println(checkPassword);
             if (checkPassword.length() < 6) {
@@ -117,7 +120,7 @@ public class RegistrationSecretariatController extends ClientController{
      * Aggiunge il {@link Button} {@link RegistrationSecretariatController#saveBtn} alla view della registrazione della
      * segreteria
      */
-    public  void addButtonSave()  {
+    public void addButtonSave() {
         this.saveBtn = new Button("Salva");
         this.saveBtn.setId("saveBtn");
         this.saveBtn.setMaxWidth(MAX_SIZE); //MAX_SIZE
@@ -132,49 +135,48 @@ public class RegistrationSecretariatController extends ClientController{
     /**
      * Getter dell'attributo {@link RegistrationSecretariatController#fieldsTextSecretariat}
      *
-     * @return Il campo {@link RegistrationSecretariatController#fieldsTextSecretariat}
+     * @return La lista di campi testuali nella view {@link RegistrationSecretariatController#fieldsTextSecretariat}
      */
     public List<TextField> getFieldsTextSecretariat() {
         return fieldsTextSecretariat;
     }
 
     /**
-     * Aggiunge al {@link Button} {@link RegistrationSecretariatController#saveBtn} la funzione di creare una nuova
+     * Aggiunge al {@link Button} {@link RegistrationSecretariatController#saveBtn} la funzione per creare una nuova
      * segreteria se non esiste già, solo dopo aver compilato tutti i campi
      */
     public void addActionButton() {
         this.saveBtn.setOnAction(e -> {
-            if(!checkEmptyTextField(super.getFieldsText().stream()) &&
-               !checkEmptyTextField(this.fieldsTextSecretariat.stream()) &&
-               !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
-               !checkifNotSecurePassword(this.passwordRealTime))
-            {
+            if (!checkEmptyTextField(super.getFieldsText().stream()) &&
+                    !checkEmptyTextField(this.fieldsTextSecretariat.stream()) &&
+                    !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
+                    !checkifNotSecurePassword(this.passwordRealTime)) {
                 Secretariat secretariat = createSecretariat();
-                if(this.secretariatRepo.isNotDuplicate(secretariat)){
+                if (this.secretariatRepo.isNotDuplicate(secretariat)) {
                     try {
                         this.secretariatRepo.add(secretariat);
 
-                    }catch (Exception ex) {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
 
-                }else {
+                } else {
                     JOptionPane.showMessageDialog(null, "Impossibile creare l'utente di segreteria! Già esistente!");
                 }
 
-            }else
-            {
+            } else {
                 JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi!");
-            }});
+            }
+        });
     }
 
     /**
-     * Crea un nuovo oggetto di tipo {@link Doctor} grazie al Builder
+     * Crea un nuovo oggetto di tipo {@link Secretariat} grazie al Builder
      *
      * @return Un oggetto di tipo {@link Secretariat}
      */
-    public Secretariat createSecretariat(){
-        RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
+    public Secretariat createSecretariat() {
+        RadioButton chk = (RadioButton) this.genderGroup.getSelectedToggle();
         return new Secretariat.Builder<>()
                 .addName(super.getTextName().getText().toUpperCase())
                 .addSurname(super.getTextSurname().getText().toUpperCase())
@@ -186,7 +188,7 @@ public class RegistrationSecretariatController extends ClientController{
                 .addEmail(super.getTextEmail().getText())
                 .addFiscalCode(super.getTextFiscalCode().getText().toUpperCase())
                 .addUsername(this.username.getText())
-                .addPassword( this.password.getText())
+                .addPassword(this.password.getText())
                 .build();
     }
 
@@ -229,7 +231,7 @@ public class RegistrationSecretariatController extends ClientController{
     /**
      * Getter dell'attributo {@link RegistrationSecretariatController#secretariatRepo}
      *
-     * @return Il campo {@link RegistrationSecretariatController#secretariatRepo}
+     * @return Il campo {@link RegistrationSecretariatController#secretariatRepo} ovvero un oggetto di tipo {@link ConcreteSecretariatDAO}
      */
     public ConcreteSecretariatDAO getSecretariatRepo() {
         return secretariatRepo;

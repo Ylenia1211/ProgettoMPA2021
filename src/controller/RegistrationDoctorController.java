@@ -3,6 +3,7 @@ package controller;
 import dao.ConcreteDoctorDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -21,10 +22,11 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Il controller per la registrazione di un nuovo dottore. Usa la stessa view di registrazione dell'owner,
- * registrationClient.fxml
+ * registrationClient.fxml, estende la classe {@link ClientController} e ne eredita i campi della view associata.
  */
-public class RegistrationDoctorController extends ClientController{
+public class RegistrationDoctorController extends ClientController {
     private TextField username;
     private PasswordField password;
     private Label passwordRealTime;
@@ -36,15 +38,15 @@ public class RegistrationDoctorController extends ClientController{
     private List<ComboBox<?>> fieldsComboBox;
 
     /**
-     * Assegna a {@link RegistrationDoctorController#doctorRepo} una nuova istanza di {@link ConcreteDoctorDAO}
+     * Assegna a {@link RegistrationDoctorController#doctorRepo} una nuova istanza di {@link ConcreteDoctorDAO} richiamando la Connessione singleton {@link ConnectionDBH2} del database.
      */
     public RegistrationDoctorController() {
-         this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
+        this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
     }
 
     /**
-     * Crea nuovi elementi nella view e setta il titolo in "Creazione Dottore"
-     *
+     * Inizializza gli elementi nella view e aggiunge ulteriori componenti grafici
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -69,7 +71,7 @@ public class RegistrationDoctorController extends ClientController{
     /**
      * Getter dell'attributo {@link RegistrationDoctorController#fieldsTextDoctor}
      *
-     * @return Il campo {@link RegistrationDoctorController#fieldsTextDoctor}
+     * @return La lista dei campi testuali della view {@link RegistrationDoctorController#fieldsTextDoctor}
      */
     public List<TextField> getFieldsTextDoctor() {
         return fieldsTextDoctor;
@@ -78,7 +80,7 @@ public class RegistrationDoctorController extends ClientController{
     /**
      * Getter dell'attributo {@link RegistrationDoctorController#fieldsComboBox}
      *
-     * @return Il campo {@link RegistrationDoctorController#fieldsComboBox}
+     * @return La lista dei combobox della view {@link RegistrationDoctorController#fieldsComboBox}
      */
     public List<ComboBox<?>> getFieldsComboBox() {
         return fieldsComboBox;
@@ -88,7 +90,7 @@ public class RegistrationDoctorController extends ClientController{
      * Aggiunge la {@link ComboBox} {@link RegistrationDoctorController#specialization} alla view della registrazione
      * del dottore
      */
-    public void addFieldSpecialization()  {
+    public void addFieldSpecialization() {
         List<String> listSpecialization = this.getDoctorRepo().searchAllSpecialization();
         this.specialization = new ComboBox<>(FXCollections
                 .observableArrayList(listSpecialization));
@@ -106,7 +108,7 @@ public class RegistrationDoctorController extends ClientController{
      * Aggiunge il {@link TextField} {@link RegistrationDoctorController#username} alla view della registrazione
      * del dottore
      */
-    public void addFieldUsername()  {
+    public void addFieldUsername() {
         this.username = new TextField();
         this.username.setId("username");
         this.username.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
@@ -115,20 +117,20 @@ public class RegistrationDoctorController extends ClientController{
         this.fieldsTextDoctor = List.of(this.username);
         super.pane_main_grid.getChildren().add(this.username);
     }
-    //private TextField passwordRealtime;
+
 
     /**
      * Aggiunge il {@link PasswordField} {@link RegistrationDoctorController#password} alla view della registrazione del
      * dottore e ne controlla la sicurezza
      */
-    public  void addFieldPassword()  {
+    public void addFieldPassword() {
         this.passwordRealTime = new Label();
         this.password = new PasswordField();
         this.password.setStyle("-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754");
         this.password.setTooltip(new Tooltip("Password"));
         this.password.setId("password");
         this.password.setPromptText("Inserisci password Utente");
-        this.password.setOnKeyReleased( e-> {
+        this.password.setOnKeyReleased(e -> {
             String checkPassword = this.password.getText();
             System.out.println(checkPassword);
             if (checkPassword.length() < 6) {
@@ -151,7 +153,7 @@ public class RegistrationDoctorController extends ClientController{
      * Aggiunge il {@link Button} {@link RegistrationDoctorController#saveBtn} alla view della registrazione del
      * dottore
      */
-    public  void addButtonSave()  {
+    public void addButtonSave() {
         this.saveBtn = new Button("Salva");
         this.saveBtn.setId("saveBtn");
         this.saveBtn.setMaxWidth(MAX_SIZE); //MAX_SIZE
@@ -159,14 +161,14 @@ public class RegistrationDoctorController extends ClientController{
         this.saveBtn.setPrefHeight(30);
         VBox.setMargin(saveBtn, new Insets(0, 100, 0, 100));
         this.saveBtn.setStyle("-fx-background-color: #3da4e3; -fx-text-fill: white;" +
-                              "-fx-border-color: transparent; -fx-font-size: 16px;");
+                "-fx-border-color: transparent; -fx-font-size: 16px;");
         super.pane_main_grid.getChildren().add(this.saveBtn);
-        }
+    }
 
     /**
-     * Getter dell'attributo {@link RegistrationDoctorController#fieldsComboBox}
+     * Getter dell'attributo {@link RegistrationDoctorController#passwordRealTime}
      *
-     * @return Il campo {@link RegistrationDoctorController#fieldsComboBox}
+     * @return Il campo {@link RegistrationDoctorController#passwordRealTime}
      */
     public Label getPasswordRealTime() {
         return passwordRealTime;
@@ -178,33 +180,33 @@ public class RegistrationDoctorController extends ClientController{
      */
     public void addActionButton() {
         //manca il controllo sulla password
-            this.saveBtn.setOnAction(e -> {
-                if(!checkEmptyTextField(super.getFieldsText().stream()) &&
-                   !checkEmptyTextField(this.fieldsTextDoctor.stream()) &&
-                   !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
-                   !checkifNotSecurePassword(this.passwordRealTime) &&
-                   !checkEmptyComboBox(this.fieldsComboBox.stream())
-                ){
-                    Doctor d = createDoctor();
-                    if (this.doctorRepo.isNotDuplicate(d)){
-                        try {
-                            this.doctorRepo.add(d);
-                        } catch(Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    } else{
-                        JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
+        this.saveBtn.setOnAction(e -> {
+            if (!checkEmptyTextField(super.getFieldsText().stream()) &&
+                    !checkEmptyTextField(this.fieldsTextDoctor.stream()) &&
+                    !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream()) &&
+                    !checkifNotSecurePassword(this.passwordRealTime) &&
+                    !checkEmptyComboBox(this.fieldsComboBox.stream())
+            ) {
+                Doctor d = createDoctor();
+                if (this.doctorRepo.isNotDuplicate(d)) {
+                    try {
+                        this.doctorRepo.add(d);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-               } else{
-                    JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
                 }
-            });
+            } else {
+                JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
+            }
+        });
     }
 
     /**
-     * Getter dell'attributo {@link RegistrationDoctorController#fieldsComboBox}
+     * Getter dell'attributo {@link RegistrationDoctorController#doctorRepo}
      *
-     * @return Il campo {@link RegistrationDoctorController#fieldsComboBox}
+     * @return oggetto di tipo {@link dao.ConcreteDoctorDAO}
      */
     public ConcreteDoctorDAO getDoctorRepo() {
         return doctorRepo;
@@ -215,8 +217,8 @@ public class RegistrationDoctorController extends ClientController{
      *
      * @return Un oggetto di tipo {@link Doctor}
      */
-    public Doctor createDoctor(){
-        RadioButton chk = (RadioButton)this.genderGroup.getSelectedToggle();
+    public Doctor createDoctor() {
+        RadioButton chk = (RadioButton) this.genderGroup.getSelectedToggle();
         return new Doctor.Builder<>()
                 .addName(super.getTextName().getText().toUpperCase())
                 .addSurname(super.getTextSurname().getText().toUpperCase())
@@ -229,7 +231,7 @@ public class RegistrationDoctorController extends ClientController{
                 .addFiscalCode(super.getTextFiscalCode().getText().toUpperCase())
                 .addSpecialization(this.specialization.getValue().toUpperCase())
                 .addUsername(this.username.getText())
-                .addPassword( this.password.getText())
+                .addPassword(this.password.getText())
                 .build();
     }
 

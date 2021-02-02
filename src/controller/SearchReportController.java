@@ -28,9 +28,10 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Questa classe visualizza le prenotazioni gia effettutate con il riferimento ai report associati
  */
-public class SearchReportController  implements Initializable {
+public class SearchReportController implements Initializable {
     public TextField searchField;
     public TableView<Appointment> tableAllBookingVisit;
     public TableColumn<Appointment, String> col_data;
@@ -42,16 +43,17 @@ public class SearchReportController  implements Initializable {
     public ObservableList<Appointment> listItems;
 
     /**
-     * Costruttore della classe, setta l'attributo {@link SearchReportController#appointmentRepo} con una nuova istanta
-     * di {@link ConcreteAppointmentDAO}
+     * Costruttore della classe, setta l'attributo {@link SearchReportController#appointmentRepo} con una nuova istanza
+     * di {@link ConcreteAppointmentDAO} richiamando la Connessione singleton {@link ConnectionDBH2} del database.
      */
     public SearchReportController() {
         this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
     }
 
     /**
+     * Inizializza i campi della view in modo appropriato.
      * Visualizza i risultati della ricerca.
-     *
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -64,14 +66,9 @@ public class SearchReportController  implements Initializable {
 
 
         List<Appointment> listPrecAppointments = appointmentRepo.searchVisitBeforeDate(LocalDate.now(), LocalTime.now()); //generale
-       // List<Appointment> listPrecAppointments = appointmentRepo.searchVisitByDoctorBeforeDate(LocalDate.now(), LocalTime.now(), id_doctor); //specifico per dottore
         listItems = FXCollections.observableArrayList(Objects.requireNonNullElseGet(listPrecAppointments, ArrayList::new)); //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
         tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
-         /*
-        var colBtnDelete = ButtonTable.addButtonDeleteToTable(tableAllBookingVisit, Appointment.class);
-        tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);*/
-        //addButtonDeleteToTable();
-        //addButtonViewInfoOwnerPet();
+
         var colBtnView = ButtonTable.addButtonViewInfoOwnerPet();
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnView);
         //addButtonCreateReport();
@@ -81,22 +78,21 @@ public class SearchReportController  implements Initializable {
 
         //addButtonViewReport();
         var colBtnViewReport = ButtonTable.addButtonViewReport();
-        tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>)  colBtnViewReport);
+        tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnViewReport);
 
         this.searchField.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {
-            if ((newValueFC).matches(("[A-Za-z]*\s[A-Za-z]+"))){
+            if ((newValueFC).matches(("[A-Za-z]*\s[A-Za-z]+"))) {
 
                 searchbtn.setOnMouseClicked(event -> {
                     String[] fieldSplitted = newValueFC.toUpperCase().split("\s");
-                    List<Appointment> prevAppointmentsPet = this.appointmentRepo.findAllVisitPetBeforeDate(fieldSplitted[0],fieldSplitted[1], LocalDate.now());
+                    List<Appointment> prevAppointmentsPet = this.appointmentRepo.findAllVisitPetBeforeDate(fieldSplitted[0], fieldSplitted[1], LocalDate.now());
                     //devo visualuzzare solo le prenotaizoni gia passate < localdate.now()
                     tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(prevAppointmentsPet, ArrayList::new)));
                 });
 
-            }
-            else{
+            } else {
                 searchbtn.setOnMouseClicked(event -> {
-                   // System.out.println(" Non Effettuare la ricerca ");
+                    // System.out.println(" Non Effettuare la ricerca ");
                     JOptionPane.showMessageDialog(null, "Impossibile effettuare la ricerca!\n Controlla di aver inserito almeno:\n 2 parole: nome cognome\n 1 spazio tra le due parole");
                 });
             }
