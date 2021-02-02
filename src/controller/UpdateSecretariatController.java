@@ -1,16 +1,32 @@
 package controller;
 
+import model.Doctor;
 import model.Gender;
+import model.Pet;
 import model.Secretariat;
 
 import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Gestisce l'update dei dati di un paziente, estende la classe {@link RegistrationSecretariatController}
+ */
 public class UpdateSecretariatController extends RegistrationSecretariatController {
     private final String id;
     private final Secretariat secretariat;
 
+    /**
+     * Costruttore della classe, richiama il costruttore della superclasse {@link RegistrationSecretariatController} setta gli
+     * attributi {@link UpdateSecretariatController#secretariat} e {@link UpdateSecretariatController#id}
+     *
+     * @param secretariat Il dottore
+     */
     public UpdateSecretariatController(Secretariat secretariat) {
         super();
         this.secretariat = secretariat;
@@ -18,6 +34,9 @@ public class UpdateSecretariatController extends RegistrationSecretariatControll
     }
 
     /**
+     * Richiama la funzione {@link RegistrationSecretariatController#initialize(URL, ResourceBundle)} della superclasse e
+     * setta i parametri grazie alla funzione {@link UpdateSecretariatController#setParam(Secretariat)}
+     *
      * {@inheritDoc}
      */
     @Override
@@ -26,6 +45,11 @@ public class UpdateSecretariatController extends RegistrationSecretariatControll
         setParam(secretariat);
     }
 
+    /**
+     * Inserisce i dati della segreteria negli appositi campi
+     *
+     * @param data L'oggetto di tipo {@link Secretariat}
+     */
     public void setParam(Secretariat data) {
         super.getTitle().setText("Modifica Dati Utente Segreteria");
         super.getTextName().setText(data.getName().trim());
@@ -45,6 +69,10 @@ public class UpdateSecretariatController extends RegistrationSecretariatControll
         }
     }
 
+    /**
+     * Assegna al bottone della superclasse saveBtn la funzione di verificare se non si stia inserendo una segreteria già
+     * registrata e crea un nuova segreteria solo se tutti i campi sono stati compilati correttamente
+     */
     @Override
     public void addActionButton() {
         this.getSaveBtn().setOnAction(e -> {

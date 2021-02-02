@@ -23,6 +23,7 @@ public class UpdateDoctorController extends RegistrationDoctorController{
     /**
      * Costruttore della classe, richiama il costruttore della superclasse {@link RegistrationDoctorController} setta gli
      * attributi {@link UpdateDoctorController#doctor} e {@link UpdateDoctorController#id}
+     *
      * @param doctor Il dottore
      */
     public UpdateDoctorController(Doctor doctor) {

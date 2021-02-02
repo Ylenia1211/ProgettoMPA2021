@@ -1,6 +1,22 @@
 package controller.factorySidebar;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Gestisce il controllo della sidebar, personalizzandola in base al tipo di utente loggato, grazie al design pattern
+ * Factory
+ */
 public class SideBarFactory {
+
+    /**
+     * Gestisce il controllo della sidebar, personalizzandola in base al tipo di utente loggato.
+     *
+     * @param roleUser La stringa con l'indicazione della tipologia di utente
+     * @return
+     */
     public static SideBarAction createSideBar (String roleUser){
         switch (roleUser){
             case "Dottore" -> {

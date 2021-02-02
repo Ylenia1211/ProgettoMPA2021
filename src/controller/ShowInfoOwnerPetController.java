@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
- * #Todo: da rivedere
+ * Mostra le informazioni relative a proprietario, paziente e medico legati alla stessa visita
  */
 public class ShowInfoOwnerPetController implements Initializable {
 
@@ -59,6 +59,13 @@ public class ShowInfoOwnerPetController implements Initializable {
     private ConcreteAppointmentDAO appointmentRepo;
     private Appointment appointment;
 
+    /**
+     * Costruttore della classe, setta i parametri {@link ShowInfoOwnerPetController#idOwner},
+     * {@link ShowInfoOwnerPetController#idPet}, {@link ShowInfoOwnerPetController#appointment} e
+     * {@link ShowInfoOwnerPetController#idDoctor} con l'oggetto di tipo {@link Appointment} passato a parametro
+     *
+     * @param appointment L'appuntamento specifico
+     */
     public ShowInfoOwnerPetController(Appointment appointment) {
         this.idOwner = appointment.getId_owner();
         this.idPet = appointment.getId_pet();
@@ -67,6 +74,11 @@ public class ShowInfoOwnerPetController implements Initializable {
     }
 
     /**
+     * Inserisce i dati all'interno delle tabelle grazie alle funzioni
+     * {@link ShowInfoOwnerPetController#setFieldDataOwner(Owner)},
+     * {@link ShowInfoOwnerPetController#setFieldDataDoctor(Doctor)} e
+     * {@link ShowInfoOwnerPetController#setFieldDataPet(Pet)}
+     *
      * {@inheritDoc}
      */
     @Override
@@ -111,14 +123,22 @@ public class ShowInfoOwnerPetController implements Initializable {
             vbox_main.getChildren().add(mainPane);
         }
 
+    /**
+     * Inserisce i dati del medico nelle label della tabella Dottore
+     *
+     * @param doctor L'oggetto {@link Doctor} da cui prendere i valori da settare nella tabella
+     */
     private void setFieldDataDoctor(Doctor doctor) {
-
         labelDottoreName.setText(doctor.getName());
         labelDottoreSurname.setText(doctor.getSurname());
 //        labelDottoreSpecialization.setText("Tipo visita: " + doctor.getSpecialization());
     }
 
-
+    /**
+     * Inserisce i dati del paziente nelle label della tabella Paziente
+     *
+     * @param pet L'oggetto {@link Pet} da cui prendere i valori da settare nella tabella
+     */
     private void setFieldDataPet(Pet pet) {
         namePet.setText(pet.getName());
         surnamePet.setText(pet.getSurname());
@@ -128,6 +148,11 @@ public class ShowInfoOwnerPetController implements Initializable {
         particularSignPet.setText(pet.getParticularSign());
     }
 
+    /**
+     * Inserisce i dati del proprietario nelle label della tabella Cliente
+     *
+     * @param owner L'oggetto {@link Owner} da cui prendere i valori da settare nella tabella
+     */
     private void setFieldDataOwner(Owner owner) {
         this.nameOwner.setText(owner.getName());
         this.surnameOwner.setText(owner.getSurname());
@@ -142,10 +167,20 @@ public class ShowInfoOwnerPetController implements Initializable {
         this.emailOwner.setTooltip(new Tooltip(this.emailOwner.getText()));
     }
 
+    /**
+     * Getter dell'attributo {@link ShowInfoOwnerPetController#idOwner}
+     *
+     * @return Il campo {@link ShowInfoOwnerPetController#idOwner}
+     */
     public String getIdOwner() {
         return idOwner;
     }
 
+    /**
+     * Getter dell'attributo {@link ShowInfoOwnerPetController#idPet}
+     *
+     * @return Il campo {@link ShowInfoOwnerPetController#idPet}
+     */
     public String getIdPet() {
         return idPet;
     }

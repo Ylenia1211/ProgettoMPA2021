@@ -2,6 +2,7 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import model.Doctor;
 import model.Gender;
 import model.Pet;
 
@@ -11,10 +12,24 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Gestisce l'update dei dati di un paziente, estende la classe {@link RegistrationPetController}
+ */
 public class UpdatePetController extends  RegistrationPetController implements Initializable {
     private final String id;
     private final Pet pet;
 
+    /**
+     * Costruttore della classe, richiama il costruttore della superclasse {@link RegistrationPetController} setta gli
+     * attributi {@link UpdatePetController#pet} e {@link UpdatePetController#id}
+     *
+     * @param data Il dottore
+     */
     public UpdatePetController(Pet data) {
         super();
         this.pet = data;
@@ -22,6 +37,9 @@ public class UpdatePetController extends  RegistrationPetController implements I
     }
 
     /**
+     * Richiama la funzione {@link RegistrationPetController#initialize(URL, ResourceBundle)} della superclasse e
+     * setta i parametri grazie alla funzione {@link UpdatePetController#setParam(Pet)}
+     *
      * {@inheritDoc}
      */
     @Override
@@ -30,6 +48,14 @@ public class UpdatePetController extends  RegistrationPetController implements I
         setParam(pet);
     }
 
+    /**
+     * #Todo: da rivedere
+     * @param map
+     * @param key
+     * @param <T>
+     * @param <E>
+     * @return
+     */
     public static <T, E> String getValueByKey(Map<String, String> map, Object key) {
         return map.entrySet()
                 .stream()
@@ -38,6 +64,12 @@ public class UpdatePetController extends  RegistrationPetController implements I
                 .findFirst()
                 .orElse(null);
     }
+
+    /**
+     * Inserisce i dati del paziente negli appositi campi
+     *
+     * @param data L'oggetto di tipo {@link Pet}
+     */
     public void setParam(Pet data) {
         String ownerCode = getValueByKey(super.getListClient(), data.getId_owner().trim());
         super.getTextName().setText(data.getName().trim());
@@ -52,6 +84,13 @@ public class UpdatePetController extends  RegistrationPetController implements I
             super.rbF.setSelected(true);
         }
     }
+
+    /**
+     * Verifica se non si stia inserendo un utente già registrato e crea un nuovo proprietario solo se tutti i campi
+     * sono stati compilati correttamente
+     *
+     * @param actionEvent L'evento registrato, in questo caso il click sul bottone
+     */
     @Override
     public void registrationPet(ActionEvent actionEvent){
         if (checkSearchFieldIsCorrect(super.getListClient().values(), super.getSearchText().getText()) && !checkEmptyTextField(super.getFieldsTextPet().stream()) && !checkEmptyComboBox(super.getFieldsComboBox().stream())) {
