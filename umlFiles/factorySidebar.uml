@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>controller.factorySidebar</OriginalElement>
+  <nodes>
+    <node x="0.0" y="358.0">controller.factorySidebar.SideBarFactory</node>
+    <node x="0.0" y="126.0">controller.factorySidebar.AdminSideBar</node>
+    <node x="486.0" y="104.0">controller.factorySidebar.SecretariatSideBar</node>
+    <node x="243.0" y="0.0">controller.factorySidebar.SideBarAction</node>
+    <node x="243.0" y="137.0">controller.factorySidebar.DoctorSideBar</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="controller.factorySidebar.AdminSideBar" target="controller.factorySidebar.SideBarAction">
+      <point x="0.0" y="-82.5" />
+      <point x="111.5" y="79.0" />
+      <point x="280.1666666666667" y="79.0" />
+      <point x="-74.33333333333331" y="27.0" />
+    </edge>
+    <edge source="controller.factorySidebar.SecretariatSideBar" target="controller.factorySidebar.SideBarAction">
+      <point x="0.0" y="-104.5" />
+      <point x="597.5" y="79.0" />
+      <point x="428.8333333333333" y="79.0" />
+      <point x="74.33333333333331" y="27.0" />
+    </edge>
+    <edge source="controller.factorySidebar.DoctorSideBar" target="controller.factorySidebar.SideBarAction">
+      <point x="0.0" y="-71.5" />
+      <point x="0.0" y="27.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8" x="310.12500000000006" y="126.75" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
