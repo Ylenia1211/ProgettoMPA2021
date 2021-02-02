@@ -26,20 +26,42 @@ import java.util.ResourceBundle;
 
 import static util.gui.ButtonTable.addButtonDeleteToTable;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * La classe ShowSpecificBookingVisitController serve a visualizzare i dati relativi agli appuntamenti già registrati nel sistema.
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
+ */
 public class ShowSpecificBookingVisitController implements Initializable {
     public TableView<Appointment> tableBookingVisit;
-    public TableColumn<Appointment, String>  col_data;
-    public TableColumn<Appointment, String>  col_timestart;
-    public TableColumn<Appointment, String>  col_timeend;
-    public TableColumn<Appointment, String>  col_type;
-    private ConcreteAppointmentDAO appointmentRepo;
+    public TableColumn<Appointment, String> col_data;
+    public TableColumn<Appointment, String> col_timestart;
+    public TableColumn<Appointment, String> col_timeend;
+    public TableColumn<Appointment, String> col_type;
+    private final ConcreteAppointmentDAO appointmentRepo;
     public ObservableList<Appointment> listItems;
-    public TableColumn<Appointment, Void> colBtnCreateReport= new TableColumn("");
 
+
+    /**
+     * Il costruttore della classe ShowSpecificBookingVisitController, inizializza la lista degli appuntamenti da visualizzare nella TableView e crea
+     * {@link ShowSpecificBookingVisitController#appointmentRepo} un oggetto di tipo {@link ConcreteAppointmentDAO} richimando la Connessione singleton {@link ConnectionDBH2} del database.
+     *
+     * @param listAppointment lista di appuntamenti da visualizzare nella TableView
+     */
     public ShowSpecificBookingVisitController(List<Appointment> listAppointment) {
         this.listItems = FXCollections.observableArrayList(listAppointment);
+        this.appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
     }
-    //test
+
+    /**
+     * Inizializza la tabella con tutti gli attributi della visita e vi aggiunge bottoni per modificarle e cancellarle,
+     * per creare un Report da associare a una visita e per visualizzare un report (se è stato già creato).
+     * <p>
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableBookingVisit.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -47,13 +69,13 @@ public class ShowSpecificBookingVisitController implements Initializable {
         col_timestart.setCellValueFactory(new PropertyValueFactory<>("localTimeStart"));
         col_timeend.setCellValueFactory(new PropertyValueFactory<>("localTimeEnd"));
         col_type.setCellValueFactory(new PropertyValueFactory<>("specialitation"));  //nome dell'attributo nella classe
-        appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
+
 
         tableBookingVisit.setItems(listItems);
-        addButtonUpdateVisitToTable(); //non posso rifattorizzare cme gli altri (cambia l'update)
-        //#todo, togliere il bottone di cancellazione della prenotazione per i dottori
+        addButtonUpdateVisitToTable(); //non posso rifattorizzare come gli altri (cambia l'update)
+
         var colBtnDelete = addButtonDeleteToTable(tableBookingVisit, Appointment.class);
-        tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);
+        tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnDelete);
 
         //addButtonViewInfoOwnerPet();
         var colBtnView = ButtonTable.addButtonViewInfoOwnerPet();
@@ -65,18 +87,22 @@ public class ShowSpecificBookingVisitController implements Initializable {
 
         //addButtonViewReport();
         var colBtnViewReport = ButtonTable.addButtonViewReport();
-        tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>)  colBtnViewReport);
+        tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnViewReport);
 
     }
 
-
+    /**
+     * Metodo che crea un oggetto 'TableColumn' personalizzato:{@link TableColumn} inserendo all'interno un Button 'Modifica' e personalizzando l'azione delle celle attraverso una cellFactory.
+     * Il metodo permette di aggiungere direttamente all'attributo {@link ShowSpecificBookingVisitController#tableBookingVisit} il bottone per la modifica degli appuntamenti.
+     */
     private void addButtonUpdateVisitToTable() {
         TableColumn<Appointment, Void> colBtn = new TableColumn("");
         Callback<TableColumn<Appointment, Void>, TableCell<Appointment, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
-                final TableCell<Appointment, Void> cell = new TableCell<>() {
+                return new TableCell<>() {
                     private final Button btn = new Button("Modifica");
+
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
@@ -104,18 +130,17 @@ public class ShowSpecificBookingVisitController implements Initializable {
                         } else {
                             Appointment ap = getTableColumn().getTableView().getItems().get(getIndex());
                             String id_appointment = appointmentRepo.search(ap);
-                            //todo modifica solo se è il dottore loggato lo stesso della prenotazione
-                            if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment) || getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now().plusDays(1))) {
+                            if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment) ||
+                                    getTableColumn().getTableView().getItems().get(getIndex()).getLocalDate().isBefore(LocalDate.now().plusDays(1))) {
                                 setGraphic(null);
                             }
-                            //modifica button spunta solo quando un report non è stato ancora creato oppure se la data della visita non è gia passata //#todo ok ma devo controllare anche l'orario
+                            //modifica button spunta solo quando un report non è stato ancora creato oppure se la data della visita non è gia passata
                             else {
                                 setGraphic(btn);
                             }
                         }
                     }
                 };
-                return cell;
             }
         };
         colBtn.setCellFactory(cellFactory);

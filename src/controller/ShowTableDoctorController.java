@@ -20,6 +20,7 @@ import static util.gui.ButtonTable.addButtonUpdateToTable;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Gestisce la tabella con i dati dei dottori
  */
 public class ShowTableDoctorController implements Initializable {
@@ -41,14 +42,14 @@ public class ShowTableDoctorController implements Initializable {
 
     /**
      * Il costruttore della classe, assegna all'attributo {@link ShowTableDoctorController#doctorRepo} una nuova istanza di
-     * {@link ConcreteDoctorDAO}
+     * {@link ConcreteDoctorDAO}  richimando la Connessione singleton {@link ConnectionDBH2} del database.
      */
     public ShowTableDoctorController() {
         this.doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
     }
 
     /**
-     * Genera la tabella con tutti gli attributi dei dottori e vi aggiunge bottoni per modificarli e cancellarli
+     *Inizializza la tabella con tutti gli attributi dei dottori e vi aggiunge bottoni per modificarli e cancellarli
      *
      * {@inheritDoc}
      */

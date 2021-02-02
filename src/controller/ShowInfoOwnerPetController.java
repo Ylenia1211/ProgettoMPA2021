@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Mostra le informazioni relative a proprietario, paziente e medico legati alla stessa visita
  */
 public class ShowInfoOwnerPetController implements Initializable {
@@ -52,12 +53,10 @@ public class ShowInfoOwnerPetController implements Initializable {
     private final String idPet;
     private final String idDoctor;
     public VBox vbox_main;
-    public VBox vboxLabel;
     public Label labelDottoreName;
     public Label labelDottoreSurname;
-    public Label labelDottoreSpecialization;
     private ConcreteAppointmentDAO appointmentRepo;
-    private Appointment appointment;
+    private final Appointment appointment;
 
     /**
      * Costruttore della classe, setta i parametri {@link ShowInfoOwnerPetController#idOwner},
@@ -74,6 +73,7 @@ public class ShowInfoOwnerPetController implements Initializable {
     }
 
     /**
+     * Inizializza i campi della view in modo appropriato e
      * Inserisce i dati all'interno delle tabelle grazie alle funzioni
      * {@link ShowInfoOwnerPetController#setFieldDataOwner(Owner)},
      * {@link ShowInfoOwnerPetController#setFieldDataDoctor(Doctor)} e
@@ -131,7 +131,6 @@ public class ShowInfoOwnerPetController implements Initializable {
     private void setFieldDataDoctor(Doctor doctor) {
         labelDottoreName.setText(doctor.getName());
         labelDottoreSurname.setText(doctor.getSurname());
-//        labelDottoreSpecialization.setText("Tipo visita: " + doctor.getSpecialization());
     }
 
     /**

@@ -1,8 +1,8 @@
 package controller;
 
+import javafx.fxml.Initializable;
 import model.Doctor;
 import model.Gender;
-import model.Owner;
 
 import javax.swing.*;
 import java.net.URL;
@@ -14,7 +14,8 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
- * Gestisce l'update dei dati di un dottore, estende la classe {@link RegistrationDoctorController}
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
+ * Gestisce l'update dei dati di un dottore, estende la classe {@link RegistrationDoctorController}  ereditandone i campi della view associata
  */
 public class UpdateDoctorController extends RegistrationDoctorController{
     private final String id;
@@ -22,7 +23,8 @@ public class UpdateDoctorController extends RegistrationDoctorController{
 
     /**
      * Costruttore della classe, richiama il costruttore della superclasse {@link RegistrationDoctorController} setta gli
-     * attributi {@link UpdateDoctorController#doctor} e {@link UpdateDoctorController#id}
+     * attributi {@link UpdateDoctorController#doctor} e {@link UpdateDoctorController#id} usando la funzione della superclasse
+     * {@link RegistrationDoctorController#getDoctorRepo()}
      *
      * @param doctor Il dottore
      */

@@ -1,8 +1,7 @@
 package controller;
 
-import dao.ConcretePetDAO;
 import javafx.event.ActionEvent;
-import model.Doctor;
+import javafx.fxml.Initializable;
 import model.Gender;
 import model.Owner;
 
@@ -16,9 +15,10 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
- * Gestisce l'update dei dati di un proprietario, estende la classe {@link ClientController}
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
+ * Gestisce l'update dei dati di un proprietario, estende la classe {@link ClientController} ereditandone i campi della view associata
  */
-public class UpdateClientController extends ClientController{
+public class UpdateClientController extends ClientController {
     private final String id;
     private final Owner own;
 
@@ -33,18 +33,18 @@ public class UpdateClientController extends ClientController{
         super();
         this.own = client;
         this.id = super.getClientRepo().search(client);
-       }
+    }
 
     /**
      * Richiama la funzione {@link ClientController#initialize(URL, ResourceBundle)} della superclasse e setta i
-     * parametri grazie alla funzione {@link UpdateClientController#setParam(Owner)}
-     *
+     * parametri della view grazie alla funzione {@link UpdateClientController#setParam(Owner)}
+     * <p>
      * {@inheritDoc}
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-           super.initialize(url, resourceBundle);
-           setParam(own);
+        super.initialize(url, resourceBundle);
+        setParam(own);
     }
 
     /**
@@ -54,8 +54,8 @@ public class UpdateClientController extends ClientController{
      * @param actionEvent L'evento registrato, in questo caso il click sul bottone
      */
     @Override
-    public void registerClient(ActionEvent actionEvent){
-        if(!checkEmptyTextField(super.getFieldsText().stream()) && !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream())) {
+    public void registerClient(ActionEvent actionEvent) {
+        if (!checkEmptyTextField(super.getFieldsText().stream()) && !checkAllFieldWithControlRestricted(super.getFieldsControlRestrict().stream())) {
             Owner p = createOwner();
             if (super.getClientRepo().isNotDuplicate(p)) {
                 try {
@@ -66,8 +66,7 @@ public class UpdateClientController extends ClientController{
             } else {
                 JOptionPane.showMessageDialog(null, "Impossibile creare il cliente! Già esistente!");
             }
-        }else
-        {
+        } else {
             JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!!");
         }
 
@@ -87,9 +86,9 @@ public class UpdateClientController extends ClientController{
         super.getTextEmail().setText(data.getEmail().trim());
         super.getTextFiscalCode().setText(data.getFiscalCode().trim());
         super.getTextdateBirth().setValue(data.getDatebirth());
-        if(data.getSex().compareTo(Gender.M) == 0){
+        if (data.getSex().compareTo(Gender.M) == 0) {
             super.rbM.setSelected(true);
-        }else{
+        } else {
             super.rbF.setSelected(true);
         }
     }

@@ -9,9 +9,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Pet;
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import static util.gui.ButtonTable.addButtonDeleteToTable;
 import static util.gui.ButtonTable.addButtonUpdateToTable;
 
@@ -21,6 +23,7 @@ import static util.gui.ButtonTable.addButtonUpdateToTable;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Gestisce la tabella con i dati dei pazienti
  */
 public class ShowTableAllPetController implements Initializable {
@@ -36,15 +39,15 @@ public class ShowTableAllPetController implements Initializable {
 
     /**
      * Il costruttore della classe, assegna all'attributo {@link ShowTableAllPetController#petRepo} una nuova istanza di
-     * {@link ConcretePetDAO}
+     * {@link ConcretePetDAO} richimando la Connessione singleton {@link ConnectionDBH2} del database.
      */
     public ShowTableAllPetController() {
         this.petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
     }
 
     /**
-     * Genera la tabella con tutti gli attributi dei pazienti e vi aggiunge bottoni per modificarli e cancellarli
-     *
+     * Inizializza la tabella con tutti gli attributi dei pazienti e vi aggiunge bottoni per modificarli e cancellarli
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -59,10 +62,10 @@ public class ShowTableAllPetController implements Initializable {
         List<Pet> petsResult = this.petRepo.findAll();
         listItems.addAll(petsResult);
         tableSpecificPets.setItems(listItems);
-        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationPet.fxml", -1);
+        var colBtnUpdate = addButtonUpdateToTable("/view/registrationPet.fxml", -1);
         tableSpecificPets.getColumns().add((TableColumn<Pet, ?>) colBtnUpdate);
         var colBtnDelete = addButtonDeleteToTable(tableSpecificPets, Pet.class);
-        tableSpecificPets.getColumns().add((TableColumn<Pet, ?>)colBtnDelete);
+        tableSpecificPets.getColumns().add((TableColumn<Pet, ?>) colBtnDelete);
     }
 
 }

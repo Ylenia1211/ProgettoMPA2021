@@ -17,10 +17,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.User;
 import util.SessionUser;
-
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -30,6 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Il controller dell'interfaccia di login, setta i valori nella {@link LoginController#textRoleUser} e controlla gli
  * accessi degli utenti
  */
@@ -45,16 +44,16 @@ public class LoginController implements Initializable {
     private User userLogged;
 
     /**
-     * Inizializza il campo {@link LoginController#loginRepo} con un nuovo oggetto {@link ConcreteLoginDAO}
+     * Inizializza il campo {@link LoginController#loginRepo} creando un nuovo oggetto {@link ConcreteLoginDAO} richimando la Connessione singleton {@link ConnectionDBH2} del database.
      */
     public LoginController() {
         this.loginRepo = new ConcreteLoginDAO(ConnectionDBH2.getInstance());
     }
 
     /**
-     * Setta i campi del {@link LoginController#textRoleUser} con le tipologie di accesso utente
-     *
-     * {@inheritDoc}
+     *  {@inheritDoc}
+     * Inizializza i campi della view in modo appropriato e
+     * setta i campi del {@link LoginController#textRoleUser} con le tipologie di accesso utente
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -114,7 +113,7 @@ public class LoginController implements Initializable {
                     home.show();
                 }catch (IOException e) {
                     e.printStackTrace();
-                };
+                }
 
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -134,7 +133,7 @@ public class LoginController implements Initializable {
 
     /**
      * Crea un nuovo oggetto di tipo {@link User} usando i valori inseriti nei campi {@link LoginController#textUsername}
-     * e {@link LoginController#textPassword}
+     * e {@link LoginController#textPassword} e i valori nella {@link LoginController#textRoleUser}
      *
      * @return Un oggetto di tipo {@link User}
      */

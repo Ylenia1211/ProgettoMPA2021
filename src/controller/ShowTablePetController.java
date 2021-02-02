@@ -1,6 +1,5 @@
 package controller;
 
-import dao.ConcreteDoctorDAO;
 import dao.ConcretePetDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
@@ -10,9 +9,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Pet;
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import static util.gui.ButtonTable.addButtonDeleteToTable;
 import static util.gui.ButtonTable.addButtonUpdateToTable;
 
@@ -22,6 +23,7 @@ import static util.gui.ButtonTable.addButtonUpdateToTable;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Gestisce la tabella con i dati dei pazienti
  */
 public class ShowTablePetController  implements Initializable {
@@ -38,8 +40,8 @@ public class ShowTablePetController  implements Initializable {
 
     /**
      * Il costruttore della classe, assegna a {@link ShowTablePetController#id_owner} l'id del proprietario passato a
-     * parametro, ed a {@link ShowTablePetController#id_owner} una nuova istanza di {@link ConcretePetDAO}
-     * @param idOwner
+     * parametro, ed a {@link ShowTablePetController#petRepo} una nuova istanza di {@link ConcretePetDAO} richiamando la Connessione singleton {@link ConnectionDBH2} del database.
+     * @param idOwner id del proprietario.
      */
     public ShowTablePetController(String idOwner) {
         this.id_owner = idOwner;
@@ -47,7 +49,7 @@ public class ShowTablePetController  implements Initializable {
     }
 
     /**
-     * Genera la tabella con tutti gli attributi dei pazienti e vi aggiunge bottoni per modificarli e cancellarli
+     * Inizializza la tabella con tutti gli attributi dei pazienti e vi aggiunge bottoni per modificarli e cancellarli
      *
      * {@inheritDoc}
      */

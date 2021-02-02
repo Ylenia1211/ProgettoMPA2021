@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Gestisce la tabella con i dati dei proprietari
  */
 public class ShowTableOwnerController implements Initializable {
@@ -41,7 +42,7 @@ public class ShowTableOwnerController implements Initializable {
     public ObservableList<Owner> listItems = FXCollections.observableArrayList();
 
     /**
-     * Genera la tabella con tutti gli attributi dei proprietari e vi aggiunge bottoni per modificarli e cancellarli e
+     * Inizializza la tabella con tutti gli attributi dei proprietari e vi aggiunge bottoni per modificarli e cancellarli e
      * aggiunge un listener alla tabella.
      *
      * {@inheritDoc}

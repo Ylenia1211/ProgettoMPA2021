@@ -18,7 +18,8 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
- * Gestisce l'update dei dati di un paziente, estende la classe {@link RegistrationPetController}
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller
+ * Gestisce l'update dei dati di un paziente, estende la classe {@link RegistrationPetController}  ereditandone i campi della view associata
  */
 public class UpdatePetController extends  RegistrationPetController implements Initializable {
     private final String id;
@@ -26,7 +27,8 @@ public class UpdatePetController extends  RegistrationPetController implements I
 
     /**
      * Costruttore della classe, richiama il costruttore della superclasse {@link RegistrationPetController} setta gli
-     * attributi {@link UpdatePetController#pet} e {@link UpdatePetController#id}
+     * attributi {@link UpdatePetController#pet} e {@link UpdatePetController#id} usando la funzione della superclasse
+     * {@link RegistrationPetController#getPetRepo()}
      *
      * @param data Il dottore
      */
@@ -49,12 +51,10 @@ public class UpdatePetController extends  RegistrationPetController implements I
     }
 
     /**
-     * #Todo: da rivedere
-     * @param map
-     * @param key
-     * @param <T>
-     * @param <E>
-     * @return
+     * Metodo che ricerca a partire da una mappa e una chiave. Restituisce la coppia (chiave,valore) grazie alla ricerca sulla chiave passata a parametro.
+     * @param map mappa <key,value> in cui effettuare la ricerca
+     * @param key la chiave da ricercare nella mappa
+     * @return una mappa di un solo elemento (ricercato) di tipo (key, value)
      */
     public static <T, E> String getValueByKey(Map<String, String> map, Object key) {
         return map.entrySet()
@@ -66,7 +66,7 @@ public class UpdatePetController extends  RegistrationPetController implements I
     }
 
     /**
-     * Inserisce i dati del paziente negli appositi campi
+     * Setta i dati del paziente negli appositi campi della view
      *
      * @param data L'oggetto di tipo {@link Pet}
      */

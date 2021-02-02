@@ -1,6 +1,5 @@
 package controller;
 
-import dao.ConcreteDoctorDAO;
 import dao.ConcreteSecretariatDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
@@ -9,10 +8,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.Doctor;
 import model.Secretariat;
+
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import static util.gui.ButtonTable.addButtonDeleteToTable;
 import static util.gui.ButtonTable.addButtonUpdateToTable;
 
@@ -22,6 +22,7 @@ import static util.gui.ButtonTable.addButtonUpdateToTable;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
  * Gestisce la tabella con i dati della segreteria
  */
 public class ShowTableSecretariatController implements Initializable {
@@ -42,14 +43,14 @@ public class ShowTableSecretariatController implements Initializable {
 
     /**
      * Il costruttore della classe, assegna all'attributo {@link ShowTableSecretariatController#secretariatRepo} una nuova istanza di
-     * {@link ConcreteSecretariatDAO}
+     * {@link ConcreteSecretariatDAO}  richiamando la Connessione singleton {@link ConnectionDBH2} del database.
      */
     public ShowTableSecretariatController() {
         this.secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
     }
 
     /**
-     * Genera la tabella con tutti gli attributi della segreteria e vi aggiunge bottoni per modificarla e cancellarla
+     * Inizializza la tabella con tutti gli attributi della segreteria e vi aggiunge bottoni per modificarla e cancellarla
      *
      * {@inheritDoc}
      */
@@ -69,7 +70,6 @@ public class ShowTableSecretariatController implements Initializable {
         col_password.setCellValueFactory(new PropertyValueFactory<>("password"));
         listItems.addAll(this.secretariatRepo.findAll());
         tableSecretariat.setItems(listItems);
-        //#todo: implementare update controller
 
         var colBtnUpdate =  addButtonUpdateToTable("/view/registrationClient.fxml", 1);
         tableSecretariat.getColumns().add((TableColumn<Secretariat, ?>) colBtnUpdate);
