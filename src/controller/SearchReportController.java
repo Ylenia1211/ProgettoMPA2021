@@ -72,15 +72,15 @@ public class SearchReportController  implements Initializable {
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);*/
         //addButtonDeleteToTable();
         //addButtonViewInfoOwnerPet();
-        var colBtnView = ButtonTable.addButtonViewInfoOwnerPet(tableAllBookingVisit);
+        var colBtnView = ButtonTable.addButtonViewInfoOwnerPet();
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnView);
         //addButtonCreateReport();
 
-        var colBtnCreateReport = ButtonTable.addButtonCreateReport(tableAllBookingVisit);
+        var colBtnCreateReport = ButtonTable.addButtonCreateReport();
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnCreateReport);
 
         //addButtonViewReport();
-        var colBtnViewReport = ButtonTable.addButtonViewReport(tableAllBookingVisit);
+        var colBtnViewReport = ButtonTable.addButtonViewReport();
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>)  colBtnViewReport);
 
         this.searchField.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {

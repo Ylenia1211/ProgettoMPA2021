@@ -1,7 +1,6 @@
 package controller;
 
 import dao.ConcreteAppointmentDAO;
-import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,10 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
-import model.Pet;
 import util.gui.ButtonTable;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -59,15 +56,15 @@ public class ShowSpecificBookingVisitController implements Initializable {
         tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>)colBtnDelete);
 
         //addButtonViewInfoOwnerPet();
-        var colBtnView = ButtonTable.addButtonViewInfoOwnerPet(tableBookingVisit);
+        var colBtnView = ButtonTable.addButtonViewInfoOwnerPet();
         tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnView);
 
         //addButtonCreateReport();
-        var colBtnCreateReport = ButtonTable.addButtonCreateReport(tableBookingVisit);
+        var colBtnCreateReport = ButtonTable.addButtonCreateReport();
         tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnCreateReport);
 
         //addButtonViewReport();
-        var colBtnViewReport = ButtonTable.addButtonViewReport(tableBookingVisit);
+        var colBtnViewReport = ButtonTable.addButtonViewReport();
         tableBookingVisit.getColumns().add((TableColumn<Appointment, ?>)  colBtnViewReport);
 
     }

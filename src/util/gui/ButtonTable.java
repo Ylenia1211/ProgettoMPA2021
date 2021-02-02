@@ -25,10 +25,9 @@ import java.time.LocalTime;
  * @version 1.0
  * @since 1.0
  * <p>
- * Classe utilizzata per creare oggetti 'TableColumnm' generici e personalizzati:{@link TableColumn}
- *
+ * Classe utilizzata per creare oggetti 'TableColumn' generici e personalizzati:{@link TableColumn}
  */
-public class ButtonTable{
+public class ButtonTable {
     public static double MAX_SIZE = 1.7976931348623157E308;
 
     /**
@@ -36,10 +35,11 @@ public class ButtonTable{
      *
      * @param resourceFxml file Fxml xhe rappresenta la view da creare in base
      * @param controlView  è un intero che mi indica quale Controller avviare nel caso in cui la View si condivisa da più controller (riutilizzata)
-     *                       case 0 : richiamo il controller per l'update del Doctor
-     *                       case 1 : richiamo il controller per l'update della Segretaria
-     *                       case 2 : richiamo il controller per l'update dell'Owner
-     *                       in tutti gli altri casi passiamo a parametro -1.
+     *                     case 0 : richiamo il controller per l'update del Doctor
+     *                     case 1 : richiamo il controller per l'update della Segretaria
+     *                     case 2 : richiamo il controller per l'update dell'Owner
+     *                     in tutti gli altri casi passiamo a parametro -1.
+     * @return un oggetto TableColumnm' personalizzato:{@link TableColumn}
      */
     public static TableColumn<?, ?> addButtonUpdateToTable(String resourceFxml, int controlView) {
         var colBtn = new TableColumn<>("");
@@ -54,9 +54,9 @@ public class ButtonTable{
                             new Image("./edit.png")
                     );
 
-                    private final  Button btn = new Button("",imageView);
+                    private final Button btn = new Button("", imageView);
+
                     {
-                        //btn.setAlignment(Pos.CENTER);
                         btn.setMaxWidth(ButtonTable.MAX_SIZE);
                         btn.setTooltip(new Tooltip("Modifica"));
                         imageView.setFitWidth(18);
@@ -74,28 +74,28 @@ public class ButtonTable{
                                         borderPane.setCenter(loader.load());
                                     }
                                     case "/view/registrationClient.fxml" -> { //qua
-                                       switch (controlView){
-                                           case 0 ->{
-                                               // faccio l'update dell dottore
-                                               FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
-                                               loader.setControllerFactory(p -> new UpdateDoctorController((Doctor) data));
-                                               borderPane.setCenter(loader.load());
-                                           }
-                                           case 1 -> {
+                                        switch (controlView) {
+                                            case 0 -> {
+                                                // faccio l'update dell dottore
+                                                FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
+                                                loader.setControllerFactory(p -> new UpdateDoctorController((Doctor) data));
+                                                borderPane.setCenter(loader.load());
+                                            }
+                                            case 1 -> {
                                                 // faccio l'update della segretaria
-                                               FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
-                                               loader.setControllerFactory(p -> new UpdateSecretariatController((Secretariat) data));
-                                               borderPane.setCenter(loader.load());
-                                           }
-                                           case 2 -> {
-                                               // faccio l'update dell' owner
-                                               FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
-                                               loader.setControllerFactory(p -> new UpdateClientController((Owner) data));
-                                               borderPane.setCenter(loader.load());
-                                           }
-                                       }
+                                                FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
+                                                loader.setControllerFactory(p -> new UpdateSecretariatController((Secretariat) data));
+                                                borderPane.setCenter(loader.load());
+                                            }
+                                            case 2 -> {
+                                                // faccio l'update dell' owner
+                                                FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
+                                                loader.setControllerFactory(p -> new UpdateClientController((Owner) data));
+                                                borderPane.setCenter(loader.load());
+                                            }
+                                        }
                                     }
-                                    case "/view/bookingAppointment.fxml" ->{
+                                    case "/view/bookingAppointment.fxml" -> {
                                         FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceFxml));
                                         loader.setControllerFactory(p -> new UpdateBookingAppointmentController((Appointment) data));
                                         borderPane.setCenter(loader.load());
@@ -106,6 +106,7 @@ public class ButtonTable{
                             }
                         });
                     }
+
                     @Override
                     public void updateItem(Object item, boolean empty) {
                         super.updateItem(item, empty);
@@ -122,7 +123,14 @@ public class ButtonTable{
         return colBtn;
     }
 
-    public static TableColumn<?, ?> addButtonDeleteToTable(TableView<?> tableView, Class object)  {
+    /**
+     * Metodo che crea un oggetto 'TableColumn' personalizzato:{@link TableColumn} inserendo all'interno un Button 'Cancella' e personalizzando l'azione delle celle attraverso una cellFactory.
+     *
+     * @param tableView la table su cui applicare la modifica (cancellazione di una row)
+     * @param object    il tipo di oggetto da cancellare, in modo da richiamare il corretto dao per la modifica del db.
+     * @return un oggetto TableColumnm' personalizzato:{@link TableColumn}
+     */
+    public static TableColumn<?, ?> addButtonDeleteToTable(TableView<?> tableView, Class object) {
         var colBtn = new TableColumn<>("");
 
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
@@ -134,44 +142,43 @@ public class ButtonTable{
                             new Image("./delete.png")
                     );
 
-                    private final  Button btn = new Button("",imageView);
+                    private final Button btn = new Button("", imageView);
+
                     {
                         btn.setMaxWidth(ButtonTable.MAX_SIZE);
                         imageView.setFitWidth(18);
                         imageView.setFitHeight(18);
                         btn.setTooltip(new Tooltip("Cancella"));
 
-                             btn.setOnAction((ActionEvent event) -> {
-                                 var data = getTableView().getItems().get(getIndex());
-                                 int ok = JOptionPane.showConfirmDialog(
+                        btn.setOnAction((ActionEvent event) -> {
+                            var data = getTableView().getItems().get(getIndex());
+                            int ok = JOptionPane.showConfirmDialog(
                                     null,
                                     "Sei sicuro di voler cancellare?",
                                     "Cancellazione",
                                     JOptionPane.YES_NO_OPTION);
-                            if(ok ==0) { //cancella
-                                if(object.equals(Pet.class)){
+                            if (ok == 0) { //cancella
+                                if (object.equals(Pet.class)) {
                                     var petRepo = new ConcretePetDAO(ConnectionDBH2.getInstance());
                                     String id = petRepo.search((Pet) data);
                                     petRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
-                                }else if (object.equals(Doctor.class)){
+                                } else if (object.equals(Doctor.class)) {
                                     var doctorRepo = new ConcreteDoctorDAO(ConnectionDBH2.getInstance());
                                     String id = doctorRepo.search((Doctor) data);
                                     doctorRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
-                                }
-                                else if (object.equals(Secretariat.class)){
+                                } else if (object.equals(Secretariat.class)) {
                                     var secretariatRepo = new ConcreteSecretariatDAO(ConnectionDBH2.getInstance());
                                     String id = secretariatRepo.search((Secretariat) data);
                                     secretariatRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
-                                }else if(object.equals((Appointment.class))){
+                                } else if (object.equals((Appointment.class))) {
                                     var appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
                                     String id = appointmentRepo.search((Appointment) data);
                                     appointmentRepo.delete(id);
                                     tableView.getItems().remove(data); //elimina graficamente
-                                }
-                                else if(object.equals((Owner.class))){
+                                } else if (object.equals((Owner.class))) {
                                     var clientRepo = new ConcreteOwnerDAO(ConnectionDBH2.getInstance());
                                     String id = clientRepo.search((Owner) data);
                                     clientRepo.delete(id);
@@ -197,24 +204,31 @@ public class ButtonTable{
         return colBtn;
     }
 
-    public static TableColumn<?, ?> addButtonViewInfoOwnerPet(TableView<?> tableView)  {
+
+    /**
+     * Metodo che crea un oggetto 'TableColumn' personalizzato:{@link TableColumn}
+     * inserendo all'interno un Button  'Dettagli' (che permette la visualizzazione dei dettagli di una prenotazione)
+     * personalizzando l'azione delle celle attraverso una cellFactory.
+     *
+     * @return un oggetto TableColumnm' personalizzato:{@link TableColumn}
+     */
+    public static TableColumn<?, ?> addButtonViewInfoOwnerPet() {
         var colBtn = new TableColumn<>("");
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
                 return new TableCell<>() {
                     private final Button btn = new Button("Dettagli");
+
                     /*final ImageView imageView = new ImageView(
                             new Image("./details.png")
                     );*/
-
                     // private final  Button btn = new Button("",imageView);
                     {
                         btn.setMaxWidth(ButtonTable.MAX_SIZE);
                         /*imageView.setFitWidth(18);
                         imageView.setFitHeight(18);
                         btn.setTooltip(new Tooltip("Dettagli"));*/
-
                         btn.setOnAction((ActionEvent event) -> {
                             var data = getTableView().getItems().get(getIndex());
                             Scene scene = this.getScene();
@@ -246,17 +260,23 @@ public class ButtonTable{
         return colBtn;
     }
 
-    public static TableColumn<?, ?> addButtonCreateReport(TableView<?> tableView)  {
+    /**
+     * Metodo che crea un oggetto 'TableColumn' personalizzato:{@link TableColumn} inserendo all'interno
+     * un Button ' Crea Report' (che permette la creazione di un report) personalizzando l'azione delle celle attraverso una cellFactory.
+     *
+     * @return un oggetto TableColumnm' personalizzato:{@link TableColumn}
+     */
+    public static TableColumn<?, ?> addButtonCreateReport() {
         var colBtn = new TableColumn<>("");
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
                 return new TableCell<>() {
                     private final Button btn = new Button("Crea Report");
+
                     /*final ImageView imageView = new ImageView(
                             new Image("./create_report.png")
                     );*/
-
                     // private final  Button btn = new Button("",imageView);
                     {
                         btn.setMaxWidth(ButtonTable.MAX_SIZE);
@@ -313,24 +333,29 @@ public class ButtonTable{
         return colBtn;
     }
 
-    public static  TableColumn<?, ?>  addButtonViewReport(TableView<?> tableView) {
+    /**
+     * Metodo che crea un oggetto 'TableColumnm' personalizzato:{@link TableColumn} inserendo all'interno un Button 'Report'
+     * (che permette la visualizzazione di un report)  personalizzando l'azione delle celle attraverso una cellFactory.
+     *
+     * @return un oggetto TableColumnm' personalizzato:{@link TableColumn}
+     */
+    public static TableColumn<?, ?> addButtonViewReport() {
         var colBtn = new TableColumn<>("");
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
                 return new TableCell<>() {
                     private final Button btn = new Button("Report");
-                  /* final ImageView imageView = new ImageView(
-                           new Image("./report.png")
-                   );*/
 
+                    /* final ImageView imageView = new ImageView(
+                             new Image("./report.png")
+                     );*/
                     //private final  Button btn = new Button("",imageView);
                     {
                         btn.setMaxWidth(ButtonTable.MAX_SIZE);
                        /* imageView.setFitWidth(18);
                         imageView.setFitHeight(18);
                         btn.setTooltip(new Tooltip("Report"));*/
-
                         btn.setOnAction((ActionEvent event) -> {
                             var data = getTableView().getItems().get(getIndex());
                             Scene scene = this.getScene();

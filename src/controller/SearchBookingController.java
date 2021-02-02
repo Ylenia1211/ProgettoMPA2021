@@ -51,7 +51,7 @@ public class SearchBookingController implements Initializable {
         listItems = FXCollections.observableArrayList(Objects.requireNonNullElseGet(listSuccAppointments, ArrayList::new)); //devo visualuzzare solo le prenotaizoni non ancora passate
         tableAllBookingVisit.setItems(FXCollections.observableArrayList(Objects.requireNonNullElseGet(listItems, ArrayList::new)));
 
-        var colBtnView = ButtonTable.addButtonViewInfoOwnerPet(tableAllBookingVisit);
+        var colBtnView = ButtonTable.addButtonViewInfoOwnerPet();
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnView);
         var colBtnUpdate = addButtonUpdateToTable("/view/bookingAppointment.fxml", -1);
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnUpdate);
