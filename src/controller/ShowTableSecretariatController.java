@@ -71,7 +71,7 @@ public class ShowTableSecretariatController implements Initializable {
         tableSecretariat.setItems(listItems);
         //#todo: implementare update controller
 
-        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationClient.fxml", tableSecretariat, 1);
+        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationClient.fxml", 1);
         tableSecretariat.getColumns().add((TableColumn<Secretariat, ?>) colBtnUpdate);
 
         var colBtnDelete = addButtonDeleteToTable(tableSecretariat, Secretariat.class);

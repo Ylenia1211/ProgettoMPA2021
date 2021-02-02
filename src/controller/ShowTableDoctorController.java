@@ -70,7 +70,7 @@ public class ShowTableDoctorController implements Initializable {
 
         listItems.addAll(this.doctorRepo.findAll());
         tableDoctor.setItems(listItems);
-        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationClient.fxml", tableDoctor, 0);
+        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationClient.fxml", 0);
         tableDoctor.getColumns().add((TableColumn<Doctor, ?>) colBtnUpdate);
         var colBtnDelete = addButtonDeleteToTable(tableDoctor, Doctor.class);
         tableDoctor.getColumns().add((TableColumn<Doctor, ?>)colBtnDelete);

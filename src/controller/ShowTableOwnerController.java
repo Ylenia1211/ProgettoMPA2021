@@ -61,7 +61,7 @@ public class ShowTableOwnerController implements Initializable {
         clientRepo = new ConcreteOwnerDAO(ConnectionDBH2.getInstance());
         listItems.addAll(clientRepo.findAll());
         tableClient.setItems(listItems);
-        var colBtnUpdate = ButtonTable.addButtonUpdateToTable("/view/registrationClient.fxml", tableClient, 2);
+        var colBtnUpdate = ButtonTable.addButtonUpdateToTable("/view/registrationClient.fxml", 2);
         tableClient.getColumns().add((TableColumn<Owner, ?>) colBtnUpdate);
         var colBtnDelete = ButtonTable.addButtonDeleteToTable(tableClient, Owner.class);
         tableClient.getColumns().add((TableColumn<Owner, ?>)colBtnDelete);

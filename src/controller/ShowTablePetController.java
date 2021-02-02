@@ -66,7 +66,7 @@ public class ShowTablePetController  implements Initializable {
         listItems.addAll(petsResult); //scrittura piu compatta
         tableSpecificPets.setItems(listItems);
 
-        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationPet.fxml", tableSpecificPets, -1);
+        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationPet.fxml", -1);
         tableSpecificPets.getColumns().add((TableColumn<Pet, ?>) colBtnUpdate);
         var colBtnDelete = addButtonDeleteToTable(tableSpecificPets, Pet.class);
         tableSpecificPets.getColumns().add((TableColumn<Pet, ?>)colBtnDelete);

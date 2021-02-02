@@ -5,7 +5,6 @@ import dao.*;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -20,15 +19,35 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Classe utilizzata per creare oggetti 'TableColumnm' generici e personalizzati:{@link TableColumn}
+ *
+ */
 public class ButtonTable{
     public static double MAX_SIZE = 1.7976931348623157E308;
-    public static TableColumn<?, ?> addButtonUpdateToTable(String resourceFxml, TableView<?> tableView, int controlView) {
+
+    /**
+     * Metodo che crea un oggetto 'TableColumnm' personalizzato:{@link TableColumn} inserendo all'interno un Button 'Modifica' e personalizzando l'azione delle celle attraverso una cellFactory.
+     *
+     * @param resourceFxml file Fxml xhe rappresenta la view da creare in base
+     * @param controlView  è un intero che mi indica quale Controller avviare nel caso in cui la View si condivisa da più controller (riutilizzata)
+     *                       case 0 : richiamo il controller per l'update del Doctor
+     *                       case 1 : richiamo il controller per l'update della Segretaria
+     *                       case 2 : richiamo il controller per l'update dell'Owner
+     *                       in tutti gli altri casi passiamo a parametro -1.
+     */
+    public static TableColumn<?, ?> addButtonUpdateToTable(String resourceFxml, int controlView) {
         var colBtn = new TableColumn<>("");
 
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
-                final TableCell<Object, Object> cell = new TableCell<>() {
+                return new TableCell<>() {
 
                     //private final Button btn = new Button("Modifica");
                     final ImageView imageView = new ImageView(
@@ -54,7 +73,7 @@ public class ButtonTable{
                                         loader.setControllerFactory(p -> new UpdatePetController((Pet) data));
                                         borderPane.setCenter(loader.load());
                                     }
-                                    case "/view/registrationClient.fxml" -> { //qua è un problema perchè non possiamo generalizzare anche per update registrazione di cliente e segretaria
+                                    case "/view/registrationClient.fxml" -> { //qua
                                        switch (controlView){
                                            case 0 ->{
                                                // faccio l'update dell dottore
@@ -97,7 +116,6 @@ public class ButtonTable{
                         }
                     }
                 };
-                return cell;
             }
         };
         colBtn.setCellFactory(cellFactory);
@@ -125,7 +143,6 @@ public class ButtonTable{
 
                              btn.setOnAction((ActionEvent event) -> {
                                  var data = getTableView().getItems().get(getIndex());
-                                 JPanel pan = new JPanel();
                                  int ok = JOptionPane.showConfirmDialog(
                                     null,
                                     "Sei sicuro di voler cancellare?",
@@ -234,13 +251,13 @@ public class ButtonTable{
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
-                return new TableCell<Object, Object>() {
+                return new TableCell<>() {
                     private final Button btn = new Button("Crea Report");
                     /*final ImageView imageView = new ImageView(
                             new Image("./create_report.png")
                     );*/
 
-                   // private final  Button btn = new Button("",imageView);
+                    // private final  Button btn = new Button("",imageView);
                     {
                         btn.setMaxWidth(ButtonTable.MAX_SIZE);
                        /* imageView.setFitWidth(18);
@@ -271,17 +288,17 @@ public class ButtonTable{
                             String id_doctor = doctorRepo.search(SessionUser.getDoctor());
                             var ap = getTableColumn().getTableView().getItems().get(getIndex());
                             var appointmentRepo = new ConcreteAppointmentDAO(ConnectionDBH2.getInstance());
-                            String id_appointment = appointmentRepo.search((Appointment)ap);
+                            String id_appointment = appointmentRepo.search((Appointment) ap);
 
                             if (appointmentRepo.searchIfExistAppointmentInReport(id_appointment)) {
                                 setGraphic(null);
                             }
                             //posso creare il report solo se la data della visita è precedente alla data di oggi  /o uguale e la visita sia già passata
-                            else if ( (((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getLocalDate().isBefore(LocalDate.now()) ||
-                                    ((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getLocalDate().isEqual(LocalDate.now()))
+                            else if ((((Appointment) getTableColumn().getTableView().getItems().get(getIndex())).getLocalDate().isBefore(LocalDate.now()) ||
+                                    ((Appointment) getTableColumn().getTableView().getItems().get(getIndex())).getLocalDate().isEqual(LocalDate.now()))
                                     &&
-                                   ((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getLocalTimeEnd().isBefore(LocalTime.now())
-                                    && ((Appointment)getTableColumn().getTableView().getItems().get(getIndex())).getId_doctor().equals(id_doctor)
+                                    ((Appointment) getTableColumn().getTableView().getItems().get(getIndex())).getLocalTimeEnd().isBefore(LocalTime.now())
+                                    && ((Appointment) getTableColumn().getTableView().getItems().get(getIndex())).getId_doctor().equals(id_doctor)
                             ) {
                                 setGraphic(btn);
                             } else {
@@ -301,7 +318,7 @@ public class ButtonTable{
         Callback<TableColumn<Object, Object>, TableCell<Object, Object>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Object, Object> call(final TableColumn<Object, Object> param) {
-                return new TableCell<Object, Object>() {
+                return new TableCell<>() {
                     private final Button btn = new Button("Report");
                   /* final ImageView imageView = new ImageView(
                            new Image("./report.png")

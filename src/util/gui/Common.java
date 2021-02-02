@@ -7,8 +7,23 @@ import javafx.util.Callback;
 import java.time.Duration;
 import java.time.LocalDate;
 
+/**
+ * @author Ylenia Galluzzo
+ * @author Matia Fazio
+ * @version 1.0
+ * @since 1.0
+ * <p>
+ * Classe utilizzata per richiamare metodi comuni a più classi, soprattutto per quanto riguarda l'aspetto grafico.
+ *
+ */
 public interface Common {
-
+    /**
+     * Metodo che restrige in range di date selezionabili in un DataPicker.
+     *
+     * @param datePicker dataPicker su cui applicare la restrinzione dei giorni selezionabili.
+     * @param minDate    data minima selezionabile.
+     * @param maxDate    data massima selezionabile.
+     */
     static void restrictDatePicker(DatePicker datePicker, LocalDate minDate, LocalDate maxDate) {
         final Callback<DatePicker, DateCell> dayCellFactory = new Callback<>() {
             @Override
@@ -31,6 +46,11 @@ public interface Common {
         datePicker.setDayCellFactory(dayCellFactory);
     }
 
+    /**
+     * Metodo che rende leggibile un orario di tipo 'Duration' {@link Duration}.
+     *
+     * @param duration oggetto di tipo Duration' {@link Duration}.
+     */
     static String humanReadableFormat(Duration duration) {
         return duration.toString()
                 .substring(2)
@@ -38,6 +58,14 @@ public interface Common {
                 .toLowerCase();
     }
 
+    /**
+     * Metodo per la creazione di un mini Dialog  {@link Dialog} per l'inserimento di Email e password.
+     *
+     * @param title titolo assegnato a una Label.
+     * @param text  campo di tipo 'TextField' {@link TextField} dove inserire l'email.
+     * @param psw   campo di tipo 'PasswordField' {@link PasswordField} dove inserire la password.
+     *
+     */
     static Dialog<VBox> createDialogText(Label title, TextField text, PasswordField psw) {
         VBox container = new VBox();
         container.getChildren().add(title);
@@ -51,7 +79,10 @@ public interface Common {
         dialog.getDialogPane().setContent(container);
         return dialog;
     }
-
+    /**
+     * Metodo per la visualizzazione di un Alert di tipo Information per indicare una "ricerca vuota".
+     *
+     */
     default void searchEmpty() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);

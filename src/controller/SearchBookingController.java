@@ -53,7 +53,7 @@ public class SearchBookingController implements Initializable {
 
         var colBtnView = ButtonTable.addButtonViewInfoOwnerPet(tableAllBookingVisit);
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnView);
-        var colBtnUpdate = addButtonUpdateToTable("/view/bookingAppointment.fxml", tableAllBookingVisit, -1);
+        var colBtnUpdate = addButtonUpdateToTable("/view/bookingAppointment.fxml", -1);
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnUpdate);
         var colBtnDelete = addButtonDeleteToTable(tableAllBookingVisit, Appointment.class);
         tableAllBookingVisit.getColumns().add((TableColumn<Appointment, ?>) colBtnDelete);

@@ -59,7 +59,7 @@ public class ShowTableAllPetController implements Initializable {
         List<Pet> petsResult = this.petRepo.findAll();
         listItems.addAll(petsResult);
         tableSpecificPets.setItems(listItems);
-        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationPet.fxml", tableSpecificPets, -1);
+        var colBtnUpdate =  addButtonUpdateToTable("/view/registrationPet.fxml", -1);
         tableSpecificPets.getColumns().add((TableColumn<Pet, ?>) colBtnUpdate);
         var colBtnDelete = addButtonDeleteToTable(tableSpecificPets, Pet.class);
         tableSpecificPets.getColumns().add((TableColumn<Pet, ?>)colBtnDelete);
