@@ -10,6 +10,7 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  * <p>
+ * Classe che implementa i metodi dell'interfaccia 'SideBarAction': {@link SideBarAction}.
  * Gestisce la sidebar del Dottore
  */
 public class DoctorSideBar implements SideBarAction {
@@ -26,6 +27,6 @@ public class DoctorSideBar implements SideBarAction {
      */
     @Override
     public List<Button> getSpecificAction() {
-        return List.of(this.agenda,report,profilo, logout);  ////aggiungere qui nuovi comandi per dottore
+        return List.of(this.agenda, report, profilo, logout);
     }
 }

@@ -14,11 +14,11 @@ public class SideBarFactory {
     /**
      * Gestisce il controllo della sidebar, personalizzandola in base al tipo di utente loggato.
      *
-     * @param roleUser La stringa con l'indicazione della tipologia di utente
-     * @return
+     * @param roleUser La stringa con l'indicazione della tipologia di utente (il ruolo).
+     * @return un oggetto di tipo 'SideBarAction' personalizzato.
      */
-    public static SideBarAction createSideBar (String roleUser){
-        switch (roleUser){
+    public static SideBarAction createSideBar(String roleUser) {
+        switch (roleUser) {
             case "Dottore" -> {
                 return new DoctorSideBar();
             }
@@ -32,5 +32,5 @@ public class SideBarFactory {
         }
     }
 }
-// Factory client code deve essere nella Dashbord
+
 

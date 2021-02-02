@@ -10,9 +10,10 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  * <p>
- * Gestisce la sidebar dell'Amministratore
+ * Classe che implementa i metodi dell'interfaccia 'SideBarAction': {@link SideBarAction}.
+ * Gestisce la sidebar dell'Amministratore.
  */
-public class AdminSideBar implements SideBarAction{
+public class AdminSideBar implements SideBarAction {
     private final Button aggiungi = new Button("Aggiungi");
     private final Button dottori = new Button("Dottori");
     private final Button segreteria = new Button("Segreteria");
@@ -26,6 +27,6 @@ public class AdminSideBar implements SideBarAction{
      */
     @Override
     public List<Button> getSpecificAction() {
-        return List.of(aggiungi,dottori, segreteria, clinica,logout);
-    } //aggiungere qui nuovi comandi per l'ammistratore
+        return List.of(aggiungi, dottori, segreteria, clinica, logout);
+    }
 }

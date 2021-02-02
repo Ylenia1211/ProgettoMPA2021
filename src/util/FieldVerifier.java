@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * <p>
  * Interfaccia con metodi default che permette di verificare i dati inseriti dall'utente a livello di sintassi (un
  * indirizzo email ad esempio deve avere un pattern specifico), se i campi sono stati effettivamente compilati e ne
- * verifica la sicurezza
+ * verifica la sicurezza.
  */
 public interface FieldVerifier {
 
