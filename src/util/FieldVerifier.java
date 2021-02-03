@@ -71,18 +71,18 @@ public interface FieldVerifier {
         return fields.anyMatch( x -> x.getText().isEmpty());
     }
 
-    /** #Todo: da verificare
-     * Controlla se lo stream di oggetti inseriti a parametro abbia il valore null
+    /**
+     * Controlla se lo stream di oggetti ComboBox inseriti a parametro abbia il valore null
      *
      * @param fields Lo Stream di oggetti da controllare
-     * @return true se trova qualche campo null, false altrimenti
+     * @return true se trova qualche valore null, false altrimenti
      */
     default boolean checkEmptyComboBox(Stream<ComboBox<? extends Object>> fields) {
         return fields.anyMatch( x -> x.getValue()==null);
     }
 
     /**
-     * Verifica se ci sono campi con controlli da effettuare su di essi
+     * Verifica se ci sono campi con controlli particolari da effettuare
      *
      * @param fields Lo stream di campi da verificare
      * @return true se rileva dei campi da verificare, false altrimenti
@@ -92,7 +92,7 @@ public interface FieldVerifier {
     }
 
     /**
-     * Controlla se il campo inserito a paramtro ha un bordo rosso o arancione, che indica se il campo sia poco sicuro.
+     * Controlla se il campo inserito a parametro ha un bordo rosso o arancione, che indica se il campo sia poco sicuro.
      * Usato per il controllo delle password.
      *
      * @param field Il campo da verificare
@@ -117,9 +117,9 @@ public interface FieldVerifier {
      * Assegna un listener ai campi passati a parametro, che permette di assegnare un bordo rosso ai campi errati dopo
      * averne effettuato il controllo
      *
-     * @param fiscalCode Il codice fiscale del proprietario
-     * @param telephone Il numero di telefono del proprietario
-     * @param email L'email del proprietario
+     * @param fiscalCode Il codice fiscale da verificare
+     * @param telephone Il numero di telefono  da verificare
+     * @param email L'email da verificare
      */
     default void setListenerCriticalFields(TextField fiscalCode, TextField telephone, TextField email) {
         fiscalCode.textProperty().addListener((observableFC, oldValueFC, newValueFC) -> {

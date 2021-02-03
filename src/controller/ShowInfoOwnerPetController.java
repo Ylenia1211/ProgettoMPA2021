@@ -4,22 +4,15 @@ import dao.ConcreteAppointmentDAO;
 import datasource.ConnectionDBH2;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
 import model.Appointment;
 import model.Doctor;
 import model.Owner;
 import model.Pet;
-import javafx.scene.paint.Color;
+
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -145,6 +138,7 @@ public class ShowInfoOwnerPetController implements Initializable {
         datebirthPet.setText(pet.getDatebirth().toString());
         racePet.setText(pet.getId_petRace());
         particularSignPet.setText(pet.getParticularSign());
+        particularSignPet.setTooltip(new Tooltip(this.particularSignPet.getText()));
     }
 
     /**
@@ -164,7 +158,6 @@ public class ShowInfoOwnerPetController implements Initializable {
         this.codFiscalOwner.setText(owner.getFiscalCode());
         this.emailOwner.setText(owner.getEmail());
         this.emailOwner.setTooltip(new Tooltip(this.emailOwner.getText()));
-        this.particularSignPet.setTooltip(new Tooltip(this.particularSignPet.getText()));
     }
 
     /**

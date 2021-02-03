@@ -8,11 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import model.Appointment;
@@ -101,9 +100,17 @@ public class ShowSpecificBookingVisitController implements Initializable {
             @Override
             public TableCell<Appointment, Void> call(final TableColumn<Appointment, Void> param) {
                 return new TableCell<>() {
-                    private final Button btn = new Button("Modifica");
+                    // private final Button btn = new Button("Modifica");
+                    final ImageView imageView = new ImageView(
+                            new Image("./edit.png")
+                    );
+                    private final Button btn = new Button("", imageView);
 
                     {
+                        btn.setMaxWidth(ButtonTable.MAX_SIZE);
+                        btn.setTooltip(new Tooltip("Modifica"));
+                        imageView.setFitWidth(18);
+                        imageView.setFitHeight(18);
                         btn.setOnAction((ActionEvent event) -> {
                             Appointment data = getTableView().getItems().get(getIndex());
                             //System.out.println("Print idOwner prenotazione" + data.getId_owner());

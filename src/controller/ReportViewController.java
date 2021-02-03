@@ -19,7 +19,8 @@ import model.*;
 import util.SessionUser;
 import util.pdfutilities.FacadePDFReportGenerator;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -164,7 +165,10 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         this.deleteReportButton.setPrefHeight(30);
         this.deleteReportButton.setStyle("-fx-background-color: red;-fx-text-fill: white;" +
                 " -fx-border-color: transparent; -fx-font-size: 16px; ");
-        this.deleteReportButton.setOnAction(actionEvent -> this.reportDAO.delete(this.idBooking));
+        this.deleteReportButton.setOnAction(actionEvent -> {
+            this.reportDAO.delete(this.idBooking);
+            this.cleanPage();
+        });
 
         // Creo il saveButton
         this.savePDFReportButton = new Button("Salva");
@@ -206,6 +210,11 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
             this.addCreateAndDeleteButtonsPDFReport();
         });
     }
+
+    private void cleanPage() {
+         this.pane_main_grid.getChildren().clear();
+    }
+
 
     /**
      * Aggiorna la view per effettuare il refresh dei dati per la creazione del report in pdf aggiornato

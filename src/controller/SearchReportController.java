@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 1.0
  * <p>
- * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata al controller.
+ * Implementando i metodi di 'Initializable' {@link Initializable} inizializza la view associata al controller.
  * Questa classe visualizza le prenotazioni gia effettutate con il riferimento ai report associati
  */
 public class SearchReportController implements Initializable {
@@ -92,7 +92,6 @@ public class SearchReportController implements Initializable {
 
             } else {
                 searchbtn.setOnMouseClicked(event -> {
-                    // System.out.println(" Non Effettuare la ricerca ");
                     JOptionPane.showMessageDialog(null, "Impossibile effettuare la ricerca!\n Controlla di aver inserito almeno:\n 2 parole: nome cognome\n 1 spazio tra le due parole");
                 });
             }
