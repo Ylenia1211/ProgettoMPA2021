@@ -83,14 +83,17 @@ public class UpdateSecretariatController extends RegistrationSecretariatControll
                     !checkifNotSecurePassword(super.getPasswordRealTime())
             ) {
                 Secretariat s = createSecretariat();
+
+                if(!secretariat.getPassword().equals(s.getPassword())) {
+                    super.getSecretariatRepo().updatePassword(id, s.getPassword());
+                }
+
                 if (super.getSecretariatRepo().isNotDuplicate(s)) {
                     try {
                         super.getSecretariatRepo().update(id, s);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Impossibile creare l'utente di segreteria! Già esistente!");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");

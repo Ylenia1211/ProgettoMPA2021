@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Appointment;
 import model.User;
+import util.FieldVerifier;
 import util.SessionUser;
 import util.email.ConcreteObserver;
 import util.email.Observer;
@@ -44,9 +45,10 @@ import java.util.ResourceBundle;
  * <p>
  * La classe di controllo della dashboard principale. La personalizza in base al tipo di utente che effettua l'accesso
  * Implementando i metodi di 'Inizializable' {@link Initializable} inizializza la view associata (view dashboard.fxml).
- * Implementa inoltre le interfacce {@link Subject} per inserire un observer sul bottone 'notifica' nel caso di accesso dell'utente Secretariat, e {@link Common}.
+ * Implementa inoltre le interfacce {@link Subject} per inserire un observer sul bottone 'notifica' nel caso di accesso dell'utente Secretariat, {@link Common},
+ * e {@link FieldVerifier}.
  */
-public class Dashboard implements Initializable, Common, Subject {
+public class Dashboard implements Initializable, Common, Subject, FieldVerifier {
     public BorderPane borderPane;
     public Label labelWelcome;
     public VBox sidebar;
@@ -240,10 +242,14 @@ public class Dashboard implements Initializable, Common, Subject {
                                         Dialog<?> dialog2 = Common.createDialogText(new Label("Inserisci Nuova Email della Clinica"), newEmailClinic, newPassword);
                                         var result2 = dialog2.showAndWait();
                                         if (result2.get() == dialog2.getDialogPane().getButtonTypes().get(0)) {
-                                            //cambia email in db
-                                            adminRepo.updateEmailClinic(newEmailClinic.getText());
-                                            //cambia psw email in db
-                                            adminRepo.updatePasswordClinic(newPassword.getText());
+
+                                            if(emailVerifier(newEmailClinic.getText())){
+                                                //cambia psw e  email in db
+                                                adminRepo.updateEmailClinic(newEmailClinic.getText());
+                                                adminRepo.updatePasswordClinic(newPassword.getText());
+                                            }else{
+                                                JOptionPane.showMessageDialog(null, "Email non consentita! deve essere un dominio conosciuto! (es. gmail/ outlook/ hotmail)");
+                                            }
                                         }
                                     } else {
                                         JOptionPane.showMessageDialog(null, "Email e/o password non compatibile nel DB! Riprova!");

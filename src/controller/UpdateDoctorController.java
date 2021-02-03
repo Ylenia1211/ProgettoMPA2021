@@ -84,14 +84,17 @@ public class UpdateDoctorController extends RegistrationDoctorController{
                !checkifNotSecurePassword(super.getPasswordRealTime()))
            {
                Doctor d = createDoctor();
-               if (super.getDoctorRepo().isNotDuplicate(d)) {
+
+              if(!doctor.getPassword().equals(d.getPassword())) {
+                  super.getDoctorRepo().updatePassword(id, d.getPassword());
+              }
+
+              if (super.getDoctorRepo().isNotDuplicate(d)) {
                    try {
                        super.getDoctorRepo().update(id, d);
                    } catch (Exception ex) {
                        ex.printStackTrace();
                    }
-               } else {
-                   JOptionPane.showMessageDialog(null, "Impossibile creare il dottore! Già esistente!");
                }
            }else {
                JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
