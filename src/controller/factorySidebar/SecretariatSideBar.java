@@ -32,7 +32,7 @@ public class SecretariatSideBar implements SideBarAction {
     @Override
     public List<Button> getSpecificAction() {
         final ImageView imageView = new ImageView(
-                new Image("./notification.png")
+                new Image("resources/notification.png")
         );
         imageView.setFitHeight(20);
         imageView.setFitWidth(20);

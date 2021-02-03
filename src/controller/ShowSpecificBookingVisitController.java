@@ -102,7 +102,7 @@ public class ShowSpecificBookingVisitController implements Initializable {
                 return new TableCell<>() {
                     // private final Button btn = new Button("Modifica");
                     final ImageView imageView = new ImageView(
-                            new Image("./edit.png")
+                            new Image("resources/edit.png")
                     );
                     private final Button btn = new Button("", imageView);
 

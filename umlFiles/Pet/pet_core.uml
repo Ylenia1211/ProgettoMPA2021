@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="192.0">model.MasterData.Builder</node>
+    <node x="149.8125" y="0.0">model.Gender</node>
+    <node x="11.07333333333338" y="1213.0">model.Pet.Builder</node>
+    <node x="373.6802083333334" y="1572.0">dao.ConcretePetDAO</node>
+    <node x="286.0733333333333" y="1253.0">dao.PetDAO</node>
+    <node x="97.3125" y="942.0">model.Pet</node>
+    <node x="96.3125" y="567.0">model.MasterData</node>
+    <node x="461.3233333333333" y="982.0">dao.Crud</node>
+    <node x="676.3233333333333" y="1265.0">datasource.ConnectionDBH2</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Pet" target="model.MasterData">
+      <point x="53.5" y="-110.5" />
+      <point x="54.0" y="162.5" />
+    </edge>
+    <edge source="dao.ConcretePetDAO" target="datasource.ConnectionDBH2">
+      <point x="90.74999999999994" y="-188.5" />
+      <point x="645.9302083333333" y="1542.0" />
+      <point x="739.3233333333333" y="1542.0" />
+      <point x="-63.0" y="97.5" />
+    </edge>
+    <edge source="dao.ConcretePetDAO" target="model.Pet.Builder">
+      <point x="-151.25000000000006" y="-188.5" />
+      <point x="403.9302083333333" y="1552.0" />
+      <point x="138.07333333333338" y="1552.0" />
+      <point x="0.0" y="149.5" />
+    </edge>
+    <edge source="dao.ConcretePetDAO" target="dao.PetDAO">
+      <point x="-30.250000000000057" y="-188.5" />
+      <point x="524.9302083333333" y="1532.0" />
+      <point x="467.5733333333333" y="1532.0" />
+      <point x="0.0" y="109.5" />
+    </edge>
+    <edge source="dao.PetDAO" target="dao.Crud">
+      <point x="90.75" y="-109.5" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="dao.ConcretePetDAO" target="model.Gender">
+      <point x="30.249999999999943" y="-188.5" />
+      <point x="585.4302083333333" y="1532.0" />
+      <point x="665.8233333333333" y="1532.0" />
+      <point x="665.8233333333333" y="172.0" />
+      <point x="335.2125" y="172.0" />
+      <point x="82.39999999999998" y="71.0" />
+    </edge>
+    <edge source="model.Pet.Builder" target="model.MasterData.Builder">
+      <point x="-105.83333333333337" y="-149.5" />
+      <point x="32.24000000000001" y="1188.0" />
+      <point x="59.374374999999986" y="1188.0" />
+      <point x="59.374374999999986" y="542.0" />
+      <point x="27.875" y="542.0" />
+      <point x="-83.625" y="162.5" />
+    </edge>
+    <edge source="model.Pet" target="model.Pet.Builder">
+      <point x="17.83333333333337" y="110.5" />
+      <point x="222.14583333333337" y="1188.0" />
+      <point x="243.90666666666675" y="1188.0" />
+      <point x="105.83333333333337" y="-149.5" />
+    </edge>
+    <edge source="model.MasterData" target="model.MasterData.Builder">
+      <point x="-81.0" y="-162.5" />
+      <point x="123.3125" y="542.0" />
+      <point x="139.375" y="542.0" />
+      <point x="27.875" y="162.5" />
+    </edge>
+    <edge source="model.MasterData" target="model.Gender">
+      <point x="81.0" y="-162.5" />
+      <point x="285.3125" y="542.0" />
+      <point x="275.5733333333334" y="542.0" />
+      <point x="275.5733333333334" y="172.0" />
+      <point x="294.01250000000005" y="172.0" />
+      <point x="41.200000000000045" y="71.0" />
+    </edge>
+    <edge source="model.Pet.Builder" target="model.Pet">
+      <point x="-21.16666666666663" y="-149.5" />
+      <point x="116.90666666666675" y="1188.0" />
+      <point x="115.14583333333337" y="1188.0" />
+      <point x="-89.16666666666663" y="110.5" />
+    </edge>
+    <edge source="dao.PetDAO" target="model.Pet">
+      <point x="-90.75" y="-109.5" />
+      <point x="376.8233333333333" y="1188.0" />
+      <point x="293.47916666666663" y="1188.0" />
+      <point x="89.16666666666663" y="110.5" />
+    </edge>
+    <edge source="model.MasterData.Builder" target="model.Gender">
+      <point x="-55.75" y="-162.5" />
+      <point x="55.75" y="162.0" />
+      <point x="170.41250000000002" y="162.0" />
+      <point x="-82.39999999999998" y="71.0" />
+    </edge>
+    <edge source="model.MasterData.Builder" target="model.MasterData">
+      <point x="83.625" y="162.5" />
+      <point x="195.125" y="542.0" />
+      <point x="177.3125" y="542.0" />
+      <point x="-27.0" y="-162.5" />
+    </edge>
+    <edge source="dao.ConcretePetDAO" target="model.Pet">
+      <point x="-90.75000000000006" y="-188.5" />
+      <point x="464.4302083333333" y="1542.0" />
+      <point x="275.5733333333333" y="1542.0" />
+      <point x="275.5733333333333" y="1188.0" />
+      <point x="257.8125" y="1188.0" />
+      <point x="53.5" y="110.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="-2.2737367544323206E-13" y="240.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -10,9 +10,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="h2-1.4.199" level="project" />
-    <orderEntry type="library" name="pdfbox_dependences" level="project" />
-    <orderEntry type="library" name="javax.mail" level="project" />
-    <orderEntry type="library" name="j2ee" level="project" />
+    <orderEntry type="library" exported="" name="pdfbox_dependences" level="project" />
+    <orderEntry type="library" exported="" name="javax.mail" level="project" />
+    <orderEntry type="library" exported="" name="j2ee" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -22,10 +22,18 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="core-renderer-R8" level="project" />
-    <orderEntry type="library" name="flying-saucer-core-9.1.20" level="project" />
-    <orderEntry type="library" name="flying-saucer-pdf-9.1.19" level="project" />
-    <orderEntry type="library" name="itext-2.1.0" level="project" />
-    <orderEntry type="library" name="j2html-1.4.0" level="project" />
+    <orderEntry type="library" exported="" name="core-renderer-R8" level="project" />
+    <orderEntry type="library" exported="" name="flying-saucer-core-9.1.20" level="project" />
+    <orderEntry type="library" exported="" name="flying-saucer-pdf-9.1.19" level="project" />
+    <orderEntry type="library" exported="" name="itext-2.1.0" level="project" />
+    <orderEntry type="library" exported="" name="j2html-1.4.0" level="project" />
+    <orderEntry type="library" name="javafx-swt" level="project" />
+    <orderEntry type="library" name="javafx.base" level="project" />
+    <orderEntry type="library" name="javafx.controls" level="project" />
+    <orderEntry type="library" name="javafx.fxml" level="project" />
+    <orderEntry type="library" name="javafx.graphics" level="project" />
+    <orderEntry type="library" name="javafx.media" level="project" />
+    <orderEntry type="library" name="javafx.swing" level="project" />
+    <orderEntry type="library" name="javafx.web" level="project" />
   </component>
 </module>

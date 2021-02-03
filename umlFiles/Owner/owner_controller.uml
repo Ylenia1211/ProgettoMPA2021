@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="1434.75" y="0.0">controller.ShowTableOwnerController</node>
+    <node x="515.0" y="1612.0">model.Gender</node>
+    <node x="0.0" y="0.0">util.FieldVerifier</node>
+    <node x="118.5" y="1372.0">controller.UpdateClientController</node>
+    <node x="0.0" y="1612.0">util.gui.ButtonTable</node>
+    <node x="620.25" y="776.0">model.Person.Builder</node>
+    <node x="678.0" y="0.0">model.MasterData</node>
+    <node x="1082.75" y="191.0">dao.ConcreteOwnerDAO</node>
+    <node x="560.0" y="388.0">model.MasterData.Builder</node>
+    <node x="100.5" y="347.0">controller.ClientController</node>
+    <node x="766.0" y="1612.0">util.gui.Common</node>
+    <node x="860.75" y="879.5">model.Owner</node>
+    <node x="729.5" y="1150.0">model.Owner.Builder</node>
+    <node x="803.0" y="375.0">model.Person</node>
+    <node x="1139.25" y="0.0">dao.Crud</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Owner" target="model.Person">
+      <point x="0.0" y="-58.5" />
+      <point x="48.75" y="175.5" />
+    </edge>
+    <edge source="model.Person" target="model.MasterData">
+      <point x="0.0" y="-175.5" />
+      <point x="900.5" y="350.0" />
+      <point x="840.0" y="350.0" />
+      <point x="54.0" y="162.5" />
+    </edge>
+    <edge source="controller.UpdateClientController" target="controller.ClientController">
+      <point x="0.0" y="-97.5" />
+      <point x="0.0" y="487.5" />
+    </edge>
+    <edge source="dao.ConcreteOwnerDAO" target="dao.Crud">
+      <point x="0.0" y="-123.5" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="controller.ClientController" target="util.FieldVerifier">
+      <point x="0.0" y="-487.5" />
+      <point x="0.0" y="148.5" />
+    </edge>
+    <edge source="model.Owner.Builder" target="model.Person.Builder">
+      <point x="-53.25" y="-84.5" />
+      <point x="782.75" y="1125.0" />
+      <point x="722.75" y="1125.0" />
+      <point x="0.0" y="162.0" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.Person">
+      <point x="51.25" y="-162.0" />
+      <point x="774.0" y="751.0" />
+      <point x="851.75" y="751.0" />
+      <point x="-48.75" y="175.5" />
+    </edge>
+    <edge source="model.Owner.Builder" target="model.Owner">
+      <point x="53.25" y="-84.5" />
+      <point x="889.25" y="1125.0" />
+      <point x="949.25" y="1125.0" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.MasterData.Builder">
+      <point x="-51.25" y="-162.0" />
+      <point x="0.0" y="162.5" />
+    </edge>
+    <edge source="model.MasterData.Builder" target="model.MasterData">
+      <point x="0.0" y="-162.5" />
+      <point x="671.5" y="350.0" />
+      <point x="732.0" y="350.0" />
+      <point x="-54.0" y="162.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.30000000000000016" x="356.0" y="869.0" />
+  <SelectedNodes>
+    <node>controller.ShowTableOwnerController</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="765.5" y="0.0">dao.OwnerDAO</node>
+    <node x="359.0" y="0.0">controller.ShowTableOwnerController</node>
+    <node x="0.0" y="0.0">controller.ClientController</node>
+    <node x="0.0" y="1020.0">util.FieldVerifier</node>
+    <node x="1269.0" y="1362.0">model.Owner</node>
+    <node x="773.0" y="1362.0">util.gui.Common</node>
+    <node x="560.0" y="1020.0">controller.UpdateClientController</node>
+    <node x="515.0" y="1362.0">model.Owner.Builder</node>
+    <node x="0.0" y="1362.0">util.gui.ButtonTable</node>
+    <node x="883.0" y="1020.0">datasource.ConnectionDBH2</node>
+    <node x="739.0" y="139.0">dao.ConcreteOwnerDAO</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Owner.Builder" target="model.Owner">
+      <point x="42.59999999999991" y="84.5" />
+      <point x="66.375" y="-58.5" />
+    </edge>
+    <edge source="dao.ConcreteOwnerDAO" target="dao.OwnerDAO">
+      <point x="0.0" y="-123.5" />
+      <point x="0.0" y="44.5" />
+    </edge>
+    <edge source="controller.UpdateClientController" target="controller.ClientController">
+      <point x="55.60000000000002" y="-97.5" />
+      <point x="78.5" y="487.5" />
+    </edge>
+    <edge source="controller.ClientController" target="util.FieldVerifier">
+      <point x="125.60000000000002" y="-487.5" />
+      <point x="0.0" y="148.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="679.3333333333333" y="720.8333333333333" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="178.26190476190476" y="192.0">model.MasterData.Builder</node>
+    <node x="71.2577380952381" y="1614.0">model.Doctor.Builder</node>
+    <node x="621.257738095238" y="1667.0">dao.DoctorDAO</node>
+    <node x="242.51190476190476" y="0.0">model.Gender</node>
+    <node x="197.25" y="942.0">model.Person</node>
+    <node x="188.75" y="1343.0">model.Doctor</node>
+    <node x="51.943650793650875" y="567.5">model.Person.Builder</node>
+    <node x="261.20575396825404" y="1973.0">dao.ConcreteDoctorDAO</node>
+    <node x="276.9436507936509" y="567.0">model.MasterData</node>
+    <node x="348.2577380952381" y="1666.0">datasource.ConnectionDBH2</node>
+    <node x="782.257738095238" y="1383.0">dao.Crud</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="dao.ConcreteDoctorDAO" target="datasource.ConnectionDBH2">
+      <point x="-28.666666666666686" y="-175.5" />
+      <point x="404.5390873015873" y="1953.0" />
+      <point x="411.2577380952381" y="1953.0" />
+      <point x="-63.0" y="97.5" />
+    </edge>
+    <edge source="model.Doctor.Builder" target="model.Doctor">
+      <point x="-51.400000000000006" y="-149.5" />
+      <point x="148.3577380952381" y="1584.0" />
+      <point x="206.41666666666666" y="1584.0" />
+      <point x="-88.33333333333334" y="110.5" />
+    </edge>
+    <edge source="dao.ConcreteDoctorDAO" target="model.Doctor.Builder">
+      <point x="-86.00000000000006" y="-175.5" />
+      <point x="347.20575396825393" y="1943.0" />
+      <point x="199.7577380952381" y="1943.0" />
+      <point x="0.0" y="149.5" />
+    </edge>
+    <edge source="model.Doctor" target="model.Person">
+      <point x="-53.0" y="-110.5" />
+      <point x="241.75" y="1318.0" />
+      <point x="246.0" y="1318.0" />
+      <point x="-48.75" y="175.5" />
+    </edge>
+    <edge source="model.Person" target="model.Person.Builder">
+      <point x="-73.125" y="-175.5" />
+      <point x="221.625" y="922.0" />
+      <point x="154.44365079365087" y="922.0" />
+      <point x="0.0" y="162.0" />
+    </edge>
+    <edge source="dao.ConcreteDoctorDAO" target="model.Gender">
+      <point x="-143.33333333333343" y="-175.5" />
+      <point x="289.87242063492056" y="1953.0" />
+      <point x="0.0" y="1953.0" />
+      <point x="0.0" y="162.0" />
+      <point x="263.1119047619048" y="162.0" />
+      <point x="-82.39999999999998" y="71.0" />
+    </edge>
+    <edge source="dao.ConcreteDoctorDAO" target="dao.DoctorDAO">
+      <point x="143.33333333333337" y="-175.5" />
+      <point x="576.5390873015874" y="1953.0" />
+      <point x="793.257738095238" y="1953.0" />
+      <point x="0.0" y="96.5" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.Person">
+      <point x="68.33333333333331" y="162.0" />
+      <point x="222.7769841269842" y="912.0" />
+      <point x="270.375" y="912.0" />
+      <point x="-24.375" y="-175.5" />
+    </edge>
+    <edge source="dao.ConcreteDoctorDAO" target="model.Doctor">
+      <point x="86.0" y="-175.5" />
+      <point x="519.205753968254" y="1943.0" />
+      <point x="610.757738095238" y="1943.0" />
+      <point x="610.757738095238" y="1594.0" />
+      <point x="347.75" y="1594.0" />
+      <point x="53.0" y="110.5" />
+    </edge>
+    <edge source="model.Doctor" target="model.Doctor.Builder">
+      <point x="17.666666666666657" y="110.5" />
+      <point x="312.41666666666663" y="1594.0" />
+      <point x="302.5577380952381" y="1594.0" />
+      <point x="102.80000000000001" y="-149.5" />
+    </edge>
+    <edge source="model.Person" target="model.MasterData">
+      <point x="24.375" y="-175.5" />
+      <point x="319.125" y="922.0" />
+      <point x="330.9436507936509" y="922.0" />
+      <point x="-54.0" y="162.5" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.MasterData.Builder">
+      <point x="0.0" y="-162.0" />
+      <point x="154.44365079365087" y="542.0" />
+      <point x="215.42857142857144" y="542.0" />
+      <point x="-74.33333333333331" y="162.5" />
+    </edge>
+    <edge source="dao.DoctorDAO" target="dao.Crud">
+      <point x="86.0" y="-96.5" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="dao.DoctorDAO" target="model.Doctor">
+      <point x="-86.0" y="-96.5" />
+      <point x="707.257738095238" y="1584.0" />
+      <point x="383.0833333333333" y="1584.0" />
+      <point x="88.33333333333331" y="110.5" />
+    </edge>
+    <edge source="model.Doctor.Builder" target="model.Person.Builder">
+      <point x="-102.80000000000001" y="-149.5" />
+      <point x="96.95773809523808" y="1594.0" />
+      <point x="132.67440476190473" y="1594.0" />
+      <point x="132.67440476190473" y="922.0" />
+      <point x="86.11031746031756" y="922.0" />
+      <point x="-68.33333333333331" y="162.0" />
+    </edge>
+    <edge source="model.MasterData" target="model.MasterData.Builder">
+      <point x="-81.0" y="-162.5" />
+      <point x="303.9436507936509" y="542.0" />
+      <point x="289.76190476190476" y="542.0" />
+      <point x="0.0" y="162.5" />
+    </edge>
+    <edge source="model.MasterData" target="model.Gender">
+      <point x="81.00000000000001" y="-162.5" />
+      <point x="465.9436507936509" y="542.0" />
+      <point x="429.9436507936509" y="542.0" />
+      <point x="429.9436507936509" y="172.0" />
+      <point x="427.91190476190474" y="172.0" />
+      <point x="82.39999999999999" y="71.0" />
+    </edge>
+    <edge source="model.MasterData.Builder" target="model.Gender">
+      <point x="-55.75" y="-162.5" />
+      <point x="234.01190476190476" y="172.0" />
+      <point x="304.31190476190477" y="172.0" />
+      <point x="-41.19999999999999" y="71.0" />
+    </edge>
+    <edge source="model.MasterData.Builder" target="model.MasterData">
+      <point x="74.33333333333331" y="162.5" />
+      <point x="364.0952380952381" y="542.0" />
+      <point x="357.9436507936509" y="542.0" />
+      <point x="-27.0" y="-162.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7000000000000001" x="0.0" y="1833.5" />
+  <SelectedNodes>
+    <node>model.Person</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

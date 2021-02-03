@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="660.85" y="1150.0">model.Doctor.Builder</node>
+    <node x="1646.375" y="0.0">model.Appointment</node>
+    <node x="297.0" y="1714.0">model.Gender</node>
+    <node x="1272.125" y="788.5">model.Pet.Builder</node>
+    <node x="1626.375" y="557.0">model.Appointment.Builder</node>
+    <node x="602.0" y="827.5">model.Doctor</node>
+    <node x="834.0" y="776.0">model.Person.Builder</node>
+    <node x="1367.375" y="440.0">model.Pet</node>
+    <node x="1045.625" y="0.0">model.MasterData</node>
+    <node x="1047.4750000000001" y="388.0">model.MasterData.Builder</node>
+    <node x="0.0" y="876.0">dao.ConcreteAppointmentDAO</node>
+    <node x="0.0" y="191.0">dao.AppointmentDAO</node>
+    <node x="1059.0" y="879.5">model.Owner</node>
+    <node x="951.6" y="1215.0">model.Owner.Builder</node>
+    <node x="752.375" y="375.0">model.Person</node>
+    <node x="181.5" y="0.0">dao.Crud</node>
+    <node x="0.0" y="1714.0">datasource.ConnectionDBH2</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Owner" target="model.Person">
+      <point x="0.0" y="-58.5" />
+      <point x="1147.5" y="746.0" />
+      <point x="914.875" y="746.0" />
+      <point x="65.0" y="175.5" />
+    </edge>
+    <edge source="model.Doctor.Builder" target="model.Doctor">
+      <point x="-64.25" y="-149.5" />
+      <point x="725.1" y="1125.0" />
+      <point x="708.0" y="1125.0" />
+      <point x="0.0" y="110.5" />
+    </edge>
+    <edge source="dao.ConcreteAppointmentDAO" target="dao.AppointmentDAO">
+      <point x="0.0" y="-396.5" />
+      <point x="0.0" y="317.5" />
+    </edge>
+    <edge source="model.Person" target="model.MasterData">
+      <point x="0.0" y="-175.5" />
+      <point x="849.875" y="350.0" />
+      <point x="1081.625" y="350.0" />
+      <point x="-72.0" y="162.5" />
+    </edge>
+    <edge source="model.Pet.Builder" target="model.MasterData.Builder">
+      <point x="-63.5" y="-149.5" />
+      <point x="1335.625" y="756.0" />
+      <point x="1214.7250000000001" y="756.0" />
+      <point x="55.75" y="162.5" />
+    </edge>
+    <edge source="model.Appointment.Builder" target="model.Appointment">
+      <point x="0.0" y="-240.5" />
+      <point x="0.0" y="253.5" />
+    </edge>
+    <edge source="model.Owner.Builder" target="model.Person.Builder">
+      <point x="-53.25" y="-84.5" />
+      <point x="1004.85" y="1125.0" />
+      <point x="987.75" y="1125.0" />
+      <point x="51.25" y="162.0" />
+    </edge>
+    <edge source="model.Doctor" target="model.Person">
+      <point x="0.0" y="-110.5" />
+      <point x="708.0" y="756.0" />
+      <point x="784.875" y="756.0" />
+      <point x="-65.0" y="175.5" />
+    </edge>
+    <edge source="model.Pet" target="model.MasterData">
+      <point x="0.0" y="-110.5" />
+      <point x="1474.375" y="350.0" />
+      <point x="1225.625" y="350.0" />
+      <point x="72.0" y="162.5" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.Person">
+      <point x="-51.25" y="-162.0" />
+      <point x="885.25" y="756.0" />
+      <point x="849.875" y="756.0" />
+      <point x="0.0" y="175.5" />
+    </edge>
+    <edge source="model.Owner.Builder" target="model.Owner">
+      <point x="53.25" y="-84.5" />
+      <point x="1111.3500000000001" y="1125.0" />
+      <point x="1147.5" y="1125.0" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.MasterData.Builder">
+      <point x="51.25" y="-162.0" />
+      <point x="987.75" y="756.0" />
+      <point x="1103.2250000000001" y="756.0" />
+      <point x="-55.75" y="162.5" />
+    </edge>
+    <edge source="dao.AppointmentDAO" target="dao.Crud">
+      <point x="0.0" y="-317.5" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="model.Doctor.Builder" target="model.Person.Builder">
+      <point x="64.25" y="-149.5" />
+      <point x="853.6" y="1125.0" />
+      <point x="885.25" y="1125.0" />
+      <point x="-51.25" y="162.0" />
+    </edge>
+    <edge source="model.Pet.Builder" target="model.Pet">
+      <point x="63.5" y="-149.5" />
+      <point x="1462.625" y="756.0" />
+      <point x="1474.375" y="756.0" />
+      <point x="0.0" y="110.5" />
+    </edge>
+    <edge source="model.MasterData.Builder" target="model.MasterData">
+      <point x="0.0" y="-162.5" />
+      <point x="1158.9750000000001" y="350.0" />
+      <point x="1153.625" y="350.0" />
+      <point x="0.0" y="162.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.30000000000000016" x="553.0" y="1165.6666666666658" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

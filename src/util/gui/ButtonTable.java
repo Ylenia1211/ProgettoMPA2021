@@ -51,7 +51,7 @@ public class ButtonTable {
 
                     //private final Button btn = new Button("Modifica");
                     final ImageView imageView = new ImageView(
-                            new Image("./edit.png")
+                            new Image("resources/edit.png")
                     );
 
                     private final Button btn = new Button("", imageView);
@@ -139,7 +139,7 @@ public class ButtonTable {
                 return new TableCell<>() {
                     //private final Button btn = new Button("Cancella");
                     final ImageView imageView = new ImageView(
-                            new Image("./delete.png")
+                            new Image("resources/delete.png")
                     );
 
                     private final Button btn = new Button("", imageView);

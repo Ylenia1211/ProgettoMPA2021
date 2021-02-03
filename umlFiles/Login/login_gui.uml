@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="1071.875" y="900.0">util.SessionUser</node>
+    <node x="1570.3314838435376" y="297.0">model.User</node>
+    <node x="933.0980229591835" y="1373.5">controller.Dashboard</node>
+    <node x="853.5" y="695.5">controller.factorySidebar.SideBarAction</node>
+    <node x="1483.5814838435376" y="991.0">dao.ConcreteLoginDAO</node>
+    <node x="444.8045068027211" y="1070.0">controller.factorySidebar.SideBarFactory</node>
+    <node x="1582.4981505102044" y="0.0">model.User.Builder</node>
+    <node x="1588.8098639455782" y="1373.0">controller.LoginController</node>
+    <node x="291.5" y="630.0">controller.factorySidebar.AdminSideBar</node>
+    <node x="10.5" y="604.0">controller.factorySidebar.SecretariatSideBar</node>
+    <node x="1213.375" y="629.5">datasource.ConnectionDBH2</node>
+    <node x="1485.375" y="656.5">dao.LoginDAO</node>
+    <node x="572.5" y="643.0">controller.factorySidebar.DoctorSideBar</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="controller.LoginController" target="dao.ConcreteLoginDAO">
+      <point x="-39.71428571428572" y="-188.5" />
+      <point x="1688.0955782312924" y="1323.0" />
+      <point x="1577.8314838435376" y="1323.0" />
+      <point x="-94.25" y="110.5" />
+    </edge>
+    <edge source="controller.factorySidebar.SecretariatSideBar" target="controller.factorySidebar.SideBarAction">
+      <point x="0.0" y="-123.0" />
+      <point x="-52.200000000000045" y="31.5" />
+    </edge>
+    <edge source="controller.Dashboard" target="model.User">
+      <point x="-115.20000000000005" y="-188.0" />
+      <point x="961.8980229591834" y="1353.0" />
+      <point x="0.0" y="1353.0" />
+      <point x="0.0" y="564.0" />
+      <point x="1584.1171981292518" y="564.0" />
+      <point x="-82.71428571428572" y="123.5" />
+    </edge>
+    <edge source="util.SessionUser" target="datasource.ConnectionDBH2">
+      <point x="82.0" y="-201.5" />
+      <point x="1276.875" y="880.0" />
+      <point x="1238.575" y="880.0" />
+      <point x="-100.80000000000001" y="97.5" />
+    </edge>
+    <edge source="controller.Dashboard" target="controller.factorySidebar.SideBarFactory">
+      <point x="-57.60000000000002" y="-188.0" />
+      <point x="1019.4980229591833" y="1343.0" />
+      <point x="583.3045068027211" y="1343.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="dao.LoginDAO" target="model.User">
+      <point x="0.0" y="-70.5" />
+      <point x="1673.875" y="584.0" />
+      <point x="1666.8314838435376" y="584.0" />
+      <point x="0.0" y="123.5" />
+    </edge>
+    <edge source="controller.LoginController" target="util.SessionUser">
+      <point x="-119.14285714285717" y="-188.5" />
+      <point x="1608.667006802721" y="1343.0" />
+      <point x="1256.375" y="1343.0" />
+      <point x="61.5" y="201.5" />
+    </edge>
+    <edge source="controller.factorySidebar.SideBarFactory" target="controller.factorySidebar.SecretariatSideBar">
+      <point x="-103.875" y="-31.5" />
+      <point x="479.4295068027211" y="880.0" />
+      <point x="141.0" y="880.0" />
+      <point x="0.0" y="123.0" />
+    </edge>
+    <edge source="controller.Dashboard" target="controller.factorySidebar.SideBarAction">
+      <point x="0.0" y="-188.0" />
+      <point x="1077.0980229591835" y="1353.0" />
+      <point x="1049.25" y="1353.0" />
+      <point x="65.25" y="31.5" />
+    </edge>
+    <edge source="controller.factorySidebar.AdminSideBar" target="controller.factorySidebar.SideBarAction">
+      <point x="0.0" y="-97.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="controller.factorySidebar.DoctorSideBar" target="controller.factorySidebar.SideBarAction">
+      <point x="0.0" y="-84.0" />
+      <point x="-104.40000000000009" y="31.5" />
+    </edge>
+    <edge source="controller.LoginController" target="datasource.ConnectionDBH2">
+      <point x="-79.42857142857144" y="-188.5" />
+      <point x="1648.3812925170068" y="1333.0" />
+      <point x="1339.375" y="1333.0" />
+      <point x="0.0" y="97.5" />
+    </edge>
+    <edge source="controller.Dashboard" target="util.SessionUser">
+      <point x="57.60000000000002" y="-188.0" />
+      <point x="1134.6980229591834" y="1353.0" />
+      <point x="1133.375" y="1353.0" />
+      <point x="-61.5" y="201.5" />
+    </edge>
+    <edge source="dao.ConcreteLoginDAO" target="model.User">
+      <point x="141.37499999999994" y="-110.5" />
+      <point x="1813.4564838435376" y="880.0" />
+      <point x="1872.875" y="880.0" />
+      <point x="1872.875" y="584.0" />
+      <point x="1694.4029124149663" y="584.0" />
+      <point x="27.571428571428555" y="123.5" />
+    </edge>
+    <edge source="model.User" target="model.User.Builder">
+      <point x="-64.33333333333331" y="-123.5" />
+      <point x="1602.4981505102044" y="272.0" />
+      <point x="1611.6231505102044" y="272.0" />
+      <point x="-87.375" y="123.5" />
+    </edge>
+    <edge source="util.SessionUser" target="model.User">
+      <point x="0.0" y="-201.5" />
+      <point x="1194.875" y="880.0" />
+      <point x="1159.375" y="880.0" />
+      <point x="1159.375" y="584.0" />
+      <point x="1639.2600552721092" y="584.0" />
+      <point x="-27.571428571428612" y="123.5" />
+    </edge>
+    <edge source="dao.ConcreteLoginDAO" target="dao.LoginDAO">
+      <point x="47.125" y="-110.5" />
+      <point x="1719.2064838435376" y="880.0" />
+      <point x="1673.875" y="880.0" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="model.User.Builder" target="model.User">
+      <point x="-46.60000000000002" y="123.5" />
+      <point x="-24.125" y="-123.5" />
+    </edge>
+    <edge source="controller.factorySidebar.SideBarFactory" target="controller.factorySidebar.AdminSideBar">
+      <point x="-34.625" y="-31.5" />
+      <point x="548.6795068027211" y="870.0" />
+      <point x="422.0" y="870.0" />
+      <point x="0.0" y="97.0" />
+    </edge>
+    <edge source="controller.LoginController" target="model.User.Builder">
+      <point x="119.14285714285711" y="-188.5" />
+      <point x="1846.9527210884353" y="1353.0" />
+      <point x="1922.1439838435376" y="1353.0" />
+      <point x="1922.1439838435376" y="272.0" />
+      <point x="1786.3731505102044" y="272.0" />
+      <point x="87.375" y="123.5" />
+    </edge>
+    <edge source="controller.factorySidebar.SideBarFactory" target="controller.factorySidebar.DoctorSideBar">
+      <point x="34.625" y="-31.5" />
+      <point x="617.9295068027211" y="870.0" />
+      <point x="703.0" y="870.0" />
+      <point x="0.0" y="84.0" />
+    </edge>
+    <edge source="controller.Dashboard" target="datasource.ConnectionDBH2">
+      <point x="115.20000000000005" y="-188.0" />
+      <point x="1192.2980229591835" y="1353.0" />
+      <point x="1328.375" y="1353.0" />
+      <point x="1328.375" y="880.0" />
+      <point x="1288.9750000000001" y="880.0" />
+      <point x="-50.39999999999998" y="97.5" />
+    </edge>
+    <edge source="dao.ConcreteLoginDAO" target="datasource.ConnectionDBH2">
+      <point x="-141.375" y="-110.5" />
+      <point x="1530.7064838435376" y="880.0" />
+      <point x="1389.775" y="880.0" />
+      <point x="50.39999999999998" y="97.5" />
+    </edge>
+    <edge source="controller.LoginController" target="model.User">
+      <point x="79.42857142857144" y="-188.5" />
+      <point x="1807.2384353741495" y="1343.0" />
+      <point x="1911.1439838435376" y="1343.0" />
+      <point x="1911.1439838435376" y="564.0" />
+      <point x="1749.5457695578234" y="564.0" />
+      <point x="82.71428571428572" y="123.5" />
+    </edge>
+    <edge source="controller.factorySidebar.SideBarFactory" target="controller.factorySidebar.SideBarAction">
+      <point x="103.875" y="-31.5" />
+      <point x="687.1795068027211" y="880.0" />
+      <point x="918.75" y="880.0" />
+      <point x="-65.25" y="31.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.40000000000000013" x="492.33333333333303" y="720.8333333333333" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

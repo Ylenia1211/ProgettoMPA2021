@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="48.088541666666686" y="1150.0">model.Doctor.Builder</node>
+    <node x="973.0" y="0.0">util.SessionUser</node>
+    <node x="297.0" y="1494.0">model.Gender</node>
+    <node x="1264.0" y="0.0">model.Admin</node>
+    <node x="715.0" y="0.0">model.User</node>
+    <node x="0.0" y="827.5">model.Doctor</node>
+    <node x="232.0" y="776.0">model.Person.Builder</node>
+    <node x="226.5" y="0.0">model.MasterData</node>
+    <node x="350.9635416666667" y="388.0">model.MasterData.Builder</node>
+    <node x="1526.0" y="0.0">dao.ConcreteLoginDAO</node>
+    <node x="374.75" y="1189.0">model.Secretariat.Builder</node>
+    <node x="695.0" y="297.0">model.User.Builder</node>
+    <node x="135.96354166666669" y="375.0">model.Person</node>
+    <node x="457.0" y="853.5">model.Secretariat</node>
+    <node x="548.0" y="1494.0">dao.LoginDAO</node>
+    <node x="0.0" y="1494.0">datasource.ConnectionDBH2</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Doctor.Builder" target="model.Doctor">
+      <point x="-64.25" y="-149.5" />
+      <point x="112.33854166666669" y="1125.0" />
+      <point x="106.0" y="1125.0" />
+      <point x="0.0" y="110.5" />
+    </edge>
+    <edge source="model.Secretariat" target="model.Person">
+      <point x="0.0" y="-84.5" />
+      <point x="553.5" y="746.0" />
+      <point x="298.46354166666663" y="746.0" />
+      <point x="64.99999999999997" y="175.5" />
+    </edge>
+    <edge source="model.Person" target="model.MasterData">
+      <point x="-2.8421709430404007E-14" y="-175.5" />
+      <point x="233.46354166666666" y="350.0" />
+      <point x="280.5" y="350.0" />
+      <point x="-54.0" y="162.5" />
+    </edge>
+    <edge source="model.Secretariat.Builder" target="model.Secretariat">
+      <point x="0.0" y="-110.5" />
+      <point x="493.75" y="1125.0" />
+      <point x="505.25" y="1125.0" />
+      <point x="-48.25" y="84.5" />
+    </edge>
+    <edge source="dao.ConcreteLoginDAO" target="dao.LoginDAO">
+      <point x="0.0" y="-110.5" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="model.Doctor" target="model.Person">
+      <point x="0.0" y="-110.5" />
+      <point x="106.0" y="756.0" />
+      <point x="168.46354166666669" y="756.0" />
+      <point x="-65.0" y="175.5" />
+    </edge>
+    <edge source="model.Secretariat.Builder" target="model.Person.Builder">
+      <point x="-79.33333333333331" y="-110.5" />
+      <point x="414.4166666666667" y="1125.0" />
+      <point x="385.75" y="1125.0" />
+      <point x="51.25" y="162.0" />
+    </edge>
+    <edge source="model.User.Builder" target="model.User">
+      <point x="0.0" y="-123.5" />
+      <point x="0.0" y="123.5" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.Person">
+      <point x="-51.25" y="-162.0" />
+      <point x="283.25" y="756.0" />
+      <point x="233.46354166666669" y="756.0" />
+      <point x="0.0" y="175.5" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.MasterData.Builder">
+      <point x="51.25" y="-162.0" />
+      <point x="385.75" y="756.0" />
+      <point x="462.4635416666667" y="756.0" />
+      <point x="0.0" y="162.5" />
+    </edge>
+    <edge source="model.Doctor.Builder" target="model.Person.Builder">
+      <point x="64.25" y="-149.5" />
+      <point x="240.83854166666669" y="1125.0" />
+      <point x="283.25" y="1125.0" />
+      <point x="-51.25" y="162.0" />
+    </edge>
+    <edge source="model.MasterData.Builder" target="model.MasterData">
+      <point x="0.0" y="-162.5" />
+      <point x="462.4635416666667" y="350.0" />
+      <point x="388.5" y="350.0" />
+      <point x="54.0" y="162.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="1043.4999999999998" y="720.8333333333333" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

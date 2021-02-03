@@ -237,13 +237,15 @@ public class ConcreteOwnerDAO implements OwnerDAO {
                     "    INNER JOIN owner  " +
                     "    ON  person.id = owner.id WHERE masterdata.name = ? AND masterdata.surname = ? " +
                     "    AND masterdata.sex = ?" +
-                    "    AND masterdata.datebirth = ? AND PERSON.FISCALCODE = ? AND PERSON.TELEPHONE= ?");
+                    "    AND masterdata.datebirth = ? AND PERSON.FISCALCODE = ? AND PERSON.TELEPHONE= ? AND PERSON.CITY = ? AND PERSON.ADDRESS = ?");
             statement.setString(1, owner.getName());
             statement.setString(2, owner.getSurname());
             statement.setString(3, owner.getSex().toString());
             statement.setString(4, owner.getDatebirth().toString());
             statement.setString(5, owner.getFiscalCode());
             statement.setString(6, owner.getTelephone());
+            statement.setString(7, owner.getCity());
+            statement.setString(8, owner.getAddress());
             ResultSet rs = statement.executeQuery();
             String id_searched = "";
             if (rs.next()) {

@@ -273,7 +273,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         });
         //Button clean = new Button("Cancella");
         final ImageView imageView = new ImageView(
-                new Image("./delete.png")
+                new Image("resources/delete.png")
         );
         imageView.setFitHeight(18);
         imageView.setFitWidth(18);
@@ -368,7 +368,7 @@ public class BookingAppointmentController implements Initializable, FieldVerifie
         });
         //Button clean = new Button("Cancella");
         final ImageView imageView = new ImageView(
-                new Image("./delete.png")
+                new Image("resources/delete.png")
         );
         imageView.setFitHeight(18);
         imageView.setFitWidth(18);

@@ -259,7 +259,7 @@ public class Dashboard implements Initializable, Common, Subject, FieldVerifier 
                         }
                         case "Report" -> { //dottore
                             try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/searchReportbyPet.fxml"));
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/searchReportByPet.fxml"));
                                 loader.setControllerFactory(p -> new SearchReportController());
                                 Tab bookingVisits = new Tab("Tutte le visite passate", loader.load());
                                 tabPane.getTabs().clear();

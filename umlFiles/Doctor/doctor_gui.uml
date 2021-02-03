@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="78.32478269085425" y="0.0">model.Doctor.Builder</node>
+    <node x="775.2210821365582" y="816.0">controller.ClientController</node>
+    <node x="298.8997165532878" y="1941.0">controller.PersonalProfileController</node>
+    <node x="239.22108213655815" y="359.0">util.FieldVerifier</node>
+    <node x="896.3044154698915" y="437.0">util.gui.Common</node>
+    <node x="1238.0188492063494" y="3615.0">controller.ShowTableDoctorController</node>
+    <node x="0.0" y="397.0">model.Doctor</node>
+    <node x="845.7210821365582" y="2136.0">controller.RegistrationDoctorController</node>
+    <node x="1117.3402777777778" y="3351.0">util.gui.ButtonTable</node>
+    <node x="1294.9710821365582" y="1128.0">dao.ConcreteDoctorDAO</node>
+    <node x="114.57888321995438" y="3106.0">controller.UpdateDoctorController</node>
+    <node x="1368.3044154698914" y="410.0">datasource.ConnectionDBH2</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Doctor.Builder" target="model.Doctor">
+      <point x="-73.42857142857133" y="149.5" />
+      <point x="133.39621126228292" y="329.0" />
+      <point x="79.5" y="329.0" />
+      <point x="-26.5" y="-110.5" />
+    </edge>
+    <edge source="dao.ConcreteDoctorDAO" target="model.Doctor.Builder">
+      <point x="28.66666666666663" y="-175.5" />
+      <point x="1495.637748803225" y="726.0" />
+      <point x="1357.8044154698914" y="726.0" />
+      <point x="1357.8044154698914" y="329.0" />
+      <point x="316.96763983371136" y="329.0" />
+      <point x="110.14285714285711" y="149.5" />
+    </edge>
+    <edge source="controller.UpdateDoctorController" target="util.FieldVerifier">
+      <point x="0.0" y="-97.5" />
+      <point x="253.57888321995438" y="3066.0" />
+      <point x="169.07108213655795" y="3066.0" />
+      <point x="169.07108213655795" y="796.0" />
+      <point x="282.1377488032249" y="796.0" />
+      <point x="-214.58333333333326" y="148.5" />
+    </edge>
+    <edge source="model.Doctor" target="model.Doctor.Builder">
+      <point x="-79.5" y="-110.5" />
+      <point x="26.5" y="319.0" />
+      <point x="96.68192554799714" y="319.0" />
+      <point x="-110.14285714285711" y="149.5" />
+    </edge>
+    <edge source="controller.UpdateDoctorController" target="controller.RegistrationDoctorController">
+      <point x="111.20000000000005" y="-97.5" />
+      <point x="364.7788832199544" y="3086.0" />
+      <point x="1093.2210821365582" y="3086.0" />
+      <point x="82.5" y="357.5" />
+    </edge>
+    <edge source="controller.PersonalProfileController" target="model.Doctor.Builder">
+      <point x="-68.625" y="-552.5" />
+      <point x="413.2747165532878" y="1901.0" />
+      <point x="228.72108213655804" y="1901.0" />
+      <point x="228.72108213655804" y="339.0" />
+      <point x="243.53906840514003" y="339.0" />
+      <point x="36.71428571428578" y="149.5" />
+    </edge>
+    <edge source="controller.PersonalProfileController" target="dao.ConcreteDoctorDAO">
+      <point x="114.375" y="-552.5" />
+      <point x="596.2747165532878" y="1861.0" />
+      <point x="1314.0821932476692" y="1861.0" />
+      <point x="-152.88888888888889" y="175.5" />
+    </edge>
+    <edge source="util.gui.ButtonTable" target="dao.ConcreteDoctorDAO">
+      <point x="94.0" y="-97.0" />
+      <point x="1446.3402777777778" y="3331.0" />
+      <point x="1516.5902777777778" y="3331.0" />
+      <point x="1516.5902777777778" y="1911.0" />
+      <point x="1543.4155265810027" y="1911.0" />
+      <point x="76.44444444444446" y="175.5" />
+    </edge>
+    <edge source="controller.RegistrationDoctorController" target="util.FieldVerifier">
+      <point x="-110.0" y="-357.5" />
+      <point x="900.7210821365582" y="1831.0" />
+      <point x="533.4166666666665" y="1831.0" />
+      <point x="533.4166666666665" y="796.0" />
+      <point x="539.6377488032247" y="796.0" />
+      <point x="42.916666666666515" y="148.5" />
+    </edge>
+    <edge source="controller.ShowTableDoctorController" target="dao.ConcreteDoctorDAO">
+      <point x="101.42857142857144" y="-240.5" />
+      <point x="1516.9474206349207" y="3585.0" />
+      <point x="1608.8402777777778" y="3585.0" />
+      <point x="1608.8402777777778" y="1911.0" />
+      <point x="1619.859971025447" y="1911.0" />
+      <point x="152.88888888888903" y="175.5" />
+    </edge>
+    <edge source="controller.ClientController" target="util.FieldVerifier">
+      <point x="-39.25" y="-487.5" />
+      <point x="892.9710821365582" y="786.0" />
+      <point x="711.3044154698914" y="786.0" />
+      <point x="214.58333333333326" y="148.5" />
+    </edge>
+    <edge source="controller.RegistrationDoctorController" target="datasource.ConnectionDBH2">
+      <point x="146.66666666666663" y="-357.5" />
+      <point x="1157.387748803225" y="1921.0" />
+      <point x="1683.8044154698914" y="1921.0" />
+      <point x="1683.8044154698914" y="696.0" />
+      <point x="1530.3044154698914" y="696.0" />
+      <point x="36.0" y="97.5" />
+    </edge>
+    <edge source="controller.ClientController" target="datasource.ConnectionDBH2">
+      <point x="117.75" y="-487.5" />
+      <point x="1049.9710821365582" y="786.0" />
+      <point x="1386.3044154698914" y="786.0" />
+      <point x="-108.0" y="97.5" />
+    </edge>
+    <edge source="dao.ConcreteDoctorDAO" target="datasource.ConnectionDBH2">
+      <point x="86.0" y="-175.5" />
+      <point x="1552.9710821365582" y="716.0" />
+      <point x="1458.3044154698914" y="716.0" />
+      <point x="-36.0" y="97.5" />
+    </edge>
+    <edge source="controller.RegistrationDoctorController" target="controller.ClientController">
+      <point x="0.0" y="-357.5" />
+      <point x="78.5" y="487.5" />
+    </edge>
+    <edge source="util.gui.ButtonTable" target="model.Doctor">
+      <point x="-188.0" y="-97.0" />
+      <point x="1164.3402777777778" y="3331.0" />
+      <point x="46.149999999999864" y="3331.0" />
+      <point x="46.149999999999864" y="796.0" />
+      <point x="74.20000000000005" y="796.0" />
+      <point x="-31.799999999999955" y="110.5" />
+    </edge>
+    <edge source="util.gui.ButtonTable" target="controller.UpdateDoctorController">
+      <point x="-94.0" y="-97.0" />
+      <point x="1258.3402777777778" y="3321.0" />
+      <point x="253.57888321995438" y="3321.0" />
+      <point x="0.0" y="97.5" />
+    </edge>
+    <edge source="controller.ClientController" target="util.gui.Common">
+      <point x="39.25" y="-487.5" />
+      <point x="-150.33333333333337" y="70.5" />
+    </edge>
+    <edge source="dao.ConcreteDoctorDAO" target="model.Doctor">
+      <point x="-143.33333333333343" y="-175.5" />
+      <point x="1323.637748803225" y="756.0" />
+      <point x="201.39999999999986" y="756.0" />
+      <point x="95.39999999999986" y="110.5" />
+    </edge>
+    <edge source="controller.ShowTableDoctorController" target="model.Doctor">
+      <point x="-101.42857142857133" y="-240.5" />
+      <point x="1314.0902777777778" y="3585.0" />
+      <point x="24.149999999999864" y="3585.0" />
+      <point x="24.149999999999864" y="776.0" />
+      <point x="31.799999999999955" y="776.0" />
+      <point x="-74.20000000000005" y="110.5" />
+    </edge>
+    <edge source="controller.ShowTableDoctorController" target="util.gui.ButtonTable">
+      <point x="5.6843418860808015E-14" y="-240.5" />
+      <point x="1415.5188492063494" y="3565.0" />
+      <point x="1352.3402777777778" y="3565.0" />
+      <point x="0.0" y="97.0" />
+    </edge>
+    <edge source="controller.RegistrationDoctorController" target="model.Doctor">
+      <point x="-146.66666666666663" y="-357.5" />
+      <point x="864.0544154698915" y="1841.0" />
+      <point x="202.07108213655795" y="1841.0" />
+      <point x="202.07108213655795" y="766.0" />
+      <point x="180.19999999999982" y="766.0" />
+      <point x="74.19999999999982" y="110.5" />
+    </edge>
+    <edge source="controller.PersonalProfileController" target="util.FieldVerifier">
+      <point x="-22.875" y="-552.5" />
+      <point x="459.0247165532878" y="1911.0" />
+      <point x="511.4166666666666" y="1911.0" />
+      <point x="511.4166666666666" y="796.0" />
+      <point x="367.97108213655815" y="796.0" />
+      <point x="-128.75" y="148.5" />
+    </edge>
+    <edge source="controller.PersonalProfileController" target="datasource.ConnectionDBH2">
+      <point x="68.625" y="-552.5" />
+      <point x="550.5247165532878" y="1851.0" />
+      <point x="1284.4710821365582" y="1851.0" />
+      <point x="1284.4710821365582" y="796.0" />
+      <point x="1422.3044154698914" y="796.0" />
+      <point x="-72.0" y="97.5" />
+    </edge>
+    <edge source="dao.ConcreteDoctorDAO" target="util.gui.Common">
+      <point x="-28.666666666666686" y="-175.5" />
+      <point x="1438.3044154698914" y="736.0" />
+      <point x="1272.137748803225" y="736.0" />
+      <point x="150.33333333333337" y="70.5" />
+    </edge>
+    <edge source="controller.ShowTableDoctorController" target="datasource.ConnectionDBH2">
+      <point x="152.1428571428571" y="-240.5" />
+      <point x="1567.6617063492063" y="3595.0" />
+      <point x="1790.4572593852358" y="3595.0" />
+      <point x="1790.4572593852358" y="676.0" />
+      <point x="1602.3044154698914" y="676.0" />
+      <point x="108.0" y="97.5" />
+    </edge>
+    <edge source="util.gui.ButtonTable" target="datasource.ConnectionDBH2">
+      <point x="188.0" y="-97.0" />
+      <point x="1540.3402777777778" y="3331.0" />
+      <point x="1779.4572593852358" y="3331.0" />
+      <point x="1779.4572593852358" y="686.0" />
+      <point x="1566.3044154698914" y="686.0" />
+      <point x="72.0" y="97.5" />
+    </edge>
+    <edge source="controller.PersonalProfileController" target="model.Doctor">
+      <point x="-114.375" y="-552.5" />
+      <point x="367.5247165532878" y="1911.0" />
+      <point x="191.07108213655795" y="1911.0" />
+      <point x="191.07108213655795" y="776.0" />
+      <point x="159.0" y="776.0" />
+      <point x="53.0" y="110.5" />
+    </edge>
+    <edge source="controller.UpdateDoctorController" target="model.Doctor">
+      <point x="-55.59999999999991" y="-97.5" />
+      <point x="197.97888321995447" y="3076.0" />
+      <point x="126.39999999999986" y="3076.0" />
+      <point x="126.39999999999986" y="786.0" />
+      <point x="116.59999999999991" y="786.0" />
+      <point x="10.599999999999909" y="110.5" />
+    </edge>
+    <edge source="controller.RegistrationDoctorController" target="model.Doctor.Builder">
+      <point x="-73.33333333333326" y="-357.5" />
+      <point x="937.3877488032249" y="1821.0" />
+      <point x="764.7210821365582" y="1821.0" />
+      <point x="764.7210821365582" y="339.0" />
+      <point x="280.2533541194256" y="339.0" />
+      <point x="73.42857142857133" y="149.5" />
+    </edge>
+    <edge source="controller.RegistrationDoctorController" target="dao.ConcreteDoctorDAO">
+      <point x="36.66666666666674" y="-357.5" />
+      <point x="1047.387748803225" y="1881.0" />
+      <point x="1390.5266376921136" y="1881.0" />
+      <point x="-76.44444444444443" y="175.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.40000000000000013" x="378.99999999999955" y="2741.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="155.89999999999992" y="192.0">model.MasterData.Builder</node>
+    <node x="70.0" y="2180.0">dao.OwnerDAO</node>
+    <node x="217.57499999999996" y="0.0">model.Gender</node>
+    <node x="250.5" y="1948.0">model.Owner</node>
+    <node x="166.09109195402297" y="1717.0">model.Owner.Builder</node>
+    <node x="248.84109195402297" y="942.0">model.Person</node>
+    <node x="170.09109195402297" y="1343.0">model.Person.Builder</node>
+    <node x="233.09109195402297" y="567.0">model.MasterData</node>
+    <node x="393.75" y="2127.0">datasource.ConnectionDBH2</node>
+    <node x="190.08376436781606" y="2382.0">dao.ConcreteOwnerDAO</node>
+    <node x="36.5" y="1936.0">dao.Crud</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Owner" target="model.Person">
+      <point x="44.24999999999997" y="-58.5" />
+      <point x="383.25" y="1911.0" />
+      <point x="389.591091954023" y="1911.0" />
+      <point x="389.591091954023" y="1318.0" />
+      <point x="370.716091954023" y="1318.0" />
+      <point x="24.375" y="175.5" />
+    </edge>
+    <edge source="model.Owner.Builder" target="model.Person.Builder">
+      <point x="0.0" y="-84.5" />
+      <point x="0.0" y="162.0" />
+    </edge>
+    <edge source="model.Person" target="model.Person.Builder">
+      <point x="-24.375" y="175.5" />
+      <point x="321.966091954023" y="1318.0" />
+      <point x="340.92442528735626" y="1318.0" />
+      <point x="68.33333333333331" y="-162.0" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.Person">
+      <point x="0.0" y="-162.0" />
+      <point x="-73.125" y="175.5" />
+    </edge>
+    <edge source="dao.ConcreteOwnerDAO" target="model.Owner">
+      <point x="25.5833333333334" y="-123.5" />
+      <point x="369.1670977011495" y="2362.0" />
+      <point x="383.25" y="2362.0" />
+      <point x="44.25" y="58.5" />
+    </edge>
+    <edge source="dao.OwnerDAO" target="dao.Crud">
+      <point x="-63.5" y="-44.5" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="model.Owner.Builder" target="model.Owner">
+      <point x="85.19999999999996" y="84.5" />
+      <point x="357.79109195402293" y="1911.0" />
+      <point x="353.75" y="1911.0" />
+      <point x="14.749999999999972" y="-58.5" />
+    </edge>
+    <edge source="dao.ConcreteOwnerDAO" target="dao.OwnerDAO">
+      <point x="-25.583333333333286" y="-123.5" />
+      <point x="318.00043103448274" y="2342.0" />
+      <point x="197.0" y="2342.0" />
+      <point x="0.0" y="44.5" />
+    </edge>
+    <edge source="dao.ConcreteOwnerDAO" target="model.Owner.Builder">
+      <point x="-76.74999999999994" y="-123.5" />
+      <point x="266.8337643678161" y="2352.0" />
+      <point x="26.0" y="2352.0" />
+      <point x="26.0" y="1911.0" />
+      <point x="187.39109195402295" y="1911.0" />
+      <point x="-85.2" y="84.5" />
+    </edge>
+    <edge source="model.Person" target="model.MasterData">
+      <point x="-48.75" y="-175.5" />
+      <point x="297.591091954023" y="917.0" />
+      <point x="287.091091954023" y="917.0" />
+      <point x="-54.0" y="162.5" />
+    </edge>
+    <edge source="model.Person.Builder" target="model.MasterData.Builder">
+      <point x="-68.33333333333331" y="-162.0" />
+      <point x="204.25775862068966" y="1318.0" />
+      <point x="178.57025862068963" y="1318.0" />
+      <point x="178.57025862068963" y="542.0" />
+      <point x="193.0666666666666" y="542.0" />
+      <point x="-74.33333333333331" y="162.5" />
+    </edge>
+    <edge source="dao.ConcreteOwnerDAO" target="datasource.ConnectionDBH2">
+      <point x="76.75000000000003" y="-123.5" />
+      <point x="420.3337643678161" y="2362.0" />
+      <point x="456.75" y="2362.0" />
+      <point x="-63.0" y="97.5" />
+    </edge>
+    <edge source="dao.ConcreteOwnerDAO" target="model.Gender">
+      <point x="-127.9166666666666" y="-123.5" />
+      <point x="215.66709770114946" y="2362.0" />
+      <point x="15.0" y="2362.0" />
+      <point x="15.0" y="162.0" />
+      <point x="238.17499999999998" y="162.0" />
+      <point x="-82.39999999999998" y="71.0" />
+    </edge>
+    <edge source="model.MasterData" target="model.MasterData.Builder">
+      <point x="-81.00000000000006" y="-162.5" />
+      <point x="260.0910919540229" y="542.0" />
+      <point x="267.3999999999999" y="542.0" />
+      <point x="0.0" y="162.5" />
+    </edge>
+    <edge source="model.MasterData" target="model.Gender">
+      <point x="80.99999999999994" y="-162.5" />
+      <point x="422.0910919540229" y="542.0" />
+      <point x="400.4" y="542.0" />
+      <point x="400.4" y="172.0" />
+      <point x="402.9749999999999" y="172.0" />
+      <point x="82.39999999999998" y="71.0" />
+    </edge>
+    <edge source="model.Owner" target="model.Owner.Builder">
+      <point x="-73.75000000000003" y="-58.5" />
+      <point x="265.25" y="1911.0" />
+      <point x="229.99109195402295" y="1911.0" />
+      <point x="-42.60000000000001" y="84.5" />
+    </edge>
+    <edge source="model.MasterData.Builder" target="model.Gender">
+      <point x="-55.75" y="-162.5" />
+      <point x="211.64999999999992" y="172.0" />
+      <point x="279.375" y="172.0" />
+      <point x="-41.19999999999999" y="71.0" />
+    </edge>
+    <edge source="model.MasterData.Builder" target="model.MasterData">
+      <point x="74.33333333333331" y="162.5" />
+      <point x="341.73333333333323" y="542.0" />
+      <point x="314.0910919540229" y="542.0" />
+      <point x="-27.000000000000057" y="-162.5" />
+    </edge>
+    <edge source="dao.OwnerDAO" target="model.Owner">
+      <point x="63.5" y="-44.5" />
+      <point x="260.5" y="2102.0" />
+      <point x="294.75" y="2102.0" />
+      <point x="-44.25" y="58.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.40000000000000013" x="-2.2737367544323206E-13" y="1325.8333333333333" />
+  <SelectedNodes>
+    <node>model.Gender</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

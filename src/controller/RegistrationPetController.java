@@ -223,7 +223,7 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
             container.add(populateDropDownMenu(newValue, this.listClient.values()), 0, 1); //  quindi aggiungere il menu a tendina popolato alla seconda riga del riquadro della griglia
         });
         final ImageView imageView = new ImageView(
-                new Image("./delete.png")
+                new Image("resources/delete.png")
         );
         imageView.setFitHeight(18);
         imageView.setFitWidth(18);
