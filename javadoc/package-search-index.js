@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controller"},{"l":"controller.factorySidebar"},{"l":"dao"},{"l":"datasource"},{"l":"model"},{"l":"util"},{"l":"util.email"},{"l":"util.gui"},{"l":"util.pdfutilities"},{"l":"view"}];updateSearchResults();
