@@ -37,8 +37,8 @@ public class ConcreteAdminDAO implements AdminDAO {
      */
     public String searchEmailClinic() {
         String email = "";
-        String sqlSearch = "SELECT EMAIL FROM ADMIN" +
-                " WHERE ADMIN.ID = 1";
+        String sqlSearch = "SELECT EMAIL FROM ADMIN " +
+                           "WHERE ADMIN.ID = 1";
         try {
             PreparedStatement ps = connection_db.getConnectData().prepareStatement(sqlSearch);
             ResultSet rs = ps.executeQuery();

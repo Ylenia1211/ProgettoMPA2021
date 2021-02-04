@@ -96,6 +96,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         this.reportDAO = new ConcreteReportDAO(ConnectionDBH2.getInstance());
         this.idBooking = reportDAO.searchIdBookingByAppointment(this.appointment);
         this.attachmentImage.setStyle("-fx-background-image: url('/resources/attachment.png')");
+        Tooltip.install(this.attachmentImage, new Tooltip("Inserisci un'immagine allegata"));
         //devono contenere i risultati ricavati dal db
         //ricerco i dati del report tramite l'id della prenotazione
         this.report = reportDAO.searchByIdBooking(this.idBooking);
@@ -117,6 +118,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 this.textPath.clear();
             });
             this.firstAttachment.setText(this.report.getPathFile());
+            this.firstAttachment.setTooltip(new Tooltip(this.firstAttachment.getText()));
         }
 
         this.setButtons();
@@ -211,10 +213,12 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         });
     }
 
+    /**
+     * Elimina tutti gli elementi inseriti nella {@link VBox} {@link ReportViewController#pane_main_grid}
+     */
     private void cleanPage() {
          this.pane_main_grid.getChildren().clear();
     }
-
 
     /**
      * Aggiorna la view per effettuare il refresh dei dati per la creazione del report in pdf aggiornato
