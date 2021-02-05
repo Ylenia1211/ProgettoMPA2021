@@ -4,8 +4,11 @@ import dao.ConcreteOwnerDAO;
 import datasource.ConnectionDBH2;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -145,6 +148,7 @@ public class ClientController implements Initializable, FieldVerifier {
             if(this.clientRepo.isNotDuplicate(p)){
                 try {
                     clientRepo.add(p);
+                    this.refreshTab();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -157,6 +161,30 @@ public class ClientController implements Initializable, FieldVerifier {
         {
             JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi correttamente!");
         }
+    }
+    /**
+     * metodo per che compie l'azione di refresh delle tab dopo l'inserimento di un nuovo Paziente
+     */
+    private void refreshTab() {
+        try {
+            Scene scene = this.btn.getScene();
+            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
+            TabPane tabPane = new TabPane();
+            Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
+            Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
+            loader.setControllerFactory(p -> new BookingAppointmentController());
+            Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
+            tabPane.getTabs().clear();
+            tabPane.getTabs().add(nuovoClient);
+            tabPane.getTabs().add(nuovoPaziente);
+            tabPane.getTabs().add(bookingVisits);
+            tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+            borderPane.setCenter(tabPane);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**

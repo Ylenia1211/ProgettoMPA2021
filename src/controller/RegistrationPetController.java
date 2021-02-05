@@ -4,9 +4,11 @@ import dao.ConcretePetDAO;
 import datasource.ConnectionDBH2;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -135,6 +137,7 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
             if (this.petRepo.isNotDuplicate(p)) {
                 try {
                     this.petRepo.add(p);
+                    this.refreshTab();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -145,7 +148,30 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
             JOptionPane.showMessageDialog(null, "Per completare la registrazione devi completare TUTTI i campi!");
         }
     }
+   /**
+    * metodo per che compie l'azione di refresh delle tab dopo l'inserimento di un nuovo Paziente
+    */
+    private void refreshTab() {
+        try {
+            Scene scene = this.btn.getScene();
+            BorderPane borderPane = (BorderPane) scene.lookup("#borderPane");
+            TabPane tabPane = new TabPane();
+            Tab nuovoClient = new Tab("Nuovo Cliente", FXMLLoader.load(getClass().getResource("/view/registrationClient.fxml")));
+            Tab nuovoPaziente = new Tab("Nuovo Paziente", FXMLLoader.load(getClass().getResource("/view/registrationPet.fxml")));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookingAppointment.fxml"));
+            loader.setControllerFactory(p -> new BookingAppointmentController());
+            Tab bookingVisits = new Tab("Inserisci Prenotazione Visita", loader.load());
+            tabPane.getTabs().clear();
+            tabPane.getTabs().add(nuovoClient);
+            tabPane.getTabs().add(nuovoPaziente);
+            tabPane.getTabs().add(bookingVisits);
+            tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+            borderPane.setCenter(tabPane);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+    }
     /**
      * Crea un nuovo oggetto di tipo {@link Pet} con i parametri inseriti nei campi della view
      *

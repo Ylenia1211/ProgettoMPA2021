@@ -184,7 +184,7 @@ public class UpdateBookingAppointmentController extends BookingAppointmentContro
 
                     String emailOwner = this.getAppointmentRepo().searchEmailOwnerbyIdAppointment(this.id);
                     ConcreteObserver observerChanges = new ConcreteObserver.Builder()
-                            .setEmailOwner(emailOwner) //passare email owner associatato alla prenotazione
+                            .setEmailOwner(emailOwner) //passare email owner associato alla prenotazione
                             .setDataVisit(p.getLocalDate())
                             .setTimeStartVisit(p.getLocalTimeStart())
                             .setTimeEndVisit(p.getLocalTimeEnd())

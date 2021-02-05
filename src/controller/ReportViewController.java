@@ -65,6 +65,8 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
     private final Pet pet;
     private final Doctor doctor;
     private final ConcreteDoctorDAO doctorRepo;
+    private String id_doctorSession;
+    private String id_doctorReport;
 
     /**
      * Costruttore della classe, setta gli attributi necessari per la generazione di un report della visita. Setta l'attributo {@link ReportViewController#doctorRepo} con una nuova istanza
@@ -96,6 +98,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         this.reportDAO = new ConcreteReportDAO(ConnectionDBH2.getInstance());
         this.idBooking = reportDAO.searchIdBookingByAppointment(this.appointment);
         this.attachmentImage.setStyle("-fx-background-image: url('/resources/attachment.png')");
+        Tooltip.install(this.attachmentImage, new Tooltip("Inserisci un'immagine allegata"));
         //devono contenere i risultati ricavati dal db
         //ricerco i dati del report tramite l'id della prenotazione
         this.report = reportDAO.searchByIdBooking(this.idBooking);
@@ -117,19 +120,30 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
                 this.textPath.clear();
             });
             this.firstAttachment.setText(this.report.getPathFile());
+            this.firstAttachment.setTooltip(new Tooltip(this.firstAttachment.getText()));
         }
 
-        this.setButtons();
-        String id_doctorSession = this.doctorRepo.search(SessionUser.getDoctor());
-        String id_doctorReport = this.doctorRepo.search(this.doctor);
 
-        if (id_doctorReport.equals(id_doctorSession)) {
+        this.id_doctorSession = this.doctorRepo.search(SessionUser.getDoctor());
+        this.id_doctorReport = this.doctorRepo.search(this.doctor);
+
+
+        this.addButtonDeleteReport();
+        this.setButtons();
+        if (this.id_doctorReport.equals(this.id_doctorSession)) {
             this.addEnableModifyCheckBox();
         }
+
+
         this.buttons.setAlignment(Pos.CENTER);
         this.buttons.setSpacing(20);
         this.pane_main_grid.getChildren().add(buttons);
+
         this.addCreateAndDeleteButtonsPDFReport();
+
+        if (!this.id_doctorReport.equals(this.id_doctorSession)) {
+            this.deleteReportButton.setVisible(false);
+        }
 
         try {
             this.generateFolders(this.owner, this.pet, this.textPath.getText());
@@ -137,10 +151,26 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
             e.printStackTrace();
         }
     }
+    /**
+     *  Assegna la grafica al bottone di cancellazione del Report.lo
+     */
+    private void addButtonDeleteReport() {
+        this.deleteReportButton = new Button("Elimina report");
+        // Creo il deleteButton
+        this.deleteReportButton.setId("deleteReport");
+        this.deleteReportButton.setPrefWidth(200);
+        this.deleteReportButton.setPrefHeight(30);
+        this.deleteReportButton.setStyle("-fx-background-color: red;-fx-text-fill: white;" +
+                " -fx-border-color: transparent; -fx-font-size: 16px; ");
+        this.deleteReportButton.setOnAction(actionEvent -> {
+            this.reportDAO.delete(this.idBooking);
+            this.cleanPage();
+        });
+    }
 
     /**
      * Assegna la grafica ai bottoni per le operazioni sul report e assegna loro delle funzioni che permettono di
-     * effettuare operazioni di creazione, eliminazione, modifica e annullamento modifiche sul report
+     * effettuare operazioni di creazione,modifica e annullamento modifiche sul report
      */
     private void setButtons() {
         // Creo il createButton
@@ -158,17 +188,7 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
             }
         });
 
-        // Creo il deleteButton
-        this.deleteReportButton = new Button("Elimina report");
-        this.deleteReportButton.setId("deleteReport");
-        this.deleteReportButton.setPrefWidth(200);
-        this.deleteReportButton.setPrefHeight(30);
-        this.deleteReportButton.setStyle("-fx-background-color: red;-fx-text-fill: white;" +
-                " -fx-border-color: transparent; -fx-font-size: 16px; ");
-        this.deleteReportButton.setOnAction(actionEvent -> {
-            this.reportDAO.delete(this.idBooking);
-            this.cleanPage();
-        });
+
 
         // Creo il saveButton
         this.savePDFReportButton = new Button("Salva");
@@ -211,8 +231,11 @@ public class ReportViewController extends FacadePDFReportGenerator implements In
         });
     }
 
+    /**
+     * Elimina tutti gli elementi inseriti nella {@link VBox} {@link ReportViewController#pane_main_grid}
+     */
     private void cleanPage() {
-         this.pane_main_grid.getChildren().clear();
+        this.pane_main_grid.getChildren().clear();
     }
 
 

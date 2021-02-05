@@ -35,8 +35,8 @@
       <ImageView fx:id="attachmentImage" fitHeight="20.0" fitWidth="19.0" onMouseClicked="#findAttachment" style="-fx-background-image: url('/resources/attachment.png');">
          <Image url="@../resources/Photo_Add-RoundedBlack-512.png" />
       </ImageView>
-      <VBox fx:id="allegati" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-         <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Allegati:">
+      <VBox fx:id="allegati" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="400.0">
+         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Allegati:">
             <font>
                <Font name="Calibri" size="14.0" />
             </font>
@@ -53,14 +53,17 @@
             </Label>
          </HBox>
       </VBox>
+      <VBox.margin>
+         <Insets bottom="10.0" top="5.0" />
+      </VBox.margin>
    </HBox>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" />
    </padding>
-  <!-- <Button fx:id="creaReportButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" text="Crea report">
-      <font>
-         <Font name="Arial" size="13.0" />
-      </font>
-   </Button> -->
- <!-- <Button fx:id="btnSaveReport" mnemonicParsing="false" text="Salva " onAction="#registrationReport" /> -->
+   <!-- <Button fx:id="creaReportButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" text="Crea report">
+       <font>
+          <Font name="Arial" size="13.0" />
+       </font>
+    </Button> -->
+   <!-- <Button fx:id="btnSaveReport" mnemonicParsing="false" text="Salva " onAction="#registrationReport" /> -->
 </VBox>
