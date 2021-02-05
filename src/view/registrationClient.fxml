@@ -37,7 +37,7 @@
          <Insets />
       </opaqueInsets>
     </HBox>
-    <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Date di Nascita" showWeekNumbers="true" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
+    <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Date di Nascita"  style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
     <TextField fx:id="textFiscalCode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Codice Fiscale" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
     <TextField fx:id="textEmail" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Email" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
     <TextField fx:id="textTelephone" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Telefono" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />

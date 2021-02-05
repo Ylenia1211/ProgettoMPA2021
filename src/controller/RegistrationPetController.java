@@ -87,6 +87,13 @@ public class RegistrationPetController implements Initializable, FieldVerifier {
 
         this.textdateBirth.setValue(LocalDate.now()); //non fa modificare all'utente il textfield  per evitare di mettere valori non consentiti
         this.textdateBirth.setEditable(false);
+        this.textdateBirth.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+                setDisable(!(empty || date.compareTo(today) < 0));
+            }
+        });
         this.rbM.setSelected(true); //default
         addFieldOwner();
         addFieldRace();

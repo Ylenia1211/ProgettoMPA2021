@@ -16,8 +16,11 @@ import model.Gender;
 import model.Secretariat;
 import util.FieldVerifier;
 import util.SessionUser;
+import util.gui.Common;
+
 import javax.swing.*;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -142,6 +145,8 @@ public class PersonalProfileController implements Initializable, FieldVerifier{
                 this.email.setEditable(true);
                 this.fiscalCode.setEditable(true);
                 this.birthDate.setDisable(false);
+                int yearsValid = LocalDate.now().getYear() - 18; //posso registrare solo chi ha almeno 18 anni e non piu di 90 anni
+                Common.restrictDatePicker(this.birthDate, LocalDate.of(1930, 1,1), LocalDate.of(yearsValid,1,1));
                 this.rbM.setDisable(false);
                 this.rbF.setDisable(false);
                 if (doctor != null) {

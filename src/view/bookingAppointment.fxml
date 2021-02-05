@@ -17,7 +17,7 @@
     </Label>
     <VBox fx:id="pane_main_grid" style="-fx-background-color: #d9f3fc;" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" spacing="10.0"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
 
-    <DatePicker fx:id="textdateVisit" style ="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754; -fx-pref-width: 800"  promptText="Seleziona Data Visita" showWeekNumbers="true" />
+    <DatePicker fx:id="textdateVisit" style ="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754; -fx-pref-width: 800"  promptText="Seleziona Data Visita" />
         <padding>
             <Insets bottom="20.0" left="200.0" right="200.0" top="20.0" />
         </padding>

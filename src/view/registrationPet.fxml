@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="pane_main_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #d9f3fc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistrationPetController">
+<VBox fx:id="primary_grid" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #d9f3fc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistrationPetController">
  <Label fx:id="labelTitle" alignment="CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #3da4e3;" text="Registrazione Pazienti" textFill="WHITE">
      <font>
          <Font size="20.0" />
@@ -37,7 +37,7 @@
          <Insets left="10.0" />
       </padding>
     </HBox>
-    <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Data di Nascita" showWeekNumbers="true" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
+    <DatePicker fx:id="textdateBirth" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Data di Nascita"  style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
 
     <TextField fx:id="textParticularSign" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Segni Particolari" style="-fx-border-color:#3da4e3; -fx-prompt-text-fill:#163754" />
     <padding>

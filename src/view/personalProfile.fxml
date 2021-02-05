@@ -112,7 +112,7 @@
                             </HBox.margin>
                         </RadioButton>
                     </HBox>
-                    <DatePicker fx:id="birthDate" disable="true" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" showWeekNumbers="true" />
+                    <DatePicker fx:id="birthDate" disable="true" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     <TextField fx:id="city" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     <TextField fx:id="address" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     <TextField fx:id="telephone" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
