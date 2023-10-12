@@ -35,3 +35,5 @@ Di seguito una lista di View del software in esame:
 ![View 4](https://user-images.githubusercontent.com/56923471/274727474-7139dc13-20bf-4b66-b025-be7bce71a529.png)
 ![View 5](https://user-images.githubusercontent.com/56923471/274727489-34d52ac8-d6ac-4b2f-a54a-ec0df36b545a.png)
 ![View 6](https://user-images.githubusercontent.com/56923471/274727503-c1435c9b-78d5-4401-86e9-73f33b108abf.png)
+
+![UML Dao](https://github.com/Ylenia1211/ProgettoMPA2021/files/12887421/Dao.pdf)
