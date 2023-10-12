@@ -18,7 +18,9 @@ Sono previste infatti tre tipologie specifiche di utenti:
 1. Amministratore
 2. Segreteria
 3. Dottore/ssa.
-   Inizialmente l’utente dopo aver effettuato l’autenticazione, si troverà davanti a una schermata simile alla seguente: 
+
+   
+Inizialmente l’utente dopo aver effettuato l’autenticazione, si troverà davanti a una schermata simile alla seguente: 
 ![View 1](https://user-images.githubusercontent.com/56923471/274726222-36fae07b-24d9-494d-ae0a-eb30378f3f71.png)
 In generale le schermate sono suddivise in 3 zone: 
 1. la zona che contiene informazioni sul ruolo dell’utente loggato (in alto);
