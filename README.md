@@ -1,7 +1,10 @@
 ## Licenza
 
-Questo progetto è licenziato sotto la Licenza [Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
+Questo progetto è licenziato sotto la Licenza [Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)]
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)]
+(https://creativecommons.org/licenses/by-nc/4.0/).
 Consulta il file [LICENSE](LICENSE) per ulteriori dettagli.
+
 
 # ProgettoMPA2021
 Progetto MPA 2020/2021
