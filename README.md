@@ -1,3 +1,8 @@
+## Licenza
+
+Questo progetto è licenziato sotto la Licenza [Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
+Consulta il file [LICENSE](LICENSE) per ulteriori dettagli.
+
 # ProgettoMPA2021
 Progetto MPA 2020/2021
 Il software esposto in questa relazione avrà lo scopo di riuscire a gestire una clinica veterinaria in cui lavorano uno o più dottori. 
